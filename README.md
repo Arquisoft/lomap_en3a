@@ -256,5 +256,11 @@ After the actions process is finished, we can access the application using the I
 
 ![image](https://user-images.githubusercontent.com/10683040/155297402-41c09d54-8160-4832-be04-21951d18bc28.png)
 
-
+## Contributors
+This project has been made by:
+ - Iván Menéndez Mosegui
+ - Pelayo Reguera García
+ - Guillermo Dylan Carvajal Aza
+ - Carlos Triana Fernández
+ - David Martínez Castañón
 
