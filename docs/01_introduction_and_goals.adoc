@@ -1,7 +1,7 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-This is the documentation of LoMap_En3a
+This is a first version of the documentation. 
 
 
 [role="arc42help"]
