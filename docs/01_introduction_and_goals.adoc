@@ -1,7 +1,7 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-This is a first version of the documentation. 
+This is a second version of the documentation. 
 
 
 [role="arc42help"]
