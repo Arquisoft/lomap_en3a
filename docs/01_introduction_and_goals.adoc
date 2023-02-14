@@ -11,6 +11,7 @@ Describes the relevant requirements and the driving forces that software archite
 ****
 
 LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.
+
 Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.
 
 
@@ -45,6 +46,7 @@ Keep these excerpts as short as possible. Balance readability of this document w
 
 For more information, refer to the https://arquisoft.github.io/course2223/labAssignmentDescription.html[assignment description document].
 
+
 === Quality Goals
 
 [role="arc42help"]
@@ -59,6 +61,15 @@ If you as an architect do not know how the quality of your work will be judged â
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
+
+[options="header",cols="1,2"]
+|===
+|Quality goal|Scenario
+| Privacy | User's information must be stored in a decentralized way, ensuring they are in full control of their own data.
+| Robustness | Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.
+| Usability | The application must be easy to use, with a clear and intuitive interface.
+|===
+
 
 === Stakeholders
 
