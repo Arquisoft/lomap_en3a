@@ -10,6 +10,10 @@ Describes the relevant requirements and the driving forces that software archite
 * relevant stakeholders and their expectations
 ****
 
+LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.
+Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.
+
+
 === Requirements Overview
 
 [role="arc42help"]
@@ -29,6 +33,7 @@ If requirements documents exist this overview should refer to these documents.
 
 Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 ****
+
 
 === Quality Goals
 
