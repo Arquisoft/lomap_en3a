@@ -536,9 +536,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <div class="sect1">
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>This is a second version of the documentation.</p>
-</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -558,6 +555,12 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </ul>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.</p>
+</div>
+<div class="paragraph">
+<p>Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -584,6 +587,37 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Users will be able to add new places to their maps.</p>
+</li>
+<li>
+<p>Each place may be classified in different categories.</p>
+</li>
+<li>
+<p>Maps will have filters to show only certain places (e.g., those belonging to a category).</p>
+</li>
+<li>
+<p>Users can interact with the places by adding reviews or comments, posting images, etc.</p>
+</li>
+<li>
+<p>It will be possible to manage what information can be accessed by the rest of the users.</p>
+</li>
+<li>
+<p>The information about the places will be stored in each user&#8217;s pod.</p>
+</li>
+<li>
+<p>The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.</p>
+</li>
+<li>
+<p>Users will be able to see information about the places added by their friends.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, refer to the <a href="https://arquisoft.github.io/course2223/labAssignmentDescription.html">assignment description document</a>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
@@ -604,6 +638,32 @@ If you as an architect do not know how the quality of your work will be judged â
 </div>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality goal</th>
+<th class="tableblock halign-left valign-top">Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User&#8217;s information must be stored in a decentralized way, ensuring they are in full control of their own data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robustness</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to use, with a clear and intuitive interface.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_stakeholders">1.3. Stakeholders</h3>
