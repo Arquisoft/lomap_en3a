@@ -35,6 +35,7 @@ If requirements documents exist this overview should refer to these documents.
 Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 ****
 
+The application must meet the following requirements:
 - Users will be able to add new places to their maps.
 - Each place may be classified in different categories.
 - Maps will have filters to show only certain places (e.g., those belonging to a category).
@@ -96,6 +97,9 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| Users | _<Contact-1>_ | _<Expectation-1>_
+| Business owners | _<Contact-2>_ | _<Expectation-2>_
+| Council of Brussels | _<Contact-2>_ | _<Expectation-2>_
+| HappySw company | _<Contact-2>_ | _<Expectation-2>_
+| Development team | _<Contact-2>_ | _<Expectation-2>_
 |===
