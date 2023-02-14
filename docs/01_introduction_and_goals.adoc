@@ -34,6 +34,16 @@ If requirements documents exist this overview should refer to these documents.
 Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 ****
 
+- Users will be able to add new places to their maps.
+- Each place may be classified in different categories.
+- Maps will have filters to show only certain places (e.g., those belonging to a category).
+- Users can interact with the places by adding reviews or comments, posting images, etc.
+- It will be possible to manage what information can be accessed by the rest of the users.
+- The information about the places will be stored in each user's pod.
+- The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.
+- Users will be able to see information about the places added by their friends. 
+
+For more information, refer to the https://arquisoft.github.io/course2223/labAssignmentDescription.html[assignment description document].
 
 === Quality Goals
 
