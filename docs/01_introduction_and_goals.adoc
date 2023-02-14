@@ -36,6 +36,7 @@ Keep these excerpts as short as possible. Balance readability of this document w
 ****
 
 The application must meet the following requirements:
+
 - Users will be able to add new places to their maps.
 - Each place may be classified in different categories.
 - Maps will have filters to show only certain places (e.g., those belonging to a category).
