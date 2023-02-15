@@ -449,7 +449,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_stakeholders">1.3. Stakeholders</a></li>
 </ul>
 </li>
-<li><a href="#section-architecture-constraints">2. Architecture Constraints</a></li>
+<li><a href="#section-architecture-constraints">2. Architecture Constraints</a>
+<ul class="sectlevel2">
+<li><a href="#_table_1_technical_constraints">2.1. Table 1. Technical Constraints</a></li>
+<li><a href="#_table_2_organizational_constraints">2.2. Table 2. Organizational Constraints</a></li>
+<li><a href="#_table_3_conventions">2.3. Table 3. Conventions</a></li>
+</ul>
+</li>
 <li><a href="#section-system-scope-and-context">3. System Scope and Context</a>
 <ul class="sectlevel2">
 <li><a href="#_business_context">3.1. Business Context</a></li>
@@ -536,6 +542,9 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <div class="sect1">
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This is a second version of the documentation.</p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -555,12 +564,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </ul>
 </div>
 </div>
-</div>
-<div class="paragraph">
-<p>LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.</p>
-</div>
-<div class="paragraph">
-<p>Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -587,40 +590,6 @@ If requirements documents exist this overview should refer to these documents.</
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>The application must meet the following requirements:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Users will be able to add new places to their maps.</p>
-</li>
-<li>
-<p>Each place may be classified in different categories.</p>
-</li>
-<li>
-<p>Maps will have filters to show only certain places (e.g., those belonging to a category).</p>
-</li>
-<li>
-<p>Users can interact with the places by adding reviews or comments, posting images, etc.</p>
-</li>
-<li>
-<p>It will be possible to manage what information can be accessed by the rest of the users.</p>
-</li>
-<li>
-<p>The information about the places will be stored in each user&#8217;s pod.</p>
-</li>
-<li>
-<p>The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.</p>
-</li>
-<li>
-<p>Users will be able to see information about the places added by their friends.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For more information, refer to the <a href="https://arquisoft.github.io/course2223/labAssignmentDescription.html">assignment description document</a>.</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
@@ -641,32 +610,6 @@ If you as an architect do not know how the quality of your work will be judged â
 </div>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Quality goal</th>
-<th class="tableblock halign-left valign-top">Scenario</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User&#8217;s information must be stored in a decentralized way, ensuring they are in full control of their own data.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Robustness</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to use, with a clear and intuitive interface.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_stakeholders">1.3. Stakeholders</h3>
@@ -722,27 +665,12 @@ These stakeholders determine the extent and the level of detail of your work and
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-1&gt;</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-1&gt;</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-1&gt;</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Business owners</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Council of Brussels</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HappySw company</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Development team</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-2&gt;</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
 </tr>
@@ -755,6 +683,96 @@ These stakeholders determine the extent and the level of detail of your work and
 <div class="sect1">
 <h2 id="section-architecture-constraints">2. Architecture Constraints</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_table_1_technical_constraints">2.1. Table 1. Technical Constraints</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SOLID for Personal data storage</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data of each user will be stored in a personal pod, following SOLID principles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Github</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Github is required for developing the project. Team members must upload their current work to coordinate with the teammates and to record what they have done.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_table_2_organizational_constraints">2.2. Table 2. Organizational Constraints</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Team size</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It has been decided that the team is formed by 5 members.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Schedule</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project must be developed during the semester, with several deadlines in between.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Budget</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The development team will not have any financial support, so any outlay will be on their side.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>External workload</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team members have more subjects with their own workload. This is, the team must organize itself so that the semester work can be combined with the project development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Research</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We know about programming, mainly in Java, but we have not dealt with some aspects that must be developed in this project, such as application deployment or SOLID, so we must spend time to learn about them. Others are more familiar but there is still work to do to be able to handle them.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_table_3_conventions">2.3. Table 3. Conventions</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Language</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The documentation must be done using an ARC42 template.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Code conventions</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The code should follow the conventions of the programming language we use and shall be done addressing good coding practices (i.e. low coupling for maintainability).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>User-friendliness</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is a general-use application, so it has to be appealing and easy to use, as well as accessible to the widest range of people possible.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -776,6 +794,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 </div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
