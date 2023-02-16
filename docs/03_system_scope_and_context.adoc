@@ -59,6 +59,8 @@ together with a mapping table showing the relationships between channels and inp
 
 ****
 
+image:Technical context.jpg["Technical context diagram"]
+
 **<Diagram or Table>**
 
 **<optionally: Explanation of technical interfaces>**
