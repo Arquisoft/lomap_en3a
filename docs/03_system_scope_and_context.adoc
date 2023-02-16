@@ -50,10 +50,6 @@ Facilitates the use of PODs for the system, so that users information can be sto
 .Cloud Hosting System +
 Hosts the application so it can be accessed online.
 
-**<Diagram or Table>**
-
-**<optionally: Explanation of external domain interfaces>**
-
 === Technical Context
 
 [role="arc42help"]
@@ -72,8 +68,3 @@ together with a mapping table showing the relationships between channels and inp
 
 image::Technical context.jpg["Technical context diagram"]
 
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
