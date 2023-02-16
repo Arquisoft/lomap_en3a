@@ -98,9 +98,14 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| Users | _<Contact-1>_ | _<Expectation-1>_
-| Business owners | _<Contact-2>_ | _<Expectation-2>_
-| Council of Brussels | _<Contact-2>_ | _<Expectation-2>_
-| HappySw company | _<Contact-2>_ | _<Expectation-2>_
-| Development team | _<Contact-2>_ | _<Expectation-2>_
+| HappySw headquarters | _Inside the Company_ | _A final product that meets their expectations.
+Communication with the team and feedback about the development.
+Quality of the code and testing.
+Continuous Integration and continuous delivery strategy.
+Comply with established deadlines and deliveries._
+| Council of Brussels | _Product owner_ | _A product that satisfies them, flawless and polished.
+All demands pleased._
+| Citizens | _Application users_ | _A well-formed application that is useful and pleasent to use._
+| Development Team | _Us_ | _A well-formed application that is useful and pleasent to use._
+| Businesses | _Application users_ | _Specific features targeted and appealing for their business._
 |===
