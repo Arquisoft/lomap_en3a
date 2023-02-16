@@ -1,8 +1,6 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-This is a second version of the documentation. 
-
 
 [role="arc42help"]
 ****
@@ -12,6 +10,11 @@ Describes the relevant requirements and the driving forces that software archite
 * quality goals for the architecture
 * relevant stakeholders and their expectations
 ****
+
+LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.
+
+Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.
+
 
 === Requirements Overview
 
@@ -33,6 +36,20 @@ If requirements documents exist this overview should refer to these documents.
 Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
 ****
 
+The application must meet the following requirements:
+
+- Users will be able to add new places to their maps.
+- Each place may be classified in different categories.
+- Maps will have filters to show only certain places (e.g., those belonging to a category).
+- Users can interact with the places by adding reviews or comments, posting images, etc.
+- It will be possible to manage what information can be accessed by the rest of the users.
+- The information about the places will be stored in each user's pod.
+- The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.
+- Users will be able to see information about the places added by their friends. 
+
+For more information, refer to the https://arquisoft.github.io/course2223/labAssignmentDescription.html[assignment description document].
+
+
 === Quality Goals
 
 [role="arc42help"]
@@ -47,6 +64,15 @@ If you as an architect do not know how the quality of your work will be judged â
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
+
+[options="header",cols="1,2"]
+|===
+|Quality goal|Scenario
+| Privacy | User's information must be stored in a decentralized way, ensuring they are in full control of their own data.
+| Robustness | Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.
+| Usability | The application must be easy to use, with a clear and intuitive interface.
+|===
+
 
 === Stakeholders
 
@@ -73,6 +99,14 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| HappySw headquarters | _Inside the Company_ | _A final product that meets their expectations.
+Communication with the team and feedback about the development.
+Quality of the code and testing.
+Continuous Integration and continuous delivery strategy.
+Comply with established deadlines and deliveries._
+| Council of Brussels | _Product owner_ | _A product that satisfies them, flawless and polished.
+All demands pleased._
+| Citizens | _Application users_ | _A well-formed application that is useful and pleasent to use._
+| Development Team | _Us_ | _A well-formed application that is useful and pleasent to use._
+| Businesses | _Application users_ | _Specific features targeted and appealing for their business._
 |===
