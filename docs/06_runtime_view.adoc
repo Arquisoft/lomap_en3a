@@ -30,26 +30,51 @@ There are many notations for describing scenarios, e.g.
 
 ****
 
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
+=== Public map generation
+ 
+The placemarks of the public places are stored in a centralized database. The client is able to access this information through the API in order to generate the public map.
 
 [plantuml,"Sequence diagram",png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 100
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+
+actor User as u
+participant Client as c
+
+box "Server" #dedede
+    participant API
+    database Database as db
+end box
+
+u -> c: Access public map
+c -> API: Request public places
+API -> db: Query DB
+API <-- db: Placemarks
+c <-- API: Placemarks
+c -> c: Generate map
+u <-- c: Show map
+
+@enduml
 ----
+
 === <Runtime Scenario 2>
 
 === ...
