@@ -24,3 +24,19 @@ Various options:
 * more detailed in form of separate sections per decision
 * ADR (architecture decision record) for every important decision
 ****
+
+=== Centralized database
+
+There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator's POD.
+
+|===
+| **Advantages** | **Disadvantages**
+| Decentralization of data. | Certain data redundancy in the server and the POD.
+| Less dependence on the server. | May lead to data inconsistency.
+| The server requires fewer resources. |
+| Better performance when generating the map. |
+| Public and private places are treated in the same way. |
+| Simpler architecture of the application. |
+|===
+
+We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (it's creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application. 
