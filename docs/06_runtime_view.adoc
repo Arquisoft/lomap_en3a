@@ -90,6 +90,7 @@ root {
 </style>
 skinparam Padding 10
 skinparam ParticipantPadding 20
+skinparam BoxPadding 100
 
 skinparam ActorBackgroundColor #66bdf7
 skinparam ActorBorderColor #66bdf7
@@ -102,8 +103,10 @@ skinparam DatabaseBackgroundColor #66bdf7
 
 Actor User as u
 Participant Client as c
-Database "Friend's POD" as fp
-Database "User's POD" as up
+box Pod provider #dedede
+  Database "Friend's POD" as fp
+  Database "User's POD" as up
+endbox
 
 u->c: Provide friend's POD ID
 c->fp: Request friend's data
