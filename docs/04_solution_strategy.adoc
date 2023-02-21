@@ -54,8 +54,20 @@ issues, etc. Server-side validations will be learned in the near future in anoth
 application. In this way, several interfaces from applications that have well-proven usability (i.e. Google Maps) will
 be reviewed to design the user interface of the application. Aesthetics will be taken into account so it is appealing to use._
 |
-
 |===
+
+=== Organizational decisions
+* *WhatsApp*: A group has been created as the quickest communication mechanism to inform the other members about any
+update or news and organize meetings.
+
+* *Teams*: Platform where extra meetings (outside of the university) take place.
+
+* *Github*: Platform where the project is managed.
+
+** *Issues*: The way to register every important event (tasks to do, problems to solve, doubts…).
+
+** *Kanban*: The place where we place and update the state of issues.
+
 [role="arc42help"]
 ****
 .Contents
