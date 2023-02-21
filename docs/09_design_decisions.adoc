@@ -25,22 +25,7 @@ Various options:
 * ADR (architecture decision record) for every important decision
 ****
 
-=== ADR1: Centralized database
-There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator's POD.
-
-|===
-| **Advantages** | **Disadvantages**
-| Decentralization of data. | Certain data redundancy in the server and the POD.
-| Less dependence on the server. | May lead to data inconsistency.
-| The server requires fewer resources. |
-| Better performance when generating the map. |
-| Public and private places are treated in the same way. |
-| Simpler architecture of the application. |
-|===
-
-We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.
-
-=== ADR 2: Private information policy.
+=== ADR 1: Private information policy.
 
 Context: The application development is oriented towards a more transparent and private usage of information. The application should be able to guarantee the safe treatment of the information provided to us. Solid Pods ensure that the user has control of their information all the time. Solid Servers host the Solid Pods being the information outside of our control.
 
@@ -56,20 +41,8 @@ Consequences:
 |The data infrastructure will be already designed.||
 |===
 
-=== ADR 3: Friends places information.
-Context: The application is required to display places that the friends of the user has shared. This friend’s information should be private and stored on their own Pod.
 
-Decision: A list of the friend’s places will be computed from the information stored on the Pods of their friends.
-
-Status: This decision is already made and will be under development soon. Unless the capabilities of the SOLID Pods won’t make it possible.
-Consequences:
-|===
-| **Advantages** | *Neutral*|**Disadvantages**
-|The user will have full control of its data.|It is required to understand and implement the Solid Pod’s technology.|This solution might be harder to implement.
-|The server won't treat private data.||
-|===
-
-=== Client-side computing over server side computing
+=== ADR 2: Client-side computing over server side computing
 
 We will try to delegate as much computation as possible to the client.
 
@@ -82,3 +55,33 @@ We will try to delegate as much computation as possible to the client.
 As this is an open-source project whose code is already available on GitHub and we don't expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server.
 
 
+=== ADR 3: Centralized database
+
+There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator's POD.
+
+|===
+| **Advantages** | **Disadvantages**
+| Decentralization of data. | Certain data redundancy in the server and the POD.
+| Less dependence on the server. | May lead to data inconsistency.
+| The server requires fewer resources. |
+| Better performance when generating the map. |
+| Public and private places are treated in the same way. |
+| Simpler architecture of the application. |
+|===
+
+We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.
+
+
+=== ADR 4: Friends places information.
+
+Context: The application is required to display places that the friends of the user has shared. This friend’s information should be private and stored on their own Pod.
+
+Decision: A list of the friend’s places will be computed from the information stored on the Pods of their friends.
+
+Status: This decision is already made and will be under development soon. Unless the capabilities of the SOLID Pods won’t make it possible.
+Consequences:
+|===
+| **Advantages** | *Neutral*|**Disadvantages**
+|The user will have full control of its data.|It is required to understand and implement the Solid Pod’s technology.|This solution might be harder to implement.
+|The server won't treat private data.||
+|===
