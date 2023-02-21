@@ -77,9 +77,9 @@ u <-- c: Show map
 
 === Add friends
  
-The user will be able to add new friends with their POD's IDs. The application will try to request the friend's data and add a new friend to the user's POD. In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.
+The user will be able to add new friends with their POD's IDs. The application will try to request the friend's data and add a new friend to the user's POD. 
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"add_friend_success",png]
 ----
 @startuml
 <style>
@@ -110,6 +110,39 @@ c<--fp: Send data
 c->up: Add friend
 c->c: Update GUI
 u<--c: Show confirmation message
+
+@enduml
+----
+
+In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.
+
+[plantuml,"add_friend_error",png]
+----
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+Actor User as u
+Participant Client as c
+Database "Friend's POD" as fp
+
+u->c: Provide friend's POD ID
+c->fp !!: Request friend's data
+u<--c: Show error message
 
 @enduml
 ----
