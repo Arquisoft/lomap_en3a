@@ -21,6 +21,20 @@ performance. In addition, they are the ones we learned about the most in previou
 smoothly the persistence of our application. It is more difficult to find a free database service for our application
 which is not restrictive, but our application will not need a big persistence infrastructure.
 
+=== Top-level decomposition of the system
+Some patterns have been discussed to tackle the design of the solution. This section is expected to be updated during
+the development of the application, as we will face different situations and problems where some patterns can fit in
+and we will reason about the best choice.
+
+==== Architectural patterns
+* *MVC (model-view-controller)*: It is very used in the development of web applications. We expect to have the view
+(user interface) on the client, separated from the domain logic and the persistence, which are located on the server.
+
+==== Design patterns
+* *Façade pattern*: Given the complexity of some subsystems and modules of the application, it could be reasonable to
+use a reduced interface to just focus on what we need about them, simplyfying their usage.
+
+
 [role="arc42help"]
 ****
 .Contents
