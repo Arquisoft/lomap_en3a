@@ -1,6 +1,25 @@
 [[section-solution-strategy]]
 == Solution Strategy
 
+=== Technology decisions
+
+==== Framework: React
+
+Although it is not powerful as other options (like Angular), it is enough for developing this application and it is
+less difficult to learn the basics, that is, the learning curve is faster. This idea is supported by its big community,
+the introduction we have been given in class and the amount of projects of the course that have been developed with it
+and that we can take as reference.
+
+==== Language: TypeScript/JavaScript
+It is the most spread option for developing web applications in React, so we expect to find enough resources to develop
+our projects, in terms of information sources and libraries. Also, most of the members have worked with JavaScript in
+SEW, so the transition to TypeScript should be smoother.
+
+==== Database: MySQL
+Relational databases are the most mature, market-accepted and robust databases, apart from their well-proven
+performance. In addition, they are the ones we learned about the most in previous courses, and we expect to develop
+smoothly the persistence of our application. It is more difficult to find a free database service for our application
+which is not restrictive, but our application will not need a big persistence infrastructure.
 
 [role="arc42help"]
 ****
