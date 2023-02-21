@@ -1,6 +1,7 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
 
+=== Risks
 [options="header",cols="1,2,2"]
 |===
 |Risk|Description|Approach
@@ -23,6 +24,22 @@ way. Use WhatsApp and Teams to stay in contact._
 to develop a full-fledged application, and we have to reach agreements on many decisions._
 | _Apply what we know, combine with the suggestions of every member of the team and complement those ideas with what we
 learn in this semester (not only in this subject, but other ones). Follow the guidelines for each part of the project._
+|===
+
+=== Technical debts
+[options="header",cols="1,2,2"]
+|===
+|Technical debt|Description|Approach
+| _Information access management with SOLID_
+| _The accessibility of data, and who can get it, can vary depending on the situation, and therefore there are many
+fronts on which information can be reached when it should not, and viceversa._
+| _Explore the different mechanisms that SOLID provides to control and change the access to data, and study carefully
+every case._
+| _Scalability_
+| _Due to the nature of the application, we need to have an acceptable performance with not only many users, but users
+with lots of data and/or that perform many accesses._
+| _This will be studied at due time, once we start to implement the application, to approach certain aspects or refactor
+them in a way that the application can handle a greater workload._
 |===
 
 [role="arc42help"]
