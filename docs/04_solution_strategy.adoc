@@ -57,6 +57,9 @@ be reviewed to design the user interface of the application. Aesthetics will be 
 |===
 
 === Organizational decisions
+For the development of this project, the following platforms and mechanisms have been adopted to enhance
+the workflow among the members of the team.
+
 * *WhatsApp*: A group has been created as the quickest communication mechanism to inform the other members about any
 update or news and organize meetings.
 
