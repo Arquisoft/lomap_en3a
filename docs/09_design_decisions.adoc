@@ -40,3 +40,17 @@ There will be a centralized database in charge of storing the information of pub
 |===
 
 We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (it's creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application. 
+
+=== Client side computing over server side computing
+
+We will try to delegate as much computation as possible to the client.
+
+|===
+| **Advantages** | **Disadvantages**
+| Less dependence on the server. | Less secure.
+| The server requires fewer resources. |
+|===
+
+As this is an open source project whose code is already available on github and we don't expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server.
+
+
