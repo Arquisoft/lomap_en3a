@@ -34,7 +34,7 @@ There are many notations for describing scenarios, e.g.
  
 The placemarks of the public places are stored in a centralized database. The client is able to access this information through the API in order to generate the public map.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"public_map_generation",png]
 ----
 @startuml
 <style>
