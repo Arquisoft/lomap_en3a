@@ -5,7 +5,7 @@
 
 ==== Framework: React
 
-Although it is not powerful as other options (like Angular), it is enough for developing this application and it is
+Although it is not as powerful as other options (like Angular), it is enough for developing this application and it is
 less difficult to learn the basics, that is, the learning curve is faster. This idea is supported by its big community,
 the introduction we have been given in class and the amount of projects of the course that have been developed with it
 and that we can take as reference.
@@ -34,7 +34,28 @@ and we will reason about the best choice.
 * *Façade pattern*: Given the complexity of some subsystems and modules of the application, it could be reasonable to
 use a reduced interface to just focus on what we need about them, simplyfying their usage.
 
+=== Decisions for achieving quality goals
+[options="header",cols="1,2,2"]
+|===
+|Quality goal|Solution approach|Details
 
+| _Privacy_
+| _All user data will be stored in a personal pod, so that the user has exclusive access to them, being also able to
+grant the access to more people._
+|
+
+| _Robustness_
+| _Validations of user input on client-side will be performed so that there is no risk of inconsistencies, security
+issues, etc. Server-side validations will be learned in the near future in another subject, so we postpone this matter until we are able to tackle it._
+|
+
+| _Usability_
+| _Familiarity will be prioritized over innovation, so that users can rely on intuition to navigate and explore the
+application. In this way, several interfaces from applications that have well-proven usability (i.e. Google Maps) will
+be reviewed to design the user interface of the application. Aesthetics will be taken into account so it is appealing to use._
+|
+
+|===
 [role="arc42help"]
 ****
 .Contents
