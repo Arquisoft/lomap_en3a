@@ -52,7 +52,7 @@ image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscuttin
 
 === 8.1 Domain model
 
-image:UmlDiagram.png["Example UML Diagram"]
+image:Domain Model.jpg["Domain model UML Diagram"]
 
 === 8.2 UI/UX:
 The application will consist of a webpage application where the user will be able to choose between a public map or different views that the user creates. This map will only show the minimal information as form of “pins”. The user can click on the pin that a place represents, and the full information will be loaded and prompted. A friendly and familiar approach will be hold when designing the different views of the application; Google Maps will be the main reference.
