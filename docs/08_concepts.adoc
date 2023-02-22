@@ -50,18 +50,28 @@ image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscuttin
 ****
 
 
-=== Domain model
+=== 8.1 Domain model
 
-image:UmlDiagram.png["Example UML Diagram"]
+image:Domain Model.jpg["Domain model UML Diagram"]
 
+=== 8.2 UI/UX:
+The application will consist of a webpage application where the user will be able to choose between a public map or different views that the user creates. This map will only show the minimal information as form of “pins”. The user can click on the pin that a place represents, and the full information will be loaded and prompted. A friendly and familiar approach will be hold when designing the different views of the application; Google Maps will be the main reference.
 
+=== 8.3 Persistence:
+The persistence module of this development consists of the Pod’s service and our database that will store some basic information from the public places. The user’s system will make a call to our server to get the information that will populate the public map, then will only call the personal pods when the information is needed (load on demand). The user’s device will make calls to all the personal pods of its friends in the same way as for the public places. This way, we ensure that the server-side application is not going to process data that the user has only shared with his friends and, at the same time, will make that sharing possible.
 
-=== _<Concept 2>_
+=== 8.4 Transaction handling:
+A system for implementing transactions will be required for keeping redundant information in sync. The owner of a place is the only one that can edit it, in this way, public places can only been edited by its owner. The changes that a user makes must be reflected onto the Solid Pod and the Database simultaneously.
 
-_<explanation>_
+=== 8.5 Communication and integration:
+The client side of the application will not be able to operate independent to the server side. The connection between the client and server will make possible to display the map service, and to show the different public places of the application. A standard way of communicating with the pods should be stablished in order to be compatible with other LoMap applications. The standard is not yet been implemented, it is due to be negotiated. The application will have to implement a module for connecting with the Solid Pods technology and other services that will be needed such as a map API or other web services.
 
-...
+=== 8.6 Architecture and or design patterns:
+In previous a subject, Software design, different patterns have been stablished. The usage of the corresponding adapter pattern will be used when dealing with any API needed.
+More patterns are described on the section 4.
 
-=== _<Concept n>_
+=== 8.7 Rules for using specific technology:
+Privacy is a main concern when developing this application. There should be a major reason for treating in the server-side private information of a user instead of on their own device.
 
-_<explanation>_
+=== 8.8 Deployment:
+We have chosen node.js as the runtime environment for running the server-side application.
