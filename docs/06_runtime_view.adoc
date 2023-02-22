@@ -30,28 +30,175 @@ There are many notations for describing scenarios, e.g.
 
 ****
 
-=== <Runtime Scenario 1>
+=== Public map generation
+ 
+The placemarks of the public places are stored in a centralized database. The client is able to access this information through the API in order to generate the public map.
 
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
+[plantuml,"public_map_generation",png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 100
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+
+actor User as u
+participant Client as c
+
+box "Server" #dedede
+    participant API
+    database Database as db
+end box
+
+u -> c: Access public map
+c -> API: Request public places
+API -> db: Query DB
+API <-- db: Placemarks
+c <-- API: Placemarks
+c -> c: Generate map
+u <-- c: Show map
+
+@enduml
 ----
-=== <Runtime Scenario 2>
 
-=== ...
 
-=== <Runtime Scenario n>
+=== Add friends
+ 
+The user will be able to add new friends with their POD's IDs. The application will try to request the friend's data and add a new friend to the user's POD. 
+
+[plantuml,"add_friend_success",png]
+----
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 100
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+Actor User as u
+Participant Client as c
+box Pod provider #dedede
+  Database "Friend's POD" as fp
+  Database "User's POD" as up
+endbox
+
+u->c: Provide friend's POD ID
+c->fp: Request friend's data
+c<--fp: Send data
+c->up: Add friend
+c->c: Update GUI
+u<--c: Show confirmation message
+
+@enduml
+----
+
+In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.
+
+[plantuml,"add_friend_error",png]
+----
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+Actor User as u
+Participant Client as c
+Database "Friend's POD" as fp
+
+u->c: Provide friend's POD ID
+c->fp !!: Request friend's data
+u<--c: Show error message
+
+@enduml
+----
+
+
+=== Access to shared map
+
+Users will be able able to have shared maps. The data of each place will be stored in the POD of its creator, while the placemarks, with references to the data locations, will be stored in the PODs of all users sharing the map.
+
+[plantuml,"shared_map",png]
+----
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 150
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+Actor User as u
+Participant Client as c
+box Pod provider #dedede
+    Database "User's POD" as up 
+    Database "Friend's POD" as fp
+endbox
+
+u->c: Select shared map
+c->up: Request placemarks 
+c<--up: Send data
+c->c: Generate map
+u<--c: Show map
+
+u->c: Access user's placemark
+c->up: Request place information
+c<--up: Send data
+u<--c: Show place's information
+
+u->c: Access friend's placemark
+c->fp: Request place information
+c<--fp: Send data
+u<--c: Show place's information
+
+@enduml
+----
