@@ -26,14 +26,25 @@ Potentially more columns in case you need translations.
 [options="header"]
 |===
 | Term         | Definition
-| UX User Experience   | How a user interacts with and experiences a product, system or service. It includes a person's perceptions of utility, ease of use, and efficiency. Source: Wikipedia (User experience).
-| UI User Interface    | The space where interactions between humans and machines occur. The goal of this interaction is to allow effective operation and control of the machine from the human end, while the machine simultaneously feeds back information that aids the operators' decision-making process. Source: Wikipedia (User Interface).
-| TypeScript     | Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
+| UX User Experience
+| How a user interacts with and experiences a product, system or service. It includes a person's perceptions of utility, ease of use, and efficiency. Source: Wikipedia (User experience).
+
+| UI User Interface
+| The space where interactions between humans and machines occur. The goal of this interaction is to allow effective operation and control of the machine from the human end, while the machine simultaneously feeds back information that aids the operators' decision-making process. Source: Wikipedia (User Interface).
+
+| TypeScript
+| Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
 These features make it widely used nowadays for web applications development.
-| React     | An open-source JavaScript library for developing user interfaces. It can be used to develop web
+
+| React
+| An open-source JavaScript library for developing user interfaces. It can be used to develop web
 applications, and it has to be complemented with other libraries to develop full-fledged products.
-| Node.js     | Open-source, event-oriented runtime environment for JavaScript in servers.
-| SOLID     | Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users' data, by
+
+| Node.js
+| Open-source, event-oriented runtime environment for JavaScript in servers.
+
+| SOLID
+| Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users' data, by
 employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
 the access to the personal data.
 |===
