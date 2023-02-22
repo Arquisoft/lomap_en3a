@@ -26,6 +26,8 @@ Potentially more columns in case you need translations.
 [options="header"]
 |===
 | Term         | Definition
+| UX User Experience   | How a user interacts with and experiences a product, system or service. It includes a person's perceptions of utility, ease of use, and efficiency. Source: Wikipedia (User experience).
+| UI User Interface    | The space where interactions between humans and machines occur. The goal of this interaction is to allow effective operation and control of the machine from the human end, while the machine simultaneously feeds back information that aids the operators' decision-making process. Source: Wikipedia (User Interface).
 | TypeScript     | Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
 These features make it widely used nowadays for web applications development.
 | React     | An open-source JavaScript library for developing user interfaces. It can be used to develop web
