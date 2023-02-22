@@ -44,7 +44,7 @@ applications, and it has to be complemented with other libraries to develop full
 | Open-source, event-oriented runtime environment for JavaScript in servers.
 
 | SOLID
-| Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users' data, by
+| Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users data, by
 employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
 the access to the personal data.
 |===
