@@ -59,6 +59,7 @@ In the best case you will get away with examples or simple signatures.
 
 .Overview Diagram
 image:05_Building_Block_Overall_View.PNG['Overall View of the System']
+
 Motivation::
 This is an overall view of the system that describes only the most important present interfaces.
 
