@@ -74,6 +74,6 @@ Tabular or free form text.
 * The system will work accordingly under all specified conditions.
 
 .Change Scenarios
-* The api used for the map can ve changed with no major modifications on the system's modules other than the view.
+* The api used for the map can be changed with no major modifications on the system's modules other than the view.
 * Adaptation to modification of functional requirements.
 * Adaptation to modification of quality requirements.
