@@ -48,7 +48,7 @@ Describe (usually in a combination of diagrams, tables, and text):
 For multiple environments or alternative deployments please copy that section of arc42 for all relevant environments.
 ****
 
-_**<Overview Diagram>**_
+image:Deployment View.jpg["Domain model UML Diagram"]
 
 Motivation::
 
