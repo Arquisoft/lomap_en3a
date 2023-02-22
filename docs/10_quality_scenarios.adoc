@@ -69,7 +69,7 @@ Tabular or free form text.
 * Standard functions, like traversing the map, should be as easy and intuitive to use as possible.
 - Privacy
 * The private section of a user is only viewable by himself.
-* Only those who are friends or belong to the same group will be able to see the information of a user destined to them or the specified group.
+* Only those who are friends or belong to the same group will be able to see the information of a user that is only visible for his friends or the specified group.
 - Robustness
 * The system will work accordingly under all specified conditions.
 
