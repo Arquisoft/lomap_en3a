@@ -1,6 +1,79 @@
 [[section-solution-strategy]]
 == Solution Strategy
 
+=== Technology decisions
+
+==== Framework: React
+Although it is not as powerful as other options (like Angular), it is enough for developing this application and it is
+less difficult to learn the basics, that is, the learning curve is faster. This idea is supported by its big community,
+the introduction we have been given in class and the amount of projects of the course that have been developed with it
+and that we can take as reference.
+
+==== Language: TypeScript/JavaScript
+It is the most spread option for developing web applications in React, so we expect to find enough resources to develop
+our projects, in terms of information sources and libraries. Also, most of the members have worked with JavaScript in
+SEW, so the transition to TypeScript should be smoother.
+
+==== Database: MySQL/SQLite
+Relational databases are the most mature, market-accepted and robust databases, apart from their well-proven
+performance. In addition, they are the ones we learned about the most in previous courses, and we expect to develop
+smoothly the persistence of our application. It is more difficult to find a free database service for our application
+which is not restrictive, but our application will not need a big persistence infrastructure.
+
+=== Top-level decomposition of the system
+Some patterns have been discussed to tackle the design of the solution. This section is expected to be updated during
+the development of the application, as we will face different situations and problems where some patterns can fit in
+and we will reason about the best choice.
+
+==== Architectural patterns
+* *MVC (model-view-controller)*: It is very used in the development of web applications. We expect to have the view
+(user interface) on the client, separated from the domain logic and the persistence, which are located on the server.
+
+==== Design patterns
+* *Façade*: Given the complexity of some subsystems and modules of the application, it could be reasonable to
+use a reduced interface to just focus on what we need about them, simplyfying their usage.
+
+* *Adapter*: We assume that we will use third-party elements (libraries, etc). For this reason, we have thought about
+this pattern already to connect our code with them, as it is very handy in this kind of situations.
+
+=== Decisions for achieving quality goals
+[options="header",cols="1,2,2"]
+|===
+|Quality goal|Solution approach|Details
+
+| _Privacy_
+| _All user data will be stored in a personal pod, so that the user has exclusive access to them, being also able to
+grant the access to more people._
+| _Section 8 (Persistence), Section 9 (ADR 1)_
+
+| _Robustness_
+| _Validations of user input on client-side will be performed so that there is no risk of inconsistencies, security
+issues, etc. Server-side validations will be learned in the near future in another subject, so we postpone this matter
+until we are able to tackle it._
+|
+
+| _Usability_
+| _Familiarity will be prioritized over innovation, so that users can rely on intuition to navigate and explore the
+application. In this way, several interfaces from applications that have well-proven usability (i.e. Google Maps) will
+be reviewed to design the user interface of the application. Aesthetics will be taken into account so it is appealing
+to use._
+| _Section 8 (UI/UX)_
+|===
+
+=== Organizational decisions
+For the development of this project, the following platforms and mechanisms have been adopted to enhance
+the workflow among the members of the team.
+
+* *WhatsApp*: A group has been created as the quickest communication mechanism to inform the other members about any
+update or news and organize meetings.
+
+* *Teams*: Platform where extra meetings (outside of the university) take place.
+
+* *Github*: Platform where the project is managed.
+
+** *Issues*: The way to register every important event (tasks to do, problems to solve, doubts…).
+
+** *Kanban*: The place where we place and update the state of issues.
 
 [role="arc42help"]
 ****
