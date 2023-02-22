@@ -26,6 +26,12 @@ Potentially more columns in case you need translations.
 [options="header"]
 |===
 | Term         | Definition
-| <Term-1>     | <definition-1>
-| <Term-2>     | <definition-2>
+| TypeScript     | Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
+These features make it widely used nowadays for web applications development.
+| React     | An open-source JavaScript library for developing user interfaces. It can be used to develop web
+applications, and it has to be complemented with other libraries to develop full-fledged products.
+| Node.js     | Open-source, event-oriented runtime environment for JavaScript in servers.
+| SOLID     | Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users' data, by
+employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
+the access to the personal data.
 |===
