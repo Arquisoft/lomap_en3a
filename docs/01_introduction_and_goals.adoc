@@ -1,0 +1,112 @@
+[[section-introduction-and-goals]]
+== Introduction and Goals
+
+
+[role="arc42help"]
+****
+Describes the relevant requirements and the driving forces that software architects and development team must consider. These include
+
+* underlying business goals, essential features and functional requirements for the system
+* quality goals for the architecture
+* relevant stakeholders and their expectations
+****
+
+LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.
+
+Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.
+
+
+=== Requirements Overview
+
+[role="arc42help"]
+****
+.Contents
+Short description of the functional requirements, driving forces, extract (or abstract)
+of requirements. Link to (hopefully existing) requirements documents
+(with version number and information where to find it).
+
+.Motivation
+From the point of view of the end users a system is created or modified to
+improve support of a business activity and/or improve the quality.
+
+.Form
+Short textual description, probably in tabular use-case format.
+If requirements documents exist this overview should refer to these documents.
+
+Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
+****
+
+The application must meet the following requirements:
+
+- Users will be able to add new places to their maps.
+- Each place may be classified in different categories.
+- Maps will have filters to show only certain places (e.g., those belonging to a category).
+- Users can interact with the places by adding reviews or comments, posting images, etc.
+- It will be possible to manage what information can be accessed by the rest of the users.
+- The information about the places will be stored in each user's pod.
+- The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.
+- Users will be able to see information about the places added by their friends. 
+
+For more information, refer to the https://arquisoft.github.io/course2223/labAssignmentDescription.html[assignment description document].
+
+
+=== Quality Goals
+
+[role="arc42help"]
+****
+.Contents
+The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. We really mean quality goals for the architecture. Don't confuse them with project goals. They are not necessarily identical.
+
+.Motivation
+You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. Make sure to be very concrete about these qualities, avoid buzzwords.
+If you as an architect do not know how the quality of your work will be judged …
+
+.Form
+A table with quality goals and concrete scenarios, ordered by priorities
+****
+
+[options="header",cols="1,2"]
+|===
+|Quality goal|Scenario
+| Privacy | User's information must be stored in a decentralized way, ensuring they are in full control of their own data.
+| Robustness | Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.
+| Usability | The application must be easy to use, with a clear and intuitive interface.
+|===
+
+
+=== Stakeholders
+
+[role="arc42help"]
+****
+.Contents
+Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
+
+* should know the architecture
+* have to be convinced of the architecture
+* have to work with the architecture or with code
+* need the documentation of the architecture for their work
+* have to come up with decisions about the system or its development
+
+.Motivation
+You should know all parties involved in development of the system or affected by the system.
+Otherwise, you may get nasty surprises later in the development process.
+These stakeholders determine the extent and the level of detail of your work and its results.
+
+.Form
+Table with role names, person names, and their expectations with respect to the architecture and its documentation.
+****
+
+[options="header",cols="1,2,2"]
+|===
+|Role/Name|Contact|Expectations
+| HappySw headquarters | _Inside the Company_ | _A final product that meets their expectations.
+Communication with the team and feedback about the development.
+Quality of the code and testing.
+Continuous Integration and continuous delivery strategy.
+Comply with established deadlines and deliveries._
+| Council of Brussels | _Product owner_ | _A product that satisfies them, flawless and polished.
+All demands pleased._
+| Citizens | _Application users_ | _A well-formed application that is useful and pleasent to use._
+| Development Team | _Us_ | _A well-formed application that is useful and pleasent to use._
+| Businesses | _Application users_ | _Specific features targeted and appealing for their business._
+|===
