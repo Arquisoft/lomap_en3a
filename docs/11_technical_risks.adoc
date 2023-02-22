@@ -8,7 +8,7 @@
 | _Steep technology learning curve_
 | _We have not used Typescript, React nor SOLID before, so we could get stuck or slowed down while we learn how to use
 them. We might encounter additional topics to explore later in the development (for example, using Resource Development
-Format for representing information in the pods._
+Format for representing information in the pods)._
 | _Follow the introduction and bibliography provided by the teachers, look for solutions in community forums._
 | _Time scarcity_
 | _We can run out of time to develop all that is required in each deliverable, and provide what is asked at each
