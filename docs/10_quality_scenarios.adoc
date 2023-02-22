@@ -64,16 +64,16 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 Tabular or free form text.
 ****
 .Usage Scenarios
-- Usability
-* System reacts to a user request to display info of a point in the map
-* Standard functions, like traversing the map, should be as easy and intuitive to use as possible.
-- Privacy
-* The private section of a user is only viewable by himself.
-* Only those who are friends or belong to the same group will be able to see the information of a user that is only visible for his friends or the specified group.
-- Robustness
-* The system will work accordingly under all specified conditions.
+* Usability
+** System reacts to a user request to display info of a point in the map
+** Standard functions, like traversing the map, should be as easy and intuitive to use as possible.
+* Privacy
+** The private section of a user is only viewable by himself.
+** Only those who are friends or belong to the same group will be able to see the information of a user that is only visible for his friends or the specified group.
+* Robustness
+** The system will work accordingly under all specified conditions.
 
 .Change Scenarios
-* The api used for the map can be changed with no major modifications on the system's modules other than the view.
-* Adaptation to modification of functional requirements.
-* Adaptation to modification of quality requirements.
+* The API used for the map can be changed with no major modifications on the system's modules other than the view.
+* Adaptation to modifications of functional requirements.
+* Adaptation to modifications of quality requirements.
