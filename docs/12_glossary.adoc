@@ -26,6 +26,48 @@ Potentially more columns in case you need translations.
 [options="header"]
 |===
 | Term         | Definition
-| <Term-1>     | <definition-1>
-| <Term-2>     | <definition-2>
+| UX User Experience
+| How a user interacts with and experiences a product, system or service. It includes a person's perceptions of utility, ease of use, and efficiency. Source: Wikipedia (User experience).
+
+| UI User Interface
+| The space where interactions between humans and machines occur. The goal of this interaction is to allow effective operation and control of the machine from the human end, while the machine simultaneously feeds back information that aids the operators' decision-making process. Source: Wikipedia (User Interface).
+
+| TypeScript
+| Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
+These features make it widely used nowadays for web applications development.
+
+| React
+| An open-source JavaScript library for developing user interfaces. It can be used to develop web
+applications, and it has to be complemented with other libraries to develop full-fledged products.
+
+| Node.js
+| Open-source, event-oriented runtime environment for JavaScript in servers.
+
+| JavaScript
+| A programming language that allows the integration of sophisticated functionality on web pages. Together with HTML and CSS, it is one of the core technologies of the World Wide Web. It can update, manipulate, and validate data as well as update and edit both HTML and CSS.
+
+| GitHub
+| Is an Internet hosting service for Git-based version control and software development. Git collaboration is made simpler for both individuals and teams to use. Additionally, it offers wikis, task management, bug tracking, and access control for each project.
+
+| SOLID
+| Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users data, by
+employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
+the access to the personal data.
+| Project
+| Aims to create interoperable ecosystems of services and data where users are free to openly use their data across various services and applications. Solid IDs, Solid Pods, and Solid Applications are its three foundational pillars.
+
+| ID
+| A unique identifier that you use to access your data and log into Solid applications.
+
+| Pod
+| A personal internet datastore where you can save your information. Who has access to your Pod and what they can do with your data are both things you can manage.
+
+| Application
+| Any online application that reads or writes data from your Pod using Solid technology.
+
+| Pin
+| A mark that designates a specific location on the map. It can be used to communicate information, represent locations and obtain directions. For instance, Google Maps utilizes a shadowed red teardrop-shaped pin.
+
+| ADR
+| Architectural Decision Record. A documentation of a software design decision that satisfies an architecturally significant functional or non-functional requirement.
 |===
