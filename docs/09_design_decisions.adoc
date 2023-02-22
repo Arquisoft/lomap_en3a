@@ -21,8 +21,6 @@ Status: Accepted
 
 We will try to delegate as much computation as possible to the client.
 
-Status: Accepted
-
 |===
 | **Advantages** | **Disadvantages**
 | Less dependence on the server. | Less secure.
