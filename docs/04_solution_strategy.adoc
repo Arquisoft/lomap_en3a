@@ -15,8 +15,7 @@ our projects, in terms of information sources and libraries. Also, most of the m
 SEW, so the transition to TypeScript should be smoother.
 
 ==== Database: MySQL/SQLite
-Relational databases are the most mature, market-accepted and robust databases, apart from their well-proven
-performance. In addition, they are the ones we learned about the most in previous courses, and we expect to develop
+Relational databases are the ones we learned about the most in previous courses, and we expect to develop
 smoothly the persistence of our application. It is more difficult to find a free database service for our application
 which is not restrictive, but our application will not need a big persistence infrastructure.
 
