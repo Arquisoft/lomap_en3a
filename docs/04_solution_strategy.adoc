@@ -31,7 +31,7 @@ and we will reason about the best choice.
 
 ==== Design patterns
 * *Façade*: Given the complexity of some subsystems and modules of the application, it could be reasonable to
-use a reduced interface to just focus on what we need about them, simplyfying their usage.
+use a reduced interface to just focus on what we need about them, simplifying their usage.
 
 * *Adapter*: We assume that we will use third-party elements (libraries, etc). For this reason, we have thought about
 this pattern already to connect our code with them, as it is very handy in this kind of situations.
