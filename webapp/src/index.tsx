@@ -7,6 +7,9 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+document.title = "LoMap";
+
 root.render(
   <React.StrictMode>
     <App />
