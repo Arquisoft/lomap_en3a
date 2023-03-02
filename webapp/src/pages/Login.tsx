@@ -1,4 +1,5 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import SolidSessionManager from '../adapters/solid/SolidSessionManager';
 import '../styles/login.css';
 
@@ -6,7 +7,7 @@ import '../styles/login.css';
 /**
  * Login page.
  */
-export default class Login extends React.Component {
+export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 
 	private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 	private urls: Map<string, string> = new Map();
@@ -16,6 +17,7 @@ export default class Login extends React.Component {
 	 */
 	public constructor(props: any) {
 		super(props);
+		this.state = {loggedIn: false};
 		this.urls.set("inrupt", "https://inrupt.net/login");
 	}
 
@@ -36,13 +38,16 @@ export default class Login extends React.Component {
 	 */
 	public async componentDidMount(): Promise<void> {
 		await this.sessionManager.fetchUserData();
-		this.setState({text: this.sessionManager.getWebID()});
+		this.setState({loggedIn: this.sessionManager.isLoggedIn()});
 	}
     
 	/**
 	 * POD provider login menu.
 	 */
     public render(): JSX.Element {
+		if (this.state.loggedIn) {
+			return (<Navigate to="/home" replace={true} />);
+		}
         return (
 			<section className='LoginPage'>
 				<h1>LoMap</h1>
