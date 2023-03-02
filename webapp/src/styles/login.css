@@ -1,0 +1,66 @@
+@font-face {
+    font-family: "PatrickHand";
+    src: local("PatrickHand"),
+      url("./fonts/PatrickHand-Regular.ttf") format("truetype");
+    font-weight: normal;
+}
+
+@media (max-width: 600px) {
+    .LoginPage {
+        width: 85%;
+        font-size: 3vw;
+    }
+}
+@media (min-width: 601px) {
+    .LoginPage {
+        width: 30%;
+    }
+}
+
+.LoginPage {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    margin: 5em;
+    border-radius: 0.5em;
+}
+
+.LoginPage h1 {
+    color: #ffffff;
+    font-family: "PatrickHand";
+    font-size: 4em;
+}
+
+.LoginPage p {
+    font-size: 1.2em;
+    margin-bottom: 3em;
+}
+
+.LoginPage fieldset > legend {
+    font-size: 2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-weight: 575;
+}
+
+.LoginPage fieldset {
+    border-radius: 0.5em;
+    padding: 2em;
+    border: 0.25em solid;
+    width: 75%;
+    padding-bottom: 2em;
+
+    border-image: linear-gradient(to right bottom, #9D00FF, #FF00E1) 10;
+}
+
+.LoginPage fieldset > section > input {
+    color: #ffffff;
+    background-color: #7C4DFF;
+    font-size: 1.5em;
+    padding: 0.5em;
+    width: 100%;
+    font-weight: bold;
+    border: none;
+}

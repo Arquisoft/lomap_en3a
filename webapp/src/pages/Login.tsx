@@ -1,5 +1,6 @@
 import React from 'react';
 import SolidSessionManager from '../adapters/solid/SolidSessionManager';
+import '../styles/login.css';
 
 
 /**
