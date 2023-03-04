@@ -74,3 +74,35 @@ Contained Building Blocks::
 |===
 Important Interfaces::
 No important interfaces to be described yet.
+
+==== LoMap Level 1
+
+[role="arc42help"]
+****
+Here you describe <black box 1>
+according the the following black box template:
+
+* Purpose/Responsibility
+* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
+* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
+* (Optional) directory/file location
+* (Optional) Fulfilled requirements (if you need traceability to requirements).
+* (Optional) Open issues/problems/risks
+
+****
+
+image:05_Building_Block_Level_1.PNG['System Level 1']
+
+Purpose::
+Describes the architecture of the inner LoMap system, it's how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram _System Level 1_ is a Clean Architecture.
+
+Interfaces::
+[options="header",cols="1,2"]
+|===
+|Interface|Description
+|Entities|Represent the domain of the system, those classes that describe the enterprise business rules.
+|App Business Logic|The use cases, the actual application business rules that describe how the application works.
+|Presentation|The related documents that are in charge of the presentation of the application.
+|Infrastructure|Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.
+|===
