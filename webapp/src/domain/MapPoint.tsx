@@ -1,0 +1,16 @@
+
+export default class MapPoint{
+
+    public title : string;
+    public description : string;
+    public images : string[];
+    public location : string; // TODO to be changed
+
+    constructor(title : string, description : string, images : string[], location : string) {
+        this.title = title;
+        this.description = description;
+        this.images = images;
+        this.location = location;
+    }
+
+}
