@@ -1,4 +1,5 @@
 import React from "react";
+import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 
 export default class Home extends React.Component {
@@ -13,6 +14,7 @@ export default class Home extends React.Component {
         return (
             <section className='Home'>
                 <h2>Hello {this.webID}</h2>
+                <LeafletMapAdapter />
             </section>
         );
     }
