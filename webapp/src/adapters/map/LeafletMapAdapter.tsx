@@ -6,6 +6,8 @@ import currentMarkerPng from "../../assets/map/new_marker.png"
 import {Icon, LeafletMouseEvent} from 'leaflet'
 import React from 'react';
 import Placemark from '../../domain/Placemark';
+import NewPlacePopup from '../../components/NewPlacePopup';
+
 
 /**
  * An optional map with the initial markers can be passed as a prop
@@ -85,10 +87,36 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         return (
         <Marker  position={[placemark.getLat(), placemark.getLng()]} icon={this.currentIcon}>
             <Popup offset={[0,-50]}>
-                <p>New Placemark</p>
+                <NewPlacePopup new={this.newPlace.bind(this)} cancel={this.cancel.bind(this)}/>
             </Popup>
         </Marker>
         );
+    }
+
+    /**
+     * Navigates to the place creation form
+     */
+    private newPlace(e: React.MouseEvent): void {
+        /* Navigate to form */
+        if (this.state.currentPlacemark!== null) {
+            this.addMarker(this.state.currentPlacemark);
+        }
+        e.preventDefault();
+    }
+    private addMarker(p: Placemark): void {
+        this.map.add(p);
+        this.setState({
+            currentPlacemark: null, 
+            markers: [...this.state.markers, this.generateDefaultMarker(p)]
+        });
+    }
+
+    /**
+     * Cancels the new place creation
+     */
+    private cancel(e: React.MouseEvent): void {
+        this.setState({currentPlacemark: null});
+        e.preventDefault();
     }
 
     public render(): JSX.Element {
