@@ -15,8 +15,7 @@ our projects, in terms of information sources and libraries. Also, most of the m
 SEW, so the transition to TypeScript should be smoother.
 
 ==== Database: MySQL/SQLite
-Relational databases are the most mature, market-accepted and robust databases, apart from their well-proven
-performance. In addition, they are the ones we learned about the most in previous courses, and we expect to develop
+Relational databases are the ones we learned about the most in previous courses, and we expect to develop
 smoothly the persistence of our application. It is more difficult to find a free database service for our application
 which is not restrictive, but our application will not need a big persistence infrastructure.
 
@@ -31,7 +30,7 @@ and we will reason about the best choice.
 
 ==== Design patterns
 * *Façade*: Given the complexity of some subsystems and modules of the application, it could be reasonable to
-use a reduced interface to just focus on what we need about them, simplyfying their usage.
+use a reduced interface to just focus on what we need about them, simplifying their usage.
 
 * *Adapter*: We assume that we will use third-party elements (libraries, etc). For this reason, we have thought about
 this pattern already to connect our code with them, as it is very handy in this kind of situations.
@@ -69,11 +68,40 @@ update or news and organize meetings.
 
 * *Teams*: Platform where extra meetings (outside of the university) take place.
 
-* *Github*: Platform where the project is managed.
+* *Github*: Platform where the project is managed. We have a repository in which we develop the project. We have decided
+to follow what is called "Trunk-based development". This consists on having a develop branch, from which we create the
+branches to code. We merge them in this develop branch and, once we have everything ready, we merge develop to master.
+In this way, every merge to master consists on a new release (deliverable). The Github tools that we use will be
+presented, along with their role in the development process.
+
+** *Wiki*: Here, we create a new entry to record the minute of each reunion that takes place. Each minute has a
+specific format, and it contains the following sections:
+*** *Date*
+*** *Participants*
+*** *Agreements (about work assignment)*
+*** *State of previous tasks*: They may include links to issues and/or pull requests.
+*** *Description of decisions taken*: Sometimes they are included in the agreements section.
 
 ** *Issues*: The way to register every important event (tasks to do, problems to solve, doubts…).
 
-** *Kanban*: The place where we place and update the state of issues.
+** *Kanban*: The place where we add and update the state of issues that are related to the development.
+
+** *Pull request*: We create them for every merge to develop or master, so that everyone can review what has been done
+and approve the changes, or reject them (being able to comment what should be fixed).
+
+=== Workflow example
+To complete the previous explanation, let us put an example of the steps we do to fulfill a task.
+
+* The task is defined on a meeting, so it is recorded in the corresponding minute.
+* An issue is created for the task. It is placed on the Kanban ("Open" state).
+* A branch will be created for developing it. We move the issue to "In progress" state in the Kanban.
+* Once it is finished, a pull request is sent for merging with the develop branch.
+** If it is accepted, the process is finished, so the issue may be closed. We move the issue to the "Finished" state in
+the Kanban and the branch can be deleted.
+** If it is rejected, the needed fixes are performed, and the pull request is updated with them. A new revision takes
+place.
+* If a bug is discovered after merging, a new branch may be created and the issue is reopened. Also, it is placed again
+on the "In progress" state of the Kanban.
 
 [role="arc42help"]
 ****
