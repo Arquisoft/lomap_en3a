@@ -1,0 +1,44 @@
+.NavMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    background-color: #6495EDFF;
+}
+
+.NavList {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 2em;
+}
+
+.MenuButton {
+    display: flex;
+    padding: 1.5em;
+    justify-content: start;
+    align-items: center;
+    background-color: #6495EDFF;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.MenuButton:hover {
+    background-color: #90b6f5;
+}
+
+.NavElement {
+    display: flex;
+    padding: 1em 0em;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #6495EDFF;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.NavElement:hover {
+    background-color: #90b6f5;
+    color: #000000;
+}
