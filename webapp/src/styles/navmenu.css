@@ -1,22 +1,12 @@
 .NavMenu {
     display: flex;
-    flex-direction: column;
-    justify-content: end;
+    flex-direction: row;
+    justify-content: space-evenly;
     align-items: end;
-    background-color: #6495EDFF;
-}
-
-.NavList {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    padding: 2em;
 }
 
 .MenuButton {
     display: flex;
-    padding: 1.5em;
     justify-content: start;
     align-items: center;
     background-color: #6495EDFF;
@@ -30,10 +20,7 @@
 
 .NavElement {
     display: flex;
-    padding: 1em 0em;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: #6495EDFF;
+    padding: 2em;
     text-decoration: none;
     color: #ffffff;
 }

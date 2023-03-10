@@ -4,16 +4,30 @@ import * as NavIcon from "react-icons/fa";
 import '../styles/navmenu.css';
 
 const NavMenu: React.FunctionComponent = () => {
-    const [open, setOpen] = useState(false);
-    const displayMenu = () => setOpen(!open);
     return (
         <div className='NavMenu'>
-            <MenuButton displayMenu={displayMenu}/>
-            <NavList open={open}/>
+            <NavElement url={"/home"} name={"Home"} icon={<NavIcon.FaHome/>}/>
+            <NavElement url={"/personal"} name={"My places"} icon={<NavIcon.FaUser/>}/>
+            <NavElement url={"/friends"} name={"Friends"} icon={<NavIcon.FaUserFriends/>}/>
+            <NavElement url={"/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
         </div>
     )
 }
 export default NavMenu
+
+interface NavElementProps {
+    url: string;
+    name: string;
+    icon: React.ReactNode;
+}
+
+const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
+    return (
+        <Link to={props.url} className="NavElement">
+            {props.icon}{props.name}
+        </Link>
+    );
+}
 
 interface MenuButtonProps {
     displayMenu: () => void;
@@ -38,38 +52,4 @@ const MenuButton: React.FunctionComponent<MenuButtonProps> = (props) => {
             {displayIcon()}
         </button>
     )
-}
-
-interface NavListProps {
-    open : boolean;
-}
-
-const NavList: React.FunctionComponent<NavListProps> = (props) => {
-    if (props.open) {
-        return (
-            <div className="NavList">
-                <NavElement url={"/home"} name={"Home"} icon={<NavIcon.FaHome/>}/>
-                <NavElement url={"/personal"} name={"My places"} icon={<NavIcon.FaUser/>}/>
-                <NavElement url={"/friends"} name={"Friends"} icon={<NavIcon.FaUserFriends/>}/>
-                <NavElement url={"/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
-            </div>
-        )
-    }
-    else {
-        return <div></div>;
-    }
-}
-
-interface NavElementProps {
-    url: string;
-    name: string;
-    icon: React.ReactNode;
-}
-
-const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
-    return (
-        <Link to={props.url} className="NavElement">
-            {props.icon}{props.name}
-        </Link>
-    );
 }
