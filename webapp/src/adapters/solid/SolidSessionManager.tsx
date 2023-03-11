@@ -8,7 +8,8 @@ export default class SolidSessionManager {
     private session: Session = new Session();
     private static instance: SolidSessionManager = new SolidSessionManager();
 
-    private constructor() {}
+    private constructor() {
+    }
 
     public static getManager(): SolidSessionManager {
         return this.instance;
@@ -42,21 +43,20 @@ export default class SolidSessionManager {
     }
 
     /**
-     * @returns {string} the web ID of the logged user 
+     * @returns {string} the web ID of the logged user
      */
     public getWebID(): string {
         if (this.session.info.webId !== undefined) {
             return this.session.info.webId;
         } else {
             return "Not logged in";
-        }    
+        }
     }
 
     /**
-     * @returns {boolean} whether the user is logged in 
+     * @returns {boolean} whether the user is logged in
      */
     public isLoggedIn(): boolean {
         return this.session.info.isLoggedIn;
     }
-
 }
