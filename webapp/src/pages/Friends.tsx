@@ -1,16 +1,12 @@
 import React from "react";
 import ListUsers from "../components/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
-export default class Friends extends React.Component{
 
-    private searchFriend : string  = "";
+export default class Friends extends React.Component {
 
-    private getList(){
-        var fm = new FriendManager();
-        return fm.getFriendsList();
-    }
+    private searchFriend: string = "";
 
-    private addFriend(name : string){
+    private addFriend(name: string) {
         var fm = new FriendManager();
         // return gm.addFriend(name);
     }
@@ -20,7 +16,7 @@ export default class Friends extends React.Component{
             <section>
                 <h2>My friends</h2>
                 <div>
-                    <ListUsers users={this.getList()}></ListUsers>
+                    <ListUsers fm={new FriendManager()}></ListUsers>
                 </div>
                 <h2>Add friends</h2>
                 <form>

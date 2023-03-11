@@ -46,7 +46,7 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	 */
     public render(): JSX.Element {
 		if (this.state.loggedIn) {
-			return (<Navigate to="/home" replace={true} />);
+			return (<Navigate to="/friends" replace={true} />);
 		}
         return (
 			<section className='LoginPage'>
