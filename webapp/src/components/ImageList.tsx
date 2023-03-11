@@ -21,10 +21,7 @@ const divStyle = {
  * Will create a slideshow with the given images URLs
  * It could be a good idea to change the array of images
  * with something different that allows them to have a caption.
- *
- * NOTE: This script might be better in other place rather than in folder
- * components, but I am leaving it here for now just to see how it works (so
- * it will need to be moved later)
+ * The images passed must be in base64
  * @param props
  */
 function ImageList(props: { images: any[]; }) {
@@ -33,8 +30,7 @@ function ImageList(props: { images: any[]; }) {
             <Slide>
                 {props.images.map((slideImage, index) => (
                     <div key={index}>
-                        <div style={{...divStyle, 'backgroundImage': `url(${slideImage})`}}>
-                        </div>
+                        <img style={{...divStyle }} src={"data:image/png;base64," + slideImage} ></img>
                     </div>
                 ))}
             </Slide>

@@ -1,4 +1,6 @@
-
+/**
+ * Class to define a point retrieved from the SOLID dataset
+ */
 export default class MapPoint{
 
     public title : string;

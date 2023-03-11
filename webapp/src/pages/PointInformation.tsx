@@ -1,17 +1,15 @@
 import React from "react";
-import {getSolidDataset, SolidDataset } from "@inrupt/solid-client";
 import MapPoint from "../domain/MapPoint";
 import ImageList from "../components/ImageList";
-export default class PointInformation extends React.Component{
+import { Link } from "react-router-dom";
 
-    // For non laoded points
-    private url : string;
+export default class PointInformation extends React.Component {
+
     // Already loaded points
-    private point : MapPoint;
+    private point: MapPoint;
 
-    public constructor(props: any, url : string, point : MapPoint) {
+    public constructor(props: any, point: MapPoint) {
         super(props);
-        this.url = url;
         this.point = point;
     }
 
@@ -19,7 +17,8 @@ export default class PointInformation extends React.Component{
      * Will be used when we introduce the PODs information
      * @private
      */
-    private async initialize() {
+    /**
+     private async initialize() {
         var data = await getSolidDataset(this.url);
         if (data != null) {
             var graphs = data.graphs;
@@ -27,10 +26,16 @@ export default class PointInformation extends React.Component{
             console.log(data);
         }
     }
+     **/
 
+    /**
+     * Returns the point information view, the ImageList returns a Slider
+     * with the given images and the Link is just a button to go back to
+     * the last page we where in.
+     */
     public render(): JSX.Element {
-        if(this.point != null) {
-            return (
+        return (
+            <section>
                 <div>
                     <h1>Title: {this.point.title}</h1>
                     <h2>Location: {this.point.location}</h2>
@@ -40,13 +45,9 @@ export default class PointInformation extends React.Component{
                     <h3>Description</h3>
                     <p>{this.point.description}</p>
                 </div>
-            );
-        }else{ // TODO
-            return (
-                <>
-                </>
-            );
-        }
+                <Link to={"/?"} role="button" className="backButton">Back</Link>
+            </section>
+        );
     }
 
 }
