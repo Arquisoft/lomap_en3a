@@ -11,4 +11,7 @@ export default class User {
     private getDataFromWebID(id: string):void{
 
     }
+    public getName(){
+        return this.name;
+    }
 }
