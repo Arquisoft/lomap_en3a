@@ -5,9 +5,9 @@ import {Outlet} from "react-router-dom";
 
 const Layout : React.FunctionComponent = () => {
     return (
-        <div>
+        <div className="Layout">
             <Header/>
-            <div className="content">
+            <div className="Content">
                 <Outlet/>
             </div>
         </div>
