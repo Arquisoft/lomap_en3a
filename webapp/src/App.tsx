@@ -2,17 +2,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Header from "./components/Header";
+import Layout from "./components/Layout";
 
 function App() {
   return (
       <div className='App'>
           <BrowserRouter>
-              <Header/>
               <Routes>
-                <Route path="/" element={<Login /> } />
-                <Route path="/home" element={<Home />} />
-                <Route path="*" element={<h1>Page not found</h1> } />
+                <Route index element={<Login /> } />
+                <Route path="/" element={<Layout /> } >
+                    <Route path="/home" element={<Home />} />
+                    <Route path="*" element={<h1>Page not found</h1> } />
+                </Route>
               </Routes>
           </BrowserRouter>
       </div>

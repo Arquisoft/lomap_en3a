@@ -23,7 +23,7 @@ interface NavElementProps {
 
 const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
     return (
-        <Link to={props.url} className="NavElement">
+        <Link to={props.url} role="button" className="NavElement">
             {props.icon}{props.name}
         </Link>
     );
