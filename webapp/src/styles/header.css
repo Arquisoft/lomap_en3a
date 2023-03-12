@@ -4,13 +4,19 @@
     justify-content: space-between;
     align-items: stretch;
     padding: 0em 2em;
-    background-color: #6495EDFF;
+    background-color: #259DCC;
 }
 
 .Left {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
+}
+
+.Right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .Left h1 {

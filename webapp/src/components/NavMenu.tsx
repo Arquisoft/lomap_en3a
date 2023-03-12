@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom"
+import React from "react";
 import * as NavIcon from "react-icons/fa";
 import '../styles/navmenu.css';
+import NavElement from "./NavElement";
 
 const NavMenu: React.FunctionComponent = () => {
     return (
@@ -13,43 +13,4 @@ const NavMenu: React.FunctionComponent = () => {
         </div>
     )
 }
-export default NavMenu
-
-interface NavElementProps {
-    url: string;
-    name: string;
-    icon: React.ReactNode;
-}
-
-const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
-    return (
-        <Link to={props.url} role="button" className="NavElement">
-            {props.icon}<span>{props.name}</span>
-        </Link>
-    );
-}
-
-interface MenuButtonProps {
-    displayMenu: () => void;
-}
-
-const MenuButton: React.FunctionComponent<MenuButtonProps> = (props) => {
-    const [icon, setIcon] = useState(<NavIcon.FaBars/>)
-    const [menuOpened, setMenuOpened] = useState(false)
-    const { displayMenu } = props;
-    const openMenu = () => {
-        displayMenu();
-        setMenuOpened(!menuOpened);
-    }
-    const displayIcon = () => {
-        if (menuOpened) {
-            return <NavIcon.FaTimes/>;
-        }
-        return <NavIcon.FaBars/>;
-    }
-    return (
-        <button onClick={openMenu} className="MenuButton">
-            {displayIcon()}
-        </button>
-    )
-}
+export default NavMenu;

@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/header.css';
 import NavMenu from "./NavMenu";
+import {UserMenu} from "./UserMenu";
 
 const Header: React.FunctionComponent = () => {
     return (
@@ -8,6 +9,9 @@ const Header: React.FunctionComponent = () => {
             <div className="Left">
                 <h1>LoMap</h1>
                 <NavMenu/>
+            </div>
+            <div className="Right">
+                <UserMenu/>
             </div>
         </header>
     )
