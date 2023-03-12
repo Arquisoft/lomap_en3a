@@ -11,7 +11,6 @@ interface UserListState {
 
 }
 
-
 export default class ListUsers extends React.Component<UserListProps, UserListState> {
 
     private users: Array<User>;
@@ -20,15 +19,8 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
     public constructor(props: UserListProps) {
         super(props);
         this.users = new Array<User>; // Empty list
-        this.state = {loading: false, title: null};
-    }
-
-    async componentDidMount() {
         var users = this.props.fm.getFriendsList();
         // We assign to users the actual list of users
-        (async () => {
-            this.users = await users;
-        })
         this.getUsers(users).then(() => {
             if (this.users.length != 0) {
                 this.listUsers = this.users.map((u) => <li>{u.getName()}</li>);
@@ -38,12 +30,8 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
             }
             this.forceUpdate();
         }, () => {
-            console.log("??");
             this.listUsers = <li>No friends yet</li>;
             this.forceUpdate();
-        }).finally(() => {
-            console.log("FINALLY");
-            this.listUsers = this.users.map((u) => <li>{u.getName()}</li>);
         });
     }
 
