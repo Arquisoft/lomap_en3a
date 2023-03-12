@@ -1,18 +1,23 @@
 import SolidSessionManager from "./SolidSessionManager";
 import {
     getSolidDataset, getStringNoLocale, getThing,
-    getThingAll, getUrl,
     getUrlAll, Thing
 } from "@inrupt/solid-client";
 import User from "../../domain/User";
-import {FOAF, SCHEMA_INRUPT} from "@inrupt/vocab-common-rdf";
+import {FOAF} from "@inrupt/vocab-common-rdf";
 
+/**
+ * This class is for all actions related with management of friends of each user. Like
+ * retrieving the POD a list of friends, adding a friend, deleting a friend, etc
+ * */
 export default class FriendManager {
 
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 
     /**
-     * It returns all the friends related with the person signed in
+     * Ir searches all the friends related with the person logged in stored in the card from its POD
+     *
+     * @return A list of User objects representing friends
      * */
     public async getFriendsList(): Promise<Array<User>> {
         //URL with #me at the end
@@ -22,25 +27,25 @@ export default class FriendManager {
         //It returns all the values in the knows property of the object Thing
         const friendWebIds = getUrlAll(<Thing>friends, FOAF.knows);
         let friendsList = new Array<User>()
-        console.log("Start of getFriends");
-        for(let a of friendWebIds ){
+        for (let a of friendWebIds) {
             friendsList.push(await this.getUserData(a));
         }
-        console.log("End of getFriends");
         return friendsList;
     }
 
-    public async getUserData(webID:string): Promise<User>{
+    /**
+     * From a webID it returns all the information from a person in a User object
+     *
+     * @param webID A string identifying the pod of a user
+     *
+     * @return The object User corresponding to the POD of the webID
+     * */
+    public async getUserData(webID: string): Promise<User> {
         let webId = webID + "profile/card";
-        console.log("Start of getUserData");
         let webIdDoc = await getSolidDataset(webId);
-        console.log("End of getUserData")
-        //console.log(webIdDoc)
         let friends = getThing(webIdDoc, webId + "#me");
-        //console.log(friends)
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(<Thing>friends, FOAF.name);
-        //console.log(name)
         return new User(name, webID);
     }
 
