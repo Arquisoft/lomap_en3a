@@ -3,4 +3,12 @@
  */
 export default class SolidSessionManager {
 
+    /**
+     *
+     * @return MapPoint, information of the point stored in the POD
+     */
+    public getMapoPoint(){
+
+    }
+
 }
