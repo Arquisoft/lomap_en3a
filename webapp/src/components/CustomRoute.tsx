@@ -9,6 +9,10 @@ interface CustomRouteProps {
     redirectUrl: string;
 }
 
+/**
+ * It redirects to the specified url if the user is not logged in.
+ * @param props It contains the url to redirect if it is not logged in.
+ */
 const CustomRoute : React.FunctionComponent<CustomRouteProps> = (props) => {
     return (
         SolidSessionManager.getManager().isLoggedIn()
@@ -17,6 +21,9 @@ const CustomRoute : React.FunctionComponent<CustomRouteProps> = (props) => {
     );
 }
 
+/**
+ * It redirects to the login page in case the user is not logged in.
+ */
 const PrivateRoute : React.FunctionComponent = () => {
     return <CustomRoute redirectUrl={"/"}/>
 }

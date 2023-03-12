@@ -3,6 +3,10 @@ import '../styles/header.css';
 import NavMenu from "./NavMenu";
 import {UserMenu} from "./UserMenu";
 
+/**
+ * It contains the header, with the name of the app, the navigation menu
+ * and the user menu.
+ */
 const Header: React.FunctionComponent = () => {
     return (
         <header className="Header">

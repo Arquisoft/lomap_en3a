@@ -3,6 +3,9 @@ import * as NavIcon from "react-icons/fa";
 import '../styles/navmenu.css';
 import NavElement from "./NavElement";
 
+/**
+ * The navigation menu.
+ */
 const NavMenu: React.FunctionComponent = () => {
     return (
         <div className='NavMenu'>
