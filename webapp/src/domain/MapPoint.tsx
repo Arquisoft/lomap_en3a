@@ -15,4 +15,12 @@ export default class MapPoint{
         this.location = location;
     }
 
+    public imageToBase64(image : File){
+        var fs = require('fs');
+        // read binary data
+        var bitmap = fs.readFileSync(image);
+        // convert binary data to base64 string
+        return new Buffer(bitmap).toString('base64');
+    }
+
 }
