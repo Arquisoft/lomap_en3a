@@ -156,6 +156,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     return (
       <section className="Place-form">
+        <h2>Fill the information of the new place.</h2>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">Name:</label>
@@ -167,30 +168,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
             />
           </div>
           <div>
-            <label htmlFor="latitude">Latitude:</label>
-            <input
-              type="number"
-              min="-90"
-              max="90"
-              step="0.000001"
-              name="latitude"
-              value={this.state.latitude}
-              onChange={this.handleInputChange}
-              disabled
-            />
-          </div>
-          <div>
-            <label htmlFor="longitude">Longitude:</label>
-            <input
-              type="number"
-              min="-90"
-              max="90"
-              step="0.000001"
-              name="longitude"
-              value={this.state.longitude}
-              onChange={this.handleInputChange}
-              disabled
-            />
+            <h3>Location:</h3> 
+              <p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
           </div>
           <div>
             <label htmlFor="description">Description:</label>

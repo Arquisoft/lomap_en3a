@@ -1,3 +1,8 @@
+
+
+.Place-form p{
+  margin-bottom: 30px;
+}
 .Place-form {
     display: flex;
     flex-direction: column;
@@ -6,18 +11,21 @@
     padding: 2%;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #0d0d0d;
+    
   }
   
   .Place-form label {
     display: block;
     margin-bottom: 10px;
+    margin-right: 2%;
     font-weight: bold;
   }
   
   .Place-form input,
   .Place-form textarea {
     padding: 5px;
-    margin-bottom: 20px; /* increase the margin to create more space */
+    margin-bottom: 20px;
     border-radius: 3px;
     border: 1px solid #ccc;
     font-size: 16px;
