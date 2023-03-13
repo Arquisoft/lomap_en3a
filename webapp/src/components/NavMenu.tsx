@@ -10,9 +10,9 @@ const NavMenu: React.FunctionComponent = () => {
     return (
         <div className='NavMenu'>
             <NavElement url={"/home"} name={"Home"} icon={<NavIcon.FaHome/>}/>
-            <NavElement url={"/personal"} name={"My places"} icon={<NavIcon.FaUser/>}/>
+            <NavElement url={"/map/personal"} name={"My places"} icon={<NavIcon.FaUser/>}/>
             <NavElement url={"/friends"} name={"Friends"} icon={<NavIcon.FaUserFriends/>}/>
-            <NavElement url={"/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
+            <NavElement url={"/map/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
         </div>
     )
 }

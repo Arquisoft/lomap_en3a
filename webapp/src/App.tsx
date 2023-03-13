@@ -4,7 +4,6 @@ import './App.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from "./components/Layout";
-import React from "react";
 import PrivateRoute from "./components/CustomRoute";
 
 function App() {
@@ -16,6 +15,9 @@ function App() {
                 <Route element={<PrivateRoute /> } >
                     <Route path="/" element={<Layout /> } >
                         <Route path="/home" element={<Home/>}/>
+                        <Route path="/map/personal" element={<Home/>}/>
+                        <Route path="/friends" element={<Home/>}/>
+                        <Route path="/map/public" element={<Home/>}/>
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
                         </Route>
