@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 /**
  * It contains the url to which it goes to after being selected,
@@ -17,9 +17,10 @@ interface NavElementProps {
  */
 const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
     return (
-        <Link to={props.url} role="button" className="NavElement">
+        <NavLink style={({isActive}) => ({backgroundColor: isActive ? "#81BAF0" : "#259DCC"})}
+                 to={props.url} role="button" className="NavElement">
             {props.icon}<span>{props.name}</span>
-        </Link>
+        </NavLink>
     );
 }
 export default NavElement;
