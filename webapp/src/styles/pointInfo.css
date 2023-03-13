@@ -1,3 +1,5 @@
+
+
 button.back {
     background-color: cornflowerblue;
     border-radius: 8px;
@@ -24,5 +26,5 @@ button.back {
 div.pointInformation{
     display: flex;
     flex-direction: column;
-
+    margin: 1em;
 }
