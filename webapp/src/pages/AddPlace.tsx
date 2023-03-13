@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component, useEffect } from "react";
-import Place from "../domain/Place";
+import MapPoint from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 
@@ -138,8 +138,19 @@ export default class AddPlace extends React.Component<IProps, IState> {
     // Handle form submission logic here
     console.log("Form submitted:", this.state);
 
-    var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
+    var place = new MapPoint(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
 
+    //Here has to be the rest of the logic for persitence on pods
+    //Here
+    //Here 
+
+
+
+
+
+
+
+    //Here
   }
 
   public render(): JSX.Element {
