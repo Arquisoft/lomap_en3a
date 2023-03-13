@@ -31,7 +31,7 @@ function ImageList(props: { images: any[]; }) {
             <Slide>
                 {props.images.map((slideImage, index) => (
                     <div key={index}>
-                        <img style={{...divStyle }} src={"data:image/png;base64," + slideImage} ></img>
+                        <img style={{...divStyle }} src={slideImage} ></img>
                     </div>
                 ))}
             </Slide>
