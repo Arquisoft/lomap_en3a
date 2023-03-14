@@ -1,4 +1,5 @@
 import React, { ChangeEvent, Component, useEffect } from "react";
+import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import MapPoint from "../domain/MapPoint";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
@@ -15,6 +16,7 @@ interface IState {
 // Define the props type.
 interface IProps{
 	placemark: Placemark;
+	callback?: Function;
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
@@ -150,9 +152,12 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 
 
-
-
-
+		if (this.props.callback !== undefined) {
+			this.props.callback(new Placemark(
+				this.state.latitude, this.state.longitude, this.state.name
+			));
+			return <LeafletMapAdapter></LeafletMapAdapter>
+		}
 		//Here.
 	}
 
