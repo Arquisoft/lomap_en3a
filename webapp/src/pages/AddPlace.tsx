@@ -251,7 +251,7 @@ class PhotoPreview extends Component<Props, State> {
     URL.revokeObjectURL(this.state.url);
   }
 
-  // Creates a URL for the image and 
+  // Creates a URL for the image and .
   createUrl(file: File){
     if (file != null) {
       const comUrl = URL.createObjectURL(file);
