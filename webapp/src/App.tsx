@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import AddPlace from './pages/AddPlace';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from "./components/Layout";
@@ -18,6 +19,7 @@ function App() {
                         <Route path="/map/personal" element={<Home/>}/>
                         <Route path="/friends" element={<Home/>}/>
                         <Route path="/map/public" element={<Home/>}/>
+                        <Route path="/add-place" element={<AddPlace />} />
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
                         </Route>

@@ -132,3 +132,4 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         );
     }
 }
+
