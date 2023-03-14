@@ -50,6 +50,15 @@ will be added, continuing from the code that we have done so far._
 | _Identify the code that is subject to change or will be used by other developers, and refactor it so that it is
 readable, maintainable and scalable. Prioritize what must be refactored regarding the available time to fulfill the next
 objectives._
+| _Server code development_
+| _Given our architectural and design decisions, where the server handles the database with the public places, we have
+not focused in this part as the functionality that has been required thus far did not involve that. So, we have to face
+the implementation of the server from a very early phase, compared to a team that has taken a different approach. In
+conclusion, we may face more trouble than expected when working on the restapi, the database and the deployment._
+| _Divide the tasks in such a way that the database and the restapi could be developed in parallel, so that the
+functionality of the centralized database can be inserted as smoothly as possible. Ideally, having the means to connect
+the webapp with the server with generous time margin, so that we can react to problems that could arise in the first
+attempts._
 
 |===
 
