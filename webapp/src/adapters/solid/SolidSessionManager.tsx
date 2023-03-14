@@ -1,14 +1,30 @@
-import {Session} from "@inrupt/solid-client-authn-browser";
+import {getDefaultSession, ISessionInfo, Session} from "@inrupt/solid-client-authn-browser";
 
 
 /**
  * Manages the POD provider's login and session.
  */
 export default class SolidSessionManager {
-    private session: Session = new Session();
+    private session: Session;
     private static instance: SolidSessionManager = new SolidSessionManager();
 
-    private constructor() {}
+    private constructor() {
+        this.session = getDefaultSession();
+        this.restoreSession();
+    }
+
+    private restoreSession(): void {
+        let str : string|null =localStorage.getItem('solid-session');
+
+        if (str !== null && str !== '') {
+            let storedInfo: ISessionInfo = JSON.parse(str) as ISessionInfo;
+            Object.assign(this.session.info, storedInfo); 
+        }
+    }
+
+    private saveSession(): void {
+        localStorage.setItem('solid-session', JSON.stringify(this.session.info));
+    }
 
     public static getManager(): SolidSessionManager {
         return this.instance;
@@ -31,6 +47,7 @@ export default class SolidSessionManager {
      */
     public async logout(): Promise<boolean> {
         await this.session.logout();
+        this.saveSession(); 
         return this.session.info.isLoggedIn;
     }
 
@@ -39,6 +56,7 @@ export default class SolidSessionManager {
      */
     public async fetchUserData(): Promise<void> {
         await this.session.handleIncomingRedirect();
+        this.saveSession(); 
     }
 
     /**
