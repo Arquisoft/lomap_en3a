@@ -19,7 +19,6 @@ function App() {
                         <Route path="/map/personal" element={<Home/>}/>
                         <Route path="/friends" element={<Home/>}/>
                         <Route path="/map/public" element={<Home/>}/>
-                        <Route path="/add-place" element={<AddPlace />} />
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
                         </Route>
