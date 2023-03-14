@@ -39,8 +39,19 @@ them in a way that the application can handle a greater workload._
 |===
 
 === Technical debts
-The technical debts will arise during the implementation of the application, and they will be registered here in due
-time.
+[options="header",cols="1,2,2"]
+|===
+|Risk|Description|Approach
+| _Code quality_
+| _In order to deliver software that can fulfill the requirements punctually, and given our lack of experience, some
+aspects (like readability, homogeneity, extensibility) were sacrificed so that the delivered prototype has the required
+functionality. This could hinder the evolution of the application, as we head towards a complete product and many features
+will be added, continuing from the code that we have done so far._
+| _Identify the code that is subject to change or will be used by other developers, and refactor it so that it is
+readable, maintainable and scalable. Prioritize what must be refactored regarding the available time to fulfill the next
+objectives._
+
+|===
 
 [role="arc42help"]
 ****
