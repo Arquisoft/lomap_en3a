@@ -106,6 +106,8 @@ Continuous Integration and continuous delivery strategy.
 Comply with established deadlines and deliveries._
 | Council of Brussels | _Product owner_ | _A product that satisfies them, flawless and polished.
 All demands pleased._
+| Empathy.co and Inrupt | _SOLID challenge organizer_ | _As a team, we will be able to participate in the SOLID challenge. In the same way, both companies could be interested in how we use the technologies._
+| Teachers | _Supervisors_ | _Teachers can guide us through the process of developing the application and will mark our progress._
 | Citizens | _Application users_ | _A well-formed application that is useful and pleasent to use._
 | Development Team | _Us_ | _A well-formed application that is useful and pleasent to use._
 | Businesses | _Application users_ | _Specific features targeted and appealing for their business._
