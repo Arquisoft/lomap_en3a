@@ -31,7 +31,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 	public constructor(props: IProps) {
 		super(props);
-		console.log(props)
 
 		// The state is the Place object that will be created and passed to the next function.
 		// It is constructed by the props of the Placemark where the place is.

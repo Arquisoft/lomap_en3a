@@ -114,6 +114,15 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         });
     }
 
+    private getCenter(): any {
+        let length: number = this.state.markers.length;
+
+        if (length == 0) {
+            return [43.5547300, -5.9248300] // Avilés
+        }
+        return this.state.markers[length-1].props.position;
+    }
+
     /**
      * Cancels the new place creation
      */
@@ -128,7 +137,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
 
         return (
-            <MapContainer style={{ height: '75vh', width: '100%' }} center={[43.5547300, -5.9248300]} zoom={13} >
+            <MapContainer style={{ height: '75vh', width: '100%' }} center={this.getCenter()} zoom={13} >
                 <Handler click={this.updateCurrentPlacemark.bind(this)} />
                 <TileLayer  
                     attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}
