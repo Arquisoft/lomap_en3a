@@ -18,7 +18,7 @@ export default class SolidSessionManager {
 
         if (str !== null && str !== '') {
             let storedInfo: ISessionInfo = JSON.parse(str) as ISessionInfo;
-            Object.assign(this.session.info, storedInfo); 
+            Object.assign(this.session.info, storedInfo);
         }
     }
 
@@ -47,7 +47,7 @@ export default class SolidSessionManager {
      */
     public async logout(): Promise<boolean> {
         await this.session.logout();
-        this.saveSession(); 
+        this.saveSession();
         return this.session.info.isLoggedIn;
     }
 
@@ -56,7 +56,7 @@ export default class SolidSessionManager {
      */
     public async fetchUserData(): Promise<void> {
         await this.session.handleIncomingRedirect();
-        this.saveSession(); 
+        this.saveSession();
     }
 
     /**
@@ -75,5 +75,12 @@ export default class SolidSessionManager {
      */
     public isLoggedIn(): boolean {
         return this.session.info.isLoggedIn;
+    }
+
+    /**
+     * Fetch from an authenticated session
+     * */
+    public getSessionFetch() {
+        return this.session.fetch;
     }
 }
