@@ -9,9 +9,6 @@ export default class User {
         this.getDataFromWebID(webID);
     }
 
-    private getDataFromWebID(id: string):void{
-
-    }
     public getName(){
         return this.name;
     }
