@@ -1,0 +1,10 @@
+.Layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.Content {
+    background-color: #81BAF0;
+    color: white;
+}
