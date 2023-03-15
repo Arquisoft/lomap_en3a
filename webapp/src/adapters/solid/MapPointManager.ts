@@ -7,6 +7,7 @@ import {
     setThing,
 } from "@inrupt/solid-client";
 import {SCHEMA_INRUPT} from "@inrupt/vocab-common-rdf";
+import MapPoint from "../../domain/MapPoint";
 import SolidSessionManager from "./SolidSessionManager";
 
 export default class MapPointManager {
@@ -33,9 +34,9 @@ export default class MapPointManager {
     private async createNewDataSet(podURL: string, newLocation: MapPoint): Promise<null> {
         let courseSolidDataset = createSolidDataset();
         let placemark = buildThing(createThing({name: crypto.randomUUID()}))
-            .addStringNoLocale(SCHEMA_INRUPT.name, newLocation.getTitle())
-            .addInteger(SCHEMA_INRUPT.latitude, newLocation.getLat())
-            .addInteger(SCHEMA_INRUPT.longitude, newLocation.getLng())
+            .addStringNoLocale(SCHEMA_INRUPT.name, newLocation.title)
+            .addInteger(SCHEMA_INRUPT.latitude, newLocation.latitude)
+            .addInteger(SCHEMA_INRUPT.longitude, newLocation.longitude)
             .build();
         courseSolidDataset = setThing(courseSolidDataset, placemark);
         await saveSolidDatasetAt(
@@ -52,9 +53,9 @@ export default class MapPointManager {
     private async appendToDataSet(podURL: string, newLocation: MapPoint): Promise<null> {
         let courseSolidDataset = await getSolidDataset(podURL[0], {fetch: this.sessionManager.getSessionFetch()});
         let placemark = buildThing(createThing({name: crypto.randomUUID()}))
-            .addStringNoLocale(SCHEMA_INRUPT.name, newLocation.getTitle())
-            .addInteger(SCHEMA_INRUPT.latitude, newLocation.getLat())
-            .addInteger(SCHEMA_INRUPT.longitude, newLocation.getLng())
+            .addStringNoLocale(SCHEMA_INRUPT.name, newLocation.title)
+            .addInteger(SCHEMA_INRUPT.latitude, newLocation.latitude)
+            .addInteger(SCHEMA_INRUPT.longitude, newLocation.longitude)
             .build();
         courseSolidDataset = setThing(courseSolidDataset, placemark);
         await saveSolidDatasetAt(
