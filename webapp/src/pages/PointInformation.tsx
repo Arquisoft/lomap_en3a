@@ -39,7 +39,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                     <h2>Description</h2>
                     <p>{this.point.description}</p>
                 </div>
-                <Link to={"/home"} role="button" className="backButton"><button className="back">Back</button></Link>
+                <Link to={"/home"} reloadDocument={true} role="button" className="backButton"><button className="back">Back</button></Link>
             </section>
         );
     }
