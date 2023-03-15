@@ -6,7 +6,6 @@ export default class User {
     constructor(name: string | null, webID: string) {
         this.name = name;
         this.webID = webID;
-        this.getDataFromWebID(webID);
     }
 
     public getName(){

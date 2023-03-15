@@ -18,5 +18,4 @@ export default class Placemark {
     public getTitle(): string {
         return this.title;
     }
-
 }
