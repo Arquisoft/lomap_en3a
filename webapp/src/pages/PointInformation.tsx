@@ -1,11 +1,11 @@
 import React from "react";
-import MapPoint from "../domain/MapPoint";
+import Place from "../domain/Place";
 import ImageList from "../components/ImageList";
 import { Link } from "react-router-dom";
 import "../styles/pointInfo.css";
 
 interface PointInformationProps{
-    point : MapPoint;
+    point : Place;
 }
 
 interface PointInformationState {
@@ -14,7 +14,7 @@ interface PointInformationState {
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
 
-    private point: MapPoint;
+    private point: Place;
 
     public constructor(props: any) {
         super(props);
@@ -33,9 +33,9 @@ export default class PointInformation extends React.Component<PointInformationPr
                 <div className="pointInformation">
                     <h1>Title: {this.point.title}</h1>
                     <div id="images">
-                        <ImageList images={this.point.images}></ImageList>
+                        <ImageList images={this.point.photos}></ImageList>
                     </div>
-                    <p>Location: {this.point.location}</p>
+                    <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
                     <h2>Description</h2>
                     <p>{this.point.description}</p>
                 </div>

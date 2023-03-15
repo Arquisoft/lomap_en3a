@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@inrupt/solid-client": "^1.25.2",
     "@emotion/react": "^11.10.6",
+    "@inrupt/solid-client": "^1.25.2",
     "@inrupt/solid-client-authn-browser": "^1.13.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@inrupt/vocab-solid": "^1.0.4",
@@ -17,6 +17,7 @@
     "@types/node": "^16.18.14",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "fs": "^0.0.1-security",
     "leaflet": "^1.9.3",
     "rc-dropdown": "^4.0.1",
     "rc-menu": "^9.8.2",
