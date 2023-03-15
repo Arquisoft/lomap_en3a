@@ -40,7 +40,7 @@ export default class MapPointManager {
             .build();
         courseSolidDataset = setThing(courseSolidDataset, placemark);
         await saveSolidDatasetAt(
-            podURL[0],
+            podURL,
             courseSolidDataset,
             {fetch: this.sessionManager.getSessionFetch()}// fetch from authenticated Session
         );
@@ -51,7 +51,7 @@ export default class MapPointManager {
      * This method append the information to an existing file in the POD's user
      * */
     private async appendToDataSet(podURL: string, newLocation: MapPoint): Promise<null> {
-        let courseSolidDataset = await getSolidDataset(podURL[0], {fetch: this.sessionManager.getSessionFetch()});
+        let courseSolidDataset = await getSolidDataset(podURL, {fetch: this.sessionManager.getSessionFetch()});
         let placemark = buildThing(createThing({name: crypto.randomUUID()}))
             .addStringNoLocale(SCHEMA_INRUPT.name, newLocation.title)
             .addInteger(SCHEMA_INRUPT.latitude, newLocation.latitude)

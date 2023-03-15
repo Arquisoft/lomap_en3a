@@ -1,5 +1,6 @@
-import React, { ChangeEvent, Component, useEffect } from "react";
+import React, { ChangeEvent, Component } from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
+import MapPointManager from "../adapters/solid/MapPointManager";
 import MapPoint from "../domain/MapPoint";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
@@ -148,8 +149,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		//Here.
 		//Here.
 
-
-
+		(new MapPointManager()).createNewMapPoint(place);
 
 		if (this.props.callback !== undefined) {
 			this.props.callback(new Placemark(
