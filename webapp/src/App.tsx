@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import AddPlace from './pages/AddPlace';
+import Friends from './pages/Friends';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from "./components/Layout";
@@ -17,7 +17,7 @@ function App() {
                     <Route path="/" element={<Layout /> } >
                         <Route path="/home" element={<Home/>}/>
                         <Route path="/map/personal" element={<Home/>}/>
-                        <Route path="/friends" element={<Home/>}/>
+                        <Route path="/friends" element={<Friends />}/>
                         <Route path="/map/public" element={<Home/>}/>
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
