@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Component } from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import MapPointManager from "../adapters/solid/MapPointManager";
-import MapPoint from "../domain/MapPoint";
+import PlaceManager from "../adapters/solid/PlaceManager";
+import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 
@@ -97,7 +97,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}));
 	};
 
-	// When the submit button is pressed, the parameters are validated and the object MapPoint is created.
+	// When the submit button is pressed, the parameters are validated and the object Place is created.
 	// Here is where this object should be taken from to make it persistent.
 	handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -143,13 +143,13 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// Handle form submission logic here.
 		console.log("Form submitted:", this.state);
 
-		var place = new MapPoint(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
+		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
 
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
 		//Here.
 
-		(new MapPointManager()).createNewMapPoint(place);
+		(new PlaceManager()).createNewMapPoint(place);
 
 		if (this.props.callback !== undefined) {
 			this.props.callback(new Placemark(

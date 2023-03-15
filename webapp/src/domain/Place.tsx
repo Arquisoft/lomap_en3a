@@ -1,4 +1,4 @@
-export default class MapPoint {
+export default class Place {
     private _title: string;
     private _latitude: number;
     private _longitude: number;
