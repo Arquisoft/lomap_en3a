@@ -10,20 +10,6 @@ export default class SolidSessionManager {
 
     private constructor() {
         this.session = getDefaultSession();
-        this.restoreSession();
-    }
-
-    private restoreSession(): void {
-        let str : string|null =localStorage.getItem('solid-session');
-
-        if (str !== null && str !== '') {
-            let storedInfo: ISessionInfo = JSON.parse(str) as ISessionInfo;
-            Object.assign(this.session.info, storedInfo);
-        }
-    }
-
-    private saveSession(): void {
-        localStorage.setItem('solid-session', JSON.stringify(this.session.info));
     }
 
     public static getManager(): SolidSessionManager {
@@ -34,6 +20,8 @@ export default class SolidSessionManager {
      * Redirect to the POD provider login page.
      */
     public async login(url: string): Promise<void> {
+        localStorage.setItem('solid-provider', url);
+        localStorage.setItem('session-state', "login");
         await this.session.login(
             {
                 oidcIssuer: url,
@@ -46,8 +34,8 @@ export default class SolidSessionManager {
      * Log out from the app.
      */
     public async logout(): Promise<boolean> {
+        localStorage.setItem('session-state', "logout");
         await this.session.logout();
-        this.saveSession();
         return this.session.info.isLoggedIn;
     }
 
@@ -55,8 +43,38 @@ export default class SolidSessionManager {
      * Complete login after the user comes back from the redirect.
      */
     public async fetchUserData(): Promise<void> {
-        await this.session.handleIncomingRedirect();
-        this.saveSession();
+        switch (localStorage.getItem('session-state')) {
+
+            case "login": 
+                localStorage.setItem('session-state', "handle-redirect");
+                await this.session.handleIncomingRedirect();
+                break;
+
+            case "handle-redirect":
+                localStorage.setItem('session-state', "logged");
+                break;
+
+            case "logged":
+                await this.restoreSession();
+                break;
+
+            case "logout":
+                localStorage.setItem('session-state', "finished");
+                this.session.info.isLoggedIn = false;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public async restoreSession(): Promise<void> {
+        let provider: string|null = localStorage.getItem('solid-provider');
+        if (!this.isLoggedIn() && provider!==null) {
+            console.log("login from restore")
+            await this.login(provider);
+
+        }
     }
 
     /**
