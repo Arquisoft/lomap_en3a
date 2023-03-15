@@ -19,6 +19,7 @@
 
 .LoginPage {
     color: #ffffff;
+    background-color: #020024;
     display: flex;
     flex-direction: column;
     align-items: center;

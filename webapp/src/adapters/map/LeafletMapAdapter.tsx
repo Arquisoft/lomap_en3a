@@ -3,10 +3,11 @@ import { LayerGroup, MapContainer, Marker, Popup, TileLayer, useMapEvents } from
 import Map from "../../domain/Map";
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import currentMarkerPng from "../../assets/map/new_marker.png"
-import {Icon, LeafletMouseEvent} from 'leaflet'
+import {Icon, LatLngExpression, LeafletMouseEvent} from 'leaflet'
 import React from 'react';
 import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
+import AddPlace from '../../pages/AddPlace';
 
 
 /**
@@ -19,6 +20,7 @@ interface LeafletMapAdapterProps {
  * Stores an array with the marker components in its state
  */
 interface LeafletMapAdapterState {
+    showForm: boolean;
     currentPlacemark: Placemark | null;
     markers: Array<JSX.Element>;
 }
@@ -46,6 +48,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         super(props);
         this.map = (props.map !== undefined) ? props.map : new Map();
         this.state = {
+            showForm: false,
             currentPlacemark: null,
             markers: this.map.getPlacemarks().map(
                 (p) => this.generateDefaultMarker(p)
@@ -99,16 +102,25 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private newPlace(e: React.MouseEvent): void {
         /* Navigate to form */
         if (this.state.currentPlacemark!== null) {
-            this.addMarker(this.state.currentPlacemark);
+            this.setState({showForm: true});
         }
-        e.preventDefault();
     }
     private addMarker(p: Placemark): void {
         this.map.add(p);
         this.setState({
+            showForm: false,
             currentPlacemark: null, 
             markers: [...this.state.markers, this.generateDefaultMarker(p)]
         });
+    }
+
+    private getCenter(): any {
+        let length: number = this.state.markers.length;
+
+        if (length == 0) {
+            return [43.5547300, -5.9248300] // Avilés
+        }
+        return this.state.markers[length-1].props.position;
     }
 
     /**
@@ -120,8 +132,12 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     }
 
     public render(): JSX.Element {
+        if (this.state.showForm && this.state.currentPlacemark !== null) {
+            return <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+        }
+
         return (
-            <MapContainer style={{ height: '75vh', width: '100%' }} center={[43.5547300, -5.9248300]} zoom={13} >
+            <MapContainer style={{ height: '75vh', width: '100%' }} center={this.getCenter()} zoom={13} >
                 <Handler click={this.updateCurrentPlacemark.bind(this)} />
                 <TileLayer  
                     attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}
@@ -132,3 +148,4 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         );
     }
 }
+

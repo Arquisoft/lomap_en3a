@@ -4,6 +4,7 @@
   color: white;
   display: flex;
   flex-direction: column;
+  align-content: stretch;
 }
 
 .App-logo {
