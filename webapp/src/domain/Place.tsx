@@ -1,4 +1,8 @@
+/**
+ * Class to define a point retrieved from the SOLID dataset
+ */
 export default class Place {
+    private _uuid: string | undefined;
     private _title: string;
     private _latitude: number;
     private _longitude: number;
@@ -12,7 +16,15 @@ export default class Place {
       this._description = description;
       this._photos = photos;
     }
-  
+
+    get uuid(): string | undefined {
+        return this._uuid;
+    }
+
+    set uuid(name: string | undefined) {
+        this._uuid = name;
+    }
+
     get title(): string {
       return this._title;
     }
@@ -56,4 +68,12 @@ export default class Place {
     set photos(photos: File[]){
       this._photos = photos;
     }
+
+    // public imageToBase64(image : File){
+    //     var fs = require('fs');
+    //     // read binary data
+    //     var bitmap = fs.readFileSync(image);
+    //     // convert binary data to base64 string
+    //     return new Buffer(bitmap).toString('base64');
+    // }
   }
