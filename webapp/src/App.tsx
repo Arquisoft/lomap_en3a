@@ -1,36 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Container from '@mui/material/Container';
-import EmailForm from './components/EmailForm';
-import Welcome from './components/Welcome';
-import UserList from './components/UserList';
-import  {getUsers} from './api/api';
-import {User} from './shared/shareddtypes';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Friends from './pages/Friends';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Layout from "./components/Layout";
+import PrivateRoute from "./components/CustomRoute";
 
-function App(): JSX.Element {
-
-  const [users,setUsers] = useState<User[]>([]);
-
-  const refreshUserList = async () => {
-    setUsers(await getUsers());
-  }
-
-  useEffect(()=>{
-    refreshUserList();
-  },[]);
-
+function App() {
   return (
-    <>
-      <Container maxWidth="sm">
-        <Welcome message="ASW students"/>
-        <Box component="div" sx={{ py: 2}}>This is a basic example of a React application using Typescript. You can add your email to the list filling the form below.</Box>
-        <EmailForm OnUserListChange={refreshUserList}/>        
-        <UserList users={users}/>
-        <Link href="https://github.com/arquisoft/lomap_en3a">Source code</Link>
-      </Container>
-    </>
+      <div className='App'>
+          <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Login /> } />
+                <Route element={<PrivateRoute /> } >
+                    <Route path="/" element={<Layout /> } >
+                        <Route path="/home" element={<Home/>}/>
+                        <Route path="/map/personal" element={<Home/>}/>
+                        <Route path="/friends" element={<Friends />}/>
+                        <Route path="/map/public" element={<Home/>}/>
+                        <Route element={<PrivateRoute /> } >
+                            <Route path="*" element={<h1>Page not found</h1> } />
+                        </Route>
+                    </Route>
+                </Route>
+              </Routes>
+          </BrowserRouter>
+      </div>
   );
 }
 
