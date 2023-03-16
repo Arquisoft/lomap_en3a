@@ -3,13 +3,16 @@ import Place from "../domain/Place";
 import ImageList from "../components/ImageList";
 import { Link } from "react-router-dom";
 import "../styles/pointInfo.css";
+import Map from "../domain/Map";
+import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 
 interface PointInformationProps{
     point : Place;
+    map : Map;
 }
 
 interface PointInformationState {
-
+    goBack: boolean;
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
@@ -19,7 +22,12 @@ export default class PointInformation extends React.Component<PointInformationPr
     public constructor(props: any) {
         super(props);
         this.point = props.point;
+        this.state = {goBack: false};
     }
+
+    private goBack() {
+        this.setState({goBack:true});
+	}
 
     /**
      * Returns the point information view, the ImageList returns a Slider
@@ -28,6 +36,9 @@ export default class PointInformation extends React.Component<PointInformationPr
      * @author UO283069
      */
     public render(): JSX.Element {
+        if (this.state.goBack) {
+            return <LeafletMapAdapter map={this.props.map} />;
+        }
         return (
             <section>
                 <div className="pointInformation">
@@ -39,7 +50,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                     <h2>Description</h2>
                     <p>{this.point.description}</p>
                 </div>
-                <Link to={"/home"} reloadDocument={true} role="button" className="backButton"><button className="back">Back</button></Link>
+                <input type="button" value="Back" onClick={this.goBack.bind(this)} />
             </section>
         );
     }

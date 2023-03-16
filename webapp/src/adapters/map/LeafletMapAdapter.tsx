@@ -24,6 +24,7 @@ interface LeafletMapAdapterProps {
  */
 interface LeafletMapAdapterState {
     showForm: boolean;
+    showInfo: boolean;
     currentPlacemark: Placemark | null;
     markers: Array<JSX.Element>;
 }
@@ -60,11 +61,16 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         this.map = (props.map !== undefined) ? props.map : new Map();
         this.state = {
             showForm: false,
+            showInfo: false,
             currentPlacemark: null,
             markers: this.map.getPlacemarks().map(
                 (p) => this.generateDefaultMarker(p)
             ),
         };
+    }
+
+    public componentDidMount(): void {
+        this.setState({showInfo: false, showForm:false});
     }
 
     /**
@@ -88,22 +94,13 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={() => {
-                        this.getPointInfo();
-                        this.forceUpdate();
+                        this.setState({showInfo: true});
                     }}>Get Info
                     </button>
                 </Popup>
             </Marker>
         )
             ;
-    }
-
-    private async getPointInfo() {
-        // Only for testing purposes
-        var place = new Place("Test", 0, 0, "Test", new Array()); // Empty test place
-        //if(this.state.currentPlacemark != null)
-        //    place = await new PlaceManager().getPlaceData("", this.state.currentPlacemark.getLat(), this.state.currentPlacemark.getLng());
-        this.test = <PointInformation point={place}/> // Only for testing purposes
     }
 
     /**
@@ -160,15 +157,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     }
 
     public render(): JSX.Element {
-        //Only for tests
-        if (this.test !== null) {
-            var aux = this.test;
-            this.test = null;
-            return aux;
-        }
-
         if (this.state.showForm && this.state.currentPlacemark !== null) {
             return <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+        }
+        if (this.state.showInfo) {
+            return <PointInformation map={this.map} point={new Place("Test", 0, 0, "Test", new Array())}/>
         }
 
         return (
