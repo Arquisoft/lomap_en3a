@@ -69,10 +69,6 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         };
     }
 
-    public componentDidMount(): void {
-        this.setState({showInfo: false, showForm:false});
-    }
-
     /**
      * Updates the current placemark with the selected place
      * @param {LeafletMouseEvent} e the Leaflet event with the coordinates of the click
