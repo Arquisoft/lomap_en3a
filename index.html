@@ -468,6 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_top_level_decomposition_of_the_system">4.2. Top-level decomposition of the system</a></li>
 <li><a href="#_decisions_for_achieving_quality_goals">4.3. Decisions for achieving quality goals</a></li>
 <li><a href="#_organizational_decisions">4.4. Organizational decisions</a></li>
+<li><a href="#_workflow_example">4.5. Workflow example</a></li>
 </ul>
 </li>
 <li><a href="#section-building-block-view">5. Building Block View</a>
@@ -759,6 +760,16 @@ Comply with established deadlines and deliveries.</em></p></td>
 All demands pleased.</em></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Empathy.co and Inrupt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>SOLID challenge organizer</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>As a team, we will be able to participate in the SOLID challenge. In the same way, both companies could be interested in how we use the technologies.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Teachers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Supervisors</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Teachers can guide us through the process of developing the application and will mark our progress.</em></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Citizens</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Application users</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>A well-formed application that is useful and pleasent to use.</em></p></td>
@@ -1024,8 +1035,7 @@ SEW, so the transition to TypeScript should be smoother.</p>
 <div class="sect3">
 <h4 id="_database_mysqlsqlite">4.1.3. Database: MySQL/SQLite</h4>
 <div class="paragraph">
-<p>Relational databases are the most mature, market-accepted and robust databases, apart from their well-proven
-performance. In addition, they are the ones we learned about the most in previous courses, and we expect to develop
+<p>Relational databases are the ones we learned about the most in previous courses, and we expect to develop
 smoothly the persistence of our application. It is more difficult to find a free database service for our application
 which is not restrictive, but our application will not need a big persistence infrastructure.</p>
 </div>
@@ -1055,7 +1065,7 @@ and we will reason about the best choice.</p>
 <ul>
 <li>
 <p><strong>Façade</strong>: Given the complexity of some subsystems and modules of the application, it could be reasonable to
-use a reduced interface to just focus on what we need about them, simplyfying their usage.</p>
+use a reduced interface to just focus on what we need about them, simplifying their usage.</p>
 </li>
 <li>
 <p><strong>Adapter</strong>: We assume that we will use third-party elements (libraries, etc). For this reason, we have thought about
@@ -1121,17 +1131,86 @@ update or news and organize meetings.</p>
 <p><strong>Teams</strong>: Platform where extra meetings (outside of the university) take place.</p>
 </li>
 <li>
-<p><strong>Github</strong>: Platform where the project is managed.</p>
+<p><strong>Github</strong>: Platform where the project is managed. We have a repository in which we develop the project. We have decided
+to follow what is called "Trunk-based development". This consists on having a develop branch, from which we create the
+branches to code. We merge them in this develop branch and, once we have everything ready, we merge develop to master.
+In this way, every merge to master consists on a new release (deliverable). The Github tools that we use will be
+presented, along with their role in the development process.</p>
 <div class="ulist">
 <ul>
+<li>
+<p><strong>Wiki</strong>: Here, we create a new entry to record the minute of each reunion that takes place. Each minute has a
+specific format, and it contains the following sections:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Date</strong></p>
+</li>
+<li>
+<p><strong>Participants</strong></p>
+</li>
+<li>
+<p><strong>Agreements (about work assignment)</strong></p>
+</li>
+<li>
+<p><strong>State of previous tasks</strong>: They may include links to issues and/or pull requests.</p>
+</li>
+<li>
+<p><strong>Description of decisions taken</strong>: Sometimes they are included in the agreements section.</p>
+</li>
+</ul>
+</div>
+</li>
 <li>
 <p><strong>Issues</strong>: The way to register every important event (tasks to do, problems to solve, doubts…).</p>
 </li>
 <li>
-<p><strong>Kanban</strong>: The place where we place and update the state of issues.</p>
+<p><strong>Kanban</strong>: The place where we add and update the state of issues that are related to the development.</p>
+</li>
+<li>
+<p><strong>Pull request</strong>: We create them for every merge to develop or master, so that everyone can review what has been done
+and approve the changes, or reject them (being able to comment what should be fixed).</p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_workflow_example">4.5. Workflow example</h3>
+<div class="paragraph">
+<p>To complete the previous explanation, let us put an example of the steps we do to fulfill a task.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The task is defined on a meeting, so it is recorded in the corresponding minute.</p>
+</li>
+<li>
+<p>An issue is created for the task. It is placed on the Kanban ("Open" state).</p>
+</li>
+<li>
+<p>A branch will be created for developing it. We move the issue to "In progress" state in the Kanban.</p>
+</li>
+<li>
+<p>Once it is finished, a pull request is sent for merging with the develop branch.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If it is accepted, the process is finished, so the issue may be closed. We move the issue to the "Finished" state in
+the Kanban and the branch can be deleted.</p>
+</li>
+<li>
+<p>If it is rejected, the needed fixes are performed, and the pull request is updated with them. A new revision takes
+place.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If a bug is discovered after merging, a new branch may be created and the issue is reopened. Also, it is placed again
+on the "In progress" state of the Kanban.</p>
 </li>
 </ul>
 </div>
@@ -1311,7 +1390,83 @@ In the best case you will get away with examples or simple signatures.</p>
 </dd>
 </dl>
 </div>
+<div class="sect3">
+<h4 id="_lomap_level_1">5.1.1. LoMap Level 1</h4>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<p>Here you describe &lt;black box 1&gt;
+according the the following black box template:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Purpose/Responsibility</p>
+</li>
+<li>
+<p>Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.</p>
+</li>
+<li>
+<p>(Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, &#8230;&#8203;.</p>
+</li>
+<li>
+<p>(Optional) directory/file location</p>
+</li>
+<li>
+<p>(Optional) Fulfilled requirements (if you need traceability to requirements).</p>
+</li>
+<li>
+<p>(Optional) Open issues/problems/risks</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_Building_Block_Level_1.PNG" alt="System Level 1"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>Describes the architecture of the inner LoMap system, it&#8217;s how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram <em>System Level 1</em> is a Clean Architecture.</p>
+</dd>
+<dt class="hdlist1">Interfaces</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the domain of the system, those classes that describe the enterprise business rules.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">App Business Logic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The use cases, the actual application business rules that describe how the application works.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Presentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The related documents that are in charge of the presentation of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Infrastructure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -1923,7 +2078,7 @@ first and build (improve) from that point on.</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Coordination problems</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Some people can destroy the work of others due to version control management errors, and there can be
 misunderstandings about the work to do and how.</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Follow the indications of the teachers regarding the use of Github (issues, pull requests) and work in a disciplined
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Follow the indications of the teachers regarding the use of GitHub (issues, pull requests) and work in a disciplined
 way. Use WhatsApp and Teams to stay in contact.</em></p></td>
 </tr>
 <tr>
@@ -1937,7 +2092,7 @@ learn in this semester (not only in this subject, but other ones). Follow the gu
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Security weak spots</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>The accessibility of data, and who can get it, can vary depending on the situation, and therefore there are many
-fronts on which information can be reached when it should not, and viceversa.</em></p></td>
+fronts on which information can be reached when it should not, and vice versa.</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Explore the different mechanisms that SOLID provides to control and change the access to data, and study carefully
 every case.</em></p></td>
 </tr>
@@ -1953,10 +2108,43 @@ them in a way that the application can handle a greater workload.</em></p></td>
 </div>
 <div class="sect2">
 <h3 id="_technical_debts">11.2. Technical debts</h3>
-<div class="paragraph">
-<p>The technical debts will arise during the implementation of the application, and they will be registered here in due
-time.</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Risk</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Code quality</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>In order to deliver software that can fulfill the requirements punctually, and given our lack of experience, some
+aspects (like readability, homogeneity, extensibility) were sacrificed so that the delivered prototype has the required
+functionality. This could hinder the evolution of the application, as we head towards a complete product and many features
+will be added, continuing from the code that we have done so far.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Identify the code that is subject to change or will be used by other developers, and refactor it so that it is
+readable, maintainable and scalable. Prioritize what must be refactored regarding the available time to fulfill the next
+objectives.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Server code development</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given our architectural and design decisions, where the server handles the database with the public places, we have
+not focused in this part as the functionality that has been required thus far did not involve that. So, we have to face
+the implementation of the server from a very early phase, compared to a team that has taken a different approach. In
+conclusion, we may face more trouble than expected when working on the restapi, the database and the deployment.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Divide the tasks in such a way that the database and the restapi could be developed in parallel, so that the
+functionality of the centralized database can be inserted as smoothly as possible. Ideally, having the means to connect
+the webapp with the server with generous time margin, so that we can react to problems that could arise in the first
+attempts.</em></p></td>
+</tr>
+</tbody>
+</table>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
