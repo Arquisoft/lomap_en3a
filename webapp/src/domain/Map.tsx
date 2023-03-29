@@ -2,6 +2,14 @@ import Placemark from "./Placemark";
 
 export default class Map {
     private placemarks: Array<Placemark> = new Array<Placemark>();
+    private id: string = crypto.randomUUID();
+    private name: string;
+    private description: string;
+
+    public constructor(name:string, description:string="") {
+        this.name = name;
+        this.description = description;
+    }
 
     public add(p: Placemark): void {
         this.placemarks.push(p);
@@ -17,6 +25,18 @@ export default class Map {
 
     public getPlacemarks(): Array<Placemark> {
         return [...this.placemarks];
+    }
+
+    public getId(): string {
+        return this.id;
+    }
+
+    public getDescription(): string {
+        return this.description;
+    }
+
+    public getName(): string {
+        return this.name;
     }
 
 }
