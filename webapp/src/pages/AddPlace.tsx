@@ -12,6 +12,10 @@ interface IState {
 	longitude: number;
 	description: string;
 	photosSelected: File[]; // The array of photos.
+	nameError: string;
+	latitudeError: string;
+	longitudeError: string;
+	descriptionError: string;
 }
 
 // Define the props type.
@@ -21,8 +25,6 @@ interface IProps{
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
-	defName: string = "Name";
-	defDescription: string = "Description.";
 
 
 	// Define default values for the page. This would not be necessary when the page is indexed.
@@ -36,11 +38,15 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// The state is the Place object that will be created and passed to the next function.
 		// It is constructed by the props of the Placemark where the place is.
 		this.state = {
-			name: this.defName,
+			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
-			description: this.defDescription,
 			photosSelected: [],
+			description: "",
+			nameError: "",
+			latitudeError: "",
+			longitudeError: "",
+			descriptionError: "",
 		};
 
 		// Binding the calls.
@@ -88,7 +94,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	}
 
 	// Define a handler function that deletes a specific file from the state array.
-	handleDeleteImage (fileName: string){
+	handleDeleteImage = (fileName: string) => {
 		// Remove the file with matching name from the state array using setState function with a callback argument and filter method.
 		this.setState((prevState) => ({
 			photosSelected: prevState.photosSelected.filter(
@@ -101,42 +107,36 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	// Here is where this object should be taken from to make it persistent.
 	handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
+		let isFormValid : boolean;
+		isFormValid = true;
+		
 		//Validating parameters.
 		if (!this.state.name) {
-			alert("Name is required");
-			return;
-		}
-		if (this.state.name === this.defName) {
-			alert("Name cannot be '" + this.defName + "'");
-			return;
+			this.setState({ nameError: "Name is required" });
+			isFormValid = false;
 		}
 		if (!this.state.latitude || !this.state.longitude) {
-			alert("Latitude and longitude are required");
-			return;
+			this.setState({ latitudeError: "Latitude and longitude are required" });
+			isFormValid = false;
 		}
 		if (isNaN(this.state.latitude) || isNaN(this.state.longitude)) {
-			alert("Latitude and longitude must be numbers");
-			return;
+			this.setState({ latitudeError: "Latitude and longitude must be numbers" });
+			isFormValid = false;
 		}
 		if (this.state.latitude < -90 || this.state.latitude > 90) {
-			alert("Latitude must be between -90 and 90 degrees");
-			return;
+			this.setState({ latitudeError: "Latitude must be between -90 and 90 degrees" });
+			isFormValid = false;
 		}
 		if (this.state.longitude < -180 || this.state.longitude > 180) {
-			alert("Longitude must be between -180 and 180 degrees");
-			return;
+			this.setState({ longitudeError: "Longitude must be between -180 and 180 degrees" });
+			isFormValid = false;
 		}
 		if (!this.state.description) {
-			alert("Description is required");
-			return;
+			this.setState({ descriptionError: "Description is required" });
+			isFormValid = false;
 		}
-		if (this.state.description === this.defDescription) {
-			alert("Description cannot be '" + this.defDescription + "'");
-			return;
-		}
-		if (!this.state.photosSelected || this.state.photosSelected.length === 0) {
-			alert("At least one photo is required");
+
+		if (!isFormValid) {
 			return;
 		}
 
@@ -171,10 +171,11 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<input
 					type="text"
 					name="name"
-					value={this.state.name}
+					placeholder="Name"
 					onChange={this.handleInputChange}
 				/>
 			</div>
+			{this.state.nameError && <span className="error">{this.state.nameError}</span>}
 			<div>
 				<h3>Location:</h3> 
 				<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
@@ -183,10 +184,11 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<label htmlFor="description">Description:</label>
 				<textarea
 					name="description"
-					value={this.state.description}
+					placeholder="Introduce a description"
 					onChange={this.handleInputChange}
 				/>
 			</div>
+			{this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
 			<div>
 				<label htmlFor="photo">Photo:</label>
 				<input type="file" name="photo" onChange={this.handlePhotoChange} />
