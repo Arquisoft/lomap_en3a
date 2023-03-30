@@ -87,6 +87,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	}
 
 
+
 	// Define a handler function that empties the state array.
 	handleClearImage(){
 		// Set the state array to an empty array using setState function.
