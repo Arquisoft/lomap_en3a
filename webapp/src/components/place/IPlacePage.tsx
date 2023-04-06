@@ -1,7 +1,7 @@
 import Place from "../../domain/Place";
 
 export default interface IPlacePageProps {
-    place: null;
+    place: Place;
 }
 
 export default interface IPlacePageState {

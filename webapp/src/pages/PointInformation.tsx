@@ -1,14 +1,14 @@
 import React from "react";
 import Place from "../domain/Place";
 import ImageList from "../components/ImageList";
-import { Link } from "react-router-dom";
 import "../styles/pointInfo.css";
 import Map from "../domain/Map";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
+import ReviewsPage from "../components/place/ReviewsPage";
 
-interface PointInformationProps{
-    point : Place;
-    map : Map;
+interface PointInformationProps {
+    point: Place;
+    map: Map;
 }
 
 interface PointInformationState {
@@ -26,8 +26,8 @@ export default class PointInformation extends React.Component<PointInformationPr
     }
 
     private goBack() {
-        this.setState({goBack:true});
-	}
+        this.setState({goBack: true});
+    }
 
     /**
      * Returns the point information view, the ImageList returns a Slider
@@ -37,7 +37,7 @@ export default class PointInformation extends React.Component<PointInformationPr
      */
     public render(): JSX.Element {
         if (this.state.goBack) {
-            return <LeafletMapAdapter map={this.props.map} />;
+            return <LeafletMapAdapter map={this.props.map}/>;
         }
         return (
             <section>
@@ -47,10 +47,11 @@ export default class PointInformation extends React.Component<PointInformationPr
                         <ImageList images={this.point.photos}></ImageList>
                     </div>
                     <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
-                    <h2>Description</h2>
-                    <p>{this.point.description}</p>
+                    <div>
+                        <ReviewsPage place={this.point}></ReviewsPage>
+                    </div>
                 </div>
-                <input type="button" value="Back" onClick={this.goBack.bind(this)} />
+                <input type="button" value="Back" onClick={this.goBack.bind(this)}/>
             </section>
         );
     }
