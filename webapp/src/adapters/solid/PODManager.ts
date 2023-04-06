@@ -21,6 +21,75 @@ export default class PODManager {
             .catch(() => {return false});
     }
 
+
+    /**
+     * Returns the details of all the maps of the user.
+     * The placemarks will not be loaded.
+     * 
+     * @returns an array of maps containing the details to be displayed as a preview
+     */
+    public async getAllMaps(): Promise<Array<Map>> {
+        console.log("Get map details")
+        let path:string = this.getBaseUrl() + '/data/maps/';
+
+        let urls = await this.getContainedUrls(path);
+        let maps = await this.getMapPreviews(urls);
+        return maps;
+    }
+
+    /**
+     * Returns the urls of all the resources in the given path
+     * 
+     * @param path the path in which the urls will be searched
+     * @returns the urls of all the resources in the given path
+     */
+    private async getContainedUrls(path: string): Promise<any[]> {
+        let engine = new QueryEngine();
+        let query = `
+            PREFIX ldp: <http://www.w3.org/ns/ldp#>
+            SELECT ?content
+            WHERE {
+                <${path}> ldp:contains ?content .
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([path]));
+
+        return await result.toArray().then(r => {
+            return r.map(binding => binding.get("content"));
+        });
+    }
+
+    /**
+     * Maps the given urls to Map objects
+     * 
+     * @param urls the urls of the map datasets
+     * @returns an array of Map objects with the details of each map
+     */
+    private async getMapPreviews(urls: Array<string>): Promise<Array<Map>> {
+        let engine = new QueryEngine();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT ?id ?name ?desc
+            WHERE {
+                ?details ?p ?o .    
+                ?details schema:identifier ?id .
+                ?details schema:name ?name .
+                ?details schema:description ?desc .  
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext(urls));
+        return await result.toArray().then(r => {return Assembler.toMapPreviews(r);});
+    }
+
+
+    /**
+     * @param sources the sources for the SPARQL query
+     * @returns the context for the query
+     */
+    private getQueryContext(sources: Array<string>): any {
+        return {sources: sources, fetch: this.sessionManager.getSessionFetch() }
+    }
+
     /**
      * Saves a dataset in the user's POD
      * 
