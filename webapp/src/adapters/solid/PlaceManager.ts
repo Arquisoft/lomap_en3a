@@ -107,7 +107,7 @@ export default class PlaceManager {
         let longThing = getDecimal(<Thing>thing, SCHEMA_INRUPT.longitude);
         let description = getStringNoLocale(<Thing>thing, SCHEMA_INRUPT.description);
         let result = new Place(<string>name, <number>latThing, <number>longThing, <string>description, []);
-        console.log(result)
+        
         return result;
     }
 
@@ -135,7 +135,7 @@ export default class PlaceManager {
             this.fakeList.push(new Place(<string>name, <number>lat, <number>long, <string>description, []))
         }
 
-        console.log(this.fakeList);
+        
         return this.fakeList;
     }
 }

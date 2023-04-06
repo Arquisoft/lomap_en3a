@@ -101,7 +101,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	// Here is where this object should be taken from to make it persistent.
 	handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
+		/*
 		//Validating parameters.
 		if (!this.state.name) {
 			alert("Name is required");
@@ -139,9 +139,9 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			alert("At least one photo is required");
 			return;
 		}
-
+		*/
 		// Handle form submission logic here.
-		console.log("Form submitted:", this.state);
+		
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
 
