@@ -10,6 +10,7 @@ import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import Place from '../../domain/Place';
+import PODManager from '../solid/PODManager';
 
 
 /**
@@ -58,7 +59,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         super(props);
         //testing purposes
         this.test = null;
-        this.map = (props.map !== undefined) ? props.map : new Map();
+        this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             showForm: false,
             showInfo: false,
@@ -128,6 +129,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     private addMarker(p: Placemark): void {
         this.map.add(p);
+        new PODManager().saveMap(this.map);
         this.setState({
             showForm: false,
             currentPlacemark: null,
