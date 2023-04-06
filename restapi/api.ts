@@ -1,5 +1,4 @@
-import express, { Request, Response, Router } from 'express';
-import {check} from 'express-validator';
+import express, { Router } from 'express';
 import {getPlaces} from "./src/controllers/places/PlacesController";
 
 const api:Router = express.Router()

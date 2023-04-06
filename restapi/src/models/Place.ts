@@ -5,20 +5,21 @@ const placeSchema: Schema = new Schema(
     {
         title: {
             type: String,
-            required: true,
+            unique: true,
+            required: true
         },
         uuid: {
             type: String,
             required: false,
-            default: undefined
+            default: ""
         },
         longitude: {
             type: Number,
-            required: true,
+            required: true
         },
         latitude: {
             type: Number,
-            required: true,
+            required: true
         }
     }
 )
