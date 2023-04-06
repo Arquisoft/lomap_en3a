@@ -51,4 +51,24 @@ export default class Assembler {
         }
     }
 
+    public static toPlacemarkArray(bindings: Bindings[]): Array<Placemark> {
+        console.log("Assembler")
+        let result: Array<Placemark> = new Array();
+
+        for (let binding of bindings) {
+            this.addPlacemark(binding, result);
+        }
+        return result;
+    }
+
+    public static addPlacemark(binding: Bindings, placemarks: Array<Placemark>): void {
+        let title = binding.get("title")?.value;
+        let lat = binding.get("lat")?.value;
+        let lng = binding.get("lng")?.value;
+
+        if (title!==undefined && lat!==undefined && lng!==undefined) {
+            placemarks.push(new Placemark(Number(lat), Number(lng), title));
+        }
+    }
+
 }
