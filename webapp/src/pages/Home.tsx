@@ -3,28 +3,57 @@ import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import Map from "../domain/Map";
 import Placemark from "../domain/Placemark";
+import PODManager from "../adapters/solid/PODManager";
+import { Select } from "@mui/material";
+import { ChangeEvent } from "react";
 
-export default class Home extends React.Component {
+export default class Home extends React.Component<{},{data:Map|undefined}> {
+    private podManager = new PODManager();
     private webID: string;
-    private data: Map;
+    private maps: Array<Map>;
 
     public constructor(props: any) {
         super(props);
         this.webID = SolidSessionManager.getManager().getWebID();
-        let map = new Map();
-        map.add(new Placemark(43.5647300, -5.9473000, "Placemark 1"));
-        map.add(new Placemark(43.5347300, -6.0473000, "Placemark 2"));
-        map.add(new Placemark(43.6047300, -6.1473000, "Placemark 3"));
-        map.add(new Placemark(43.5547300, -5.8473000, "Placemark 4"));
-        map.add(new Placemark(43.4847300, -6.2473000, "Placemark 5"));
-        this.data = map;
+        this.maps = new Array();
+        this.state = {
+            data: undefined
+        };
+    }
+
+    public async componentDidMount(): Promise<void> {
+        this.maps = await this.podManager.getAllMaps();
+        let map = (this.maps.length > 0) ? this.maps[0] : new Map('TestMap');;
+        await this.podManager.loadPlacemarks(map);
+        this.setState({data: map});
+    }
+
+    private async changeMap(event: ChangeEvent): Promise<void> {
+        let select:HTMLSelectElement = (event.target as HTMLSelectElement);
+        let index:number = select.selectedIndex;
+        let id:string = select.options[index].value;
+        let map:Map|undefined = this.maps.find(m => m.getId() == id);
+
+        if (map !== undefined) {
+            this.setState({data: undefined});
+            await this.podManager.loadPlacemarks(map);
+            this.setState({data: map});
+        }
     }
     
     public render(): JSX.Element {
         return (
             <section className='Home'>
-                <h2>Hello {this.webID}</h2>
-                <LeafletMapAdapter map={this.data}/>
+                <h2>{this.state.data?.getName() || "Loading"}</h2>
+                {this.state.data !== undefined &&
+                <div> 
+                    <select name="map" onChange={this.changeMap.bind(this)}>
+                        {this.maps.map(m => {
+                            return (<option value={m.getId()}>{m.getName()}</option>)
+                        })}
+                    </select>
+                    <LeafletMapAdapter map={this.state.data}/>
+                </div>}
             </section>
         );
     }
