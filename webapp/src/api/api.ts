@@ -23,3 +23,12 @@ export async function addPlace(place: PlaceType) : Promise<boolean> {
     else
         return false;
 }
+
+export async function deletePlace(title: string) : Promise<boolean> {
+    const apiEndPoint = "http://localhost:5000/api"
+    let response = await fetch(apiEndPoint + "/places/delete/" + title);
+    if (response.status === 200)
+        return true;
+    else
+        return false;
+}

@@ -6,21 +6,22 @@ import Placemark from "../domain/Placemark";
 import {PlaceType} from "../types/PlaceType";
 
 interface HomeProps {
-    places: PlaceType[];
+    placeList? : PlaceType[]
 }
 
 export default class Home extends React.Component<HomeProps> {
     private webID: string;
     private data: Map;
+    static defaultProps = {
+        placeList : []
+    }
 
-    public constructor(props: HomeProps) {
+    public constructor(props : any) {
         super(props);
         this.webID = SolidSessionManager.getManager().getWebID();
         let map = new Map();
-        let placemarks : Array<Placemark> = props.places.map((place) => {
-            console.log("Latitude: " + place.latitude + " - " +
-                "Longitude: " + place.longitude + " - " +
-                "Title: " + place.title + " - ");
+        let places : Array<PlaceType> = props.placeList;
+        let placemarks : Array<Placemark> = places.map((place) => {
             return new Placemark(place.latitude, place.longitude, place.title);
         })
         placemarks.forEach((placemark) => map.add(placemark));

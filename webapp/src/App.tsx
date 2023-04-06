@@ -7,17 +7,18 @@ import Login from './pages/Login';
 import Layout from "./components/Layout";
 import PrivateRoute from "./components/CustomRoute";
 import {PlaceType} from "./types/PlaceType";
-import {getPlaces, addPlace} from "./api/api";
+import {getPlaces, addPlace, deletePlace} from "./api/api";
 
 function App() {
     const [places, setPlaces] = useState<PlaceType[]>([]);
     const retrievePublicPlaces = async () => {
         setPlaces(await getPlaces());
         let title : string = "Prueba1";
-        let uuid : string = "uuid1";
-        let longitude = 1.1;
-        let latitude = 1.1;
-        await addPlace({title, uuid, longitude, latitude})
+        // let uuid : string = "uuid1";
+        // let longitude = 1.1;
+        // let latitude = 1.1;
+        // await addPlace({title, uuid, longitude, latitude})
+        await deletePlace(title);
     }
 
     useEffect(() => {
@@ -31,10 +32,10 @@ function App() {
                 <Route path="/" element={<Login /> } />
                 <Route element={<PrivateRoute /> } >
                     <Route path="/" element={<Layout /> } >
-                        <Route path="/home" element={<Home places = { places }/>}/>
-                        <Route path="/map/personal" element={<Home places = { places }/>}/>
+                        <Route path="/home" element={<Home placeList = {places} />}/>
+                        <Route path="/map/personal" element={<Home/>}/>
                         <Route path="/friends" element={<Friends />}/>
-                        <Route path="/map/public" element={<Home places = { places }/>}/>
+                        <Route path="/map/public" element={<Home/>}/>
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
                         </Route>

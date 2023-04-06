@@ -21,9 +21,21 @@ const addPlace = async (req: Request, res: Response): Promise<void> => {
             latitude: req.body.latitude
         });
         await place.save();
+        res.sendStatus(200)
     }
     catch (error) {
         console.log("An error has occurred while adding a place: " + error)
     }
 }
-export { getPlaces, addPlace }
+
+const deletePlace = async (req: Request, res: Response): Promise<void> => {
+    try {
+        console.log(req.params.title)
+        await Place.deleteOne({title: req.params.title})
+        res.sendStatus(200)
+    }
+    catch (error) {
+        console.log("An error has occurred while adding a place: " + error)
+    }
+}
+export { getPlaces, addPlace, deletePlace }
