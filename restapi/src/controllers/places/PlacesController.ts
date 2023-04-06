@@ -11,4 +11,19 @@ const getPlaces = async (req: Request, res: Response): Promise<void> => {
         console.log("An error has occurred while retrieving the list of places: " + error)
     }
 }
-export { getPlaces }
+
+const addPlace = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const place = new Place({
+            title: req.body.title,
+            uuid: req.body.uuid,
+            longitude: req.body.longitude,
+            latitude: req.body.latitude
+        });
+        await place.save();
+    }
+    catch (error) {
+        console.log("An error has occurred while adding a place: " + error)
+    }
+}
+export { getPlaces, addPlace }
