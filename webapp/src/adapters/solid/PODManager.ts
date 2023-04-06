@@ -1,3 +1,4 @@
+import { QueryEngine } from '@comunica/query-sparql-solid';
 import { saveSolidDatasetAt, SolidDataset } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
@@ -21,6 +22,14 @@ export default class PODManager {
             .catch(() => {return false});
     }
 
+    public async loadPlacemarks(map: Map): Promise<void> {
+        console.log("Load placemarks")
+        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
+
+        let placemarks = await this.getPlacemarks(path);
+        map.setPlacemarks(placemarks);
+        console.log("Finish load placemarks")
+    }
 
     /**
      * Returns the details of all the maps of the user.
@@ -81,6 +90,21 @@ export default class PODManager {
         return await result.toArray().then(r => {return Assembler.toMapPreviews(r);});
     }
 
+    private async getPlacemarks(mapURL:string): Promise<Array<Placemark>> {
+        let engine = new QueryEngine();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT ?title ?lat ?lng
+            WHERE {
+                ?placemark ?p ?o .    
+                ?placemark schema:name ?title .
+                ?placemark schema:latitude ?lat .
+                ?placemark schema:longitude ?lng .  
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([mapURL]));
+        return await result.toArray().then(r => {return Assembler.toPlacemarkArray(r);});
+    }
 
     /**
      * @param sources the sources for the SPARQL query
