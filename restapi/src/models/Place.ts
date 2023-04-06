@@ -7,6 +7,11 @@ const placeSchema: Schema = new Schema(
             type: String,
             required: true,
         },
+        uuid: {
+            type: String,
+            required: false,
+            default: undefined
+        },
         longitude: {
             type: Number,
             required: true,
@@ -14,11 +19,6 @@ const placeSchema: Schema = new Schema(
         latitude: {
             type: Number,
             required: true,
-        },
-        podUuid: {
-            type: String,
-            required: false,
-            default: undefined
         }
     }
 )
