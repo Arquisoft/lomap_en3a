@@ -18,19 +18,13 @@ export async function addPlace(place: PlaceType) : Promise<boolean> {
             "latitude": place.latitude
         })
     });
-    if (response.status === 200)
-        return true;
-    else
-        return false;
+    return response.status === 200;
 }
 
 export async function deletePlace(title: string) : Promise<boolean> {
     const apiEndPoint = "http://localhost:5000/api"
     let response = await fetch(apiEndPoint + "/places/delete/" + title);
-    if (response.status === 200)
-        return true;
-    else
-        return false;
+    return response.status === 200;
 }
 
 export async function updatePlace(title: string, place: PlaceType) : Promise<boolean> {
@@ -45,8 +39,11 @@ export async function updatePlace(title: string, place: PlaceType) : Promise<boo
             "latitude": place.latitude
         })
     });
-    if (response.status === 200)
-        return true;
-    else
-        return false;
+    return response.status === 200;
+}
+
+export async function findPlaceByTitle(title: string) : Promise<PlaceType> {
+    const apiEndPoint = "http://localhost:5000/api"
+    let response = await fetch(apiEndPoint + "/places/get/" + title);
+    return response.json();
 }

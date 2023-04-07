@@ -7,8 +7,7 @@ import Login from './pages/Login';
 import Layout from "./components/Layout";
 import PrivateRoute from "./components/CustomRoute";
 import {PlaceType} from "./types/PlaceType";
-import {getPlaces, addPlace, deletePlace, updatePlace} from "./api/api";
-import Placemark from "./domain/Placemark";
+import {getPlaces} from "./api/api";
 
 function App() {
     const [places, setPlaces] = useState<PlaceType[]>([]);

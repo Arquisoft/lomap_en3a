@@ -66,4 +66,19 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
             req.params.title + ": " + error)
     }
 }
-export { getPlaces, addPlace, deletePlace, updatePlace }
+
+const findPlaceByTitle = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()})
+        }
+        const place = await Place.findOne({title: req.params.title});
+        return res.status(200).send(place);
+    }
+    catch (error) {
+        return res.status(500).send("An error has occurred while updating a place with title " +
+            req.params.title + ": " + error)
+    }
+}
+export { getPlaces, addPlace, deletePlace, updatePlace, findPlaceByTitle }
