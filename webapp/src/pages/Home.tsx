@@ -1,6 +1,7 @@
 import React from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+import MapFilter from "../components/MapFilter";
 import Map from "../domain/Map";
 import Placemark from "../domain/Placemark";
 
@@ -19,12 +20,15 @@ export default class Home extends React.Component {
         map.add(new Placemark(43.4847300, -6.2473000, "Placemark 5"));
         this.data = map;
     }
-    
+
     public render(): JSX.Element {
         return (
             <section className='Home'>
                 <h2>Hello {this.webID}</h2>
-                <LeafletMapAdapter map={this.data}/>
+                <div id="prueba">
+                    <MapFilter></MapFilter>
+                    <LeafletMapAdapter map={this.data}/>
+                </div>
             </section>
         );
     }
