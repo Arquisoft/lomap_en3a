@@ -7,18 +7,13 @@ import Login from './pages/Login';
 import Layout from "./components/Layout";
 import PrivateRoute from "./components/CustomRoute";
 import {PlaceType} from "./types/PlaceType";
-import {getPlaces, addPlace, deletePlace} from "./api/api";
+import {getPlaces, addPlace, deletePlace, updatePlace} from "./api/api";
+import Placemark from "./domain/Placemark";
 
 function App() {
     const [places, setPlaces] = useState<PlaceType[]>([]);
     const retrievePublicPlaces = async () => {
         setPlaces(await getPlaces());
-        let title : string = "Prueba1";
-        // let uuid : string = "uuid1";
-        // let longitude = 1.1;
-        // let latitude = 1.1;
-        // await addPlace({title, uuid, longitude, latitude})
-        await deletePlace(title);
     }
 
     useEffect(() => {
