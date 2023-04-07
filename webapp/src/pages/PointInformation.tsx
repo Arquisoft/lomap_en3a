@@ -5,6 +5,7 @@ import "../styles/pointInfo.css";
 import Map from "../domain/Map";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import ReviewsPage from "../components/place/ReviewsPage";
+import OverviewPage from "../components/place/OverviewPage";
 
 interface PointInformationProps {
     point: Place;
@@ -13,6 +14,7 @@ interface PointInformationProps {
 
 interface PointInformationState {
     goBack: boolean;
+    component : JSX.Element;
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
@@ -22,11 +24,25 @@ export default class PointInformation extends React.Component<PointInformationPr
     public constructor(props: any) {
         super(props);
         this.point = props.point;
-        this.state = {goBack: false};
+        this.state = {goBack: false,
+            component: <ReviewsPage place={this.point}/>
+        };
+        this.goBack = this.goBack.bind(this);
+        this.handleClickReview = this.handleClickReview.bind(this);
+        this.handleClickOverview = this.handleClickOverview.bind(this);
     }
 
     private goBack() {
         this.setState({goBack: true});
+    }
+
+    private handleClickReview(){
+        this.setState({component: <ReviewsPage place={this.point}/>});
+        
+    };
+
+    private handleClickOverview(){
+        this.setState({component: <OverviewPage place = {this.point}/>});
     }
 
     /**
@@ -48,8 +64,20 @@ export default class PointInformation extends React.Component<PointInformationPr
                     </div>
                     <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
                 </div>
-                <ReviewsPage place={this.point}></ReviewsPage>
-                <input type="button" id="back" value="Back" onClick={this.goBack.bind(this)}/>
+                <div>
+
+
+                    <button 
+                    id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
+                    } onClick={this.handleClickOverview}>Overview</button>
+
+                    <button 
+                    id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
+                    } onClick={this.handleClickReview}>Reviews</button>
+
+                    {this.state.component}
+                    </div>
+                <input type="button" id="back" value="Back" onClick={this.goBack}/>
             </section>
         );
     }

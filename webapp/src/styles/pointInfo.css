@@ -72,3 +72,19 @@
 #comments section a {
     color: darkslateblue;
 }
+
+button#selected {
+    border-radius: 12px;
+    background-color: darkblue;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+}
+
+button#unselected {
+    border-radius: 12px;
+    background-color: lightblue;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+}
