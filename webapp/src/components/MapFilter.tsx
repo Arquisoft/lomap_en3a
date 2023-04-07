@@ -22,6 +22,13 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         this.friends = new Array();
         // TODO do a call to get the users friends
 
+        // TODO Testing purposes only
+        this.categories.push("Restaurant");
+        this.friends.push(new User("Pelayo", "123"));
+        this.friends.push(new User("Carlos", "124"));
+
+        this.setState({category: this.categories[0], selectedFriend: "Pelayo"});
+
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleFriendChange = this.handleFriendChange.bind(this);
     }
@@ -50,30 +57,37 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         const target = event.target;
         const value = target.value;
         const selectedFriend = this.state.selectedFriend;
-
+        console.log(value)
         this.setState({
             [selectedFriend]: value,
         } as unknown as Pick<MapFilterState, keyof MapFilterState>);
     }
 
+    private applyFilter() {
+        // NEEDS FIX
+        let cat = this.state.category;
+        console.log(cat);
+        let fr = this.state.selectedFriend;
+        console.log(fr);
+        // TODO handle the map filtering
+    }
+
     public render() {
         return <aside>
             <h3>Filters</h3>
-            <form>
-                <label htmlFor="categories">Category</label>
-                <select name="categories" id="categories" onChange={this.handleCategoryChange}>
-                    {this.categories.map((item, index) =>
-                        <option id={item.toString() + index.toString()} value={item}>item</option>
-                    )}
-                </select>
-                <label htmlFor="friends">Friend</label>
-                <select name="friends" id="friends" onChange={this.handleFriendChange}>
-                    {this.friends.map((friend, index) =>
-                        <option id={friend.getWebId()} value={friend.getWebId()}>{friend.getName()}</option>
-                    )}
-                </select>
-                <button type="submit">Search</button>
-            </form>
+            <label htmlFor="categories">Category</label>
+            <select name="categories" id="categories" onChange={this.handleCategoryChange}>
+                {this.categories.map((item, index) =>
+                    <option id={index.toString()} value={item}>{item}</option>
+                )}
+            </select>
+            <label htmlFor="friends">Friend</label>
+            <select name="friends" id="friends" onChange={this.handleFriendChange}>
+                {this.friends.map((friend, index) =>
+                    <option id={friend.getWebId()} value={friend.getWebId()}>{friend.getName()}</option>
+                )}
+            </select>
+            <button onClick={this.applyFilter}>Search</button>
         </aside>;
     }
 }
