@@ -1,42 +1,46 @@
 import React from "react";
+import {Rating} from "react-simple-star-rating";
 import IPlacePageProps from "./IPlacePage";
-import IPlacePageState from "./IPlacePage";
-import {
-    BarSeries,
-    Category,
-    ChartComponent,
-    Inject,
-    SeriesCollectionDirective,
-    SeriesDirective
-} from "@syncfusion/ej2-react-charts";
+import "./../../styles/pointInfo.css";
 
-export default class ReviewsPage extends React.Component<IPlacePageProps, IPlacePageState> {
+interface ReviewsPageState {
 
-    private data: Array<{ x: string, y: number, color: string }>;
+}
+
+export default class ReviewsPage extends React.Component<IPlacePageProps, ReviewsPageState> {
+
+    private averageRating: number;
+    // Notes, it would be convenient for this component to recieve a structure like this
+    // containing the link to the user and the comment as a string, as in this way comments
+    // would be more usefull and representative
+    private comments: Array<{ user: string, comment: String }>;
 
     constructor(props: IPlacePageProps) {
         super(props);
-        this.data = new Array(); // TODO to be filled
-        // TESTING ONLY
-        this.data = [{x: '0 Stars', y: 100, color: '#ffff'}];
+        // TODO Testing puroposes only
+        this.averageRating = 3.5;
+        this.comments = new Array<{ user: string; comment: String }>();
+        this.comments.push({user: "Guille", comment: "Nice place!"});
+        this.comments.push({user: "Pelayo", comment: "I dont like it"});
+        this.comments.push({user: "Carlos", comment: "I was here"});
+        this.comments.push({user: "Ivan", comment: "I was here too"});
+        this.comments.push({user: "Ivan", comment: "I was here too"});
     }
 
     render() {
         return <div>
-            <h3>Rating</h3>
+            <h3>Average Rating</h3>
             <div>
-                <ChartComponent primaryXAxis={{valueType: "Category", title: "Users"}} primaryYAxis={{title: "Stars"}}>
-                    <Inject services={[BarSeries, Category]}></Inject>
-                    <SeriesCollectionDirective>
-                        <SeriesDirective dataSource={this.data} xName='Users' yName='Stars' type='Bar'
-                                         pointColorMapping='color'>
-                        </SeriesDirective>
-                    </SeriesCollectionDirective>
-                </ChartComponent>
+                <Rating readonly initialValue={4}></Rating>
             </div>
-            <div id="comments">
-                <h4>@User</h4>
-                <p>Comment</p>
+            <h3>Comments</h3>
+            <div id="commentsContainer">
+                <div id="comments">
+                    {this.comments.map((comment) => (
+                        <section><a>{comment.user}</a>
+                            <p>{comment.comment}</p></section>
+                    ))}
+                </div>
             </div>
         </div>;
     }

@@ -47,11 +47,9 @@ export default class PointInformation extends React.Component<PointInformationPr
                         <ImageList images={this.point.photos}></ImageList>
                     </div>
                     <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
-                    <div>
-                        <ReviewsPage place={this.point}></ReviewsPage>
-                    </div>
                 </div>
-                <input type="button" value="Back" onClick={this.goBack.bind(this)}/>
+                <ReviewsPage place={this.point}></ReviewsPage>
+                <input type="button" id="back" value="Back" onClick={this.goBack.bind(this)}/>
             </section>
         );
     }
