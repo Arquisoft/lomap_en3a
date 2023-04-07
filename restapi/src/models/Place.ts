@@ -10,8 +10,7 @@ const placeSchema: Schema = new Schema(
         },
         uuid: {
             type: String,
-            required: false,
-            default: ""
+            required: true
         },
         longitude: {
             type: Number,
