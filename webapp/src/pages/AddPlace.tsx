@@ -55,28 +55,28 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
-      category: "",
+      		category: "restaurant",
 			photosSelected: [],
 			description: "",
 			nameError: "",
-      categoryError: "",
+      		categoryError: "",
 			latitudeError: "",
 			longitudeError: "",
 			descriptionError: "",
 		};
 
 		// Binding the calls.
-    this.getCategoryList = this.getCategoryList.bind(this);
+    	this.getCategoryList = this.getCategoryList.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-  // Function that returns the category list.
-  getCategoryList() : string[] {
-    return Object.keys(Category);
-  }
+	// Function that returns the category list.
+	getCategoryList() : string[] {
+		return Object.keys(Category);
+	}
 
 
 	// Fill in the state.
@@ -159,10 +159,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ descriptionError: "Description is required" });
 			isFormValid = false;
 		}
-    if (!this.state.category) {
-      this.setState({ categoryError: "Category is required" });
-      isFormValid = false;
-    }
+		if (!this.state.category) {
+		this.setState({ categoryError: "Category is required" });
+			isFormValid = false;
+		}
 
 		if (!isFormValid) {
 			return;
@@ -209,14 +209,13 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<h3>Location:</h3> 
 				<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
 			</div>
-      <div>
+      		<div>
 				<label htmlFor="category">Category:</label>
-				<select name="category" value={this.state.category} onChange={this.handleInputChange}>
-          {this.getCategoryList().map((category) => (
-            <option key={category} value={category}>{category}</option>
-          ))}
-        </select>
-        <p>sdfsd</p>
+				<select title="category" name="category" value={this.state.category} onChange={this.handleInputChange}>
+          		{this.getCategoryList().map((category) => (
+            		<option key={category} value={category}>{category}</option>
+          		))}
+        		</select>
 			</div>
 			{this.state.categoryError && <span className="error">{this.state.categoryError}</span>}
 			<div>
@@ -230,7 +229,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			{this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
 			<div>
 				<label htmlFor="photo">Photo:</label>
-				<input type="file" name="photo" onChange={this.handlePhotoChange} />
+				<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
 			</div>
 			<button type="submit">Submit</button>
 			</form>
