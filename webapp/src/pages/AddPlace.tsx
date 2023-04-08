@@ -5,14 +5,28 @@ import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 
+enum Category {
+  restaurant = "restaurant",
+  bar = "bar",
+  museum = "museum",
+  park = "park",
+  hotel = "hotel",
+  busines = "busines",
+  transit = "transit",
+  pharmacy = "pharmacy",
+  ATM = "ATM"
+}
+
 // Define the state type.
 interface IState {
 	name: string;
 	latitude: number;
 	longitude: number;
+  category: string;
 	description: string;
 	photosSelected: File[]; // The array of photos.
 	nameError: string;
+  categoryError: string;
 	latitudeError: string;
 	longitudeError: string;
 	descriptionError: string;
@@ -41,24 +55,33 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
+      category: "",
 			photosSelected: [],
 			description: "",
 			nameError: "",
+      categoryError: "",
 			latitudeError: "",
 			longitudeError: "",
 			descriptionError: "",
 		};
 
 		// Binding the calls.
+    this.getCategoryList = this.getCategoryList.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+  // Function that returns the category list.
+  getCategoryList() : string[] {
+    return Object.keys(Category);
+  }
+
+
 	// Fill in the state.
 	// When a value is modified in the form (onChange function) the value of the state is updated.
-	handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+	handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
 		const target = event.target;
 		const value = target.value;
 		const name = target.name;
@@ -136,6 +159,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ descriptionError: "Description is required" });
 			isFormValid = false;
 		}
+    if (!this.state.category) {
+      this.setState({ categoryError: "Category is required" });
+      isFormValid = false;
+    }
 
 		if (!isFormValid) {
 			return;
@@ -144,7 +171,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// Handle form submission logic here.
 		console.log("Form submitted:", this.state);
 
-		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
+		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
+                      this.state.photosSelected, this.state.category);
 
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
@@ -181,6 +209,16 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<h3>Location:</h3> 
 				<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
 			</div>
+      <div>
+				<label htmlFor="category">Category:</label>
+				<select name="category" value={this.state.category} onChange={this.handleInputChange}>
+          {this.getCategoryList().map((category) => (
+            <option key={category} value={category}>{category}</option>
+          ))}
+        </select>
+        <p>sdfsd</p>
+			</div>
+			{this.state.categoryError && <span className="error">{this.state.categoryError}</span>}
 			<div>
 				<label htmlFor="description">Description:</label>
 				<textarea
