@@ -26,7 +26,7 @@ export default class Home extends React.Component {
             <section className='Home'>
                 <h2>Hello {this.webID}</h2>
                 <div id="prueba">
-                    <MapFilter></MapFilter>
+                    <MapFilter categories={["Restaurant", "Monument"]}></MapFilter>
                     <LeafletMapAdapter map={this.data}/>
                 </div>
             </section>
