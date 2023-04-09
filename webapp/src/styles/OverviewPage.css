@@ -29,7 +29,7 @@
     font-size: 1.2rem;
   }
   
-  button[type="submit"]{
+  button[type="submit"], button[type="button"]{
     padding: 0.5rem 1rem;
     background-color: #002E66;
     color: #fff;
@@ -68,4 +68,10 @@
 
   button[type="submit"][name="clear-all"]:hover{
     background-color: rgb(109, 29, 29);
+  }
+
+  .error {
+    color: #ff0000;
+    font-size: 1.2em;
+    font-weight: bold;
   }

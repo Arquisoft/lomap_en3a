@@ -13,6 +13,8 @@ interface OverviewPageState extends IPlacePageState {
     comment: string;
     rating: number;
     photosSelected: File[];
+    photosError: string;
+    commentError: string;
 }
 
 export default class OverviewPage extends React.Component<IPlacePageProps, OverviewPageState> {
@@ -25,7 +27,9 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             place: props.place,
             comment: "",
             rating: 0,
-            photosSelected: []
+            photosSelected: [],
+            photosError: "",
+            commentError: ""
         }
 
         //Binding
@@ -54,7 +58,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 			rating: rate,
 		} as unknown as Pick<OverviewPageState, keyof IPlacePageProps>);
     }
-
 	// Fill the array of photographies
 	handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
 		// Get the length of the files array.
@@ -64,13 +67,24 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 			for (let i = 0; i < filesLength; i++) {
 				// Get the current file from the array.
 				let photo = event.target.files[i];
-				// Add each file to the state array using setState function with a callback argument.
-				this.setState((prevState) => ({
-					photosSelected: [...prevState.photosSelected, photo]
-				}));
-
+				// Check if the photo is already in the photosSelected array
+				if (!this.isPhotoInArray(photo, this.state.photosSelected)) {
+					this.setState((prevState) => ({
+						photosSelected: [...prevState.photosSelected, photo]
+					}));
+				}
 			}
 		}
+	}
+
+
+    isPhotoInArray(photo: File, photosSelected: File[]) : boolean {
+		for (let i = 0; i < photosSelected.length; i++) {
+			if (photo.name === photosSelected[i].name) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// Define a handler function that empties the state array.
@@ -94,6 +108,15 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         var comment = new PlaceComment(this.state.place, this.sessionManager.getWebID(), this.state.comment);
         //Here the persistence of the object
 
+        var isValid = true;
+        if (!this.state.comment || this.state.comment.trim().length == 0) {
+            this.setState({commentError: "You must enter a comment."});
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
         console.log("Form submitted, comment:", comment);
     };
     
@@ -107,9 +130,16 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 
     handleSubmitPhoto (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        var isValid = true;
 
-        
+        if (!this.state.photosSelected || this.state.photosSelected.length === 0) {
+            this.setState({photosError: "You must select at least one photo."});
+            isValid = false;
+        }
 
+        if (!isValid) {
+            return;
+        }
 
         var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
         //Here the persistence of the object
@@ -123,6 +153,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             <div>
                 <h1>{this.state.place.description}</h1>
             </div>
+
             <form onSubmit={this.handleSubmitComment}>
                 <label htmlFor="comment">Comment:</label>
                     <textarea
@@ -134,6 +165,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                     />
                 <button type="submit">Publish a comment</button>
             </form>
+            {this.state.commentError && <span className="error">{this.state.commentError}</span>}
 
             <form onSubmit={this.handleSubmitRating}>
                 <label>Rating:</label>
@@ -148,16 +180,18 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             </form>
 
             <form onSubmit={this.handleSubmitPhoto}>
-                <label htmlFor="photo">Photos:</label>
-                <input type="file" name="photo" onChange={this.handlePhotoChange} />
+                <label htmlFor="photo">Photo:</label>
+				<input title="photo" placeholder="Choose a photo" type="file" onChange={this.handlePhotoChange} />                
                 {/* Display all uploaded photos using map function */}
                 {this.state.photosSelected.map((file) => (
                     <PhotoPreview key={file.name} file={file} onDelete={this.handleDeleteImage}/>
                 ))}
+
                 {/* Use a button or a link element with onClick attribute */}
-                <button name="clear-all" onClick={this.handleClearImage} type="submit">Clear photos</button>
+                {this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage} type="button">Clear photos</button>)}
 
                 <button name="photos" type="submit">Upload photos</button>
+                {this.state.photosError && <span className="error">{this.state.photosError}</span>}
             </form>
           </div>
         );
