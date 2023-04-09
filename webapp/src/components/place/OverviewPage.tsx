@@ -117,6 +117,8 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (!isValid) {
             return;
         }
+        this.setState({commentError: ""});
+
         console.log("Form submitted, comment:", comment);
     };
     
@@ -140,6 +142,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (!isValid) {
             return;
         }
+        this.setState({photosError: ""});
 
         var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
         //Here the persistence of the object

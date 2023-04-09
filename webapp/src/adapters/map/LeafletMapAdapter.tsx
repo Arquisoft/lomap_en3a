@@ -157,7 +157,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             return <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
         }
         if (this.state.showInfo) {
-            return <PointInformation map={this.map} point={new Place("Test", 0, 0, "Test", new Array())}/>
+            return <PointInformation map={this.map} point={new Place("Test", 0, 0, "Test", new Array(), "")}/>
         }
 
         return (
