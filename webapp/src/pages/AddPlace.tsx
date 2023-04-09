@@ -248,7 +248,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			))}
 
 			{/* Use a button or a link element with onClick attribute */}
-			<button onClick={this.handleClearImage}>Clear photos</button>
+			{this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage}>Clear photos</button>)}
 		</section>
 		);
 	}  
