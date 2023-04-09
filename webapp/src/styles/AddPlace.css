@@ -114,3 +114,17 @@
     font-size: 1.2em;
     font-weight: bold;
   }
+
+  select {
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 1em;
+  }
+  select option {
+    background-color: #fff;
+    color: #333;
+  }
