@@ -30,7 +30,7 @@ export default class PlaceManager {
      *
      * */
     public async createNewMapPoint(newLocation: Place): Promise<void> {
-        newLocation.uuid = crypto.randomUUID();
+        //newLocation.uuid = crypto.randomUUID();
         this.fakeList.push(newLocation);
         const podURL = await getPodUrlAll(this.sessionManager.getWebID(), {fetch: fetch});
         try {

@@ -101,7 +101,7 @@ export default class PODManager {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
-            SELECT ?id ?name ?desc
+            SELECT DISTINCT ?id ?name ?desc
             WHERE {
                 ?details ?p ?o .    
                 ?details schema:identifier ?id .
@@ -117,7 +117,7 @@ export default class PODManager {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
-            SELECT ?title ?lat ?lng
+            SELECT DISTINCT ?title ?lat ?lng
             WHERE {
                 ?placemark ?p ?o .    
                 ?placemark schema:name ?title .
