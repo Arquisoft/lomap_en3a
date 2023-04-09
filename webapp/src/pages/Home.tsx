@@ -4,19 +4,43 @@ import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import { ChangeEvent } from "react";
+import Placemark from "../domain/Placemark";
+import {PlaceType} from "../types/PlaceType";
 
-export default class Home extends React.Component<{},{data:Map|undefined}> {
+
+interface HomeProps {
+    placeList? : PlaceType[]
+}
+
+export default class Home extends React.Component<HomeProps,{data:Map|undefined}> {
     private podManager = new PODManager();
     private webID: string;
     private maps: Array<Map>;
+    private data: Map;
+    static defaultProps = {
+        placeList : []
+    }
 
-    public constructor(props: any) {
+    public constructor(props : any) {
         super(props);
         this.webID = SolidSessionManager.getManager().getWebID();
         this.maps = new Array();
         this.state = {
             data: undefined
         };
+        
+        let map = new Map();
+        let places : Array<PlaceType> = props.placeList;
+        let placemarks : Array<Placemark> = places.map((place) => {
+            return new Placemark(place.latitude, place.longitude, place.title);
+        })
+        placemarks.forEach((placemark) => map.add(placemark));
+        map.add(new Placemark(43.5647300, -5.9473000, "Placemark 1"));
+        map.add(new Placemark(43.5347300, -6.0473000, "Placemark 2"));
+        map.add(new Placemark(43.6047300, -6.1473000, "Placemark 3"));
+        map.add(new Placemark(43.5547300, -5.8473000, "Placemark 4"));
+        map.add(new Placemark(43.4847300, -6.2473000, "Placemark 5"));
+        this.data = map;
     }
 
     public async componentDidMount(): Promise<void> {
