@@ -29,7 +29,7 @@
     font-size: 1.2rem;
   }
   
-  button[type="submit"], button[type="button"]{
+  button[type="submit"], button[name="clear"]{
     padding: 0.5rem 1rem;
     background-color: #002E66;
     color: #fff;

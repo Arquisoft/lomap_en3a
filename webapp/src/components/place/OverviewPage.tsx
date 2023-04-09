@@ -188,7 +188,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                 ))}
 
                 {/* Use a button or a link element with onClick attribute */}
-                {this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage} type="button">Clear photos</button>)}
+                {this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage} name="clear">Clear photos</button>)}
 
                 <button name="photos" type="submit">Upload photos</button>
                 {this.state.photosError && <span className="error">{this.state.photosError}</span>}
