@@ -33,12 +33,9 @@ export default class PODManager {
     }
 
     public async loadPlacemarks(map: Map): Promise<void> {
-        console.log("Load placemarks")
         let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
-
         let placemarks = await this.getPlacemarks(path);
         map.setPlacemarks(placemarks);
-        console.log("Finish load placemarks")
     }
 
     /**
@@ -48,12 +45,28 @@ export default class PODManager {
      * @returns an array of maps containing the details to be displayed as a preview
      */
     public async getAllMaps(): Promise<Array<Map>> {
-        console.log("Get map details")
         let path:string = this.getBaseUrl() + '/data/maps/';
 
         let urls = await this.getContainedUrls(path);
         let maps = await this.getMapPreviews(urls);
         return maps;
+    }
+
+    public async getPlace(url:string): Promise<Place> {
+        let engine = new QueryEngine();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?title ?desc ?lat ?lng
+            WHERE {
+                ?place ?p ?o .
+                ?place schema:name ?title .
+                ?place schema:description ?desc .
+                ?place schema:latitude ?lat .
+                ?place schema:longitude ?lng .  
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([url]));
+        return await result.toArray().then(r => {return Assembler.toPlace(r[0]);});
     }
 
     /**
