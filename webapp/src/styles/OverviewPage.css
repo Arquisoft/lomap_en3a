@@ -29,7 +29,7 @@
     font-size: 1.2rem;
   }
   
-  button[type="submit"] {
+  button[type="submit"]{
     padding: 0.5rem 1rem;
     background-color: #002E66;
     color: #fff;
@@ -43,4 +43,29 @@
   
   button[type="submit"]:hover {
     background-color: #000f22;
+  }
+
+  .photo-preview img {
+    width: 25em;
+    height: auto;
+    margin-right: 50em;
+  }
+
+  .photo-preview {
+    align-items: left;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  button[type="submit"][name="photos"]{
+    margin-top: 1em;
+  }
+
+  button[type="submit"][name="clear-all"]{
+    margin-top: 0.5em;
+    background-color: rgb(202, 64, 64);
+  }
+
+  button[type="submit"][name="clear-all"]:hover{
+    background-color: rgb(109, 29, 29);
   }

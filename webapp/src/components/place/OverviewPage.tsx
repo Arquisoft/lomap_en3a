@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import {Rating} from "react-simple-star-rating";
 import IPlacePageProps from "./IPlacePage";
 import IPlacePageState from "./IPlacePage";
@@ -6,27 +6,37 @@ import "../../styles/OverviewPage.css"; // Import the CSS file
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
+import { PhotoPreview } from "../../pages/AddPlace";
+import PlacePhotos from "../../domain/Place/PlacePhotos";
 
 interface OverviewPageState extends IPlacePageState {
     comment: string;
     rating: number;
+    photosSelected: File[];
 }
 
 export default class OverviewPage extends React.Component<IPlacePageProps, OverviewPageState> {
 
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
-    private rate = Rating;
 
     public constructor(props : IPlacePageProps) {
         super(props);
         this.state = {
             place: props.place,
             comment: "",
-            rating: 0
+            rating: 0,
+            photosSelected: []
         }
+
         //Binding
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleInputRatingChange = this.handleInputRatingChange.bind(this);
+		this.handlePhotoChange = this.handlePhotoChange.bind(this);
+		this.handleClearImage = this.handleClearImage.bind(this);
+		this.handleDeleteImage = this.handleDeleteImage.bind(this);
+		this.handleSubmitComment = this.handleSubmitComment.bind(this);
+		this.handleSubmitRating = this.handleSubmitRating.bind(this);
+		this.handleSubmitPhoto = this.handleSubmitPhoto.bind(this);
     }
 
     handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
@@ -39,13 +49,47 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 		} as unknown as Pick<OverviewPageState, keyof IPlacePageProps>);
     }
 
-    handleInputRatingChange = (rate : number) => {
+    handleInputRatingChange (rate : number) {
 		this.setState({
 			rating: rate,
 		} as unknown as Pick<OverviewPageState, keyof IPlacePageProps>);
     }
 
-    handleSubmitComment = (event: React.FormEvent<HTMLFormElement>) => {
+	// Fill the array of photographies
+	handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
+		// Get the length of the files array.
+		if (event.target.files != null){
+			let filesLength = event.target.files.length;
+			// Use a for loop to iterate through each file.
+			for (let i = 0; i < filesLength; i++) {
+				// Get the current file from the array.
+				let photo = event.target.files[i];
+				// Add each file to the state array using setState function with a callback argument.
+				this.setState((prevState) => ({
+					photosSelected: [...prevState.photosSelected, photo]
+				}));
+
+			}
+		}
+	}
+
+	// Define a handler function that empties the state array.
+	handleClearImage(){
+		// Set the state array to an empty array using setState function.
+		this.setState({ photosSelected: [] });
+	}
+
+	// Define a handler function that deletes a specific file from the state array.
+	handleDeleteImage = (fileName: string) => {
+		// Remove the file with matching name from the state array using setState function with a callback argument and filter method.
+		this.setState((prevState) => ({
+			photosSelected: prevState.photosSelected.filter(
+				(file) => file.name !== fileName
+			)
+		}));
+	};
+
+    handleSubmitComment (event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
         var comment = new PlaceComment(this.state.place, this.sessionManager.getWebID(), this.state.comment);
         //Here the persistence of the object
@@ -53,12 +97,24 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         console.log("Form submitted, comment:", comment);
     };
     
-    handleSubmitRating = (event: React.FormEvent<HTMLFormElement>) => {
+    handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         var rating = new PlaceRating(this.state.place, this.sessionManager.getWebID(), this.state.rating);
         //Here the persistence of the object
 
         console.log("Form submitted, rating:", rating);
+    };
+
+    handleSubmitPhoto (event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        
+
+
+        var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
+        //Here the persistence of the object
+
+        console.log("Form submitted, photo:", photo);
     };
 
     render() {    
@@ -76,7 +132,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                         onChange={this.handleInputChange}
                         required
                     />
-                <button type="submit">Publish</button>
+                <button type="submit">Publish a comment</button>
             </form>
 
             <form onSubmit={this.handleSubmitRating}>
@@ -88,7 +144,20 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                     transition={true}
                 ></Rating>
 
-                <button type="submit">Submit</button>
+                <button type="submit">Submit a review</button>
+            </form>
+
+            <form onSubmit={this.handleSubmitPhoto}>
+                <label htmlFor="photo">Photos:</label>
+                <input type="file" name="photo" onChange={this.handlePhotoChange} />
+                {/* Display all uploaded photos using map function */}
+                {this.state.photosSelected.map((file) => (
+                    <PhotoPreview key={file.name} file={file} onDelete={this.handleDeleteImage}/>
+                ))}
+                {/* Use a button or a link element with onClick attribute */}
+                <button name="clear-all" onClick={this.handleClearImage} type="submit">Clear photos</button>
+
+                <button name="photos" type="submit">Upload photos</button>
             </form>
           </div>
         );

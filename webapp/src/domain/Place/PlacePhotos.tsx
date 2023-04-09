@@ -1,17 +1,17 @@
 import Place from "../Place";
 
-export default class PlaceRating {
+export default class PlacePhotos {
 
   // private fields
   private _place: Place;
   private _user: string;
-  private _rate: number;
+  private _photos: File[];
 
   // constructor
-  constructor(place: Place, user: string, rate: number) {
+  constructor(place: Place, user: string, photos: File[]) {
     this._place = place;
     this._user = user;
-    this._rate = rate;
+    this._photos = photos;
   }
 
   // getter for place
@@ -34,13 +34,13 @@ export default class PlaceRating {
     this._user = user;
   }
 
-  // getter for rating
-  get rate(): number {
-    return this._rate;
+  // getter for photos
+  get rate(): File[] {
+    return this._photos;
   }
 
-  // setter for rating
-  set comment(rate: number) {
-    this._rate = rate;
+  // setter for photos
+  set comment(photos: File[]) {
+    this._photos = photos;
   }
 }

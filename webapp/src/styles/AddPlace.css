@@ -67,8 +67,8 @@
   }
   
   .Place-form .photo-preview img {
-    width: 10em;
-    height: 10em;
+    width: 20em;
+    height: auto;
     margin-right: 4%;
   }
   

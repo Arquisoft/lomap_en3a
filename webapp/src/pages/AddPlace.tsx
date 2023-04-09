@@ -221,7 +221,7 @@ interface State {
 }
 
 // Component for displaying the images that were uploaded.
-class PhotoPreview extends Component<Props, State> {
+export class PhotoPreview extends Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
@@ -275,7 +275,7 @@ class PhotoPreview extends Component<Props, State> {
 		<div className="photo-preview">
 			<h2>Preview of {name}</h2>
 			<img src={url} alt="Uploaded photo" />
-			<button onClick={this.handleDelete}>Delete photo</button>
+			<button onClick={this.handleDelete} type="submit">Delete photo</button>
 		</div>
 		);
 	}
