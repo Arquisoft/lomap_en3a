@@ -75,7 +75,7 @@
 
 button#selected {
     border-radius: 12px;
-    background-color: darkblue;
+    background-color: #002E66 ;
     color: white;
     padding: 10px;
     margin: 5px;
@@ -83,8 +83,22 @@ button#selected {
 
 button#unselected {
     border-radius: 12px;
-    background-color: lightblue;
-    color: white;
+    background-color: #B2CCEB;
+    color: black;
     padding: 10px;
     margin: 5px;
 }
+
+.OverviewPage {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .ReviewsPage {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 4px;
+  }

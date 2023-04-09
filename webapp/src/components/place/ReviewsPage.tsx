@@ -28,7 +28,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
     }
 
     render() {
-        return <div>
+        return <div className="ReviewsPage">
             <h3>Average Rating</h3>
             <div>
                 <Rating readonly initialValue={4}></Rating>
