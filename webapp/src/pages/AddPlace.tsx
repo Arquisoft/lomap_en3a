@@ -98,17 +98,25 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			let filesLength = event.target.files.length;
 			// Use a for loop to iterate through each file.
 			for (let i = 0; i < filesLength; i++) {
-				// Get the current file from the array.
 				let photo = event.target.files[i];
-				// Add each file to the state array using setState function with a callback argument.
-				this.setState((prevState) => ({
-					photosSelected: [...prevState.photosSelected, photo]
-				}));
-
+				// Check if the photo is already in the photosSelected array
+				if (!this.isPhotoInArray(photo, this.state.photosSelected)) {
+					this.setState((prevState) => ({
+						photosSelected: [...prevState.photosSelected, photo]
+					}));
+				}
 			}
 		}
 	}
 
+	isPhotoInArray(photo: File, photosSelected: File[]) : boolean {
+		for (let i = 0; i < photosSelected.length; i++) {
+			if (photo.name === photosSelected[i].name) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 	// Define a handler function that empties the state array.
@@ -173,6 +181,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, this.state.category);
+		console.log("Form submitted:", place);
 
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
