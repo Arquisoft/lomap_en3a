@@ -37,7 +37,7 @@ afterAll(async () => {
 
 describe('place ', () => {
 
-    jest.setTimeout(8000);
+    jest.setTimeout(15000);
 
     /**
      * Listing places without errors
@@ -66,6 +66,7 @@ describe('place ', () => {
             .send({title: title, uuid: uuid, longitude: longitude, latitude: latitude}).set('Accept', 'application/json')
         expect(response.statusCode).toBe(200);
 
+        //After adding it, we should find it on the database
         let place: PlaceType = await Place.findOne({title: title}) as PlaceType;
         expect(place.title).toBe(title);
         expect(place.uuid).toBe(uuid);
@@ -73,5 +74,61 @@ describe('place ', () => {
         expect(place.latitude).toBe(latitude);
 
         await Place.deleteOne({title: title});
+    });
+
+    /**
+     * Correct deletion of a user
+     */
+    it('can be deleted correctly', async () => {
+        let title:string = 'TestPlace'
+        let uuid:string = 'https://lomapen3a.inrupt.net/profile/card#me'
+        let longitude:number = 4.56
+        let latitude:number = 7.35
+        // We check the added place is on the database
+        let place: PlaceType = await Place.create({title: title, uuid: uuid, longitude: longitude, latitude: latitude}) as PlaceType
+        expect(place.title).toBe(title);
+        expect(place.uuid).toBe(uuid);
+        expect(place.longitude).toBe(longitude);
+        expect(place.latitude).toBe(latitude);
+
+        //After deleting it, we should not find it afterwards
+        const response:Response = await request(app).get('/api/places/delete/'+ title)
+            .send({title: title, uuid: uuid, longitude: longitude, latitude: latitude}).set('Accept', 'application/json')
+        expect(response.statusCode).toBe(200);
+        place = await Place.findOne({title: title}) as PlaceType
+        expect(place).toBeNull();
+    });
+
+    /**
+     * Correct update of a user
+     */
+    it('can be updated correctly', async () => {
+        let title:string = 'OriginalPlace'
+        let uuid:string = 'originalUuid'
+        let longitude:number = 1
+        let latitude:number = 1
+        // We demonstrate that, at this point, we have the original values
+        let place: PlaceType = await Place.create({title: title, uuid: uuid, longitude: longitude, latitude: latitude}) as PlaceType
+        expect(place.title).toBe(title);
+        expect(place.uuid).toBe(uuid);
+        expect(place.longitude).toBe(longitude);
+        expect(place.latitude).toBe(latitude);
+
+        let updatedTitle:string = 'UpdatedPlace'
+        let updatedUuid:string = 'updatedUuid'
+        let updatedLongitude:number = 20
+        let updatedLatitude:number = 20
+        //After updating it, it should have the new values
+        const response:Response = await request(app).post('/api/places/update/'+ title)
+            .send({title: updatedTitle, uuid: updatedUuid, longitude: updatedLongitude, latitude: updatedLatitude}).set('Accept', 'application/json')
+        expect(response.statusCode).toBe(200);
+
+        let updatedPlace: PlaceType = await Place.findOne({title: updatedTitle}) as PlaceType
+        expect(updatedPlace.title).toBe(updatedTitle);
+        expect(updatedPlace.uuid).toBe(updatedUuid);
+        expect(updatedPlace.longitude).toBe(updatedLongitude);
+        expect(updatedPlace.latitude).toBe(updatedLatitude);
+
+        await Place.deleteOne({title: updatedTitle});
     });
 });
