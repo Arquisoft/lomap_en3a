@@ -4,9 +4,19 @@ import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
+import Place from '../../domain/Place';
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
+
+
+    public async savePlace(place:Place): Promise<boolean> {
+        let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
+
+        return this.saveDataset(path, Assembler.placeToDataset(place))
+            .then(() => {return true})
+            .catch(() => {return false});
+    }
 
     /**
      * Saves a map to the user's POD
@@ -17,7 +27,7 @@ export default class PODManager {
     public async saveMap(map:Map): Promise<boolean> {
         let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
 
-        return this.saveDataset(path, Assembler.toDataset(map))
+        return this.saveDataset(path, Assembler.mapToDataset(map))
             .then(() => {return true})
             .catch(() => {return false});
     }
@@ -131,7 +141,7 @@ export default class PODManager {
      * @param webID the webID of the POD's user
      * @returns the root URL of the POD
      */
-    private getBaseUrl(webID:string=''): string {
+    public getBaseUrl(webID:string=''): string {
         if (webID === '') {
             webID = this.sessionManager.getWebID();
         }
