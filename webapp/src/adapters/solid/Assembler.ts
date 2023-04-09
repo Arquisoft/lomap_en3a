@@ -85,4 +85,17 @@ export default class Assembler {
         }
     }
 
+    public static toPlace(binding: Bindings): Place {
+        let title = binding.get("title")?.value;
+        let lat = binding.get("lat")?.value;
+        let lng = binding.get("lng")?.value;
+        let desc = binding.get("desc")?.value;
+
+        if ([title, desc, lat, lng].every(p => p!==undefined)) {
+            return new Place(title as string, Number(lat), Number(lng), desc as string);
+        } else {
+            throw "Undefined property for place";
+        }
+    }
+
 }
