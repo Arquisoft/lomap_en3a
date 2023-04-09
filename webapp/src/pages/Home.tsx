@@ -2,9 +2,7 @@ import React from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import Map from "../domain/Map";
-import Placemark from "../domain/Placemark";
 import PODManager from "../adapters/solid/PODManager";
-import { Select } from "@mui/material";
 import { ChangeEvent } from "react";
 
 export default class Home extends React.Component<{},{data:Map|undefined}> {

@@ -53,12 +53,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private defaultIcon: Icon = new Icon({iconUrl: markerIconPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private currentIcon: Icon = new Icon({iconUrl: currentMarkerPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private map: Map;
-    private test: any;
+    private pod: PODManager = new PODManager();
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
-        //testing purposes
-        this.test = null;
+
         this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             showForm: false,
@@ -91,7 +90,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
-                        let place = await new PODManager().getPlace(placemark.getPlaceUrl());
+                        let place = await this.pod.getPlace(placemark.getPlaceUrl());
                         this.setState({placeToShow: place});
                     }}>Get Info
                     </button>
@@ -130,7 +129,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     private addMarker(p: Placemark): void {
         this.map.add(p);
-        new PODManager().saveMap(this.map);
+        this.pod.saveMap(this.map);
         this.setState({
             showForm: false,
             currentPlacemark: null,
