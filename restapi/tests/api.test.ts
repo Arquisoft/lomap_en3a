@@ -77,6 +77,19 @@ describe('place ', () => {
     });
 
     /**
+     * Incorrect creation of a user (empty title)
+     */
+    it('cannot be created correctly (empty title)', async () => {
+        let title:string = ''
+        let uuid:string = 'https://lomapen3a.inrupt.net/profile/card#me'
+        let longitude:number = 4.56
+        let latitude:number = 7.35
+        const response:Response = await request(app).post('/api/places/add')
+            .send({title: title, uuid: uuid, longitude: longitude, latitude: latitude}).set('Accept', 'application/json')
+        expect(response.statusCode).toBe(400);
+    });
+
+    /**
      * Correct deletion of a user
      */
     it('can be deleted correctly', async () => {
