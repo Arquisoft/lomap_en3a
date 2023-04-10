@@ -185,6 +185,7 @@ export default class PODManager {
     private async saveDataset(path:string, dataset:SolidDataset): Promise<void> {
         let fetch = this.sessionManager.getSessionFetch();
         await saveSolidDatasetAt(path, dataset, {fetch: fetch});
+        await this.createAcl(path);
     }
 
     /**
