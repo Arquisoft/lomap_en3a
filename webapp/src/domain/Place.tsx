@@ -9,7 +9,7 @@ export default class Place {
     private _description: string;
     private _photos: File[];
   
-    constructor(name:string, latitude:number, longitude:number, description:string, photos:File[]=new Array<File>, id:string|undefined=undefined) {
+    constructor(name:string, latitude:number, longitude:number, description:string, photos:File[]=new Array<File>(), id:string|undefined=undefined) {
       this._title = name;
       this._latitude = latitude;
       this._longitude = longitude;
