@@ -89,8 +89,9 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
                 <div className="friendsFilterContainer">
                     <label htmlFor="friends">Friend</label>
                     <select name="friends" id="friends" onChange={this.handleFriendChange}>
+                        <option value="None">None</option>
                         {this.friends.map((friend, index) =>
-                            <option id={friend.getWebId()} value={friend.getWebId()}>{friend.getName()}</option>
+                            <option value={friend.getWebId()}>{friend.getName()}</option>
                         )}
                     </select>
                 </div>

@@ -11,6 +11,7 @@ import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import Place from '../../domain/Place';
 import PODManager from '../solid/PODManager';
+import MapFilter from '../../components/MapFilter';
 
 
 /**
@@ -86,7 +87,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
      */
     private generateDefaultMarker(placemark: Placemark): JSX.Element {
         return (
-            <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon} >
+            <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon}>
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
@@ -163,14 +164,17 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
 
         return (
-            <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
-                <Handler click={this.updateCurrentPlacemark.bind(this)}/>
-                <TileLayer
-                    attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <LayerGroup>{this.generateMarkerNewPlace()}{this.state.markers}</LayerGroup>
-            </MapContainer>
+            <div>
+                <MapFilter categories={["Cat1"]}></MapFilter>
+                <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
+                    <Handler click={this.updateCurrentPlacemark.bind(this)}/>
+                    <TileLayer
+                        attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <LayerGroup>{this.generateMarkerNewPlace()}{this.state.markers}</LayerGroup>
+                </MapContainer>
+            </div>
         );
     }
 }
