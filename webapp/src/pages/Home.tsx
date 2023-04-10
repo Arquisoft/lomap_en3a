@@ -1,6 +1,7 @@
 import React from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+import MapFilter from "../components/MapFilter";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import { ChangeEvent } from "react";
@@ -28,7 +29,7 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
         this.state = {
             data: undefined
         };
-        
+
         let map = new Map("Public map");
         let places : Array<PlaceType> = props.placeList;
         let placemarks : Array<Placemark> = places.map((place) => {
@@ -62,14 +63,14 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
             this.setState({data: map});
         }
     }
-    
+
     public render(): JSX.Element {
         return (
             <section className='Home'>
                 <button onClick={async () => {await this.podManager.saveMap(new Map("Initial map"))}}>Save</button>
                 <h2>{this.state.data?.getName() || "Loading"}</h2>
                 {this.state.data !== undefined &&
-                <div> 
+                <div>
                     <select name="map" onChange={this.changeMap.bind(this)}>
                         {this.maps.map(m => {
                             return (<option value={m.getId()}>{m.getName()}</option>)

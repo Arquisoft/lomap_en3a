@@ -181,6 +181,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// Handle form submission logic here.
 		console.log("Form submitted:", this.state);
 
+
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, undefined ,this.state.category);
 		await this.pod.savePlace(place);
