@@ -49,7 +49,7 @@ export default class Assembler {
     }
 
     public static toMapPreviews(bindings: Bindings[]): Array<Map> {
-        let result: Array<Map> = new Array();
+        let result: Array<Map> = [];
 
         for (let binding of bindings) {
             this.addMapPreview(binding, result);
@@ -68,7 +68,7 @@ export default class Assembler {
     }
 
     public static toPlacemarkArray(bindings: Bindings[]): Array<Placemark> {
-        let result: Array<Placemark> = new Array();
+        let result: Array<Placemark> = [];
 
         for (let binding of bindings) {
             this.addPlacemark(binding, result);
@@ -99,5 +99,4 @@ export default class Assembler {
             throw "Undefined property for place";
         }
     }
-
 }
