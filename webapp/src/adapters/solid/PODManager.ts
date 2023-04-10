@@ -19,6 +19,35 @@ export default class PODManager {
             .catch(() => {return false});
     }
 
+    public async createAcl(path:string) {
+        let fetch = {fetch:this.sessionManager.getSessionFetch()};
+        let dataset = await getSolidDatasetWithAcl(path, fetch);
+        let linkedResources = getLinkedResourceUrlAll(dataset);
+        let fallbackAcl = getFallbackAcl(dataset);
+
+        let resourceInfo = {
+            sourceIri: path, 
+            isRawData: false, 
+            linkedResources: linkedResources,
+            aclUrl: path + '.acl' 
+        };
+
+        let acl = createAclFromFallbackAcl(
+            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
+        );
+        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
+    }
+
+    private getResourceWithFallbackAcl(resourceInfo:any, fallbackAcl:any):any {
+        return {
+            internal_resourceInfo: resourceInfo,
+            internal_acl: { 
+                resourceAcl: null, 
+                fallbackAcl: fallbackAcl 
+            }
+        }
+    }
+
     /**
      * Saves a map to the user's POD
      * 
