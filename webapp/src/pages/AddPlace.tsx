@@ -146,7 +146,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
-		await this.pod.savePlace(place);
+		this.pod.savePlace(place);
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
 		//Here.
