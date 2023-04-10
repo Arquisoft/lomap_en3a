@@ -39,7 +39,7 @@ const deletePlace = async (req: Request, res: Response): Promise<Response> => {
             return res.status(400).json({errors: errors.array()})
         }
         await Place.deleteOne({title: req.params.title})
-        return res.status(200)
+        return res.sendStatus(200)
     }
     catch (error) {
         return res.status(500).send("An error has occurred while deleting a place with title " +
@@ -59,7 +59,7 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
             longitude: req.body.longitude,
             latitude: req.body.latitude
         });
-        return res.status(200)
+        return res.sendStatus(200)
     }
     catch (error) {
         return res.status(500).send("An error has occurred while updating a place with title " +
