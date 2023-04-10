@@ -4,6 +4,7 @@ import PlaceManager from "../adapters/solid/PlaceManager";
 import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
+import PODManager from "../adapters/solid/PODManager";
 
 // Define the state type.
 interface IState {
@@ -23,6 +24,7 @@ interface IProps{
 export default class AddPlace extends React.Component<IProps, IState> {
 	defName: string = "Name";
 	defDescription: string = "Description.";
+	pod: PODManager = new PODManager();
 
 
 	// Define default values for the page. This would not be necessary when the page is indexed.
@@ -99,9 +101,9 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 	// When the submit button is pressed, the parameters are validated and the object Place is created.
 	// Here is where this object should be taken from to make it persistent.
-	handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
+		/*
 		//Validating parameters.
 		if (!this.state.name) {
 			alert("Name is required");
@@ -139,12 +141,12 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			alert("At least one photo is required");
 			return;
 		}
-
+		*/
 		// Handle form submission logic here.
-		console.log("Form submitted:", this.state);
+		
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
-
+		await this.pod.savePlace(place);
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
 		//Here.
@@ -152,8 +154,9 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		(new PlaceManager()).createNewMapPoint(place);
 
 		if (this.props.callback !== undefined) {
+			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 			this.props.callback(new Placemark(
-				this.state.latitude, this.state.longitude, this.state.name
+				this.state.latitude, this.state.longitude, this.state.name, placeUrl
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}
