@@ -10,6 +10,7 @@ import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import Place from '../../domain/Place';
+import PODManager from '../solid/PODManager';
 
 
 /**
@@ -24,7 +25,7 @@ interface LeafletMapAdapterProps {
  */
 interface LeafletMapAdapterState {
     showForm: boolean;
-    showInfo: boolean;
+    placeToShow: Place | undefined;
     currentPlacemark: Placemark | null;
     markers: Array<JSX.Element>;
 }
@@ -52,16 +53,15 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private defaultIcon: Icon = new Icon({iconUrl: markerIconPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private currentIcon: Icon = new Icon({iconUrl: currentMarkerPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private map: Map;
-    private test: any;
+    private pod: PODManager = new PODManager();
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
-        //testing purposes
-        this.test = null;
-        this.map = (props.map !== undefined) ? props.map : new Map();
+
+        this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             showForm: false,
-            showInfo: false,
+            placeToShow: undefined,
             currentPlacemark: null,
             markers: this.map.getPlacemarks().map(
                 (p) => this.generateDefaultMarker(p)
@@ -89,8 +89,9 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon} >
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
-                    <button onClick={() => {
-                        this.setState({showInfo: true});
+                    <button onClick={async () => {
+                        let place = await this.pod.getPlace(placemark.getPlaceUrl());
+                        this.setState({placeToShow: place});
                     }}>Get Info
                     </button>
                 </Popup>
@@ -128,6 +129,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     private addMarker(p: Placemark): void {
         this.map.add(p);
+        this.pod.saveMap(this.map);
         this.setState({
             showForm: false,
             currentPlacemark: null,
@@ -156,8 +158,8 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         if (this.state.showForm && this.state.currentPlacemark !== null) {
             return <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
         }
-        if (this.state.showInfo) {
-            return <PointInformation map={this.map} point={new Place("Test", 0, 0, "Test", new Array(), "")}/>
+        if (this.state.placeToShow !== undefined) {
+            return <PointInformation map={this.map} point={this.state.placeToShow}/>
         }
 
         return (
