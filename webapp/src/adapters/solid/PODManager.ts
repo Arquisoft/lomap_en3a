@@ -1,10 +1,11 @@
 import { QueryEngine } from '@comunica/query-sparql-solid';
-import { saveSolidDatasetAt, SolidDataset } from '@inrupt/solid-client';
+import { createAclFromFallbackAcl, getFallbackAcl, getLinkedResourceUrlAll, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, SolidDataset, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
+import { universalAccess as access } from "@inrupt/solid-client";
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
@@ -32,6 +33,14 @@ export default class PODManager {
             .catch(() => {return false});
     }
 
+    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
+        await access.setPublicAccess(
+            resourceUrl,
+            { read: isPublic },
+            { fetch: this.sessionManager.getSessionFetch() },
+        );
+    }
+
     public async loadPlacemarks(map: Map): Promise<void> {
         let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
         let placemarks = await this.getPlacemarks(path);
@@ -49,6 +58,7 @@ export default class PODManager {
 
         let urls = await this.getContainedUrls(path);
         let maps = await this.getMapPreviews(urls);
+        console.log(maps)
         return maps;
     }
 
