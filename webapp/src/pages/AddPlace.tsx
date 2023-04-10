@@ -6,13 +6,31 @@ import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 import PODManager from "../adapters/solid/PODManager";
 
+enum Category {
+  restaurant = "restaurant",
+  bar = "bar",
+  museum = "museum",
+  park = "park",
+  hotel = "hotel",
+  busines = "busines",
+  transit = "transit",
+  pharmacy = "pharmacy",
+  ATM = "ATM"
+}
+
 // Define the state type.
 interface IState {
 	name: string;
 	latitude: number;
 	longitude: number;
+  category: string;
 	description: string;
 	photosSelected: File[]; // The array of photos.
+	nameError: string;
+  categoryError: string;
+	latitudeError: string;
+	longitudeError: string;
+	descriptionError: string;
 }
 
 // Define the props type.
@@ -22,8 +40,6 @@ interface IProps{
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
-	defName: string = "Name";
-	defDescription: string = "Description.";
 	pod: PODManager = new PODManager();
 
 
@@ -38,23 +54,36 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// The state is the Place object that will be created and passed to the next function.
 		// It is constructed by the props of the Placemark where the place is.
 		this.state = {
-			name: this.defName,
+			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
-			description: this.defDescription,
+      		category: "restaurant",
 			photosSelected: [],
+			description: "",
+			nameError: "",
+      		categoryError: "",
+			latitudeError: "",
+			longitudeError: "",
+			descriptionError: "",
 		};
 
 		// Binding the calls.
+    	this.getCategoryList = this.getCategoryList.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	// Function that returns the category list.
+	getCategoryList() : string[] {
+		return Object.keys(Category);
+	}
+
+
 	// Fill in the state.
 	// When a value is modified in the form (onChange function) the value of the state is updated.
-	handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+	handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
 		const target = event.target;
 		const value = target.value;
 		const name = target.name;
@@ -71,15 +100,24 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			let filesLength = event.target.files.length;
 			// Use a for loop to iterate through each file.
 			for (let i = 0; i < filesLength; i++) {
-				// Get the current file from the array.
 				let photo = event.target.files[i];
-				// Add each file to the state array using setState function with a callback argument.
-				this.setState((prevState) => ({
-					photosSelected: [...prevState.photosSelected, photo]
-				}));
-
+				// Check if the photo is already in the photosSelected array
+				if (!this.isPhotoInArray(photo, this.state.photosSelected)) {
+					this.setState((prevState) => ({
+						photosSelected: [...prevState.photosSelected, photo]
+					}));
+				}
 			}
 		}
+	}
+
+	isPhotoInArray(photo: File, photosSelected: File[]) : boolean {
+		for (let i = 0; i < photosSelected.length; i++) {
+			if (photo.name === photosSelected[i].name) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 
@@ -90,7 +128,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	}
 
 	// Define a handler function that deletes a specific file from the state array.
-	handleDeleteImage (fileName: string){
+	handleDeleteImage = (fileName: string) => {
 		// Remove the file with matching name from the state array using setState function with a callback argument and filter method.
 		this.setState((prevState) => ({
 			photosSelected: prevState.photosSelected.filter(
@@ -103,50 +141,50 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	// Here is where this object should be taken from to make it persistent.
 	async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		/*
+		let isFormValid : boolean;
+		isFormValid = true;
+		
 		//Validating parameters.
 		if (!this.state.name) {
-			alert("Name is required");
-			return;
-		}
-		if (this.state.name === this.defName) {
-			alert("Name cannot be '" + this.defName + "'");
-			return;
+			this.setState({ nameError: "Name is required" });
+			isFormValid = false;
 		}
 		if (!this.state.latitude || !this.state.longitude) {
-			alert("Latitude and longitude are required");
-			return;
+			this.setState({ latitudeError: "Latitude and longitude are required" });
+			isFormValid = false;
 		}
 		if (isNaN(this.state.latitude) || isNaN(this.state.longitude)) {
-			alert("Latitude and longitude must be numbers");
-			return;
+			this.setState({ latitudeError: "Latitude and longitude must be numbers" });
+			isFormValid = false;
 		}
 		if (this.state.latitude < -90 || this.state.latitude > 90) {
-			alert("Latitude must be between -90 and 90 degrees");
-			return;
+			this.setState({ latitudeError: "Latitude must be between -90 and 90 degrees" });
+			isFormValid = false;
 		}
 		if (this.state.longitude < -180 || this.state.longitude > 180) {
-			alert("Longitude must be between -180 and 180 degrees");
-			return;
+			this.setState({ longitudeError: "Longitude must be between -180 and 180 degrees" });
+			isFormValid = false;
 		}
 		if (!this.state.description) {
-			alert("Description is required");
-			return;
+			this.setState({ descriptionError: "Description is required" });
+			isFormValid = false;
 		}
-		if (this.state.description === this.defDescription) {
-			alert("Description cannot be '" + this.defDescription + "'");
-			return;
+		if (!this.state.category) {
+		this.setState({ categoryError: "Category is required" });
+			isFormValid = false;
 		}
-		if (!this.state.photosSelected || this.state.photosSelected.length === 0) {
-			alert("At least one photo is required");
-			return;
-		}
-		*/
-		// Handle form submission logic here.
-		
 
-		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description, this.state.photosSelected);
-		this.pod.savePlace(place);
+		if (!isFormValid) {
+			return;
+		}
+
+		// Handle form submission logic here.
+		console.log("Form submitted:", this.state);
+
+
+		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
+                      this.state.photosSelected, undefined ,this.state.category);
+		await this.pod.savePlace(place);
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
 		//Here.
@@ -174,25 +212,36 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<input
 					type="text"
 					name="name"
-					value={this.state.name}
+					placeholder="Name"
 					onChange={this.handleInputChange}
 				/>
 			</div>
+			{this.state.nameError && <span className="error">{this.state.nameError}</span>}
 			<div>
 				<h3>Location:</h3> 
 				<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
 			</div>
+      		<div>
+				<label htmlFor="category">Category:</label>
+				<select title="category" name="category" value={this.state.category} onChange={this.handleInputChange}>
+          		{this.getCategoryList().map((category) => (
+            		<option key={category} value={category}>{category}</option>
+          		))}
+        		</select>
+			</div>
+			{this.state.categoryError && <span className="error">{this.state.categoryError}</span>}
 			<div>
 				<label htmlFor="description">Description:</label>
 				<textarea
 					name="description"
-					value={this.state.description}
+					placeholder="Introduce a description"
 					onChange={this.handleInputChange}
 				/>
 			</div>
+			{this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
 			<div>
 				<label htmlFor="photo">Photo:</label>
-				<input type="file" name="photo" onChange={this.handlePhotoChange} />
+				<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
 			</div>
 			<button type="submit">Submit</button>
 			</form>
@@ -202,7 +251,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			))}
 
 			{/* Use a button or a link element with onClick attribute */}
-			<button onClick={this.handleClearImage}>Clear photos</button>
+			{this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage}>Clear photos</button>)}
 		</section>
 		);
 	}  
@@ -224,7 +273,7 @@ interface State {
 }
 
 // Component for displaying the images that were uploaded.
-class PhotoPreview extends Component<Props, State> {
+export class PhotoPreview extends Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
@@ -278,7 +327,7 @@ class PhotoPreview extends Component<Props, State> {
 		<div className="photo-preview">
 			<h2>Preview of {name}</h2>
 			<img src={url} alt="Uploaded photo" />
-			<button onClick={this.handleDelete}>Delete photo</button>
+			<button onClick={this.handleDelete} type="submit">Delete photo</button>
 		</div>
 		);
 	}

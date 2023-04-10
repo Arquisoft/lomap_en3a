@@ -94,7 +94,7 @@ export default class Assembler {
         let desc = binding.get("desc")?.value;
 
         if ([title, desc, lat, lng].every(p => p!==undefined)) {
-            return new Place(title as string, Number(lat), Number(lng), desc as string);
+            return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, undefined, "no-category");
         } else {
             throw "Undefined property for place";
         }
