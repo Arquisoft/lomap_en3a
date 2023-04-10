@@ -2,27 +2,24 @@
  * Class to define a point retrieved from the SOLID dataset
  */
 export default class Place {
-    private _uuid: string | undefined;
+    private _uuid: string = crypto.randomUUID();
     private _title: string;
     private _latitude: number;
     private _longitude: number;
     private _description: string;
     private _photos: File[];
   
-    constructor(name: string, latitude: number, longitude: number, description: string, photos: File[]) {
+    constructor(name:string, latitude:number, longitude:number, description:string, photos:File[]=new Array<File>, id:string|undefined=undefined) {
       this._title = name;
       this._latitude = latitude;
       this._longitude = longitude;
       this._description = description;
       this._photos = photos;
+      this._uuid = (id === undefined) ? crypto.randomUUID() : id;
     }
 
-    get uuid(): string | undefined {
+    get uuid(): string {
         return this._uuid;
-    }
-
-    set uuid(name: string | undefined) {
-        this._uuid = name;
     }
 
     get title(): string {
