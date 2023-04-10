@@ -1,9 +1,9 @@
 import React from "react";
+import FriendManager from "../adapters/solid/FriendManager";
 import User from "../domain/User";
 import '../styles/mapFilter.css';
 
 interface MapfilterProps {
-    // TODO maybe the user should be passed as a parameter ? to find the friends
     categories: string[]
 }
 
@@ -14,28 +14,37 @@ interface MapFilterState {
 
 export default class MapFilter extends React.Component<MapfilterProps, MapFilterState> {
 
-    // TODO must change to the Categories class
     private categories: string[] = [];
     private friends: User[];
+    private friendsManager: FriendManager = new FriendManager();
 
     public constructor(props: MapfilterProps) {
         super(props);
         this.friends = new Array();
-        // TODO do a call to get the users friends
 
-        // TODO Testing purposes only
-        this.categories = props.categories;
-        this.friends.push(new User("Pelayo", "123"));
-        this.friends.push(new User("Carlos", "124"));
-
-        this.state = {
-            selectedCategories: new Map().set(this.categories[0], false).set(this.categories[1], false),
-            selectedFriend: this.friends[0].getWebId()
-        }
+        this.getFriends().then(() => {
+            this.setState(() => ({
+                selectedCategories: new Map().set(this.categories[0], false).set(this.categories[1], false),
+                selectedFriend: this.friends[0].getWebId()
+            }));
+        }).catch(() => {
+            this.state = {
+                selectedCategories: new Map().set(this.categories[0], false).set(this.categories[1], false),
+                selectedFriend: (this.friends[0] != null ? this.friends[0].getWebId() : "")
+            }
+        });
 
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleFriendChange = this.handleFriendChange.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
+    }
+
+    /**
+     * Just a small function to get the friends of the user
+     * @private
+     */
+    private async getFriends() {
+        this.friends = await this.friendsManager.getFriendsList();
     }
 
     /** Will asign the selected category to the field when changed
@@ -68,10 +77,14 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         } as unknown as Pick<MapFilterState, keyof MapFilterState>);
     }
 
+    /**
+     * Function to handle the submit of the filter
+     * @param event
+     * @private
+     */
     private applyFilter(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         var a = this.state.selectedCategories;
-        console.log(a);
         // TODO handle the map filtering
     }
 
