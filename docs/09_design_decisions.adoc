@@ -69,7 +69,7 @@ We want to promote the usage of functions that will treat the information of the
 
 |===
 | **Advantages** | **Disadvantages**
-|Less code will be neccesarry to perform the same task.|The code will be more complex.
+|Less code will be necessary to perform the same task.|The code will be more complex.
 |The behavior will be more consistent.|More in depth reasoning will be needed.
 |===
 
