@@ -36,6 +36,12 @@ every case._
 with lots of data and/or that perform many accesses._
 | _This will be studied at due time, once we start to implement the application, to approach certain aspects or refactor
 them in a way that the application can handle a greater workload._
+| _Deployment issues_
+| _The deployment will require every developed test to pass, and it involves a complex configuration that may be
+difficult to understand._
+| _We will try to perform a test development with enough time to fix the possible errors that may arise, taking into
+account that it is our first time working with Github Actions and Docker, and it is probable that the process may not go
+smoothly._
 |===
 
 === Technical debts
