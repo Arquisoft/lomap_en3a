@@ -3,4 +3,4 @@
 
 == Deployment View
 
-image:deployment_view.jpg["Domain model UML Diagram"]
+image:Deployment View.jpg["Deployment view diagram"]
