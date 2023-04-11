@@ -1,10 +1,11 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import MapFilter from '../MapFilter';
+import {PlaceCategory} from '../../domain/Place/PlaceCategory';
 
 test('When the MapFilter renders, all the categories are shown', () => {
-    const categories: string[] = ["Restaurant", "Monument", "Museum", "Education"];
-    const {getByText} = render(<MapFilter categories={categories}></MapFilter>);
+    const categories: string[] = Object.keys(PlaceCategory);
+    const {getByText} = render(<MapFilter></MapFilter>);
     for (const i in categories) {
         expect(getByText(categories[i])).toBeInTheDocument();
     }
