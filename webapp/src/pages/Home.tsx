@@ -76,7 +76,12 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
                             return (<option value={m.getId()}>{m.getName()}</option>)
                         })}
                     </select>
-                    <LeafletMapAdapter map={this.state.data}/>
+                    <div className = "content">
+                        <MapFilter></MapFilter>
+                        <div className="map">
+                        <LeafletMapAdapter map={this.state.data}/>
+                        </div>
+                    </div>
                 </div>}
                 <input type="button" value="set public" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+this.maps[0].getId(), true)}} />
                 <input type="button" value="set private" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+this.maps[0].getId(), false)}} />

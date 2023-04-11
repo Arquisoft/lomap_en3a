@@ -1,5 +1,3 @@
-import * as crypto from "crypto";
-
 /**
  * Class to define a point retrieved from the SOLID dataset
  */

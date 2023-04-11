@@ -42,6 +42,10 @@
   }
 }
 
-#prueba{
+.content{
   display: flex;
+}
+
+.map{
+  width: 100%;
 }

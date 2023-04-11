@@ -1,5 +1,4 @@
 import Placemark from "./Placemark";
-import * as crypto from "crypto";
 
 export default class Map {
     private placemarks: Array<Placemark> = new Array<Placemark>();
