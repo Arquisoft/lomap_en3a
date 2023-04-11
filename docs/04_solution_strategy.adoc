@@ -14,10 +14,13 @@ It is the most spread option for developing web applications in React, so we exp
 our projects, in terms of information sources and libraries. Also, most of the members have worked with JavaScript in
 SEW, so the transition to TypeScript should be smoother.
 
-==== Database: MySQL/SQLite
-Relational databases are the ones we learned about the most in previous courses, and we expect to develop
-smoothly the persistence of our application. It is more difficult to find a free database service for our application
-which is not restrictive, but our application will not need a big persistence infrastructure.
+==== Database: MongoDB
+As our centralized database only stores public places, there is no relation between entities that should be taken into
+account, so document databases arise as a good option, as they have good performance and flexible schema. Also, given
+that we are working with Typescript, we can rely on MongoDB NodeJS drivers that make the task easier (such as Mongoose).
+In addition, we have free access to a cloud storage of 512MB, an option that many providers do not offer. Finally, it
+is important to mention we have used it in other subject (SDI), so the adaptation and learning process should not be a
+concern.
 
 === Top-level decomposition of the system
 Some patterns have been discussed to tackle the design of the solution. This section is expected to be updated during
