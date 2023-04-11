@@ -1,9 +1,9 @@
 import React from 'react';
 import {fireEvent, getByText, render, screen} from '@testing-library/react';
-import NavMenu from "./NavMenu";
+import NavMenu from "../NavMenu";
 import {BrowserRouter} from "react-router-dom";
 
-test('renders nav menu', () => {
+test('nav menu is rendered', () => {
     render(<BrowserRouter><NavMenu /></BrowserRouter>);
     const homeOptionText = screen.getByText("Home");
     expect(homeOptionText).toBeInTheDocument();
