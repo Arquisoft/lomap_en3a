@@ -14,10 +14,13 @@ It is the most spread option for developing web applications in React, so we exp
 our projects, in terms of information sources and libraries. Also, most of the members have worked with JavaScript in
 SEW, so the transition to TypeScript should be smoother.
 
-==== Database: MySQL/SQLite
-Relational databases are the ones we learned about the most in previous courses, and we expect to develop
-smoothly the persistence of our application. It is more difficult to find a free database service for our application
-which is not restrictive, but our application will not need a big persistence infrastructure.
+==== Database: MongoDB
+As our centralized database only stores public places, there is no relation between entities that should be taken into
+account, so document databases arise as a good option, as they have good performance and flexible schema. Also, given
+that we are working with Typescript, we can rely on MongoDB NodeJS drivers that make the task easier (such as Mongoose).
+In addition, we have free access to a cloud storage of 512MB, an option that many providers do not offer. Finally, it
+is important to mention we have used it in other subject (SDI), so the adaptation and learning process should not be a
+concern.
 
 === Top-level decomposition of the system
 Some patterns have been discussed to tackle the design of the solution. This section is expected to be updated during
@@ -47,8 +50,8 @@ grant the access to more people._
 
 | _Robustness_
 | _Validations of user input on client-side will be performed so that there is no risk of inconsistencies, security
-issues, etc. Server-side validations will be learned in the near future in another subject, so we postpone this matter
-until we are able to tackle it._
+issues, etc. Server-side validations are done by means of "express-validator" on each request made to the server (check
+the fields have correct values) to make sure that no corrupt data is stored on the database._
 |
 
 | _Usability_
@@ -78,9 +81,10 @@ presented, along with their role in the development process.
 specific format, and it contains the following sections:
 *** *Date*
 *** *Participants*
-*** *Agreements (about work assignment)*
-*** *State of previous tasks*: They may include links to issues and/or pull requests.
+*** *State of previous tasks*: It may include links to issues and/or pull requests.
 *** *Description of decisions taken*: Sometimes they are included in the agreements section.
+*** *New tasks*: List of the tasks that were identified and created in the meeting. It may also include links to issues
+created for them.
 
 ** *Issues*: The way to register every important event (tasks to do, problems to solve, doubts…).
 
@@ -100,8 +104,8 @@ To complete the previous explanation, let us put an example of the steps we do t
 the Kanban and the branch can be deleted.
 ** If it is rejected, the needed fixes are performed, and the pull request is updated with them. A new revision takes
 place.
-* If a bug is discovered after merging, a new branch may be created and the issue is reopened. Also, it is placed again
-on the "In progress" state of the Kanban.
+* If a bug is discovered after merging or we need to extend the functionality of that feature, a new branch may be
+created and the issue is reopened. Also, it is placed again on the "In progress" state of the Kanban.
 
 [role="arc42help"]
 ****

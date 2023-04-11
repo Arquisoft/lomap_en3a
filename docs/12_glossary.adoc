@@ -43,6 +43,13 @@ applications, and it has to be complemented with other libraries to develop full
 | Node.js
 | Open-source, event-oriented runtime environment for JavaScript in servers.
 
+| MongoDB
+| Open-source NoSQL database system that stores data in documents.
+
+| Mongoose
+| Node.js library that allows to work with MongoDB databases while providing useful features like validation, type
+casting and query building.
+
 | JavaScript
 | A programming language that allows the integration of sophisticated functionality on web pages. Together with HTML and CSS, it is one of the core technologies of the World Wide Web. It can update, manipulate, and validate data as well as update and edit both HTML and CSS.
 
@@ -53,16 +60,17 @@ applications, and it has to be complemented with other libraries to develop full
 | Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users data, by
 employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
 the access to the personal data.
-| Project
+
+| Project (SOLID)
 | Aims to create interoperable ecosystems of services and data where users are free to openly use their data across various services and applications. Solid IDs, Solid Pods, and Solid Applications are its three foundational pillars.
 
-| ID
+| ID (SOLID)
 | A unique identifier that you use to access your data and log into Solid applications.
 
-| Pod
+| Pod (SOLID)
 | A personal internet datastore where you can save your information. Who has access to your Pod and what they can do with your data are both things you can manage.
 
-| Application
+| Application (SOLID)
 | Any online application that reads or writes data from your Pod using Solid technology.
 
 | Pin
