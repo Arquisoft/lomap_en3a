@@ -25,7 +25,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         this.getFriends().then(() => {
             this.setState(() => ({
                 selectedCategories: new Map().set(this.categories[0], false).set(this.categories[1], false),
-                selectedFriend: this.friends[0].getWebId()
+                selectedFriend: this.friends.length > 0 ? this.friends[0].getWebId() : "No friends"
             }));
         }).catch(() => {
             this.state = {
