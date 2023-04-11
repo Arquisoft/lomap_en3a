@@ -53,12 +53,24 @@ Status: Accepted
 
 === ADR 4: Friends places information.
 
-The application is required to display places that the friends of the user has shared. This friend’s information should be private and stored on their own Pod. A list of the friend’s places will be computed from the information stored on the Pods of their friends.
+The application is required to display places that the friends of the user has shared. This friend's information should be private and stored on their own Pod. A list of the friend's places will be computed from the information stored on the Pods of their friends.
 
 |===
 | **Advantages** | **Disadvantages**
 |The user will have full control of its data.|This solution might be harder to implement.
 |The server won't treat private data.|
+|===
+
+Status: Accepted
+
+=== ADR 5: Uniform treatment for maps and places.
+
+We want to promote the usage of functions that will treat the information of the places in the same way, regardless of whether they are public or private. This will allow us to have a more uniform treatment of the information and a more consistent code.
+
+|===
+| **Advantages** | **Disadvantages**
+|Less code will be neccesarry to perform the same task.|The code will be more complex.
+|The behavior will be more consistent.|More in depth reasoning will be needed.
 |===
 
 Status: Accepted
