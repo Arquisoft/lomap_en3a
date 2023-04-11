@@ -50,8 +50,8 @@ grant the access to more people._
 
 | _Robustness_
 | _Validations of user input on client-side will be performed so that there is no risk of inconsistencies, security
-issues, etc. Server-side validations will be learned in the near future in another subject, so we postpone this matter
-until we are able to tackle it._
+issues, etc. Server-side validations are done by means of "express-validator" on each request made to the server (check
+the fields have correct values) to make sure that no corrupt data is stored on the database._
 |
 
 | _Usability_
