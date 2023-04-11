@@ -70,4 +70,14 @@ the access to the personal data.
 
 | ADR
 | Architectural Decision Record. A documentation of a software design decision that satisfies an architecturally significant functional or non-functional requirement.
+
+| Docker
+| A platform that uses OS-level virtualization to deliver software in packages called containers. It is used to deploy applications inside software containers, where they can run in isolation from the operating system.
+
+| WebApp
+| A web application that is stored on a remote server and delivered through the Internet browser. In our case, we refer to the part of the application that will run on the client side.
+
+| RestAPI
+| A software architecture style that we used for providing a set of functions to access the data of the application. In our case, we refer to the part of the application that will run on the server side.
+
 |===
