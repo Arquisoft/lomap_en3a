@@ -81,9 +81,10 @@ presented, along with their role in the development process.
 specific format, and it contains the following sections:
 *** *Date*
 *** *Participants*
-*** *Agreements (about work assignment)*
-*** *State of previous tasks*: They may include links to issues and/or pull requests.
+*** *State of previous tasks*: It may include links to issues and/or pull requests.
 *** *Description of decisions taken*: Sometimes they are included in the agreements section.
+*** *New tasks*: List of the tasks that were identified and created in the meeting. It may also include links to issues
+created for them.
 
 ** *Issues*: The way to register every important event (tasks to do, problems to solve, doubts…).
 
@@ -103,8 +104,8 @@ To complete the previous explanation, let us put an example of the steps we do t
 the Kanban and the branch can be deleted.
 ** If it is rejected, the needed fixes are performed, and the pull request is updated with them. A new revision takes
 place.
-* If a bug is discovered after merging, a new branch may be created and the issue is reopened. Also, it is placed again
-on the "In progress" state of the Kanban.
+* If a bug is discovered after merging or we need to extend the functionality of that feature, a new branch may be
+created and the issue is reopened. Also, it is placed again on the "In progress" state of the Kanban.
 
 [role="arc42help"]
 ****
