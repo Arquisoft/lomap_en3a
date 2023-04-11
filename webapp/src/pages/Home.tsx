@@ -67,7 +67,6 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
     public render(): JSX.Element {
         return (
             <section className='Home'>
-                <MapFilter></MapFilter>
                 <button onClick={async () => {await this.podManager.saveMap(new Map("Initial map"))}}>Save</button>
                 <h2>{this.state.data?.getName() || "Loading"}</h2>
                 {this.state.data !== undefined &&
