@@ -8,7 +8,11 @@ export default class User {
         this.webID = webID;
     }
 
-    public getName(){
+    public getName() {
         return this.name;
+    }
+
+    public getWebId() {
+        return this.webID;
     }
 }

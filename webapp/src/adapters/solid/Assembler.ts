@@ -44,6 +44,7 @@ export default class Assembler {
             .addStringNoLocale(SCHEMA_INRUPT.name, placemark.getTitle())
             .addDecimal(SCHEMA_INRUPT.latitude, placemark.getLat())
             .addDecimal(SCHEMA_INRUPT.longitude, placemark.getLng())
+            .addStringNoLocale(SCHEMA_INRUPT.url, placemark.getPlaceUrl())
             .build();
     }
 
@@ -79,9 +80,10 @@ export default class Assembler {
         let title = binding.get("title")?.value;
         let lat = binding.get("lat")?.value;
         let lng = binding.get("lng")?.value;
+        let placeUrl = binding.get("placeUrl")?.value;
 
-        if (title!==undefined && lat!==undefined && lng!==undefined) {
-            placemarks.push(new Placemark(Number(lat), Number(lng), title));
+        if (title!==undefined && lat!==undefined && lng!==undefined && placeUrl!==undefined) {
+            placemarks.push(new Placemark(Number(lat), Number(lng), title, placeUrl));
         }
     }
 
@@ -92,7 +94,7 @@ export default class Assembler {
         let desc = binding.get("desc")?.value;
 
         if ([title, desc, lat, lng].every(p => p!==undefined)) {
-            return new Place(title as string, Number(lat), Number(lng), desc as string);
+            return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, undefined, "no-category");
         } else {
             throw "Undefined property for place";
         }
