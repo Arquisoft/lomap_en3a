@@ -50,9 +50,17 @@ image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscuttin
 ****
 
 
-=== Domain model
+=== POD's structure information
+----
+|-lomap
+    |-data
+    	|-maps
+	    |-places
+----
 
-image:Domain Model.jpg["Domain model UML Diagram"]
+The permissions in order to set a place only visible for everyone, a group of people or
+none other than the owner himself, are managed from the POD itself. That is the reason why any
+other extra folder to classify the places is not necessary.
 
 === UI/UX:
 The application will consist of a webpage application where the user will be able to choose between a public map or different views that the user creates. This map will only show the minimal information as form of “pins”. The user can click on the pin that a place represents, and the full information will be loaded and prompted. A friendly and familiar approach will be hold when designing the different views of the application; Google Maps will be the main reference.
