@@ -23,7 +23,7 @@ Important Interfaces::
 The most important interfaces, (described in the next levels) are the ones in charge of the communication with the PODs manager and the database.
 
 === Infrastructure
-image:05_Building_Block_Level_1_1.JPG['White Box 1.1']
+image:05_Building_Block_Level_1_1.jpg['White Box 1.1']
 
 Purpose::
 It is the Infrastructure of the application, the RestApi and the WebApp both interact with external interfaces and APIs,
@@ -63,8 +63,8 @@ Level 3::
 image:businessmodel/Business model Level 2.svg['Third level (domain model) of the business model']
 * *Placemark*: Is the graphical representation of a Place. Although now it stores
 nothing related with the appearance, it could be in the future. However, it will always store the
-minimal information of a place to be display in a map as a mark. This was done because of term of
-performance when showing all the public places published in the web app.
+minimal information of a place to be display in a map as a mark. This was done because in terms of
+performance when showing all the public places published in the web app it is better.
 
 === LoMap Architecture
 
