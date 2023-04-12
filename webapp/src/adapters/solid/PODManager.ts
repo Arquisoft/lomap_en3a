@@ -147,16 +147,17 @@ export default class PODManager {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?title ?desc ?lat ?lng
+            SELECT DISTINCT ?title ?desc ?lat ?lng ?id
             WHERE {
                 ?place ?p ?o .
                 ?place schema:name ?title .
                 ?place schema:description ?desc .
                 ?place schema:latitude ?lat .
                 ?place schema:longitude ?lng .  
+                ?place schema:identifier ?id .  
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext([url]));
+        let result = await engine.queryBindings(query, this.getQueryContext([url+"/details"]));
         return await result.toArray().then(r => {return Assembler.toPlace(r[0]);});
     }
 
@@ -208,7 +209,6 @@ export default class PODManager {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?title ?lat ?lng ?placeUrl
             SELECT DISTINCT ?title ?lat ?lng ?placeUrl ?cat
             WHERE {
                 ?placemark ?p ?o .    

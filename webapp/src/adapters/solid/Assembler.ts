@@ -135,9 +135,11 @@ export default class Assembler {
         let lat = binding.get("lat")?.value;
         let lng = binding.get("lng")?.value;
         let desc = binding.get("desc")?.value;
+        let id = binding.get("id")?.value;
+        console.log(id)
 
-        if ([title, desc, lat, lng].every(p => p!==undefined)) {
-            return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, undefined, "no-category");
+        if ([title, desc, lat, lng, id].every(p => p!==undefined)) {
+            return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, id as string, "no-category");
         } else {
             throw "Undefined property for place";
         }
