@@ -184,7 +184,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, undefined ,this.state.category);
-		await this.pod.savePlace(place);
+		this.pod.savePlace(place); //run asynchronously
+
 		//Here has to be the rest of the logic for persitence on pods.
 		//Here.
 		//Here.
@@ -192,7 +193,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		if (this.props.callback !== undefined) {
 			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 			this.props.callback(new Placemark(
-				this.state.latitude, this.state.longitude, this.state.name, placeUrl
+				this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}
