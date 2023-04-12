@@ -45,6 +45,7 @@ export default class Assembler {
             .addDecimal(SCHEMA_INRUPT.latitude, placemark.getLat())
             .addDecimal(SCHEMA_INRUPT.longitude, placemark.getLng())
             .addStringNoLocale(SCHEMA_INRUPT.url, placemark.getPlaceUrl())
+            .addStringNoLocale(SCHEMA_INRUPT.description, placemark.getCategory())
             .build();
     }
 
@@ -81,9 +82,12 @@ export default class Assembler {
         let lat = binding.get("lat")?.value;
         let lng = binding.get("lng")?.value;
         let placeUrl = binding.get("placeUrl")?.value;
+        let cat = binding.get("cat")?.value;
 
         if (title!==undefined && lat!==undefined && lng!==undefined && placeUrl!==undefined) {
             placemarks.push(new Placemark(Number(lat), Number(lng), title, placeUrl));
+        if (title!==undefined && lat!==undefined && lng!==undefined && placeUrl!==undefined && cat!==undefined) {
+            placemarks.push(new Placemark(Number(lat), Number(lng), title, placeUrl, cat));
         }
     }
 

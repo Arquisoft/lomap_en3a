@@ -157,12 +157,14 @@ export default class PODManager {
         let query = `
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?title ?lat ?lng ?placeUrl
+            SELECT DISTINCT ?title ?lat ?lng ?placeUrl ?cat
             WHERE {
                 ?placemark ?p ?o .    
                 ?placemark schema:name ?title .
                 ?placemark schema:latitude ?lat .
                 ?placemark schema:longitude ?lng .  
                 ?placemark schema:url ?placeUrl . 
+                ?placemark schema:description ?cat . 
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext([mapURL]));
