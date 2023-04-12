@@ -41,17 +41,20 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
                 <Rating readonly initialValue={4}></Rating>
             </div>
             <h3>Comments</h3>
-            <div id="commentsContainer">
-                {this.state.loading && <p>Loading...</p>}
-                {!this.state.loading && <div id="comments">
-                    {this.state.comments.map((comment) => (
-                        <section>
-                            <a>{comment.user}</a>
-                            <p>{comment.comment}</p>
-                        </section>
-                    ))}
-                </div>}
-            </div>
+            {this.state.loading && <p>Loading...</p>}
+            {!this.state.loading && <div id="commentsContainer">
+                <div id="comments">
+                    {this.state.comments.length <= 0 && <p>No comments yet</p>}
+                    {this.state.comments.length > 0 && 
+                        this.state.comments.map((comment) => (
+                            <section>
+                                <a>{comment.user}</a>
+                                <p>{comment.comment}</p>
+                            </section>
+                        ))
+                    }
+                </div>
+            </div>}
         </div>;
     }
 }
