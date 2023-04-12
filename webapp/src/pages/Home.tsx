@@ -1,6 +1,5 @@
 import React from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import MapFilter from "../components/MapFilter";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
@@ -30,15 +29,9 @@ export default class Home extends React.Component<HomeProps,HomeState> {
 
         let map = new Map("Public map");
         let places : Array<PlaceType> = props.placeList;
-        let placemarks : Array<Placemark> = places.map((place) => {
-            return new Placemark(place.latitude, place.longitude, place.title);
-        })
-        placemarks.forEach((placemark) => map.add(placemark));
-        map.add(new Placemark(43.5647300, -5.9473000, "Placemark 1"));
-        map.add(new Placemark(43.5347300, -6.0473000, "Placemark 2"));
-        map.add(new Placemark(43.6047300, -6.1473000, "Placemark 3"));
-        map.add(new Placemark(43.5547300, -5.8473000, "Placemark 4"));
-        map.add(new Placemark(43.4847300, -6.2473000, "Placemark 5"));
+        places.forEach((place) => map.add(
+            new Placemark(place.latitude, place.longitude, place.title)
+        ));
 
         this.state = {
             data: map,
