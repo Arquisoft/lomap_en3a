@@ -3,4 +3,16 @@
 
 == Deployment View
 
-image:Deployment View.jpg["Deployment view diagram"]
+image:Deployment View.svg["Deployment view diagram"]
+
+Contained Building Blocks::
+[options="header",cols="1,2"]
+|===
+|Element|Given use
+|Microsoft Azure|The cloud where the machine is created in which the deployment is done.
+|Server|The machine with docker containers in order to be able to execute the code of the
+application.
+|LoMap (webapp)|The code which is sent to the client and interacts with the user.
+|LoMap (restapi)|The code from the server side in charge of manage all the public places and
+communicate with the centralised database.
+|===
