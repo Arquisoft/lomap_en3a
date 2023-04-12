@@ -127,9 +127,9 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var rating = new PlaceRating(this.state.place, this.sessionManager.getWebID(), this.state.rating);
+        var rating = new PlaceRating(this.sessionManager.getWebID(), this.state.rating);
         //Here the persistence of the object
-
+        this.pod.review(rating, this.state.place) //run asynchronously
         console.log("Form submitted, rating:", rating);
     };
 
