@@ -1,4 +1,3 @@
-import { buildThing, createSolidDataset, createThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
 import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
@@ -11,16 +10,17 @@ import PlaceComment from '../../domain/Place/PlaceComment';
 export default class Assembler {
 
     public static placeToDataset(place: Place): SolidDataset {
-        let dataset = createSolidDataset();  
+        let dataset = createSolidDataset(); 
+
         let thing =  buildThing(createThing({name: place.uuid}))
             .addStringNoLocale(SCHEMA_INRUPT.name, place.title)
             .addStringNoLocale(SCHEMA_INRUPT.identifier, place.uuid)
             .addStringNoLocale(SCHEMA_INRUPT.description, place.description)
             .addDecimal(SCHEMA_INRUPT.latitude, place.latitude)
-            .addDecimal(SCHEMA_INRUPT.longitude, place.longitude)      
+            .addDecimal(SCHEMA_INRUPT.longitude, place.longitude) 
             .build();
-        
-        dataset = setThing(dataset, thing);
+ 
+        dataset = setThing(dataset, thing);        
         return dataset;
     }
 
@@ -33,6 +33,25 @@ export default class Assembler {
             .build();
 
         return setThing(dataset, thing);
+    }
+
+    public static toPlaceComments(bindings: Bindings[]): Array<PlaceComment> {
+        let result: Array<PlaceComment> = [];
+        for (let b of bindings) {
+            let user = b.get("user")?.value as string;
+            let comment = b.get("comment")?.value as string;
+            let id = b.get("comment")?.value as string;
+            result.push(new PlaceComment(user, comment, id));
+        }
+        return result;
+    }
+
+    public static urlToReference(url: string) {
+        let thing =  buildThing()
+            .addStringNoLocale(SCHEMA_INRUPT.URL, url)
+            .build();
+
+        return thing;
     }
 
     private static thingAsBlankNode(name: string, thing: Thing): Thing {
@@ -106,8 +125,6 @@ export default class Assembler {
         let placeUrl = binding.get("placeUrl")?.value;
         let cat = binding.get("cat")?.value;
 
-        if (title!==undefined && lat!==undefined && lng!==undefined && placeUrl!==undefined) {
-            placemarks.push(new Placemark(Number(lat), Number(lng), title, placeUrl));
         if (title!==undefined && lat!==undefined && lng!==undefined && placeUrl!==undefined && cat!==undefined) {
             placemarks.push(new Placemark(Number(lat), Number(lng), title, placeUrl, cat));
         }
