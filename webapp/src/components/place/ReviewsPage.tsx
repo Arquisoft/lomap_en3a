@@ -2,9 +2,12 @@ import React from "react";
 import {Rating} from "react-simple-star-rating";
 import IPlacePageProps from "./IPlacePage";
 import "./../../styles/pointInfo.css";
+import PODManager from "../../adapters/solid/PODManager";
+import PlaceComment from "../../domain/Place/PlaceComment";
 
 interface ReviewsPageState {
-
+    comments: PlaceComment[];
+    loading: boolean;
 }
 
 export default class ReviewsPage extends React.Component<IPlacePageProps, ReviewsPageState> {
@@ -13,18 +16,22 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
     // Notes, it would be convenient for this component to recieve a structure like this
     // containing the link to the user and the comment as a string, as in this way comments
     // would be more usefull and representative
-    private comments: Array<{ user: string, comment: String }>;
+    private pod = new PODManager();
 
     constructor(props: IPlacePageProps) {
         super(props);
         // TODO Testing puroposes only
         this.averageRating = 3.5;
-        this.comments = new Array<{ user: string; comment: String }>();
-        this.comments.push({user: "Guille", comment: "Nice place!"});
-        this.comments.push({user: "Pelayo", comment: "I dont like it"});
-        this.comments.push({user: "Carlos", comment: "I was here"});
-        this.comments.push({user: "Ivan", comment: "I was here too"});
-        this.comments.push({user: "Ivan", comment: "I was here too"});
+        this.state = {
+            comments: [],
+            loading: true
+        }
+    }
+
+    public async componentDidMount(): Promise<void> {
+        this.setState({comments: [], loading:true})
+        let comments = await this.pod.getComments(this.props.placeUrl as string);
+        this.setState({comments: comments, loading:false})
     }
 
     render() {
@@ -35,12 +42,15 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
             </div>
             <h3>Comments</h3>
             <div id="commentsContainer">
-                <div id="comments">
-                    {this.comments.map((comment) => (
-                        <section><a>{comment.user}</a>
-                            <p>{comment.comment}</p></section>
+                {this.state.loading && <p>Loading...</p>}
+                {!this.state.loading && <div id="comments">
+                    {this.state.comments.map((comment) => (
+                        <section>
+                            <a>{comment.user}</a>
+                            <p>{comment.comment}</p>
+                        </section>
                     ))}
-                </div>
+                </div>}
             </div>
         </div>;
     }
