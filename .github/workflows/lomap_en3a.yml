@@ -91,7 +91,7 @@ jobs:
     needs: [docker-push-restapi,docker-push-webapp]
     steps:
     - name: Deploy over SSH
-      uses: fifsky/ssh-action@develop
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.DEPLOY_HOST }}
         user: ${{ secrets.DEPLOY_USER }}
