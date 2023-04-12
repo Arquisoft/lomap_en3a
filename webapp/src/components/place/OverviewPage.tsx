@@ -8,6 +8,7 @@ import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
 import { PhotoPreview } from "../../pages/AddPlace";
 import PlacePhotos from "../../domain/Place/PlacePhotos";
+import PODManager from "../../adapters/solid/PODManager";
 
 interface OverviewPageState extends IPlacePageState {
     comment: string;
@@ -20,6 +21,7 @@ interface OverviewPageState extends IPlacePageState {
 export default class OverviewPage extends React.Component<IPlacePageProps, OverviewPageState> {
 
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+    private pod = new PODManager();
 
     public constructor(props : IPlacePageProps) {
         super(props);
@@ -105,7 +107,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 
     handleSubmitComment (event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
-        var comment = new PlaceComment(this.state.place, this.sessionManager.getWebID(), this.state.comment);
+        var comment = new PlaceComment(this.sessionManager.getWebID(), this.state.comment);
         //Here the persistence of the object
 
         var isValid = true;
@@ -117,8 +119,9 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (!isValid) {
             return;
         }
+        this.pod.comment(comment, this.state.place);
         this.setState({commentError: ""});
-
+        
         console.log("Form submitted, comment:", comment);
     };
     

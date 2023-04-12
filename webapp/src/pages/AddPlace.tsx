@@ -189,8 +189,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		//Here.
 		//Here.
 
-		(new PlaceManager()).createNewMapPoint(place);
-
 		if (this.props.callback !== undefined) {
 			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 			this.props.callback(new Placemark(
