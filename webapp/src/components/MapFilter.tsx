@@ -1,10 +1,11 @@
 import React from "react";
 import FriendManager from "../adapters/solid/FriendManager";
+import { PlaceCategory } from "../domain/Place/PlaceCategory";
 import User from "../domain/User";
 import '../styles/mapFilter.css';
 
 interface MapfilterProps {
-    categories: string[]
+
 }
 
 interface MapFilterState {
@@ -14,7 +15,7 @@ interface MapFilterState {
 
 export default class MapFilter extends React.Component<MapfilterProps, MapFilterState> {
 
-    private categories: string[] = [];
+    private categories: string[] = Object.keys(PlaceCategory);
     private friends: User[];
     private friendsManager: FriendManager = new FriendManager();
 

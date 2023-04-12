@@ -162,7 +162,6 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
         return (
             <div>
-                <MapFilter categories={["Restaurant", "Monument", "Museum"]}></MapFilter>
                 <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
                     <Handler click={this.updateCurrentPlacemark.bind(this)}/>
                     <TileLayer
