@@ -193,7 +193,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		if (this.props.callback !== undefined) {
 			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 			this.props.callback(new Placemark(
-				this.state.latitude, this.state.longitude, this.state.name, placeUrl
+				this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}

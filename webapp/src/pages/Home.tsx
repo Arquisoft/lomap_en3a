@@ -13,22 +13,20 @@ interface HomeProps {
     placeList? : PlaceType[]
 }
 
-export default class Home extends React.Component<HomeProps,{data:Map|undefined}> {
+interface HomeState {
+    data: Map | undefined, 
+    filter: string[] | undefined,
+    maps: Map[]
+}
+
+export default class Home extends React.Component<HomeProps,HomeState> {
     private podManager = new PODManager();
-    private webID: string;
-    private maps: Array<Map>;
-    private data: Map;
     static defaultProps = {
         placeList : []
     }
 
     public constructor(props : any) {
         super(props);
-        this.webID = SolidSessionManager.getManager().getWebID();
-        this.maps = new Array();
-        this.state = {
-            data: undefined
-        };
 
         let map = new Map("Public map");
         let places : Array<PlaceType> = props.placeList;
@@ -41,21 +39,28 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
         map.add(new Placemark(43.6047300, -6.1473000, "Placemark 3"));
         map.add(new Placemark(43.5547300, -5.8473000, "Placemark 4"));
         map.add(new Placemark(43.4847300, -6.2473000, "Placemark 5"));
-        this.data = map;
+
+        this.state = {
+            data: map,
+            filter: undefined,
+            maps: []
+        };
     }
 
     public async componentDidMount(): Promise<void> {
-        this.maps = await this.podManager.getAllMaps();
-        let map = (this.maps.length > 0) ? this.maps[0] : new Map('TestMap');;
-        await this.podManager.loadPlacemarks(map);
-        this.setState({data: map});
+        let maps = await this.podManager.getAllMaps();
+
+        if (this.state.data !== undefined) {
+            maps = [this.state.data, ...maps]
+        }
+        this.setState({maps: maps})
     }
 
     private async changeMap(event: ChangeEvent): Promise<void> {
         let select:HTMLSelectElement = (event.target as HTMLSelectElement);
         let index:number = select.selectedIndex;
         let id:string = select.options[index].value;
-        let map:Map|undefined = this.maps.find(m => m.getId() == id);
+        let map:Map|undefined = this.state.maps.find(m => m.getId() == id);
 
         if (map !== undefined) {
             this.setState({data: undefined});
@@ -64,27 +69,35 @@ export default class Home extends React.Component<HomeProps,{data:Map|undefined}
         }
     }
 
+    private setFilter(categories: string[]|undefined): void {
+        this.setState({filter: categories});
+    }
+
     public render(): JSX.Element {
         return (
             <section className='Home'>
-                <button onClick={async () => {await this.podManager.saveMap(new Map("Initial map"))}}>Save</button>
                 <h2>{this.state.data?.getName() || "Loading"}</h2>
-                {this.state.data !== undefined &&
-                <div>
-                    <select name="map" onChange={this.changeMap.bind(this)}>
-                        {this.maps.map(m => {
+                <select name="map" onChange={this.changeMap.bind(this)}>
+                        {this.state.maps.map(m => {
                             return (<option value={m.getId()}>{m.getName()}</option>)
                         })}
-                    </select>
+                </select>
+                <div>
+                    <button onClick={async () => {await this.podManager.saveMap(new Map("New map"))}}>New map</button>
+                    <input type="button" value="set public" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+(this.state.data as Map).getId(), true)}} />
+                    <input type="button" value="set private" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+(this.state.data as Map).getId(), false)}} />
+                    <input type="button" onClick={() => this.setFilter(["a"])} />
+                </div>
+                
+                {this.state.data !== undefined &&
+                <div>
                     <div className = "content">
-                        <MapFilter></MapFilter>
+                        <MapFilter callback={this.setFilter.bind(this)}/>
                         <div className="map">
-                        <LeafletMapAdapter map={this.state.data}/>
+                            <LeafletMapAdapter map={this.state.data} categories={this.state.filter} />
                         </div>
                     </div>
                 </div>}
-                <input type="button" value="set public" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+this.maps[0].getId(), true)}} />
-                <input type="button" value="set private" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+this.maps[0].getId(), false)}} />
             </section>
         );
     }
