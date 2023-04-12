@@ -1,9 +1,11 @@
 import { buildThing, createSolidDataset, createThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
+import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
+import DataFactory from '@rdfjs/data-model';
 
 export default class Assembler {
 
@@ -19,6 +21,14 @@ export default class Assembler {
         
         dataset = setThing(dataset, thing);
         return dataset;
+    }
+
+    private static thingAsBlankNode(name: string, thing: Thing): Thing {
+        return {
+            type: "Subject",
+            url: "_:" + name,
+            predicates: thing.predicates
+        };
     }
 
     public static mapToDataset(map: Map): SolidDataset {
