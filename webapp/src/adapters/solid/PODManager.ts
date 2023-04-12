@@ -38,6 +38,39 @@ export default class PODManager {
         placeComments = setThing(placeComments, Assembler.urlToReference(commentUrl))
         await this.saveDataset(commentsPath, placeComments);
     }
+
+    public async getComments(placeUrl: string) {
+        let engine = new QueryEngine();
+        engine.invalidateHttpCache();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?url
+            WHERE {
+                ?s schema:URL ?url .
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/comments"]));
+        let urls: string[] = [];
+        await result.toArray().then(r => {
+            urls = r.map(binding => binding.get("url")?.value as string);
+        });
+
+        query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?user ?comment ?id
+            WHERE {
+                ?s schema:accountId ?user .
+                ?s schema:description ?comment .
+                ?s schema:identifier ?id .
+            }
+        `;
+        result = await engine.queryBindings(query, this.getQueryContext(urls));
+        return await result.toArray().then(r => {
+            return Assembler.toPlaceComments(r);
+        });
+        
+    }
+
     public async createAcl(path:string) {
         let fetch = {fetch:this.sessionManager.getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
