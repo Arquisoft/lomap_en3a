@@ -15,7 +15,10 @@ export default class PODManager {
     public async savePlace(place:Place): Promise<boolean> {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        return this.saveDataset(path, Assembler.placeToDataset(place))
+        await this.saveDataset(path+"/comments", createSolidDataset());
+        await this.saveDataset(path+"/images", createSolidDataset());
+        await this.saveDataset(path+"/reviews", createSolidDataset());
+        return this.saveDataset(path+"/details", Assembler.placeToDataset(place), true)
             .then(() => {return true})
             .catch(() => {return false});
     }
@@ -109,7 +112,7 @@ export default class PODManager {
     public async saveMap(map:Map): Promise<boolean> {
         let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
 
-        return this.saveDataset(path, Assembler.mapToDataset(map))
+        return this.saveDataset(path, Assembler.mapToDataset(map), true)
             .then(() => {return true})
             .catch(() => {return false});
     }
@@ -237,10 +240,12 @@ export default class PODManager {
      * @param path the URI of the dataset
      * @param dataset the dataset to be saved
      */
-    private async saveDataset(path:string, dataset:SolidDataset): Promise<void> {
+    private async saveDataset(path:string, dataset:SolidDataset, createAcl:boolean=false): Promise<void> {
         let fetch = this.sessionManager.getSessionFetch();
         await saveSolidDatasetAt(path, dataset, {fetch: fetch});
-        await this.createAcl(path);
+        if (createAcl) {
+            await this.createAcl(path);
+        }
     }
 
     /**
