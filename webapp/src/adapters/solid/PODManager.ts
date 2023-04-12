@@ -1,11 +1,12 @@
 import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, getFallbackAcl, getLinkedResourceUrlAll, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, SolidDataset, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
+import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
 import { universalAccess as access } from "@inrupt/solid-client";
+import PlaceComment from '../../domain/Place/PlaceComment';
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
@@ -19,6 +20,24 @@ export default class PODManager {
             .catch(() => {return false});
     }
 
+    public async comment(comment: PlaceComment, place: Place) {
+        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/"+comment.id;
+        await this.addCommentToUser(comment);
+        await this.addCommentToPlace(place.uuid, commentPath);
+    }
+
+    private async addCommentToUser(comment: PlaceComment) {
+        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/" + comment.id;
+        await this.saveDataset(commentPath, Assembler.commentToDataset(comment), true);
+    }
+
+    private async addCommentToPlace(placeId: string, commentUrl: string) {
+        let commentsPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/comments";
+        let placeComments = await getSolidDataset(commentsPath, {fetch: this.sessionManager.getSessionFetch()});
+
+        placeComments = setThing(placeComments, Assembler.urlToReference(commentUrl))
+        await this.saveDataset(commentsPath, placeComments);
+    }
     public async createAcl(path:string) {
         let fetch = {fetch:this.sessionManager.getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
