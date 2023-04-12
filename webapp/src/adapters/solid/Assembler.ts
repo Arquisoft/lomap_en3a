@@ -6,6 +6,7 @@ import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
 import DataFactory from '@rdfjs/data-model';
+import PlaceComment from '../../domain/Place/PlaceComment';
 
 export default class Assembler {
 
@@ -21,6 +22,17 @@ export default class Assembler {
         
         dataset = setThing(dataset, thing);
         return dataset;
+    }
+
+    public static commentToDataset(comment: PlaceComment) {
+        let dataset = createSolidDataset(); 
+        let thing =  buildThing(createThing({name: comment.id}))
+            .addStringNoLocale(SCHEMA_INRUPT.description, comment.comment)
+            .addStringNoLocale(SCHEMA_INRUPT.accountId, comment.user)
+            .addStringNoLocale(SCHEMA_INRUPT.identifier, comment.id)
+            .build();
+
+        return setThing(dataset, thing);
     }
 
     private static thingAsBlankNode(name: string, thing: Thing): Thing {
