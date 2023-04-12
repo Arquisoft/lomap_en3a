@@ -1,4 +1,4 @@
-import {getDefaultSession, ISessionInfo, Session} from "@inrupt/solid-client-authn-browser";
+import {getDefaultSession, Session} from "@inrupt/solid-client-authn-browser";
 
 
 /**
@@ -47,7 +47,8 @@ export default class SolidSessionManager {
 
             case "login": 
                 localStorage.setItem('session-state', "handle-redirect");
-                await this.session.handleIncomingRedirect();
+                let session = await this.session.handleIncomingRedirect();
+                this.session.info.isLoggedIn = session?.isLoggedIn as boolean;
                 break;
 
             case "handle-redirect":
