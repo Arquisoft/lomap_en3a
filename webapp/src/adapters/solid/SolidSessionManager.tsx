@@ -47,7 +47,9 @@ export default class SolidSessionManager {
 
             case "login": 
                 localStorage.setItem('session-state', "handle-redirect");
-                let session = await this.session.handleIncomingRedirect();
+                let session = await this.session.handleIncomingRedirect({
+                    restorePreviousSession: true
+                });
                 this.session.info.isLoggedIn = session?.isLoggedIn as boolean;
                 break;
 
