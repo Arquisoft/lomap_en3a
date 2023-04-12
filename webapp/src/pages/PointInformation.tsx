@@ -28,7 +28,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         super(props);
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
         this.state = {goBack: false,
-            component: <OverviewPage place={this.point}/>
+            component: <h2>Loading...</h2>
         };
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
@@ -36,7 +36,6 @@ export default class PointInformation extends React.Component<PointInformationPr
     }
 
     public async componentDidMount(): Promise<void> {
-        console.log("mounting point information")
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
         this.setState({
             component: <OverviewPage place={this.point} />
