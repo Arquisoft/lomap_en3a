@@ -119,7 +119,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (!isValid) {
             return;
         }
-        this.pod.comment(comment, this.state.place);
+        this.pod.comment(comment, this.state.place); //run asynchronously
         this.setState({commentError: ""});
         
         console.log("Form submitted, comment:", comment);
