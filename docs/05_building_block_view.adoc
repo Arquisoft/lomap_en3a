@@ -1,61 +1,8 @@
 [[section-building-block-view]]
 
-
 == Building Block View
 
-[role="arc42help"]
-****
-.Content
-The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes,
-interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations,
-datas structures, ...) as well as their dependencies (relationships, associations, ...)
-
-This view is mandatory for every architecture documentation.
-In analogy to a house this is the _floor plan_.
-
-.Motivation
-Maintain an overview of your source code by making its structure understandable through
-abstraction.
-
-This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
-
-.Form
-The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.
-
-image:05_building_blocks-EN.png["Hierarchy of building blocks"]
-
-*Level 1* is the white box description of the overall system together with black
-box descriptions of all contained building blocks.
-
-*Level 2* zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
-
-*Level 3* zooms into selected building blocks of level 2, and so on.
-****
-
-=== Whitebox Overall System
-
-[role="arc42help"]
-****
-Here you describe the decomposition of the overall system using the following white box template. It contains
-
- * an overview diagram
- * a motivation for the decomposition
- * black box descriptions of the contained building blocks. For these we offer you alternatives:
-
-   ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
-   ** use a list of black box descriptions of the building blocks according to the black box template (see below).
-   Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
-
-
- * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.
-
-****
+=== White Box Overall System
 
 .Overview Diagram
 image:05_Building_Block_Overall_View.PNG['Overall View of the System']
@@ -73,23 +20,53 @@ Contained Building Blocks::
 |User|Represents how each individual user is set to interact with the system, through LoMap and storing his information on his POD.
 |===
 Important Interfaces::
-No important interfaces to be described yet.
+The most important interfaces, (described in the next levels) are the ones in charge of the communication with the PODs manager and the database.
 
-==== LoMap Level 1
+=== Infrastructure
+image:05_Building_Block_Level_1_1.jpg['White Box 1.1']
 
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
+Purpose::
+It is the Infrastructure of the application, the RestApi and the WebApp both interact with external interfaces and APIs,
+these interfaces are represented in this level.
 
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
+Interfaces::
+[options="header",cols="1,2"]
+|===
+|Interface|Description
+|PODManager|Manages the storing of information inside the PODs provider
+|PlaceManager|Manages the storing of places and maps inside the PODs
+|SessionManager|Manages the users session, is the one in charge of the login, logout,etc...
+|FriendsManager|Is the one that obtains the list of friends from the user, as well as their information
+|LeafletMapAdapter|Is the class that interacts with the Map API and presents it to the UI
+|PlacesController|This controller is the one in charge of adding and deleting places in the Mongo database
+|api|This class is the one that communicates with the RestApi, it interacts with it in order to store the places in the database
+|===
 
-****
+==== Business model
+Level 1::
+image:businessmodel/Business model Level 1.svg['First level of the business model']
+* *api*: Is the one in charge of communicating the webapp with the rest api in the server side.
+It is implemented with the CRUD functions although, although only the one retrieving all the public
+places is being used for the moment.
+* *App*: It is the main module from which the application starts. It uses directly the function
+for getting all the public places in the database and also the rest of modules conforming the
+UI.
+Level 2::
+image:businessmodel/Business model Level 2.svg['Second level of the business model']
+* *PODManager*: Is the class in charge of doing all the interactions between the application and
+the PODs like getting public, private or friends places, maps, etc.
+* *Assembler*: It is in charge of transforming the objects in domain model of the web application
+into Things or Datasets for later storing them in PODs or viceversa.
+* *LeafletMapAdapter*: It is in charge of adapt the Leaflet api to our application in order to
+display the desired map with the information of places stored in PODs.
+Level 3::
+image:businessmodel/Business model Level 2.svg['Third level (domain model) of the business model']
+* *Placemark*: Is the graphical representation of a Place. Although now it stores
+nothing related with the appearance, it could be in the future. However, it will always store the
+minimal information of a place to be display in a map as a mark. This was done because in terms of
+performance when showing all the public places published in the web app it is better.
+
+=== LoMap Architecture
 
 image:05_Building_Block_Level_1.PNG['System Level 1']
 

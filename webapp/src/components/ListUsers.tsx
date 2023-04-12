@@ -28,10 +28,10 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
             } else {
                 this.listUsers = <li>No friends yet</li>;
             }
-            this.forceUpdate();
+            this.forceUpdate(); // TODO must be changed!
         }, () => {
             this.listUsers = <li>There was an error uploading the friends</li>;
-            this.forceUpdate();
+            this.forceUpdate(); // TODO must be changed!
         });
     }
 

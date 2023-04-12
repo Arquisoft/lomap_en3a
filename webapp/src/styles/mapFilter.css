@@ -1,0 +1,24 @@
+aside {
+    width: fit-content;
+    background-color: #259DCC;
+}
+
+aside h3 {
+    text-decoration: underline;
+}
+
+
+aside form {
+    border-radius: 0.5em;
+    margin: 0.3em;
+}
+
+.categoriesFilterContainer p {
+    margin: 0em;
+}
+
+.friendsFilterContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0.4em;
+}

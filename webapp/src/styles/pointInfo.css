@@ -1,6 +1,5 @@
 
-
-button.back {
+#back {
     background-color: cornflowerblue;
     border-radius: 8px;
     border-width: 0;
@@ -23,8 +22,83 @@ button.back {
     touch-action: manipulation;
 }
 
-div.pointInformation{
+#pointInformation {
     display: flex;
     flex-direction: column;
     margin: 1em;
 }
+
+#commentsContainer {
+    border: 0.1em solid black;
+    border-radius: 1.3em 0 0 1.3em;
+    background-color: white;
+    height: 15em;
+    width: 70%;
+    margin: 0.5em;
+}
+
+#comments {
+    height: 15em;
+    text-align: left;
+    overflow: hidden scroll;
+    color: black;
+    /* TODO change colors */
+    scrollbar-color: darkblue #e0e0e0;
+    scrollbar-width: thin;
+}
+
+/* For mobile phones */
+@media only screen and (max-width: 768px) {
+    #commentsContainer {
+        border: 0.1em solid black;
+        border-radius: 1.3em;
+        background-color: white;
+        height: 15em;
+        width: 90%;
+        margin: 0.5em;
+        padding: 0.6em 0.2em 0.6em 0;
+    }
+}
+
+#comments section {
+    border-bottom: 0.001em solid grey;
+    margin-top: 0.5em;
+}
+
+#comments section a, #comments section p {
+    margin-left: 0.5em;
+}
+
+#comments section a {
+    color: darkslateblue;
+}
+
+button#selected {
+    border-radius: 12px;
+    background-color: #002E66 ;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+}
+
+button#unselected {
+    border-radius: 12px;
+    background-color: #B2CCEB;
+    color: black;
+    padding: 10px;
+    margin: 5px;
+}
+
+.OverviewPage {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .ReviewsPage {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 4px;
+  }

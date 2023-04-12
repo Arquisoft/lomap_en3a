@@ -30,7 +30,7 @@ export default class PlaceManager {
      *
      * */
     public async createNewMapPoint(newLocation: Place): Promise<void> {
-        newLocation.uuid = crypto.randomUUID();
+        //newLocation.uuid = crypto.randomUUID();
         this.fakeList.push(newLocation);
         const podURL = await getPodUrlAll(this.sessionManager.getWebID(), {fetch: fetch});
         try {
@@ -106,8 +106,8 @@ export default class PlaceManager {
         let latThing = getDecimal(<Thing>thing, SCHEMA_INRUPT.latitude);
         let longThing = getDecimal(<Thing>thing, SCHEMA_INRUPT.longitude);
         let description = getStringNoLocale(<Thing>thing, SCHEMA_INRUPT.description);
-        let result = new Place(<string>name, <number>latThing, <number>longThing, <string>description, []);
-        console.log(result)
+        let result = new Place(<string>name, <number>latThing, <number>longThing, <string>description, [], undefined, "no-category");
+        
         return result;
     }
 
@@ -132,10 +132,10 @@ export default class PlaceManager {
             lat = getDecimal(<Thing>things[i], SCHEMA_INRUPT.latitude);
             long = getDecimal(<Thing>things[i], SCHEMA_INRUPT.longitude);
             let description = getStringNoLocale(<Thing>things[i], SCHEMA_INRUPT.description);
-            this.fakeList.push(new Place(<string>name, <number>lat, <number>long, <string>description, []))
+            this.fakeList.push(new Place(<string>name, <number>lat, <number>long, <string>description, [], undefined,""))
         }
 
-        console.log(this.fakeList);
+        
         return this.fakeList;
     }
 }
