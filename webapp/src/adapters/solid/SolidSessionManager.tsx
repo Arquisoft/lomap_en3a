@@ -50,7 +50,7 @@ export default class SolidSessionManager {
                 let session = await this.session.handleIncomingRedirect({
                     restorePreviousSession: true
                 });
-                this.session.info.isLoggedIn = session?.isLoggedIn as boolean;
+                this.session.info.isLoggedIn = getDefaultSession().info.isLoggedIn;
                 break;
 
             case "handle-redirect":
