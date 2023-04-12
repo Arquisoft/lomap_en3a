@@ -48,12 +48,4 @@ export default class FriendManager {
         let name = getStringNoLocale(<Thing>friends, FOAF.name);
         return new User(name, webID);
     }
-
-    // public addFriend(user: User): boolean {
-    //     return false;
-    // }
-
-    // public removeFriend(user: User): boolean{
-    //
-    // }
 }
