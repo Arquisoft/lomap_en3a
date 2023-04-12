@@ -6,9 +6,11 @@ import Map from "../domain/Map";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import ReviewsPage from "../components/place/ReviewsPage";
 import OverviewPage from "../components/place/OverviewPage";
+import Placemark from "../domain/Placemark";
+import PODManager from "../adapters/solid/PODManager";
 
 interface PointInformationProps {
-    point: Place;
+    placemark: Placemark;
     map: Map;
 }
 
@@ -20,16 +22,24 @@ interface PointInformationState {
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
 
     private point: Place;
+    private pod = new PODManager();
 
     public constructor(props: any) {
         super(props);
-        this.point = props.point;
+        this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
         this.state = {goBack: false,
-            component: <ReviewsPage place={this.point}/>
+            component: <h2>Loading...</h2>
         };
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);
+    }
+
+    public async componentDidMount(): Promise<void> {
+        this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
+        this.setState({
+            component: <OverviewPage place={this.point} />
+        });
     }
 
     private goBack() {
@@ -37,7 +47,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     }
 
     private handleClickReview(){
-        this.setState({component: <ReviewsPage place={this.point}/>});
+        this.setState({component: <ReviewsPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
         
     };
 

@@ -6,7 +6,7 @@ export default class Map {
     private name: string;
     private description: string;
 
-    public constructor(name:string, description:string="", id:string|null=null) {
+    public constructor(name: string, description: string = "", id: string | null = null) {
         this.name = name;
         this.description = description;
         this.id = (id === null) ? crypto.randomUUID() : id;
@@ -23,9 +23,9 @@ export default class Map {
     public remove(p: Placemark): void {
         let index: number = this.placemarks.indexOf(p);
 
-        if (index > -1) { 
+        if (index > -1) {
             this.placemarks.splice(index, 1);
-        }  
+        }
     }
 
     public getPlacemarks(): Array<Placemark> {

@@ -12,7 +12,13 @@
 |The data of each user will be stored in a personal pod, following SOLID principles.
 
 |_Github_
-|Github is required for developing the project. Team members must upload their current work to coordinate with the teammates and to record what they have done.
+|Github is required for developing the project. Team members must upload their current work to coordinate with the
+teammates and to record what they have done.
+
+|_Continuous integration_
+| We must be able to build and deploy the application in an automated way (including the running of every test,
+forcing that all of them pass to do the deployment), at least in every release. We shall make use of Docker and Github
+Actions for that purpose.
 |===
 
 === Organizational Constraints
@@ -37,6 +43,8 @@
 |_Research_
 |We know about programming, mainly in Java, but we have not dealt with some aspects that must be developed in this project, such as application deployment or SOLID, so we must spend time to learn about them. Others are more familiar but there is still work to do to be able to handle them.
 
+|_Testing_
+|Unitary and integration tests have to be developed for the project, and we must reach a high level of code coverage.
 |===
 
 === Conventions
