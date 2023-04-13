@@ -255,3 +255,52 @@ c -> pod: Add link to comment
 ----
 
 
+=== See comments of a place
+
+The comments of a place can be seen from the 'reviews' tab of the place's information page. The application will request all the comments associated with a place and show them to the user.
+
+[plantuml,"see_comments",svg]
+----
+
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 100
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+
+actor User as u
+participant Client as c
+
+box "POD provider" #dedede
+    database "Place's POD" as pod
+end box
+
+u <-- c: Show map
+u -> c: Click on placemark
+u <-- c: Show popup
+u -> c: Click on get info button
+c -> pod: Request place
+c <-- pod: Send data
+u <-- c: Show place information
+u -> c: Select comments tab
+c -> pod: Request comments
+c <-- pod: Send data
+u <-- c: Show comments
+
+@enduml
+
+----
