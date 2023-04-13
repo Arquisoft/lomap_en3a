@@ -49,7 +49,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
                     {this.state.comments.length > 0 && 
                         this.state.comments.map((comment) => (
                             <section>
-                                <a>{comment.user}</a>
+                                <a href={comment.user}>{comment.user.replace("https://","").split(".")[0]}</a>
                                 <p>{comment.comment}</p>
                             </section>
                         ))
