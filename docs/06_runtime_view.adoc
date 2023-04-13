@@ -190,13 +190,13 @@ c<--up: Send data
 c->c: Generate map
 u<--c: Show map
 
-u->c: Access user's placemark
-c->up: Request place information
+u->c: Click on user's placemark
+c->up: Request user's place information
 c<--up: Send data
 u<--c: Show place's information
 
-u->c: Access friend's placemark
-c->fp: Request place information
+u->c: Click on friend's placemark
+c->fp: Request friend's place information
 c<--fp: Send data
 u<--c: Show place's information
 
