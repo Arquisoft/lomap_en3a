@@ -5,7 +5,7 @@ import User from "../domain/User";
 import '../styles/mapFilter.css';
 
 interface MapfilterProps {
-
+    callback: (categories: string[]|undefined) => void 
 }
 
 interface MapFilterState {
@@ -57,7 +57,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         const target = event.target;
         const value = target.value;
         const category = target.value;
-
+        
         this.setState(prevState => ({
             selectedCategories: prevState.selectedCategories.set(value, event.target.checked)
         }));
@@ -87,6 +87,11 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         event.preventDefault();
         var a = this.state.selectedCategories;
         // TODO handle the map filtering
+        let categories: string[] = [];
+        for (let cat of this.categories) {
+            if (this.state.selectedCategories.get(cat)) categories.push(cat)
+        }
+        this.props.callback(categories.length > 0 ? categories : undefined)
     }
 
     public render() {

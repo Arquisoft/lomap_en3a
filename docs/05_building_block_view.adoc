@@ -22,26 +22,8 @@ Contained Building Blocks::
 Important Interfaces::
 The most important interfaces, (described in the next levels) are the ones in charge of the communication with the PODs manager and the database.
 
-=== LoMap Architecture
-
-image:05_Building_Block_Level_1.PNG['System Level 1']
-
-Purpose::
-Describes the architecture of the inner LoMap system, it's how the system is structured and how each layer interacts within the system.
-The architecture described in the diagram _System Level 1_ is a Clean Architecture.
-
-Interfaces::
-[options="header",cols="1,2"]
-|===
-|Interface|Description
-|Entities|Represent the domain of the system, those classes that describe the enterprise business rules.
-|App Business Logic|The use cases, the actual application business rules that describe how the application works.
-|Presentation|The related documents that are in charge of the presentation of the application.
-|Infrastructure|Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.
-|===
-
-==== Infrastructure
-image:05_Building_Block_Level_1_1.JPG['White Box 1.1']
+=== Infrastructure
+image:05_Building_Block_Level_1_1.jpg['White Box 1.1']
 
 Purpose::
 It is the Infrastructure of the application, the RestApi and the WebApp both interact with external interfaces and APIs,
@@ -58,4 +40,46 @@ Interfaces::
 |LeafletMapAdapter|Is the class that interacts with the Map API and presents it to the UI
 |PlacesController|This controller is the one in charge of adding and deleting places in the Mongo database
 |api|This class is the one that communicates with the RestApi, it interacts with it in order to store the places in the database
+|===
+
+==== Business model
+Level 1::
+image:businessmodel/Business model Level 1.svg['First level of the business model']
+* *api*: Is the one in charge of communicating the webapp with the rest api in the server side.
+It is implemented with the CRUD functions although, although only the one retrieving all the public
+places is being used for the moment.
+* *App*: It is the main module from which the application starts. It uses directly the function
+for getting all the public places in the database and also the rest of modules conforming the
+UI.
+Level 2::
+image:businessmodel/Business model Level 2.svg['Second level of the business model']
+* *PODManager*: Is the class in charge of doing all the interactions between the application and
+the PODs like getting public, private or friends places, maps, etc.
+* *Assembler*: It is in charge of transforming the objects in domain model of the web application
+into Things or Datasets for later storing them in PODs or viceversa.
+* *LeafletMapAdapter*: It is in charge of adapt the Leaflet api to our application in order to
+display the desired map with the information of places stored in PODs.
+Level 3::
+image:businessmodel/Business model Level 2.svg['Third level (domain model) of the business model']
+* *Placemark*: Is the graphical representation of a Place. Although now it stores
+nothing related with the appearance, it could be in the future. However, it will always store the
+minimal information of a place to be display in a map as a mark. This was done because in terms of
+performance when showing all the public places published in the web app it is better.
+
+=== LoMap Architecture
+
+image:05_Building_Block_Level_1.PNG['System Level 1']
+
+Purpose::
+Describes the architecture of the inner LoMap system, it's how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram _System Level 1_ is a Clean Architecture.
+
+Interfaces::
+[options="header",cols="1,2"]
+|===
+|Interface|Description
+|Entities|Represent the domain of the system, those classes that describe the enterprise business rules.
+|App Business Logic|The use cases, the actual application business rules that describe how the application works.
+|Presentation|The related documents that are in charge of the presentation of the application.
+|Infrastructure|Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.
 |===

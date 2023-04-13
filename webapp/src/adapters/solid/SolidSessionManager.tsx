@@ -1,4 +1,4 @@
-import {getDefaultSession, ISessionInfo, Session} from "@inrupt/solid-client-authn-browser";
+import {getDefaultSession, Session} from "@inrupt/solid-client-authn-browser";
 
 
 /**

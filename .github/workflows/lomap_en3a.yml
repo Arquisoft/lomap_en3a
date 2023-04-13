@@ -18,7 +18,7 @@ jobs:
     - run: npm ci
     - run: npm test --coverage --watchAll
     - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@develop
+      uses: sonarsource/sonarcloud-github-action@master
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -35,7 +35,7 @@ jobs:
     - run: npm ci
     - run: npm test --coverage --watchAll
     - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@develop
+      uses: sonarsource/sonarcloud-github-action@master
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -91,13 +91,13 @@ jobs:
     needs: [docker-push-restapi,docker-push-webapp]
     steps:
     - name: Deploy over SSH
-      uses: fifsky/ssh-action@develop
+      uses: fifsky/ssh-action@master
       with:
         host: ${{ secrets.DEPLOY_HOST }}
         user: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
         command: |
-          wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/develop/docker-compose-deploy.yml -O docker-compose.yml
+          wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/master/docker-compose-deploy.yml -O docker-compose.yml
           docker-compose stop
           docker-compose rm -f
           docker-compose pull   

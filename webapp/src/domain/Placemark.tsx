@@ -3,12 +3,14 @@ export default class Placemark {
     private lat: number;
     private title: string;
     private placeUrl: string;
+    private category: string;
 
-    public constructor(lat:number, lng:number, title:string="", placeUrl:string="") {
+    public constructor(lat:number, lng:number, title:string="", placeUrl:string="", category:string="") {
         this.lat = lat;
         this.lng = lng;
         this.title = title;
         this.placeUrl = placeUrl;
+        this.category = category
     }
 
     public getLng(): number {
@@ -25,5 +27,11 @@ export default class Placemark {
     }
     public setPlaceUrl(url:string): void {
         this.placeUrl = url;
+    }
+    public getCategory(): string {
+        return this.category;
+    }
+    public setCategory(cat:string): void {
+        this.category = cat;
     }
 }

@@ -50,9 +50,32 @@ image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscuttin
 ****
 
 
-=== Domain model
+=== POD's structure information
+----
+|-lomap
+    |-data
+        |-interactions
+            |-comments
+            |-reviews
+    	|-maps
+	    |-places
+----
+This is the general structure of the folders in each user POD and each folder has different
+datasets.
 
-image:Domain Model.jpg["Domain model UML Diagram"]
+* *Places*: There is one folder inside for each place created, named with a unique ID and inside
+of them there are datasets, one for each comment, review and image about that place.
+
+* *Maps*: The are inside datasets one for each map created by the user. Each one have links to
+different places which are stored at the same time in the places folder as said before.
+
+* *Interactions*: It has two folders (comments and interactions) and each one has each
+correspondant datasets.
+
+The permissions in order to set a place only visible for everyone, a group of people or
+none other than the owner himself, are managed from the application with the necessary library to
+change the permissions of them. That  is the reason why any
+other extra folder to classify the places is not necessary and instead are used datasets.
 
 === UI/UX:
 The application will consist of a webpage application where the user will be able to choose between a public map or different views that the user creates. This map will only show the minimal information in the form of “pins”. The user can click on the pin that a place represents, and the full information will be loaded and prompted. In this page there will be the possibility of adding photos, comments and reviews or view the ones added by other members. A friendly and familiar approach will be held when designing the different views of the application; Google Maps will be the main reference. 
