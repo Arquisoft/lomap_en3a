@@ -202,3 +202,56 @@ u<--c: Show place's information
 
 @enduml
 ----
+
+
+=== Post comments of a place
+
+LoMap allows users to post comments about a place from the place's information window. This comments will be stored in the user's POD, being possible to make them private or delete them. The url of the comment is also stored in the 'comments' dataset of the place.
+
+[plantuml,"post_comment",svg]
+----
+
+@startuml
+<style>
+root {
+  Margin 40 5
+}
+</style>
+skinparam Padding 10
+skinparam ParticipantPadding 20
+skinparam BoxPadding 100
+
+skinparam ActorBackgroundColor #66bdf7
+skinparam ActorBorderColor #66bdf7
+skinparam ActorBorderThickness 2
+
+skinparam ParticipantBackgroundColor #66bdf7
+skinparam ParticipantBorderThickness 1.5
+
+skinparam DatabaseBackgroundColor #66bdf7
+
+
+actor User as u
+participant Client as c
+
+box "POD provider" #dedede
+    database "Place's POD" as pod
+    database "User's POD" as podUser
+end box
+
+u <-- c: Show map
+u -> c: Click on placemark
+u <-- c: Show popup
+u -> c: Click on get info button
+c -> pod: Request place
+c <-- pod: Send data
+u <-- c: Show place information
+u -> c: Write comment
+c -> podUser: Add comment
+c -> pod: Add link to comment
+
+@enduml
+
+----
+
+
