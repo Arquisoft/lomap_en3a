@@ -95,7 +95,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     }
 
     public render() {
-        return <aside>
+        return <aside className="mapFilterComponent">
             <h3>Filters</h3>
             <form onSubmit={this.applyFilter}>
                 <h4>Category</h4>

@@ -86,6 +86,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                         await this.podManager.setPublicAccess(this.podManager.getBaseUrl() + "/data/maps/" + (this.state.data as Map).getId(), false)
                     }}/>
                     <input type="button" onClick={() => this.setFilter(["a"])}/>
+                    <button onClick={() => {var a = document.querySelector("aside.mapFilterComponent"); if(a!=null){a.setAttribute("hidden", "true"); console.log(a)}}}>Hide filters</button>
                 </div>
 
                 {this.state.data !== undefined &&

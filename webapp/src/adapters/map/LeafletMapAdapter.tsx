@@ -9,9 +9,7 @@ import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
-import Place from '../../domain/Place';
 import PODManager from '../solid/PODManager';
-import MapFilter from '../../components/MapFilter';
 
 
 /**
