@@ -17,7 +17,7 @@ interface NavElementProps {
  */
 const NavElement : React.FunctionComponent<NavElementProps> = (props) => {
     return (
-        <NavLink style={({isActive}) => ({backgroundColor: isActive ? "#81BAF0" : "#259DCC"})}
+        <NavLink style={({isActive}) => ({backgroundColor: isActive ? "blue" : "#002E66"})}
                  to={props.url} role="button" className="NavElement">
             {props.icon}<span>{props.name}</span>
         </NavLink>

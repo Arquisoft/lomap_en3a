@@ -175,7 +175,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
         return (
             <div>
-                <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
+                <MapContainer style={{height: '75vh', width: '100%', zIndex: "0"}} center={this.getCenter()} zoom={13}>
                     <Handler click={this.updateCurrentPlacemark.bind(this)}/>
                     <TileLayer
                         attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}

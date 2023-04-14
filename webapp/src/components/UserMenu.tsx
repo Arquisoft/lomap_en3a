@@ -1,5 +1,6 @@
 import React from "react";
 import * as CgIcon from "react-icons/cg";
+import * as HiIcon from "react-icons/hi";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import LogoutButton from "./LogoutButton";
 import 'rc-dropdown/assets/index.css';
@@ -42,7 +43,7 @@ export class UserMenu extends React.Component {
               <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
                   <span>
                       <IconContext.Provider value={{size: "4em"}}>
-                          <CgIcon.CgProfile/>
+                          <HiIcon.HiOutlineUser/>
                       </IconContext.Provider>
                   </span>
               </Dropdown>

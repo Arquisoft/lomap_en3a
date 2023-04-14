@@ -29,9 +29,7 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
+
 
 @keyframes App-logo-spin {
   from {
@@ -42,10 +40,11 @@
   }
 }
 
-.content{
-  display: flex;
-}
 
-.map{
-  width: 100%;
+
+.mapFilter{
+  z-index: 1;
+  position: absolute;
+  top: 300px;
+  left: 5px;
 }
