@@ -3,27 +3,24 @@
     background-color: #002E66;
     color: white;
     border-radius: 0.3em;
-    transition: opacity 0.5s ease-in;
+    transition: opacity 2s ease-in;
     opacity: 1;
+    height: fit-content;
 }
 
 .mapFilterComponent h3{
-    margin: 0.3em;
     text-decoration: underline;
+    margin: 0em 0em 0em 0.3em;
 }
-
 
 aside form {
-    border-radius: 0.5em;
-    margin: 0.3em;
+    margin: 0 0.3em 0 0.3em;
 }
-
-.categoriesFilterContainer p {
+.categoriesFilterContainer, .categoriesFilterContainer p {
     margin: 0em;
 }
 
 .friendsFilterContainer {
     display: flex;
     flex-direction: column;
-    margin: 0.4em;
 }

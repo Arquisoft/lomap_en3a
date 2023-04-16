@@ -18,11 +18,6 @@ export default class Friends extends React.Component {
                 <div>
                     <ListUsers fm={new FriendManager()}></ListUsers>
                 </div>
-                <h2>Add friends</h2>
-                <form>
-                    <input onChange={event => this.searchFriend = (event.target.value)}></input>
-                    <button onClick={() => this.addFriend(this.searchFriend)}>Add friend</button>
-                </form>
             </section>
         );
     }

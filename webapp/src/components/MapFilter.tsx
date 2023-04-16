@@ -1,11 +1,11 @@
 import React from "react";
 import FriendManager from "../adapters/solid/FriendManager";
-import { PlaceCategory } from "../domain/Place/PlaceCategory";
+import {PlaceCategory} from "../domain/Place/PlaceCategory";
 import User from "../domain/User";
 import '../styles/mapFilter.css';
 
 interface MapfilterProps {
-    callback: (categories: string[]|undefined) => void 
+    callback: (categories: string[] | undefined) => void
 }
 
 interface MapFilterState {
@@ -57,7 +57,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
         const target = event.target;
         const value = target.value;
         const category = target.value;
-        
+
         this.setState(prevState => ({
             selectedCategories: prevState.selectedCategories.set(value, event.target.checked)
         }));
@@ -95,7 +95,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     }
 
     public render() {
-        return <aside className="mapFilterComponent">
+        return <aside id="mapFilterComponent" className="mapFilterComponent">
             <h3>Filters</h3>
             <form onSubmit={this.applyFilter}>
                 <h4>Category</h4>
