@@ -67,7 +67,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             console.log(p.getCategory())
             console.log(this.props.categories)
             console.log(p.getCategory() in this.props.categories)
-            return this.props.categories.indexOf( p.getCategory() ) != -1;
+            return this.props.categories.indexOf(p.getCategory()) != -1;
         }
         return true;
     }
@@ -93,8 +93,15 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
-                        this.setState({pageToShow:
-                             <PointInformation map={this.map} placemark={placemark}/>
+                        // We hide the filter
+                        // TODO hide also  the filters button
+                        const a = document.getElementById("mapFilterComponent");
+                        if (a != null) {
+                            a.style.visibility = "hidden";
+                        }
+                        this.setState({
+                            pageToShow:
+                                <PointInformation map={this.map} placemark={placemark}/>
                         });
                     }}>Get Info
                     </button>
@@ -127,8 +134,9 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private newPlace(e: React.MouseEvent): void {
         /* Navigate to form */
         if (this.state.currentPlacemark !== null) {
-            this.setState({pageToShow: 
-                <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+            this.setState({
+                pageToShow:
+                    <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
             });
         }
     }

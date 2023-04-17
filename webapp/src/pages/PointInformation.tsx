@@ -16,7 +16,7 @@ interface PointInformationProps {
 
 interface PointInformationState {
     goBack: boolean;
-    component : JSX.Element;
+    component: JSX.Element;
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
@@ -27,7 +27,8 @@ export default class PointInformation extends React.Component<PointInformationPr
     public constructor(props: any) {
         super(props);
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
-        this.state = {goBack: false,
+        this.state = {
+            goBack: false,
             component: <h2>Loading...</h2>
         };
         this.goBack = this.goBack.bind(this);
@@ -38,21 +39,27 @@ export default class PointInformation extends React.Component<PointInformationPr
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
         this.setState({
-            component: <OverviewPage place={this.point} />
+            component: <OverviewPage place={this.point}/>
         });
     }
 
     private goBack() {
+        // We are going to show the filters now
+        // TODO show also the filters button
+        const a = document.getElementById("mapFilterComponent");
+        if (a != null) {
+            a.style.visibility = "";
+        }
         this.setState({goBack: true});
     }
 
-    private handleClickReview(){
+    private handleClickReview() {
         this.setState({component: <ReviewsPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
-        
+
     };
 
-    private handleClickOverview(){
-        this.setState({component: <OverviewPage place = {this.point}/>});
+    private handleClickOverview() {
+        this.setState({component: <OverviewPage place={this.point}/>});
     }
 
     /**
@@ -77,16 +84,18 @@ export default class PointInformation extends React.Component<PointInformationPr
                 <div>
 
 
-                    <button 
-                    id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
-                    } onClick={this.handleClickOverview}>Overview</button>
+                    <button
+                        id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
+                        } onClick={this.handleClickOverview}>Overview
+                    </button>
 
-                    <button 
-                    id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
-                    } onClick={this.handleClickReview}>Reviews</button>
+                    <button
+                        id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
+                        } onClick={this.handleClickReview}>Reviews
+                    </button>
 
                     {this.state.component}
-                    </div>
+                </div>
                 <input type="button" id="back" value="Back" onClick={this.goBack}/>
             </section>
         );
