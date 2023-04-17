@@ -8,30 +8,36 @@ interface UserListProps {
 }
 
 interface UserListState {
-
+    loadedFriends: boolean
 }
 
 export default class ListUsers extends React.Component<UserListProps, UserListState> {
 
-    /** The list of users which are actually the friends from the current user logged in*/
     private users: Array<User>;
-    /** The list of friends to show in the UI*/
-    private listUsers: any = <h3>Loading..</h3>;
+    private listUsers: JSX.Element = <h3>Loading...</h3>;
 
     public constructor(props: UserListProps) {
         super(props);
         this.users = new Array<User>; // Empty list
+
+        this.setState(() => ({
+            loadedFriends: false
+        }));
+
         // We assign to users the actual list of users
         this.getUsers().then(() => {
-            if (this.users.length != 0) {
-                this.listUsers = this.users.map((u) => <li>{u.getName()}</li>);
-            } else {
+            if (this.users.length == 0) {
+                this.setState(() => ({
+                    loadedFriends: false
+                }));
                 this.listUsers = <li>No friends yet</li>;
+            }else{
+                this.setState(() => ({
+                    loadedFriends: true
+                }));
             }
-            this.forceUpdate(); // TODO must be changed!
-        }, () => {
-            this.listUsers = <li>There was an error uploading the friends</li>;
-            this.forceUpdate(); // TODO must be changed!
+        }).catch(error => {
+            this.listUsers = <li>There was an error uploading the friends: {error.message}</li>;
         });
     }
 
@@ -42,10 +48,11 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
         this.users = await this.props.fm.getFriendsList();
     }
 
-
     public render() {
         return (<ul>
-                {this.listUsers}
+                {this.state?.loadedFriends ? this.users.map((user) =>
+                    <li>{user.getName()}</li>
+                ) : this.listUsers || this.listUsers}
             </ul>
         );
     }
