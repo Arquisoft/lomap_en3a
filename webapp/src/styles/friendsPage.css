@@ -1,0 +1,14 @@
+.Content {
+    height: 100%;
+}
+
+.friendsGrid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.card {
+    margin: 1em;
+    width: fit-content;
+    height: fit-content;
+}
