@@ -37,7 +37,7 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
             flexWrap: "wrap",
         }}>
             <Card className="card">
-                <CardActionArea onClick={() => {this.getFriendInfo(this.user)}}>
+                <CardActionArea className="card" onClick={() => {this.getFriendInfo(this.user)}}>
                     <CardHeader avatar={<Avatar>{this.user.getName()?.charAt(0)}</Avatar>} title={this.user.getName()}/>
                     <CardContent>
                         <Typography>Friend text</Typography>

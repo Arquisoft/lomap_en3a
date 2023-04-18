@@ -3,12 +3,12 @@
 }
 
 .friendsGrid {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    display: flex;
+    flex-direction: row;
 }
 
 .card {
-    margin: 1em;
-    width: fit-content;
-    height: fit-content;
+    margin: 3em;
+    width: 13em;
+    height: 15em;
 }
