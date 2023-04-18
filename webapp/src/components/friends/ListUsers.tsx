@@ -1,11 +1,12 @@
 import React from "react";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
-import UserPlaceHolder from "./userPlaceHolder";
+import UserPlaceHolder from "./UserPlaceHolder";
 
 
 interface UserListProps {
     fm: FriendManager;
+    callback: (component : JSX.Element ) => void;
 }
 
 interface UserListState {
@@ -52,7 +53,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
     public render() {
         return (<div className="friendsGrid">
                 {this.state?.loadedFriends ? this.users.map((user) =>
-                    <UserPlaceHolder user={user}></UserPlaceHolder>
+                    <UserPlaceHolder user={user} callback={this.props.callback}></UserPlaceHolder>
                 ) : this.listUsers || this.listUsers}
             </div>
         );

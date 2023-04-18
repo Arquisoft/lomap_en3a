@@ -1,18 +1,34 @@
 import React from "react";
 import User from "../../domain/User";
 import {Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography} from "@mui/material";
+import UserPage from "./UserPage";
+
+interface UserPlaceState {
+    changePage : boolean
+}
 
 interface UserPlaceHolderProps {
     user: User
+    callback: (component: JSX.Element) => void
 }
 
-export default class UserPlaceHolder extends React.Component<UserPlaceHolderProps> {
+export default class UserPlaceHolder extends React.Component<UserPlaceHolderProps, UserPlaceState> {
 
-    private user: User;
+    private readonly user: User;
 
     constructor(props: UserPlaceHolderProps) {
         super(props);
         this.user = props.user;
+        this.state = {
+            changePage : false
+        }
+    }
+
+    private getFriendInfo(user : User) {
+        this.props.callback(<UserPage user={user}></UserPage>);
+        this.setState({
+            changePage : true
+        });
     }
 
     render() {
@@ -21,9 +37,7 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
             flexWrap: "wrap",
         }}>
             <Card className="card">
-                <CardActionArea onClick={() => {
-                    console.log("Card clicked!")
-                }}>
+                <CardActionArea onClick={() => {this.getFriendInfo(this.user)}}>
                     <CardHeader avatar={<Avatar>{this.user.getName()?.charAt(0)}</Avatar>} title={this.user.getName()}/>
                     <CardContent>
                         <Typography>Friend text</Typography>
