@@ -20,10 +20,10 @@ const addPlace = async (req: Request, res: Response): Promise<Response> => {
             return res.status(400).json({errors: errors.array()})
         }
         await Place.create({
-            title: req.body.title,
-            uuid: req.body.uuid,
-            longitude: req.body.longitude,
-            latitude: req.body.latitude
+            title: req.body.title.toString(),
+            uuid: req.body.uuid.toString(),
+            longitude: req.body.longitude.toString(),
+            latitude: req.body.latitude.toString()
         });
         return res.sendStatus(200)
     }
@@ -42,6 +42,7 @@ const deletePlace = async (req: Request, res: Response): Promise<Response> => {
         return res.sendStatus(200)
     }
     catch (error) {
+        res.set('Content-Type', 'text/plain');
         return res.status(500).send("An error has occurred while deleting a place with title " +
             req.params.title + ": " + error)
     }
@@ -62,6 +63,7 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
         return res.sendStatus(200)
     }
     catch (error) {
+        res.set('Content-Type', 'text/plain');
         return res.status(500).send("An error has occurred while updating a place with title " +
             req.params.title + ": " + error)
     }
@@ -77,6 +79,7 @@ const findPlaceByTitle = async (req: Request, res: Response): Promise<Response> 
         return res.status(200).send(place);
     }
     catch (error) {
+        res.set('Content-Type', 'text/plain');
         return res.status(500).send("An error has occurred while updating a place with title " +
             req.params.title + ": " + error)
     }
