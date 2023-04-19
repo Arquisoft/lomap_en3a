@@ -5,7 +5,7 @@ import {validationResult} from "express-validator";
 
 const getPlaces = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const places: Array<PlaceType> = await Place.find();
+        const places: Array<PlaceType> = await Promise.resolve(Place.find());
         return res.status(200).send(places);
     }
     catch (error) {
@@ -38,7 +38,7 @@ const deletePlace = async (req: Request, res: Response): Promise<Response> => {
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-        await Place.deleteOne({title: req.params.title})
+        await Promise.resolve(Place.deleteOne({title: req.params.title}))
         return res.sendStatus(200)
     }
     catch (error) {
@@ -53,12 +53,12 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-        await Place.findOneAndUpdate({title: req.params.title}, {
+        await Promise.resolve(Place.findOneAndUpdate({title: req.params.title}, {
             title: req.body.title,
             uuid: req.body.uuid,
             longitude: req.body.longitude,
             latitude: req.body.latitude
-        });
+        }));
         return res.sendStatus(200)
     }
     catch (error) {
@@ -73,7 +73,7 @@ const findPlaceByTitle = async (req: Request, res: Response): Promise<Response> 
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-        const place = await Place.findOne({title: req.params.title});
+        const place = await Promise.resolve(Place.findOne({title: req.params.title}));
         return res.status(200).send(place);
     }
     catch (error) {
