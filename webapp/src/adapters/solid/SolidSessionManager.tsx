@@ -1,15 +1,17 @@
 import {getDefaultSession, Session} from "@inrupt/solid-client-authn-browser";
+import { useSession } from "@inrupt/solid-ui-react";
+import {SessionInfo} from "@inrupt/solid-ui-react/dist/src/hooks/useSession";
 
 
 /**
  * Manages the POD provider's login and session.
  */
 export default class SolidSessionManager {
-    private session: Session;
+    private session: SessionInfo;
     private static instance: SolidSessionManager = new SolidSessionManager();
 
     private constructor() {
-        this.session = getDefaultSession();
+        this.session = useSession();
     }
 
     public static getManager(): SolidSessionManager {
@@ -22,6 +24,7 @@ export default class SolidSessionManager {
     public async login(url: string): Promise<void> {
         localStorage.setItem('solid-provider', url);
         localStorage.setItem('session-state', "login");
+        this.session.session.onLogin(() => this.session.session.info.isLoggedIn = true);
         await this.session.login(
             {
                 oidcIssuer: url,
@@ -36,7 +39,7 @@ export default class SolidSessionManager {
     public async logout(): Promise<boolean> {
         localStorage.setItem('session-state', "logout");
         await this.session.logout();
-        return this.session.info.isLoggedIn;
+        return this.session.session.info.isLoggedIn;
     }
 
     /**
@@ -47,10 +50,6 @@ export default class SolidSessionManager {
 
             case "login": 
                 localStorage.setItem('session-state', "handle-redirect");
-                let session = await this.session.handleIncomingRedirect({
-                    restorePreviousSession: true
-                });
-                this.session.info.isLoggedIn = getDefaultSession().info.isLoggedIn;
                 break;
 
             case "handle-redirect":
@@ -63,7 +62,7 @@ export default class SolidSessionManager {
 
             case "logout":
                 localStorage.setItem('session-state', "finished");
-                this.session.info.isLoggedIn = false;
+                this.session.session.info.isLoggedIn = false;
                 break;
 
             default:
@@ -84,8 +83,8 @@ export default class SolidSessionManager {
      * @returns {string} the web ID of the logged user
      */
     public getWebID(): string {
-        if (this.session.info.webId !== undefined) {
-            return this.session.info.webId;
+        if (this.session.session.info.isLoggedIn !== undefined) {
+            return this.session.session.info.webId as string;
         } else {
             return "Not logged in";
         }
@@ -95,7 +94,7 @@ export default class SolidSessionManager {
      * @returns {boolean} whether the user is logged in
      */
     public isLoggedIn(): boolean {
-        return this.session.info.isLoggedIn;
+        return this.session.session.info.isLoggedIn;
     }
 
     /**
