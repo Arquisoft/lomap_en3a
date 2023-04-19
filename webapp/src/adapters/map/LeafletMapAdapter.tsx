@@ -94,10 +94,15 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
                         // We hide the filter
-                        // TODO hide also  the filters button
                         const a = document.getElementById("mapFilterComponent");
                         if (a != null) {
                             a.style.visibility = "hidden";
+                        }
+                        // Hide the map options TODO it is HIGHLY recommendable to change this
+                        // TODO Please fix
+                        const options = document.querySelector(".map-options");
+                        if (options != null) {
+                            options.setAttribute("hidden", "true");
                         }
                         this.setState({
                             pageToShow:

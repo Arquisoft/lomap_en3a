@@ -45,10 +45,15 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     private goBack() {
         // We are going to show the filters now
-        // TODO show also the filters button
         const a = document.getElementById("mapFilterComponent");
         if (a != null) {
             a.style.visibility = "";
+        }
+        // We show the map options TODO it is HIGHLY recommendable to change this
+        const options = document.querySelector(".map-options");
+        console.log(options)
+        if (options != null) {
+            options.removeAttribute("hidden");
         }
         this.setState({goBack: true});
     }

@@ -5,6 +5,7 @@ import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import Placemark from "../domain/Placemark";
 import {PlaceType} from "../types/PlaceType";
+import {Button} from "@mui/material";
 
 
 interface HomeProps {
@@ -68,35 +69,25 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     public render(): JSX.Element {
         return (
             <section className='Home'>
-                <h2>{this.state.data?.getName() || "Loading"}</h2>
-                <select name="map" onChange={this.changeMap.bind(this)}>
-                    {this.state.maps.map(m => {
-                        return (<option value={m.getId()}>{m.getName()}</option>)
-                    })}
-                </select>
-                <div>
-                    <button onClick={async () => {
-                        await this.podManager.saveMap(new Map("New map"))
-                    }}>New map
-                    </button>
-                    <input type="button" value="set public" onClick={async () => {
-                        await this.podManager.setPublicAccess(this.podManager.getBaseUrl() + "/data/maps/" + (this.state.data as Map).getId(), true)
-                    }}/>
-                    <input type="button" value="set private" onClick={async () => {
-                        await this.podManager.setPublicAccess(this.podManager.getBaseUrl() + "/data/maps/" + (this.state.data as Map).getId(), false)
-                    }}/>
-                    <input type="button" onClick={() => this.setFilter(["a"])}/>
-                    <button onClick={() => {
-                        const a = document.getElementById("mapFilterComponent");
-                        if (a != null) {
-                            if(a.style.visibility != "hidden") {
-                                a.style.visibility = "hidden";
-                            }else {
-                                a.style.visibility = "";
-                            }
-                        }
-                    }}>Hide filters
-                    </button>
+                <div className="map-options">
+                    <h2>{this.state.data?.getName() || "Loading"}</h2>
+                    <select name="map" onChange={this.changeMap.bind(this)}>
+                        {this.state.maps.map(m => {
+                            return (<option value={m.getId()}>{m.getName()}</option>)
+                        })}
+                    </select>
+                    <Button sx={{margin: "0 0 0.3em 1em"}} className="hide-filters-button" variant="contained"
+                            onClick={() => {
+                                const a = document.getElementById("mapFilterComponent");
+                                if (a != null) {
+                                    if (a.style.visibility != "hidden") {
+                                        a.style.visibility = "hidden";
+                                    } else {
+                                        a.style.visibility = "";
+                                    }
+                                }
+                            }}>Hide filters
+                    </Button>
                 </div>
 
                 {this.state.data !== undefined &&
