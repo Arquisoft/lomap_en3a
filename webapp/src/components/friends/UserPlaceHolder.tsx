@@ -4,7 +4,7 @@ import {Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography} 
 import UserPage from "./UserPage";
 
 interface UserPlaceState {
-    changePage : boolean
+    changePage: boolean
 }
 
 interface UserPlaceHolderProps {
@@ -20,14 +20,14 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
         super(props);
         this.user = props.user;
         this.state = {
-            changePage : false
+            changePage: false
         }
     }
 
-    private getFriendInfo(user : User) {
+    private getFriendInfo(user: User) {
         this.props.callback(<UserPage user={user}></UserPage>);
         this.setState({
-            changePage : true
+            changePage: true
         });
     }
 
@@ -37,9 +37,18 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
             flexWrap: "wrap",
         }}>
             <Card className="card">
-                <CardActionArea className="card" onClick={() => {this.getFriendInfo(this.user)}}>
-                    <CardHeader avatar={<Avatar>{this.user.getName()?.charAt(0)}</Avatar>} title={this.user.getName()}/>
+                <CardActionArea sx={{height: "100%"}} className="card" onClick={() => {
+                    this.getFriendInfo(this.user)
+                }}>
+                    <CardHeader avatar={<Avatar alt="User avatar"
+                                                sx={{
+                                                    backgroundColor: "#B2CCEB",
+                                                    width: 60,
+                                                    height: 60
+                                                }}>{this.user.getName()?.charAt(0)}</Avatar>}
+                    />
                     <CardContent>
+                        <h3>{this.user.getName()}</h3>
                         <Typography>Friend text</Typography>
                         <a href={this.user.getWebId()}>SOLID profile</a>
                     </CardContent>

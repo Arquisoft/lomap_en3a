@@ -8,6 +8,7 @@ import Dropdown from 'rc-dropdown';
 import {IconContext} from "react-icons";
 import Menu, {Divider, Item as MenuItem} from 'rc-menu';
 import {Link} from "react-router-dom";
+import {Avatar} from "@mui/material";
 
 /**
  * The menu with all the options related to the user (personal information, log out)
@@ -42,9 +43,12 @@ export class UserMenu extends React.Component {
           <div>
               <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
                   <span>
-                      <IconContext.Provider value={{size: "4em"}}>
-                          <HiIcon.HiOutlineUser/>
-                      </IconContext.Provider>
+                      <Avatar alt="User avatar"
+                              sx={{
+                                  backgroundColor: "#B2CCEB",
+                                  width: "4em",
+                                  height: "4em",
+                              }}>{SolidSessionManager.getManager().getWebID()?.charAt(8).toUpperCase()}</Avatar>
                   </span>
               </Dropdown>
           </div>
