@@ -2,21 +2,25 @@
     margin: 0 2em 5em 2em;
 }
 
-.back-page-link, .back-page-link:visited {
-    text-decoration: underline;
-    color: cornflowerblue;
-    font-size: small;
+.back-page-link-container {
+    width: 7em;
+    border-bottom-left-radius: 0.1em;
+    border-bottom-right-radius: 0.1em;
+    background-color: #002E66;
+    padding: 0.5em;
 }
 
-.back-page-link:hover {
+.back-page-link-container:hover {
     cursor: pointer;
+    background-color: #005fa3;
 }
 
-.back-page-link:hover  {
-    color: lightskyblue;
+.back-page-link, .back-page-link:visited {
+    color: white;
+    font-size: large;
 }
 
-.friends-tables{
+.friends-tables {
     margin-top: 3em;
 }
 
@@ -25,5 +29,5 @@
 }
 
 .paginated-table {
-    minWidth: 650;
+    min-width: 650px;
 }

@@ -13,11 +13,17 @@ interface UserPageProps {
 }
 
 interface UserPageState {
-    page: number
+    placePage: number
+    mapPage: number
     placeShown: Place | null
     pageToChange: JSX.Element | null
 }
 
+/**
+ * This class is set to present the page of a given user in the props
+ * @param {User} user - The user to be presented in the page
+ * @author UO283069
+ */
 export default class UserPage extends React.Component<UserPageProps, UserPageState> {
 
     private testPlaces: Array<Place>;
@@ -33,7 +39,8 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         this.testMaps.push(new Map("Test", "Test", "Test"));
         this.testPlaces.push(new Place("test", 1, 1, "test", [], "test", "catTest"));
         this.state = {
-            page: 0,
+            placePage: 0,
+            mapPage: 0,
             placeShown: null,
             pageToChange: null
         }
@@ -59,12 +66,38 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         </TableBody>);
     }
 
-    private onPageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
-        this.setState({
-            page: page,
+    /**
+     * Handles the change of page on the table of places, when a given page changes this method
+     * is in charge of updating the page number.
+     * Other attributes of the state are left unchanged as they will only be updated once
+     * in order to change the represented element.
+     * @param {React.MouseEvent<HTMLButtonElement> | null} event - The React mouse event
+     * @param {number} page - The page in which we are
+     */
+    private onPlacePageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
+        this.setState((previousState) => ({
+            placePage: page,
+            mapPage: previousState.mapPage,
             placeShown: null,
             pageToChange: null
-        });
+        }));
+    }
+
+    /**
+     * Handles the change of page on the table of maps, when a given page changes this method
+     * is in charge of updating the page number.
+     * Other attributes of the state are left unchanged as they will only be updated once
+     * in order to change the represented element.
+     * @param {React.MouseEvent<HTMLButtonElement> | null} event - The React mouse event
+     * @param {number} page - The page in which we are
+     */
+    private onMapPageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
+        this.setState((previousState) => ({
+            placePage: previousState.placePage,
+            mapPage: page,
+            placeShown: null,
+            pageToChange: null
+        }));
     }
 
     render() {
@@ -73,13 +106,16 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         }
         return (
             <>
-                <a className="back-page-link" onClick={() => {
-                    this.setState({
-                        page: 0,
-                        placeShown: null,
-                        pageToChange: (<Friends/>)
-                    })
-                }}>⮫Friends list</a>
+                <div className="back-page-link-container">
+                    <a className="back-page-link" onClick={() => {
+                        this.setState({
+                            placePage: 0,
+                            mapPage: 0,
+                            placeShown: null,
+                            pageToChange: (<Friends/>)
+                        })
+                    }}>Friends list</a>
+                </div>
                 <main className="user-profile">
                     <h1>{this.props.user.getName()}</h1>
                     <Avatar alt="User avatar"
@@ -95,21 +131,15 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                         <Paper id="places-table" sx={{margin: "0.5em"}}>
                             <PaginatedTable tableName="places" tableBody={this.places}
                                             headCells={["Title", "Coordinates", "Description", "Information"]}
-                                            headerCellStyle={{color: "white"}}></PaginatedTable>
-                            <TablePagination rowsPerPageOptions={[5, 10, 25]} count={-1}
-                                             onPageChange={this.onPageChange}
-                                             page={this.state.page}
-                                             rowsPerPage={5}/>
+                                            headerCellStyle={{color: "white"}} page={this.state.placePage}
+                                            pageHandler={this.onPlacePageChange}></PaginatedTable>
                         </Paper>
                         <label htmlFor="maps-table">Friends maps</label>
                         <Paper id="maps-table" sx={{margin: "0.5em"}}>
                             <PaginatedTable tableName="places" tableBody={this.maps}
                                             headCells={["Name", "Description", "Link"]}
-                                            headerCellStyle={{color: "white"}}></PaginatedTable>
-                            <TablePagination rowsPerPageOptions={[5, 10, 25]} count={-1}
-                                             onPageChange={this.onPageChange}
-                                             page={this.state.page}
-                                             rowsPerPage={5}/>
+                                            headerCellStyle={{color: "white"}} page={this.state.mapPage}
+                                            pageHandler={this.onMapPageChange}></PaginatedTable>
 
                         </Paper>
                     </div>

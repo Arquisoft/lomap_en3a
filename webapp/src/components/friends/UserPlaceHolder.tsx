@@ -12,8 +12,20 @@ interface UserPlaceHolderProps {
     callback: (component: JSX.Element) => void
 }
 
+/**
+ * A placeholder to preview the user, if clicked it shows the full UserPage of the user.
+ * @param {User} user - The user to be previewed
+ * @param {(component:JSX.Element)=>void} callback - a callback function to present the UserPage over
+ *                                                   the Friends element.
+ * @author UO283069
+ */
 export default class UserPlaceHolder extends React.Component<UserPlaceHolderProps, UserPlaceState> {
 
+    /**
+     * The user that is being represented
+     * @readonly
+     * @private
+     */
     private readonly user: User;
 
     constructor(props: UserPlaceHolderProps) {
