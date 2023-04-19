@@ -7,6 +7,7 @@ import api from '../api';
 import {PlaceType} from "../src/types/PlaceType";
 import Place from "../src/models/Place";
 import * as mongoose from "mongoose";
+import db_uri from "../settings";
 
 let app:Application;
 let server:http.Server;
@@ -27,7 +28,7 @@ beforeAll(async () => {
         console.error('Error occured: ' + error.message);
     });
 
-    await mongoose.connect("mongodb+srv://lomapen3a:HkO74fQ5tNY8gvfj@lomapen3a.sscscjd.mongodb.net/lomapen3a?retryWrites=true&w=majority");
+    await mongoose.connect(db_uri);
 });
 
 afterAll(async () => {
