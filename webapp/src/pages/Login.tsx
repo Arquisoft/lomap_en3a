@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 // import SolidSessionManager from '../adapters/solid/SolidSessionManager';
 import {useSession} from "@inrupt/solid-ui-react";
-import {fetchUserData, login} from '../adapters/solid/SolidSessionManager'
+import {fetchUserData, login, isLoggedIn} from '../adapters/solid/SolidSessionManager'
 
 
 /**
@@ -40,9 +40,9 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	 */
 	public async componentDidMount(): Promise<void> {
 		// await this.sessionManager.fetchUserData();
-    	const { session } = useSession();
+		
 		await fetchUserData();
-		this.setState({loggedIn: session.info.isLoggedIn});
+		this.setState({loggedIn: isLoggedIn()});
 	}
     
 	/**
