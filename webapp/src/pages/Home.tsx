@@ -80,7 +80,7 @@ export default class Home extends React.Component<HomeProps,HomeState> {
                     <button onClick={async () => {await this.podManager.saveMap(new Map("New map"))}}>New map</button>
                     <input type="button" value="set public" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+(this.state.data as Map).getId(), true)}} />
                     <input type="button" value="set private" onClick={async () => {await this.podManager.setPublicAccess(this.podManager.getBaseUrl()+"/data/maps/"+(this.state.data as Map).getId(), false)}} />
-                    <input type="button" onClick={() => this.setFilter(["a"])} />
+                    <input type="button" value="set friends" onClick={async () => {await this.podManager.setFriendsAccess(this.podManager.getBaseUrl()+"/data/maps/"+(this.state.data as Map).getId(), true)}} />
                 </div>
                 
                 {this.state.data !== undefined &&

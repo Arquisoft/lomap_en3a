@@ -343,4 +343,17 @@ export default class PODManager {
         return await result.toArray().then(r => {return Assembler.toGroup(r[0]);});
     }
 
+    public async setFriendsAccess(resourceUrl:string, canRead:boolean) {
+        let group = await this.getGroup(this.getBaseUrl() + "/groups/friends");
+
+        for (let user of group.getMembers()) {
+            await access.setAgentAccess(
+                resourceUrl,
+                user.getWebId(),
+                { read: canRead },
+                { fetch: this.sessionManager.getSessionFetch() }
+            );
+        }
+    }
+
 }
