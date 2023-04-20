@@ -1,6 +1,7 @@
 import {
     getDefaultSession,
     handleIncomingRedirect,
+    login,
     Session
 } from "@inrupt/solid-client-authn-browser";
 
@@ -26,13 +27,13 @@ export default class SolidSessionManager {
     public async login(url: string): Promise<void> {
         localStorage.setItem('solid-provider', url);
         localStorage.setItem('session-state', "login");
-        await this.session.login(
+        await login(
             {
                 oidcIssuer: url,
                 redirectUrl: window.location.href
             }
         );
-        await this.session.handleIncomingRedirect();
+        let hola = await handleIncomingRedirect();
     }
 
     /**
@@ -52,7 +53,7 @@ export default class SolidSessionManager {
 
             case "login": 
                 localStorage.setItem('session-state', "handle-redirect");
-                await this.session.handleIncomingRedirect({restorePreviousSession: true});
+                let adios = await handleIncomingRedirect({restorePreviousSession: true});
                 break;
 
             case "handle-redirect":
@@ -97,7 +98,7 @@ export default class SolidSessionManager {
      * @returns {boolean} whether the user is logged in
      */
     public isLoggedIn(): boolean {
-        return this.session.info.isLoggedIn;
+        return (getDefaultSession()).info.isLoggedIn;
     }
 
     /**
