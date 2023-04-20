@@ -8,6 +8,7 @@ import ReviewsPage from "../components/place/ReviewsPage";
 import OverviewPage from "../components/place/OverviewPage";
 import Placemark from "../domain/Placemark";
 import PODManager from "../adapters/solid/PODManager";
+import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 
 interface PointInformationProps {
     placemark: Placemark;
@@ -16,24 +17,29 @@ interface PointInformationProps {
 
 interface PointInformationState {
     goBack: boolean;
-    component: JSX.Element;
+    component : JSX.Element;
+    visibility: string;
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
-
+    
+    private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
     private point: Place;
     private pod = new PODManager();
 
     public constructor(props: any) {
         super(props);
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
-        this.state = {
-            goBack: false,
-            component: <h2>Loading...</h2>
+
+        this.state = {goBack: false,
+            component: <h2>Loading...</h2>,
+            visibility: ""
         };
+        
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
 
     public async componentDidMount(): Promise<void> {
@@ -67,6 +73,23 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.setState({component: <OverviewPage place={this.point}/>});
     }
 
+    private handleVisibilityChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        switch (event.target.value) {
+            case "public":
+                this.setState({visibility: event.target.value});
+                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), true);
+                break;
+            case "private":
+                this.setState({visibility: event.target.value});
+                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), false);
+                break;
+            case "friends":
+                this.setState({visibility: event.target.value});
+                //this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), event.target.value);
+                break;
+        }
+    }
+
     /**
      * Returns the point information view, the ImageList returns a Slider
      * with the given images and the Link is just a button to go back to
@@ -85,6 +108,17 @@ export default class PointInformation extends React.Component<PointInformationPr
                         <ImageList images={this.point.photos}></ImageList>
                     </div>
                     <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
+
+                    {this.props.placemark.isOwner(this.sessionManager.getWebID()) && 
+                    <div>
+                        <h3>Change the visibility of the Place</h3>
+                        <select title="visibility" name="visibility" id="visibility" 
+                        value={this.state.visibility} onChange={this.handleVisibilityChange}>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="friends">Friends</option>
+                        </select>
+                    </div>}
                 </div>
                 <div>
 

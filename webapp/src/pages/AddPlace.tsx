@@ -31,6 +31,7 @@ interface IState {
 	latitudeError: string;
 	longitudeError: string;
 	descriptionError: string;
+	visibility: string;
 }
 
 // Define the props type.
@@ -65,6 +66,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			latitudeError: "",
 			longitudeError: "",
 			descriptionError: "",
+			visibility: ""
 		};
 
 		// Binding the calls.
@@ -73,6 +75,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
 	}
 
 	// Function that returns the category list.
@@ -137,6 +140,11 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}));
 	};
 
+	// Define a handler function that changes the visibility of the file.
+	handleVisibilityChange (event: React.ChangeEvent<HTMLSelectElement>) {
+		this.setState({ visibility: event.target.value });
+	}
+
 	// When the submit button is pressed, the parameters are validated and the object Place is created.
 	// Here is where this object should be taken from to make it persistent.
 	async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -181,14 +189,21 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		// Handle form submission logic here.
 		console.log("Form submitted:", this.state);
 
-
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, undefined ,this.state.category);
 		this.pod.savePlace(place); //run asynchronously
 
-		//Here has to be the rest of the logic for persitence on pods.
-		//Here.
-		//Here.
+		switch (this.state.visibility) {
+            case "public":
+                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), true);
+                break;
+            case "private":
+                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), false);
+                break;
+            case "friends":
+                //this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), event.target.value);
+                break;
+        }
 
 		if (this.props.callback !== undefined) {
 			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
@@ -197,7 +212,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}
-		//Here.
+
 	}
 
 
@@ -241,6 +256,14 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			<div>
 				<label htmlFor="photo">Photo:</label>
 				<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
+			</div>
+			<div id="visibility">
+				<h3>Select visibility of the place</h3>
+				<select title="visibility" name="visibility" value={this.state.visibility} onChange={this.handleVisibilityChange}>
+					<option value="public">Public</option>
+					<option value="private">Private</option>
+					<option value="friends">Friends</option>
+				</select>
 			</div>
 			<button type="submit">Submit</button>
 			</form>

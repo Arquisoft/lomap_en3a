@@ -34,4 +34,10 @@ export default class Placemark {
     public setCategory(cat:string): void {
         this.category = cat;
     }
+    public getOwner(): string {
+        return this.placeUrl.split("/")[2];
+    }
+    public isOwner(webID:string): boolean {
+        return this.getOwner() === webID.split("/")[2];
+    }
 }
