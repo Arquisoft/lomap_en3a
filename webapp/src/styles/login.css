@@ -65,3 +65,17 @@
     font-weight: bold;
     border: none;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+.coloredGround {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    border-radius: 0.5em;
+    background: linear-gradient(45deg, lightblue, blue) fixed;
+}

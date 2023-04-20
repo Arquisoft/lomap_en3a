@@ -30,10 +30,12 @@ export default class PointInformation extends React.Component<PointInformationPr
     public constructor(props: any) {
         super(props);
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
+
         this.state = {goBack: false,
             component: <h2>Loading...</h2>,
             visibility: ""
         };
+        
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);
@@ -43,21 +45,32 @@ export default class PointInformation extends React.Component<PointInformationPr
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
         this.setState({
-            component: <OverviewPage place={this.point} />
+            component: <OverviewPage place={this.point}/>
         });
     }
 
     private goBack() {
+        // We are going to show the filters now
+        const a = document.getElementById("mapFilterComponent");
+        if (a != null) {
+            a.style.visibility = "";
+        }
+        // We show the map options TODO it is HIGHLY recommendable to change this
+        const options = document.querySelector(".map-options");
+        console.log(options)
+        if (options != null) {
+            options.removeAttribute("hidden");
+        }
         this.setState({goBack: true});
     }
 
-    private handleClickReview(){
+    private handleClickReview() {
         this.setState({component: <ReviewsPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
-        
+
     };
 
-    private handleClickOverview(){
-        this.setState({component: <OverviewPage place = {this.point}/>});
+    private handleClickOverview() {
+        this.setState({component: <OverviewPage place={this.point}/>});
     }
 
     private handleVisibilityChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -110,16 +123,18 @@ export default class PointInformation extends React.Component<PointInformationPr
                 <div>
 
 
-                    <button 
-                    id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
-                    } onClick={this.handleClickOverview}>Overview</button>
+                    <button
+                        id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
+                        } onClick={this.handleClickOverview}>Overview
+                    </button>
 
-                    <button 
-                    id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
-                    } onClick={this.handleClickReview}>Reviews</button>
+                    <button
+                        id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
+                        } onClick={this.handleClickReview}>Reviews
+                    </button>
 
                     {this.state.component}
-                    </div>
+                </div>
                 <input type="button" id="back" value="Back" onClick={this.goBack}/>
             </section>
         );

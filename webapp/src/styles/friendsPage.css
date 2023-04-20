@@ -1,0 +1,14 @@
+.Content {
+    height: 100%;
+}
+
+.friendsGrid {
+    display: flex;
+    flex-direction: row;
+}
+
+.card {
+    margin: 3em;
+    width: 13em;
+    height: 15em;
+}
