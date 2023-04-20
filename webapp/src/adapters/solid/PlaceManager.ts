@@ -8,12 +8,13 @@ import {
 } from "@inrupt/solid-client";
 import {SCHEMA_INRUPT} from "@inrupt/vocab-common-rdf";
 import Place from "../../domain/Place";
-import SolidSessionManager from "./SolidSessionManager";
+//import SolidSessionManager from "./SolidSessionManager";
+import {getSessionFetch, getWebID } from './SolidSessionManager'
 
 export default class PlaceManager {
 
     private readonly MAPPOINTSURL: string = "Lomap/Places";
-    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+    //private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     //TODO: BORRAR PARA LA PRÓXIMA ENTREGA
     private fakeList: Place[] = [];
 
@@ -32,7 +33,7 @@ export default class PlaceManager {
     public async createNewMapPoint(newLocation: Place): Promise<void> {
         //newLocation.uuid = crypto.randomUUID();
         this.fakeList.push(newLocation);
-        const podURL = await getPodUrlAll(this.sessionManager.getWebID(), {fetch: fetch});
+        const podURL = await getPodUrlAll(getWebID(), {fetch: fetch});
         try {
             await this.appendToDataSet(podURL[0] + "public/" + this.MAPPOINTSURL, newLocation);
         } catch (fe) {
@@ -59,7 +60,7 @@ export default class PlaceManager {
         await saveSolidDatasetAt(
             podURL,
             courseSolidDataset,
-            {fetch: this.sessionManager.getSessionFetch()}// fetch from authenticated Session
+            {fetch: getSessionFetch()}// fetch from authenticated Session
         );
         return null;
     }
@@ -79,7 +80,7 @@ export default class PlaceManager {
         await saveSolidDatasetAt(
             podURL,
             courseSolidDataset,
-            {fetch: this.sessionManager.getSessionFetch()}// fetch from authenticated Session
+            {fetch: getSessionFetch()}// fetch from authenticated Session
         );
         return null;
     }
@@ -97,10 +98,10 @@ export default class PlaceManager {
     public async getPlaceData(podURL: string, lat: number, long: number): Promise<Place> {
         let uuid = this.search(lat, long);
         //TODO: DELETE
-        const podURLt = await getPodUrlAll(this.sessionManager.getWebID(), {fetch: fetch});
+        const podURLt = await getPodUrlAll(getWebID(), {fetch: fetch});
         let webId = podURLt + "public/" + this.MAPPOINTSURL;
         //UNTIL HERE
-        let webIdDoc = await getSolidDataset(webId, {fetch: this.sessionManager.getSessionFetch()});
+        let webIdDoc = await getSolidDataset(webId, {fetch: getSessionFetch()});
         let thing = getThing(webIdDoc, webId + "#" + uuid);
         let name = getStringNoLocale(<Thing>thing, SCHEMA_INRUPT.name);
         let latThing = getDecimal(<Thing>thing, SCHEMA_INRUPT.latitude);
@@ -121,7 +122,7 @@ export default class PlaceManager {
      * */
     //TODO: We must use the map parameter in the future
     public async getPlacesFromMap(podURL: string, map: string): Promise<Place[]> {
-        let webIdDoc = await getSolidDataset(podURL, {fetch: this.sessionManager.getSessionFetch()});
+        let webIdDoc = await getSolidDataset(podURL, {fetch: getSessionFetch()});
         let things = getThingAll(webIdDoc);
         //It returns all the values in the knows property of the object Thing
         let name;

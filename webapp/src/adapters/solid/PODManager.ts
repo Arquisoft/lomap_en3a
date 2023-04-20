@@ -2,14 +2,15 @@ import { QueryEngine } from '@comunica/query-sparql-solid';
 import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
-import SolidSessionManager from './SolidSessionManager';
+import {getSessionFetch, getWebID } from './SolidSessionManager';
+//import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
 import { universalAccess as access } from "@inrupt/solid-client";
 import PlaceComment from '../../domain/Place/PlaceComment';
 
 export default class PODManager {
-    private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
+    //private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
 
 
     public async savePlace(place:Place): Promise<boolean> {
@@ -36,7 +37,7 @@ export default class PODManager {
 
     private async addCommentToPlace(placeId: string, commentUrl: string) {
         let commentsPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/comments";
-        let placeComments = await getSolidDataset(commentsPath, {fetch: this.sessionManager.getSessionFetch()});
+        let placeComments = await getSolidDataset(commentsPath, {fetch:getSessionFetch()});
 
         placeComments = setThing(placeComments, Assembler.urlToReference(commentUrl))
         await this.saveDataset(commentsPath, placeComments);
@@ -75,7 +76,7 @@ export default class PODManager {
     }
 
     public async createAcl(path:string) {
-        let fetch = {fetch:this.sessionManager.getSessionFetch()};
+        let fetch = {fetch: getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
         let linkedResources = getLinkedResourceUrlAll(dataset);
         let fallbackAcl = getFallbackAcl(dataset);
@@ -121,7 +122,7 @@ export default class PODManager {
         await access.setPublicAccess(
             resourceUrl,
             { read: isPublic },
-            { fetch: this.sessionManager.getSessionFetch() },
+            { fetch: getSessionFetch() },
         );
     }
 
@@ -231,7 +232,7 @@ export default class PODManager {
      * @returns the context for the query
      */
     private getQueryContext(sources: Array<string>): any {
-        return {sources: sources, fetch: this.sessionManager.getSessionFetch() }
+        return {sources: sources, fetch: getSessionFetch() }
     }
 
     /**
@@ -241,7 +242,7 @@ export default class PODManager {
      * @param dataset the dataset to be saved
      */
     private async saveDataset(path:string, dataset:SolidDataset, createAcl:boolean=false): Promise<void> {
-        let fetch = this.sessionManager.getSessionFetch();
+        let fetch = getSessionFetch();
         await saveSolidDatasetAt(path, dataset, {fetch: fetch});
         if (createAcl) {
             await this.createAcl(path);
@@ -256,7 +257,7 @@ export default class PODManager {
      */
     public getBaseUrl(webID:string=''): string {
         if (webID === '') {
-            webID = this.sessionManager.getWebID();
+            webID = getWebID();
         }
         return webID.slice(0, webID.indexOf('/profile/card#me')) + '/lomap';
     }
