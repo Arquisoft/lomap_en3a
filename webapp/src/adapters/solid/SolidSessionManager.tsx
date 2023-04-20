@@ -4,7 +4,7 @@ import {SessionInfo} from "@inrupt/solid-ui-react/dist/src/hooks/useSession";
 import {useState} from "react";
 
 export function isLoggedIn(){
-    let { session } = useSession();
+    const { session } = useSession();
     return session.info.isLoggedIn
 }
 
