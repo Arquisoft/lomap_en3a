@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import SolidSessionManager from '../adapters/solid/SolidSessionManager';
-import '../styles/login.css';
+// import SolidSessionManager from '../adapters/solid/SolidSessionManager';
+import {fetchUserData, isLoggedIn, login} from '../adapters/solid/SolidSessionManager'
 
 
 /**
@@ -9,7 +9,7 @@ import '../styles/login.css';
  */
 export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 
-	private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+	// private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 	private urls: Map<string, string> = new Map();
 
 	/**
@@ -29,7 +29,8 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	 */
 	private getLoginFor(provider: string) {
 		let url : string = this.urls.get(provider) + "";
-		return this.sessionManager.login.bind(this.sessionManager, url);
+		// return this.sessionManager.login.bind(this.sessionManager, url);
+		return login.bind(url);
 	}
 
 
@@ -37,8 +38,9 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	 * Complete the login after comming back from the redirect.
 	 */
 	public async componentDidMount(): Promise<void> {
-		await this.sessionManager.fetchUserData();
-		this.setState({loggedIn: this.sessionManager.isLoggedIn()});
+		// await this.sessionManager.fetchUserData();
+		await fetchUserData();
+		this.setState({loggedIn: isLoggedIn});
 	}
     
 	/**
@@ -55,7 +57,7 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 					<legend>Sign in</legend>
 					<section>
 						<p>Select your POD provider</p>
-						<input type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")} />
+						<input type="button" value="Inrupt.net" onClick={() => this.getLoginFor("inrupt")} />
 					</section>
 				</fieldset>		
 			</section>
