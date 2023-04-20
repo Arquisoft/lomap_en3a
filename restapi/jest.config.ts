@@ -4,4 +4,5 @@ export default {
         "^.+\\.tsx?$": "ts-jest"
     },
     collectCoverage: true,
+    collectCoverageFrom:["api.ts"]
 }
