@@ -113,24 +113,23 @@ export default class PODManager {
      * @param map the map to be saved
      * @returns wether the map could be saved
      */
-    public async saveMap(map:Map): Promise<boolean> {
+    public async saveMap(map:Map): Promise<void> {
         let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
+        let userMaps:string = this.getBaseUrl() + '/user/maps';
+        let urlThing = Assembler.urlToReference(path);
 
-        return this.saveDataset(path, Assembler.mapToDataset(map), true)
-            .then(() => {return true})
-            .catch(() => {return false});
+        await this.saveDataset(path, Assembler.mapToDataset(map));
+
+        await getSolidDataset(userMaps, {fetch: this.sessionManager.getSessionFetch()})
+            .then(async dataset => {
+                await this.saveDataset(userMaps, setThing(dataset, urlThing));
+            }).catch(async () => {
+                await this.saveDataset(userMaps, setThing(createSolidDataset(), urlThing));
+            });
     }
 
-    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
-        await access.setPublicAccess(
-            resourceUrl,
-            { read: isPublic },
-            { fetch: this.sessionManager.getSessionFetch() },
-        );
-    }
-
-    public async loadPlacemarks(map: Map): Promise<void> {
-        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
+    public async loadPlacemarks(map: Map, author:string=""): Promise<void> {
+        let path:string = this.getBaseUrl(author) + '/data/maps/' + map.getId();
         let placemarks = await this.getPlacemarks(path);
         map.setPlacemarks(placemarks);
     }
@@ -141,8 +140,8 @@ export default class PODManager {
      * 
      * @returns an array of maps containing the details to be displayed as a preview
      */
-    public async getAllMaps(): Promise<Array<Map>> {
-        let path:string = this.getBaseUrl() + '/data/maps/';
+    public async getAllMaps(user:string=""): Promise<Array<Map>> {
+        let path:string = this.getBaseUrl(user) + '/data/maps/';
 
         let urls = await this.getContainedUrls(path);
         let maps = await this.getMapPreviews(urls);
@@ -354,6 +353,14 @@ export default class PODManager {
                 { fetch: this.sessionManager.getSessionFetch() }
             );
         }
+    }
+
+    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
+        await access.setPublicAccess(
+            resourceUrl,
+            { read: isPublic },
+            { fetch: this.sessionManager.getSessionFetch() },
+        );
     }
 
 }
