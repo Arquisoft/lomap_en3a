@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-// import SolidSessionManager from '../adapters/solid/SolidSessionManager';
+import SolidSessionManager from '../adapters/solid/SolidSessionManager';
 import {useSession} from "@inrupt/solid-ui-react";
-import {fetchUserData, login, isLoggedIn} from '../adapters/solid/SolidSessionManager'
+// import {fetchUserData, login, isLoggedIn} from '../adapters/solid/SolidSessionManager'
 
 
 /**
@@ -10,7 +10,7 @@ import {fetchUserData, login, isLoggedIn} from '../adapters/solid/SolidSessionMa
  */
 export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 
-	// private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+	private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 	private urls: Map<string, string> = new Map();
 
 	/**
@@ -30,8 +30,8 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	 */
 	private getLoginFor(provider: string) {
 		let url : string = this.urls.get(provider) + "";
-		// return this.sessionManager.login.bind(this.sessionManager, url);
-		return login(url);
+		return this.sessionManager.login.bind(this.sessionManager, url);
+		return this.sessionManager.login.bind(this.sessionManager, url);
 	}
 
 
@@ -41,8 +41,8 @@ export default class Login extends React.Component<{}, {loggedIn: boolean}> {
 	public async componentDidMount(): Promise<void> {
 		// await this.sessionManager.fetchUserData();
 		
-		await fetchUserData();
-		this.setState({loggedIn: isLoggedIn()});
+		await this.sessionManager.fetchUserData();
+		this.setState({loggedIn: this.sessionManager.isLoggedIn()});
 	}
     
 	/**

@@ -3,8 +3,8 @@ import {Rating} from "react-simple-star-rating";
 import IPlacePageProps from "./IPlacePage";
 import IPlacePageState from "./IPlacePage";
 import "../../styles/OverviewPage.css"; // Import the CSS file
-//import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-import {getWebID} from "../../adapters/solid/SolidSessionManager";
+import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
+// import {getWebID} from "../../adapters/solid/SolidSessionManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
 import { PhotoPreview } from "../../pages/AddPlace";
@@ -21,7 +21,7 @@ interface OverviewPageState extends IPlacePageState {
 
 export default class OverviewPage extends React.Component<IPlacePageProps, OverviewPageState> {
 
-    //private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     private pod = new PODManager();
 
     public constructor(props : IPlacePageProps) {
@@ -128,7 +128,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var rating = new PlaceRating(this.state.place, getWebID(), this.state.rating);
+        var rating = new PlaceRating(this.state.place, this.sessionManager.getWebID(), this.state.rating);
         //Here the persistence of the object
 
         console.log("Form submitted, rating:", rating);
@@ -148,7 +148,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         }
         this.setState({photosError: ""});
 
-        var photo = new PlacePhotos(this.state.place, getWebID(), this.state.photosSelected);
+        var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
         //Here the persistence of the object
 
         console.log("Form submitted, photo:", photo);

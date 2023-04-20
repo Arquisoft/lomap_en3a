@@ -1,5 +1,5 @@
-//import SolidSessionManager from "./SolidSessionManager";
-import {getWebID} from "./SolidSessionManager";
+import SolidSessionManager from "./SolidSessionManager";
+// import {getWebID} from "./SolidSessionManager";
 import {
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
@@ -13,7 +13,7 @@ import {FOAF} from "@inrupt/vocab-common-rdf";
  * */
 export default class FriendManager {
 
-    //private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 
     /**
      * Ir searches all the friends related with the person logged in stored in the card from its POD
@@ -22,7 +22,7 @@ export default class FriendManager {
      * */
     public async getFriendsList(): Promise<Array<User>> {
         //URL with #me at the end
-        const webId = getWebID();
+        const webId = this.sessionManager.getWebID();
         const webIdDoc = await getSolidDataset(webId);
         const friends = getThing(webIdDoc, webId);
         //It returns all the values in the knows property of the object Thing

@@ -1,5 +1,4 @@
-//import SolidSessionManager from "../adapters/solid/SolidSessionManager";
-import {logout} from "../adapters/solid/SolidSessionManager";
+// import {logout} from "../adapters/solid/SolidSessionManager";
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 
