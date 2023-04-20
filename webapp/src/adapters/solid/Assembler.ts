@@ -172,4 +172,18 @@ export default class Assembler {
         return setThing(dataset, thing.build());
     }
 
+    public static toGroup(binding: Bindings): Group {
+        let name = binding.get("name")?.value as string;
+        let id = binding.get("id")?.value as string;
+        let members = [];
+
+        let concatenatedIDs = binding.get("members")?.value as string;
+        let webIDs = concatenatedIDs.split(',');
+        for (let friend of webIDs) {
+            members.push(new User(friend.slice(8, friend.indexOf(".inrupt")), friend))
+        }
+
+        return new Group(name, members, id)
+    }
+
 }
