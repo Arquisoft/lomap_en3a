@@ -4,8 +4,8 @@ import {SessionInfo} from "@inrupt/solid-ui-react/dist/src/hooks/useSession";
 import {useState} from "react";
 
 
-export const [isLoggedIn, setIsLoggedIn] = useState(false);
-let { session } = useSession();
+export const [isLoggedIn, setIsLoggedIn] = useState(false)
+export const { session } = useSession();
 
 export async function login(url: string) {
     localStorage.setItem('solid-provider', url);
