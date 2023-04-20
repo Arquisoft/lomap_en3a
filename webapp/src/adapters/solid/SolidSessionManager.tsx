@@ -5,12 +5,12 @@ import {useState} from "react";
 
 
 export const [isLoggedIn, setIsLoggedIn] = useState(false);
-let session = useSession();
+let { session } = useSession();
 
 export async function login(url: string) {
     localStorage.setItem('solid-provider', url);
     localStorage.setItem('session-state', "login");
-    session.session.onLogin(() => setIsLoggedIn(true));
+    session.onLogin(() => setIsLoggedIn(true));
     await session.login(
         {
             oidcIssuer: url,
@@ -24,8 +24,8 @@ export async function login(url: string) {
  */
 export async function logout(): Promise<boolean> {
     localStorage.setItem('session-state', "logout");
-    await session.session.logout();
-    return session.session.info.isLoggedIn;
+    await session.logout();
+    return session.info.isLoggedIn;
 }
 
 /**
@@ -48,7 +48,7 @@ export async function fetchUserData(): Promise<void> {
 
         case "logout":
             localStorage.setItem('session-state', "finished");
-            session.session.info.isLoggedIn = false;
+            session.info.isLoggedIn = false;
             break;
 
         default:
@@ -69,8 +69,8 @@ export async function restoreSession(): Promise<void> {
  * @returns {string} the web ID of the logged user
  */
 export function getWebID(): string {
-    if (session.session.info.isLoggedIn !== undefined) {
-        return session.session.info.webId as string;
+    if (session.info.isLoggedIn !== undefined) {
+        return session.info.webId as string;
     } else {
         return "Not logged in";
     }
@@ -80,7 +80,7 @@ export function getWebID(): string {
  * Fetch from an authenticated session
  * */
 export function getSessionFetch() {
-    return session.session.fetch;
+    return session.fetch;
 }
 
 // /**
