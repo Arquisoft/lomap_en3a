@@ -1,6 +1,5 @@
 import React from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import MapFilter from "../components/MapFilter";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";

@@ -1,6 +1,7 @@
 import React from "react";
 import {Navigate, Outlet} from "react-router-dom";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+//import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+import {isLoggedIn} from "../adapters/solid/SolidSessionManager";
 
 /**
  * It contains the url to which the route redirects to.
@@ -15,7 +16,7 @@ interface CustomRouteProps {
  */
 const CustomRoute : React.FunctionComponent<CustomRouteProps> = (props) => {
     return (
-        SolidSessionManager.getManager().isLoggedIn()
+        isLoggedIn
             ? <Outlet/>
             : <Navigate replace to={props.redirectUrl}/>
     );
