@@ -22,7 +22,7 @@ export default class FriendManager {
     public async getFriendsList(): Promise<Array<User>> {
         //URL with #me at the end
         const webId = this.sessionManager.getWebID();
-        const webIdDoc = await getSolidDataset(webId);
+        const webIdDoc = await getSolidDataset(webId, {fetch: this.sessionManager.getSessionFetch()});
         const friends = getThing(webIdDoc, webId);
         //It returns all the values in the knows property of the object Thing
         const friendWebIds = getUrlAll(<Thing>friends, FOAF.knows);
@@ -41,9 +41,8 @@ export default class FriendManager {
      * @return The object User corresponding to the POD of the webID
      * */
     public async getUserData(webID: string): Promise<User> {
-        let webId = webID + "profile/card";
-        let webIdDoc = await getSolidDataset(webId);
-        let friends = getThing(webIdDoc, webId + "#me");
+        let webIdDoc = await getSolidDataset(webID, {fetch: this.sessionManager.getSessionFetch()});
+        let friends = getThing(webIdDoc, webID);
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(<Thing>friends, FOAF.name);
         return new User(name, webID);
