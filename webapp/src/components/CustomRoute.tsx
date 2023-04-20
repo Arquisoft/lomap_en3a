@@ -1,7 +1,7 @@
+import { useSession } from "@inrupt/solid-ui-react";
 import React from "react";
 import {Navigate, Outlet} from "react-router-dom";
 //import SolidSessionManager from "../adapters/solid/SolidSessionManager";
-import {isLoggedIn} from "../adapters/solid/SolidSessionManager";
 
 /**
  * It contains the url to which the route redirects to.
@@ -15,8 +15,10 @@ interface CustomRouteProps {
  * @param props It contains the url to redirect if it is not logged in.
  */
 const CustomRoute : React.FunctionComponent<CustomRouteProps> = (props) => {
+
+    let { session } = useSession();
     return (
-        isLoggedIn
+        session.info.isLoggedIn
             ? <Outlet/>
             : <Navigate replace to={props.redirectUrl}/>
     );

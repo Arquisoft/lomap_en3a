@@ -3,14 +3,10 @@ import {useSession} from "@inrupt/solid-ui-react";
 import {SessionInfo} from "@inrupt/solid-ui-react/dist/src/hooks/useSession";
 import {useState} from "react";
 
-
-export const [isLoggedIn, setIsLoggedIn] = useState(false)
-export const { session } = useSession();
-
 export async function login(url: string) {
+    const { session } = useSession();
     localStorage.setItem('solid-provider', url);
     localStorage.setItem('session-state', "login");
-    session.onLogin(() => setIsLoggedIn(true));
     await session.login(
         {
             oidcIssuer: url,
@@ -23,6 +19,7 @@ export async function login(url: string) {
  * Log out from the app.
  */
 export async function logout(): Promise<boolean> {
+    const { session } = useSession();
     localStorage.setItem('session-state', "logout");
     await session.logout();
     return session.info.isLoggedIn;
@@ -32,6 +29,7 @@ export async function logout(): Promise<boolean> {
  * Complete login after the user comes back from the redirect.
  */
 export async function fetchUserData(): Promise<void> {
+    const { session } = useSession();
     switch (localStorage.getItem('session-state')) {
 
         case "login":
@@ -57,8 +55,9 @@ export async function fetchUserData(): Promise<void> {
 }
 
 export async function restoreSession(): Promise<void> {
+    const { session } = useSession();
     let provider: string | null = localStorage.getItem('solid-provider');
-    if (!isLoggedIn && provider !== null) {
+    if (!session.info.isLoggedIn && provider !== null) {
         console.log("login from restore")
         await login(provider);
 
@@ -69,6 +68,7 @@ export async function restoreSession(): Promise<void> {
  * @returns {string} the web ID of the logged user
  */
 export function getWebID(): string {
+    const { session } = useSession();
     if (session.info.isLoggedIn !== undefined) {
         return session.info.webId as string;
     } else {
@@ -80,6 +80,7 @@ export function getWebID(): string {
  * Fetch from an authenticated session
  * */
 export function getSessionFetch() {
+    const { session } = useSession();
     return session.fetch;
 }
 
