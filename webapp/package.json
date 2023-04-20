@@ -5,9 +5,9 @@
   "dependencies": {
     "@comunica/query-sparql-solid": "^2.4.0",
     "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@inrupt/solid-client": "^1.25.2",
     "@inrupt/solid-client-authn-browser": "^1.13.2",
-    "@inrupt/solid-ui-react": "^2.8.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@inrupt/vocab-solid": "^1.0.4",
     "@mui/material": "^5.11.12",
@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-leaflet": "^4.2.1",
+    "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.7",

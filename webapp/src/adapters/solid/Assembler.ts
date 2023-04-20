@@ -6,6 +6,7 @@ import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
 import DataFactory from '@rdfjs/data-model';
 import PlaceComment from '../../domain/Place/PlaceComment';
+import PlaceRating from '../../domain/Place/PlaceRating';
 
 export default class Assembler {
 
@@ -143,6 +144,18 @@ export default class Assembler {
         } else {
             throw "Undefined property for place";
         }
+    }
+
+
+    public static reviewToDataset(review: PlaceRating): SolidDataset {
+        let dataset = createSolidDataset(); 
+        let thing =  buildThing(createThing({name: review.id}))
+            .addDecimal(SCHEMA_INRUPT.value, review.score)
+            .addStringNoLocale(SCHEMA_INRUPT.accountId, review.user)
+            .addStringNoLocale(SCHEMA_INRUPT.identifier, review.id)
+            .build();
+
+        return setThing(dataset, thing);
     }
 
 }

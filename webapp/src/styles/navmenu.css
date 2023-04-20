@@ -10,6 +10,9 @@
     padding: 2em;
     text-decoration: none;
     color: #ffffff;
+    border-top-right-radius: 2em;
+    border-top-left-radius: 2em;
+    height: 30%;
 }
 
 .NavElement span{

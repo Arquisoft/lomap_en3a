@@ -1,4 +1,8 @@
-import {getDefaultSession, ISessionInfo, Session} from "@inrupt/solid-client-authn-browser";
+import {
+    getDefaultSession,
+    handleIncomingRedirect,
+    Session
+} from "@inrupt/solid-client-authn-browser";
 
 
 /**
@@ -28,6 +32,7 @@ export default class SolidSessionManager {
                 redirectUrl: window.location.href
             }
         );
+        await this.session.handleIncomingRedirect();
     }
 
     /**
@@ -47,7 +52,7 @@ export default class SolidSessionManager {
 
             case "login": 
                 localStorage.setItem('session-state', "handle-redirect");
-                await this.session.handleIncomingRedirect();
+                await this.session.handleIncomingRedirect({restorePreviousSession: true});
                 break;
 
             case "handle-redirect":

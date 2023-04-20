@@ -1,28 +1,39 @@
 import React from "react";
-import ListUsers from "../components/ListUsers";
+import ListUsers from "../components/friends/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
+import "../styles/friendsPage.css";
 
-export default class Friends extends React.Component {
+interface FriendsState {
+    componentToPresent: JSX.Element | null
+}
 
-    private searchFriend: string = "";
+export default class Friends extends React.Component<any, FriendsState> {
 
-    private addFriend(name: string) {
-        var fm = new FriendManager();
-        // return gm.addFriend(name);
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            componentToPresent: null
+        }
+    }
+
+    private changeComponentToPresent(component: JSX.Element) {
+        this.setState({
+            componentToPresent: component
+        });
     }
 
     public render() {
+
+        if (this.state.componentToPresent != null) {
+            return this.state.componentToPresent;
+        }
+
         return (
-            <section>
+            <section style={{height: "max-content"}}>
                 <h2>My friends</h2>
                 <div>
-                    <ListUsers fm={new FriendManager()}></ListUsers>
+                    <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
-                <h2>Add friends</h2>
-                <form>
-                    <input onChange={event => this.searchFriend = (event.target.value)}></input>
-                    <button onClick={() => this.addFriend(this.searchFriend)}>Add friend</button>
-                </form>
             </section>
         );
     }

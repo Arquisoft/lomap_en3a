@@ -9,9 +9,7 @@ import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
-import Place from '../../domain/Place';
 import PODManager from '../solid/PODManager';
-import MapFilter from '../../components/MapFilter';
 
 
 /**
@@ -69,7 +67,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             console.log(p.getCategory())
             console.log(this.props.categories)
             console.log(p.getCategory() in this.props.categories)
-            return this.props.categories.indexOf( p.getCategory() ) != -1;
+            return this.props.categories.indexOf(p.getCategory()) != -1;
         }
         return true;
     }
@@ -95,8 +93,20 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
-                        this.setState({pageToShow:
-                             <PointInformation map={this.map} placemark={placemark}/>
+                        // We hide the filter
+                        const a = document.getElementById("mapFilterComponent");
+                        if (a != null) {
+                            a.style.visibility = "hidden";
+                        }
+                        // Hide the map options TODO it is HIGHLY recommendable to change this
+                        // TODO Please fix
+                        const options = document.querySelector(".map-options");
+                        if (options != null) {
+                            options.setAttribute("hidden", "true");
+                        }
+                        this.setState({
+                            pageToShow:
+                                <PointInformation map={this.map} placemark={placemark}/>
                         });
                     }}>Get Info
                     </button>
@@ -129,8 +139,9 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private newPlace(e: React.MouseEvent): void {
         /* Navigate to form */
         if (this.state.currentPlacemark !== null) {
-            this.setState({pageToShow: 
-                <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+            this.setState({
+                pageToShow:
+                    <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
             });
         }
     }
@@ -175,7 +186,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
         return (
             <div>
-                <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
+                <MapContainer style={{height: '75vh', width: '100%', zIndex: "0"}} center={this.getCenter()} zoom={13}>
                     <Handler click={this.updateCurrentPlacemark.bind(this)}/>
                     <TileLayer
                         attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}

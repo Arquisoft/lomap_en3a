@@ -1,5 +1,4 @@
 import SolidSessionManager from "./SolidSessionManager";
-// import {getWebID} from "./SolidSessionManager";
 import {
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
@@ -49,12 +48,4 @@ export default class FriendManager {
         let name = getStringNoLocale(<Thing>friends, FOAF.name);
         return new User(name, webID);
     }
-
-    // public addFriend(user: User): boolean {
-    //     return false;
-    // }
-
-    // public removeFriend(user: User): boolean{
-    //
-    // }
 }

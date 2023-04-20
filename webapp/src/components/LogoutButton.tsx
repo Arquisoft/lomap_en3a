@@ -1,4 +1,4 @@
-// import {logout} from "../adapters/solid/SolidSessionManager";
+import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -17,7 +17,7 @@ const LogoutButton : React.FunctionComponent<LogoutButtonProps>  = ({style = {}}
 
     const navigate = useNavigate();
     const logout = async () => {
-        await logout();
+        await SolidSessionManager.getManager().logout();
     }
     function logoutOnClick() {
         logout().then(() => navigate("/"));

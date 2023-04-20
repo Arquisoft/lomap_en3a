@@ -2,12 +2,12 @@ import { QueryEngine } from '@comunica/query-sparql-solid';
 import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
-// import {getSessionFetch, getWebID } from './SolidSessionManager';
 import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
 import { universalAccess as access } from "@inrupt/solid-client";
 import PlaceComment from '../../domain/Place/PlaceComment';
+import PlaceRating from '../../domain/Place/PlaceRating';
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
@@ -76,7 +76,7 @@ export default class PODManager {
     }
 
     public async createAcl(path:string) {
-        let fetch = {fetch: this.sessionManager.getSessionFetch()};
+        let fetch = {fetch:this.sessionManager.getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
         let linkedResources = getLinkedResourceUrlAll(dataset);
         let fallbackAcl = getFallbackAcl(dataset);
@@ -260,6 +260,61 @@ export default class PODManager {
             webID = this.sessionManager.getWebID();
         }
         return webID.slice(0, webID.indexOf('/profile/card#me')) + '/lomap';
+    }
+
+
+    public async review(review: PlaceRating, place: Place) {
+        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/"+review.id;
+        await this.addReviewToUser(review);
+        await this.addReviewToPlace(place.uuid, reviewPath);
+    }
+
+    private async addReviewToUser(review: PlaceRating) {
+        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/" + review.id;
+        await this.saveDataset(reviewPath, Assembler.reviewToDataset(review), true);
+    }
+
+    private async addReviewToPlace(placeId: string, reviewUrl: string) {
+        let reviewsPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/reviews";
+        let placeReviews = await getSolidDataset(reviewsPath, {fetch: this.sessionManager.getSessionFetch()});
+
+        placeReviews = setThing(placeReviews, Assembler.urlToReference(reviewUrl))
+        await this.saveDataset(reviewsPath, placeReviews);
+    }
+
+    public async getScore(placeUrl: string) {
+        let engine = new QueryEngine();
+        engine.invalidateHttpCache();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?url
+            WHERE {
+                ?s schema:URL ?url .
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/reviews"]));
+        let urls: string[] = [];
+        await result.toArray().then(r => {
+            urls = r.map(binding => binding.get("url")?.value as string);
+        });
+
+        query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT (COUNT(?user) as ?number) (AVG(?review) as ?score)
+            WHERE {
+                ?s schema:accountId ?user .
+                ?s schema:value ?review .
+                ?s schema:identifier ?id .
+            }
+        `;
+        result = await engine.queryBindings(query, this.getQueryContext(urls));
+        return await result.toArray().then(r => {
+            return {
+                reviews: Number(r[0].get("number")?.value),
+                score:   Number(r[0].get("score")?.value)
+            }
+        });
+        
     }
 
 }

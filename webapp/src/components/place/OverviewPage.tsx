@@ -4,7 +4,6 @@ import IPlacePageProps from "./IPlacePage";
 import IPlacePageState from "./IPlacePage";
 import "../../styles/OverviewPage.css"; // Import the CSS file
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-// import {getWebID} from "../../adapters/solid/SolidSessionManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
 import { PhotoPreview } from "../../pages/AddPlace";
@@ -128,9 +127,9 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var rating = new PlaceRating(this.state.place, this.sessionManager.getWebID(), this.state.rating);
+        var rating = new PlaceRating(this.sessionManager.getWebID(), this.state.rating);
         //Here the persistence of the object
-
+        this.pod.review(rating, this.state.place) //run asynchronously
         console.log("Form submitted, rating:", rating);
     };
 

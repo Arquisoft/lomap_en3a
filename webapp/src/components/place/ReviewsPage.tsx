@@ -7,12 +7,12 @@ import PlaceComment from "../../domain/Place/PlaceComment";
 
 interface ReviewsPageState {
     comments: PlaceComment[];
+    score: number;
     loading: boolean;
 }
 
 export default class ReviewsPage extends React.Component<IPlacePageProps, ReviewsPageState> {
 
-    private averageRating: number;
     // Notes, it would be convenient for this component to recieve a structure like this
     // containing the link to the user and the comment as a string, as in this way comments
     // would be more usefull and representative
@@ -21,24 +21,25 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
     constructor(props: IPlacePageProps) {
         super(props);
         // TODO Testing puroposes only
-        this.averageRating = 3.5;
         this.state = {
             comments: [],
-            loading: true
+            loading: true,
+            score: 0
         }
     }
 
     public async componentDidMount(): Promise<void> {
         this.setState({comments: [], loading:true})
         let comments = await this.pod.getComments(this.props.placeUrl as string);
-        this.setState({comments: comments, loading:false})
+        let score = (await this.pod.getScore(this.props.placeUrl as string)).score;
+        this.setState({comments: comments, score:score, loading:false})
     }
 
     render() {
         return <div className="ReviewsPage">
             <h3>Average Rating</h3>
             <div>
-                <Rating readonly initialValue={4}></Rating>
+                <Rating readonly initialValue={this.state.score}></Rating>
             </div>
             <h3>Comments</h3>
             {this.state.loading && <p>Loading...</p>}
@@ -48,7 +49,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
                     {this.state.comments.length > 0 && 
                         this.state.comments.map((comment) => (
                             <section>
-                                <a>{comment.user}</a>
+                                <a href={comment.user}>{comment.user.replace("https://","").split(".")[0]}</a>
                                 <p>{comment.comment}</p>
                             </section>
                         ))
