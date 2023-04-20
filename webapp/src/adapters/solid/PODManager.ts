@@ -320,6 +320,12 @@ export default class PODManager {
         
     }
 
+    public async createFriendsGroup(): Promise<void> {
+        let users: User[] = await this.friends.getFriendsList();
+        let group = new Group("Friends", users); 
+        let path = this.getBaseUrl() + "/groups/friends";
+        await this.saveDataset(path, Assembler.groupToDataset(group));
+    }
 
     public async getGroup(groupUrl: string): Promise<Group> {
         let engine = new QueryEngine();
