@@ -4,6 +4,7 @@ import IPlacePageProps from "./IPlacePage";
 import "./../../styles/pointInfo.css";
 import PODManager from "../../adapters/solid/PODManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
+import LoadingPage from "../basic/LoadingPage";
 
 interface ReviewsPageState {
     comments: PlaceComment[];
@@ -42,7 +43,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
                 <Rating readonly initialValue={this.state.score}></Rating>
             </div>
             <h3>Comments</h3>
-            {this.state.loading && <p>Loading...</p>}
+            {this.state.loading && <LoadingPage />}
             {!this.state.loading && <div id="commentsContainer">
                 <div id="comments">
                     {this.state.comments.length <= 0 && <p>No comments yet</p>}

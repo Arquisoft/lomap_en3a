@@ -8,6 +8,7 @@ import ReviewsPage from "../components/place/ReviewsPage";
 import OverviewPage from "../components/place/OverviewPage";
 import Placemark from "../domain/Placemark";
 import PODManager from "../adapters/solid/PODManager";
+import LoadingPage from "../components/basic/LoadingPage";
 
 interface PointInformationProps {
     placemark: Placemark;
@@ -29,7 +30,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
         this.state = {
             goBack: false,
-            component: <h2>Loading...</h2>
+            component: <LoadingPage />
         };
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
