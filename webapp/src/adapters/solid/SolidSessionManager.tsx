@@ -34,6 +34,7 @@ export default class SolidSessionManager {
             }
         );
         let hola = await handleIncomingRedirect();
+        let sesion = getDefaultSession();
     }
 
     /**
