@@ -8,20 +8,23 @@ import Place from '../../domain/Place';
 import { universalAccess as access } from "@inrupt/solid-client";
 import PlaceComment from '../../domain/Place/PlaceComment';
 import PlaceRating from '../../domain/Place/PlaceRating';
+import FriendManager from './FriendManager';
+import User from '../../domain/User';
+import Group from '../../domain/Group';
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
+    private friends: FriendManager = new FriendManager();
 
 
-    public async savePlace(place:Place): Promise<boolean> {
+    public async savePlace(place:Place): Promise<void> {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        await this.saveDataset(path+"/comments", createSolidDataset());
+        await this.saveDataset(path+"/details", Assembler.placeToDataset(place), true);
+        await this.saveDataset(path+"/comments", createSolidDataset(), true);
         await this.saveDataset(path+"/images", createSolidDataset());
         await this.saveDataset(path+"/reviews", createSolidDataset());
-        return this.saveDataset(path+"/details", Assembler.placeToDataset(place), true)
-            .then(() => {return true})
-            .catch(() => {return false});
+        await this.createAcl(path+'/');
     }
 
     public async comment(comment: PlaceComment, place: Place) {
@@ -315,6 +318,23 @@ export default class PODManager {
             }
         });
         
+    }
+
+
+    public async getGroup(groupUrl: string): Promise<Group> {
+        let engine = new QueryEngine();
+        let query = `
+            PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+            SELECT DISTINCT ?name ?id (GROUP_CONCAT(DISTINCT ?member; SEPARATOR=",") AS ?members)
+            WHERE {   
+                ?group vcard:Name ?name;
+                       vcard:hasUID ?id ;
+                       vcard:hasMember ?member .
+            } 
+            GROUP BY ?name ?id
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([groupUrl]));
+        return await result.toArray().then(r => {return Assembler.toGroup(r[0]);});
     }
 
 }
