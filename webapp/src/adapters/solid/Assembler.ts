@@ -1,5 +1,5 @@
 import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, RDF, VCARD } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
@@ -7,6 +7,8 @@ import Place from '../../domain/Place';
 import DataFactory from '@rdfjs/data-model';
 import PlaceComment from '../../domain/Place/PlaceComment';
 import PlaceRating from '../../domain/Place/PlaceRating';
+import User from '../../domain/User';
+import Group from '../../domain/Group';
 
 export default class Assembler {
 
@@ -156,6 +158,18 @@ export default class Assembler {
             .build();
 
         return setThing(dataset, thing);
+    }
+
+    public static groupToDataset(group: Group): SolidDataset {
+        let dataset = createSolidDataset(); 
+        let thing = buildThing(createThing({name: "friends"}))
+            .addStringNoLocale(VCARD.Name, "friends")
+            .addStringNoLocale(VCARD.hasUID, group.getId());
+
+        for (let user of group.getMembers()) {
+            thing = thing.addStringNoLocale(VCARD.hasMember, user.getWebId());
+        }
+        return setThing(dataset, thing.build());
     }
 
 }
