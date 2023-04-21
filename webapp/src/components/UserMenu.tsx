@@ -1,14 +1,12 @@
 import React from "react";
-import * as CgIcon from "react-icons/cg";
-import * as HiIcon from "react-icons/hi";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import LogoutButton from "./LogoutButton";
 import 'rc-dropdown/assets/index.css';
 import Dropdown from 'rc-dropdown';
-import {IconContext} from "react-icons";
 import Menu, {Divider, Item as MenuItem} from 'rc-menu';
 import {Link} from "react-router-dom";
 import {Avatar} from "@mui/material";
+import {TbAdjustmentsFilled} from "react-icons/tb";
 
 /**
  * The menu with all the options related to the user (personal information, log out)
@@ -27,7 +25,8 @@ export class UserMenu extends React.Component {
         const options = (
             <Menu>
                 <MenuItem>
-                    <Link style={this.menuItemStyle} to={SolidSessionManager.getManager().getWebID()} className="MyProfile">
+                    <Link style={this.menuItemStyle} to={SolidSessionManager.getManager().getWebID()}
+                          className="MyProfile">
                         My profile
                     </Link>
                 </MenuItem>
@@ -40,8 +39,13 @@ export class UserMenu extends React.Component {
         // return
 
         return (
-          <div>
-              <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
+            <div>
+                <Dropdown>
+                  <span>
+                      <TbAdjustmentsFilled />
+                  </span>
+                </Dropdown>
+                <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
                   <span>
                       <Avatar alt="User avatar"
                               sx={{
@@ -50,8 +54,8 @@ export class UserMenu extends React.Component {
                                   height: "4em",
                               }}>{SolidSessionManager.getManager().getWebID()?.charAt(8).toUpperCase()}</Avatar>
                   </span>
-              </Dropdown>
-          </div>
+                </Dropdown>
+            </div>
         );
     }
 }

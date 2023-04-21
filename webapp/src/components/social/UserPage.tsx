@@ -6,7 +6,7 @@ import Place from "../../domain/Place";
 import Map from "../../domain/Map";
 import PaginatedTable from "../basic/PaginatedTable";
 import "../../styles/userProfile.css";
-import Friends from "../../pages/Friends";
+import Social from "../../pages/Social";
 
 interface UserPageProps {
     user: User
@@ -112,7 +112,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                             placePage: 0,
                             mapPage: 0,
                             placeShown: null,
-                            pageToChange: (<Friends/>)
+                            pageToChange: (<Social/>)
                         })
                     }}>Friends list</a>
                 </div>

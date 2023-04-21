@@ -1,5 +1,5 @@
 import React from "react";
-import ListUsers from "../components/friends/ListUsers";
+import ListUsers from "../components/social/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
 import "../styles/friendsPage.css";
 
@@ -7,7 +7,7 @@ interface FriendsState {
     componentToPresent: JSX.Element | null
 }
 
-export default class Friends extends React.Component<any, FriendsState> {
+export default class Social extends React.Component<any, FriendsState> {
 
     constructor(props: any) {
         super(props);
@@ -34,6 +34,7 @@ export default class Friends extends React.Component<any, FriendsState> {
                 <div>
                     <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
+                <h2>My Groups</h2>
             </section>
         );
     }

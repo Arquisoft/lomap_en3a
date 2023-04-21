@@ -18,13 +18,13 @@ interface PointInformationProps {
 
 interface PointInformationState {
     goBack: boolean;
-    component : JSX.Element;
+    component: JSX.Element;
     visibility: string;
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
-    
-    private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
+
+    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     private point: Place;
     private pod = new PODManager();
 
@@ -32,8 +32,9 @@ export default class PointInformation extends React.Component<PointInformationPr
         super(props);
         this.point = new Place("Loading...", 0, 0, "", undefined, undefined, "");
 
-        this.state = {goBack: false,
-            component: <LoadingPage />,
+        this.state = {
+            goBack: false,
+            component: <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>,
             visibility: ""
         };
 
@@ -108,18 +109,18 @@ export default class PointInformation extends React.Component<PointInformationPr
                     <div id="images">
                         <ImageList images={this.point.photos}></ImageList>
                     </div>
-                    <p>Location: {this.point.latitude + ", " + this.point.longitude}</p>
+                    <p>Location: {this.point.latitude != 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
 
                     {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
-                    <div>
-                        <h3>Change the visibility of the Place</h3>
-                        <select title="visibility" name="visibility" id="visibility"
-                        value={this.state.visibility} onChange={this.handleVisibilityChange}>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                            <option value="friends">Friends</option>
-                        </select>
-                    </div>}
+                        <div>
+                            <h3>Change the visibility of the Place</h3>
+                            <select title="visibility" name="visibility" id="visibility"
+                                    value={this.state.visibility} onChange={this.handleVisibilityChange}>
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                                <option value="friends">Friends</option>
+                            </select>
+                        </div>}
                 </div>
                 <div>
 
