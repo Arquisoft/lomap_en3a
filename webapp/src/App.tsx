@@ -8,6 +8,7 @@ import Layout from "./components/Layout";
 import PrivateRoute from "./components/CustomRoute";
 import {PlaceType} from "./types/PlaceType";
 import {getPlaces} from "./api/api";
+import UserStuff from "./pages/UserStuff";
 
 function App() {
     const [places, setPlaces] = useState<PlaceType[]>([]);
@@ -30,6 +31,7 @@ function App() {
                         <Route path="/map/personal" element={<Home/>}/>
                         <Route path="/social" element={<Social />}/>
                         <Route path="/map/public" element={<Home/>}/>
+                        <Route path="/stuff" element={<UserStuff/>}/>
                         <Route element={<PrivateRoute /> } >
                             <Route path="*" element={<h1>Page not found</h1> } />
                         </Route>

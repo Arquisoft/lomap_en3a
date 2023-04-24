@@ -2,6 +2,7 @@ import React from "react";
 import ListUsers from "../components/social/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
 import "../styles/friendsPage.css";
+import ListGroups from "../components/social/ListGroups";
 
 interface FriendsState {
     componentToPresent: JSX.Element | null
@@ -35,6 +36,7 @@ export default class Social extends React.Component<any, FriendsState> {
                     <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
                 <h2>My Groups</h2>
+                <ListGroups user={this.props.user}/>
             </section>
         );
     }
