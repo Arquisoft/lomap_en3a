@@ -5,7 +5,7 @@ import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import Placemark from "../domain/Placemark";
 import {PlaceType} from "../types/PlaceType";
-import {Button} from "@mui/material";
+import PassmeDropdown from "../components/basic/PassmeDropdown";
 
 
 interface HomeProps {
@@ -69,32 +69,20 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     public render(): JSX.Element {
         return (
             <section className='Home'>
-                <div className="map-options">
+                <div className="map-header">
                     <h2>{this.state.data?.getName() || "Loading"}</h2>
-                    <select name="map" onChange={this.changeMap.bind(this)}>
-                        {this.state.maps.map(m => {
-                            return (<option value={m.getId()}>{m.getName()}</option>)
-                        })}
-                    </select>
-                    <Button sx={{margin: "0 0 0.3em 1em"}} className="hide-filters-button" variant="contained"
-                            onClick={() => {
-                                const a = document.getElementById("mapFilterComponent");
-                                if (a != null) {
-                                    if (a.style.visibility != "hidden") {
-                                        a.style.visibility = "hidden";
-                                    } else {
-                                        a.style.visibility = "";
-                                    }
-                                }
-                            }}>Hide filters
-                    </Button>
+                    <div className="map-options">
+                        <select name="map" onChange={this.changeMap.bind(this)}>
+                            {this.state.maps.map(m => {
+                                return (<option value={m.getId()}>{m.getName()}</option>)
+                            })}
+                        </select>
+                        <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}/>
+                    </div>
                 </div>
 
                 {this.state.data !== undefined &&
                     <div className="content">
-                        <div className="mapFilter">
-                            <MapFilter callback={this.setFilter.bind(this)}/>
-                        </div>
                         <LeafletMapAdapter map={this.state.data} categories={this.state.filter}/>
                     </div>}
             </section>

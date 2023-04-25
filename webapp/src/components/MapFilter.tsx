@@ -21,7 +21,12 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
 
     public constructor(props: MapfilterProps) {
         super(props);
-        this.friends = new Array();
+        this.friends = [];
+
+        this.state = {
+            selectedCategories: new Map(),
+            selectedFriend: "none"
+        }
 
         this.getFriends().then(() => {
             this.setState(() => ({

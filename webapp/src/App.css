@@ -39,13 +39,10 @@
     }
 }
 
-.mapFilter {
-    z-index: 1;
-    position: absolute;
-    top: 310px;
-    left: 5px;
+select[name="map"] {
+    width: fit-content;
 }
 
-.css-1apd5n9-MuiButtonBase-root-MuiButton-root{
-    margin: 0 0 0.3em 1em;
+.map-options {
+    display: flex;
 }

@@ -26,6 +26,7 @@ interface LeafletMapAdapterProps {
 interface LeafletMapAdapterState {
     pageToShow: JSX.Element | undefined;
     currentPlacemark: Placemark | null;
+    open: boolean;
 }
 
 /**
@@ -59,6 +60,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         this.state = {
             pageToShow: undefined,
             currentPlacemark: null,
+            open: false
         };
     }
 
@@ -93,20 +95,10 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
                     <button onClick={async () => {
-                        // We hide the filter
-                        const a = document.getElementById("mapFilterComponent");
-                        if (a != null) {
-                            a.style.visibility = "hidden";
-                        }
-                        // Hide the map options TODO it is HIGHLY recommendable to change this
-                        // TODO Please fix
-                        const options = document.querySelector(".map-options");
-                        if (options != null) {
-                            options.setAttribute("hidden", "true");
-                        }
                         this.setState({
+                            open: true,
                             pageToShow:
-                                <PointInformation map={this.map} placemark={placemark}/>
+                                <PointInformation map={this.map} placemark={placemark} open={true}/>
                         });
                     }}>Get Info
                     </button>
