@@ -17,7 +17,7 @@ interface UserListState {
 export default class ListUsers extends React.Component<UserListProps, UserListState> {
 
     private users: Array<User>;
-    private listUsers: JSX.Element = <LoadingPage/>;
+    private listUsers: JSX.Element = <LoadingPage size={100}/>;
 
     public constructor(props: UserListProps) {
         super(props);

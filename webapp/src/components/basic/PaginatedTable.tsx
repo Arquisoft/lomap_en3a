@@ -40,7 +40,7 @@ export default class PaginatedTable extends React.Component<PaginatedTableProps,
                     <Table className="paginated-table" aria-label={this.props.tableName}>
                         <TableHead className="table-header">
                             {this.props.headCells.map((head, index) => (
-                                <TableCell sx={this.props.headerCellStyle}
+                                <TableCell sx={this.props.headerCellStyle || {color: "white"}}
                                            align={index != 0 ? "right" : "left"}>{head}</TableCell>
                             ))}
                         </TableHead>
