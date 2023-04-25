@@ -45,9 +45,9 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
      * POD provider login menu.
      */
     public render(): JSX.Element {
-        // if (this.sessionManager.isLoggedIn()) {
-        //     return (<Navigate to="/home" replace={true}/>);
-        // }
+        if (this.sessionManager.isLoggedIn()) {
+            return (<Navigate to="/home" replace={true}/>);
+        }
         return (
             <>
                 <main className='LoginPage'>
