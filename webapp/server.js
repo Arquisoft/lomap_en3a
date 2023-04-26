@@ -6,8 +6,8 @@ var expressStaticGzip = require('express-static-gzip');
 const path = require('path');
 
 //Load certificates
-var privateKey  = fs.readFileSync('claves/privkey.pem');
-var certificate = fs.readFileSync('claves/fullchain.pem');
+var privateKey  = fs.readFileSync('/etc/letsencrypt/live/lomapen3a.cloudns.ph/privkey.pem');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/lomapen3a.cloudns.ph/fullchain.pem');
 var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
