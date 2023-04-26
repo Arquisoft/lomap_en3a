@@ -26,26 +26,46 @@ interface UserPageState {
  */
 export default class UserPage extends React.Component<UserPageProps, UserPageState> {
 
-    private testPlaces: Array<Place>;
-    private testMaps: Array<Map>;
-    private readonly places: JSX.Element;
-    private readonly maps: JSX.Element;
+    private placesArray: Array<Place>;
+    private mapsArray: Array<Map>;
+    private places: JSX.Element;
+    private maps: JSX.Element;
 
 
     constructor(props: UserPageProps) {
         super(props);
-        this.testPlaces = new Array<Place>();
-        this.testMaps = new Array<Map>();
-        this.testMaps.push(new Map("Test", "Test", "Test"));
-        this.testPlaces.push(new Place("test", 1, 1, "test", [], "test", "catTest"));
+        this.placesArray = new Array<Place>();
+        this.mapsArray = new Array<Map>();
+        this.mapsArray.push(new Map("Test", "Test", "Test"));
+        this.placesArray.push(new Place("test", 1, 1, "test", [], "test", "catTest"));
         this.state = {
             placePage: 0,
             mapPage: 0,
             placeShown: null,
             pageToChange: null
         }
+
+        this.places = <></>;
+        this.maps = <></>;
+
+        // Get the maps from the user, update the pages of the tables
+        this.getMaps().then(() => {
+            this.setState(() => ({
+                placePage: 0,
+                mapPage: 0
+            }));
+            this.maps = (<TableBody>
+                {this.mapsArray.map((map) => (
+                    <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                        < TableCell component="th" scope="row">{map.getName()}</TableCell>
+                        <TableCell align="right"><a>See map</a></TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>);
+        });
+
         this.places = (<TableBody>
-            {this.testPlaces.map((place) => (
+            {this.placesArray.map((place) => (
                 <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
                     < TableCell component="th" scope="row">{place.title}</TableCell>
                     <TableCell align="right">{place.latitude},{place.longitude}</TableCell>
@@ -54,16 +74,10 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                 </TableRow>
             ))}
         </TableBody>);
+    }
 
-        this.maps = (<TableBody>
-            {this.testMaps.map((map) => (
-                <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                    < TableCell component="th" scope="row">{map.getName()}</TableCell>
-                    <TableCell align="right">{map.getDescription()}</TableCell>
-                    <TableCell align="right">See map</TableCell>
-                </TableRow>
-            ))}
-        </TableBody>);
+    private async getMaps() {
+        //this.mapsArray = await new PODManager().getAllMaps(this.props.user.getWebId());
     }
 
     /**

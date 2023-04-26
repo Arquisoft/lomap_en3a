@@ -24,8 +24,10 @@
 }
 
 /* Resize for responsive mobile phones */
+/*
 @media screen and (max-width: 1060px) {
     .Header {
         width: max-content;
     }
 }
+ */

@@ -5,24 +5,26 @@ import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import PODManager from "../adapters/solid/PODManager";
 import FriendManager from "../adapters/solid/FriendManager";
 import PaginatedTable from "../components/basic/PaginatedTable";
-import {TableBody} from "@mui/material";
+import {TableBody, TableCell, TableRow} from "@mui/material";
 import LoadingPage from "../components/basic/LoadingPage";
+import MapInfo from "./MapInfo";
 
 interface UserStuffState {
     maps: Map[]
     user: string
     page: number
+    componentToDisplay: JSX.Element
 }
 
 export default class UserStuff extends React.Component<any, any> {
 
     private user: User | null;
-    private tableMaps: JSX.Element | null;
+    private tableMaps: JSX.Element;
 
     constructor(props: any) {
         super(props);
         this.user = null;
-        this.tableMaps = null;
+        this.tableMaps = <></>;
         this.state = {
             maps: [],
             user: SolidSessionManager.getManager().getWebID(),
@@ -33,19 +35,40 @@ export default class UserStuff extends React.Component<any, any> {
         // method to load the user from the session, as only yhe webID is stored
         // TODO change the content of this .then to a nother async method, in this way
         // TODO we can load the user loadUserData().then(this.{nameMethod}.then(...))...
-        this.loadUserData().then(async r => {
-            this.user = await new FriendManager().getUserData(this.props.user);
-            this.tableMaps = <TableBody></TableBody>
+        this.loadUserData().then(r => {
+            this.tableMaps = (<TableBody>
+                {this.state.maps.map((map: Map) => (
+                    <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                        < TableCell component="th" scope="row">{map.getName()}</TableCell>
+                        <TableCell align="right">{map.getDescription()}</TableCell>
+                        <TableCell align="right"><a onClick={() => {
+                            this.displayMap(map)
+                        }}>See map</a></TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>);
+            this.setState(() => ({
+                page: 0
+            }));
         });
 
     }
 
-    private async loadUserData() {
-        this.setState(async (prevState: UserStuffState) => ({
-            maps: await new PODManager().getAllMaps(),
-            user: prevState.user,
-            page: 0
+    private displayMap(map: Map) {
+        this.setState(() => ({
+            componentToDisplay: <MapInfo map={map}/>
         }));
+    }
+
+    private async loadUserData() {
+        const mapsAux = await new PODManager().getAllMaps();
+        console.log(mapsAux[1])
+        this.setState(() => ({
+            maps: mapsAux
+        }));
+        // TODO FIX
+        // console.log(SolidSessionManager.getManager().getWebID());
+        this.user = await new FriendManager().getUserData("https://uo283069.inrupt.net/");
     }
 
     /**
@@ -68,9 +91,15 @@ export default class UserStuff extends React.Component<any, any> {
         if (this.user == null) {
             return <LoadingPage/>;
         }
+
+        if (this.state.componentToDisplay != null) {
+            return this.state.componentToDisplay;
+        }
+
         return (<main>
             <h2>{this.user?.getName()}</h2>
-            <PaginatedTable tableName={"user-maps"} headCells={[""]} tableBody={this.tableMaps || <TableBody/>}
+            <PaginatedTable tableName={"user-maps"} headCells={["Map name", "Map link"]}
+                            headerCellStyle={{color: "white"}} tableBody={this.tableMaps}
                             page={this.state.page}
                             pageHandler={this.onMapPageChange}/>
         </main>);

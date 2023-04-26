@@ -22,3 +22,19 @@
 .NavElement:hover {
     color: #000000;
 }
+
+/* Style for phone */
+@media screen and (max-width: 1060px) {
+    .NavElement {
+        padding: 1em 1em 1.5em 1em;
+    }
+    .NavElement span {
+        padding: 0 0.5em;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    .Header {
+        width: fit-content;
+    }
+}

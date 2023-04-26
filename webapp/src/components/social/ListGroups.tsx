@@ -24,6 +24,7 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         //TODO load the user's groups, as the user is passed as a parameter it should only require one async method
 
 
+
     }
 
     /**
@@ -43,7 +44,7 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         // Display while the data is fetched, remember to change the state to {loaded:true} so that
         // content is displayed instead of the LoadingPage
         if (!this.state.loaded) {
-            return <LoadingPage size={100} style={{position:"relative"}}/>;
+            return <LoadingPage size={100} style={{position:"absolute", left: "45%"}}/>;
         }
         return <>
             <PaginatedTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}
