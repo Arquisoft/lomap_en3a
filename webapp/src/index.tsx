@@ -1,3 +1,6 @@
+import fs from "fs";
+import http from "http";
+import https from "https";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -5,15 +8,25 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 document.title = "LoMap";
 
+let privateKey = fs.readFileSync(
+    "/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/privkey.pem", 'utf8');
+let certificate = fs.readFileSync(
+    "/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/fullchain.pem",
+    'utf8');
+let credentials = {key: privateKey, cert: certificate};
+http.createServer(App);
+let httpsServer = https.createServer(credentials, App);
+httpsServer.listen(80);
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App/>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
