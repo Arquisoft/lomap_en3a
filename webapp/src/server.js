@@ -1,8 +1,6 @@
 var fs = require('fs');
-var http = require('http');
 var https = require('https');
 const express = require('express');
-var expressStaticGzip = require('express-static-gzip');
 const path = require('path');
 
 //Load certificates
@@ -10,6 +8,10 @@ var privateKey = fs.readFileSync(
     '/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/privkey.pem');
 var certificate = fs.readFileSync(
     '/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/fullchain.pem');
+// var privateKey = fs.readFileSync(
+//     'src/certificates/alice.key');
+// var certificate = fs.readFileSync(
+//     'src/certificates/alice.crt');
 var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
@@ -22,16 +24,7 @@ app.all('*', function (req, res, next) {
     res.redirect('https://' + req.hostname + req.url);
 });
 
-//Base path of our application. We serve first the brotli version (compression).
-app.use('/', expressStaticGzip('build', {
-    enableBrotli: true,
-    orderPreference: ['br']
-}));
-
-//For react routes to work, fallback to index.html
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
+app.use(express.static('./build'));
 
 var httpsServer = https.createServer(credentials, app);
-httpsServer.listen(80);
+httpsServer.listen(443);
