@@ -1,5 +1,5 @@
 import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, overwriteFile, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
+import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getFileWithAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, overwriteFile, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
@@ -92,6 +92,8 @@ export default class PODManager {
                 image,
                 {contentType: image.type, fetch: this.sessionManager.getSessionFetch()}
             );
+            await this.createFileAcl(imageUrl)
+            await this.setPublicAccess(imageUrl, true);
         } catch (err) {
             console.log(err);
         }
@@ -128,6 +130,25 @@ export default class PODManager {
         let dataset = await getSolidDatasetWithAcl(path, fetch);
         let linkedResources = getLinkedResourceUrlAll(dataset);
         let fallbackAcl = getFallbackAcl(dataset);
+
+        let resourceInfo = {
+            sourceIri: path, 
+            isRawData: false, 
+            linkedResources: linkedResources,
+            aclUrl: path + '.acl' 
+        };
+
+        let acl = createAclFromFallbackAcl(
+            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
+        );
+        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
+    }
+
+    public async createFileAcl(path:string) {
+        let fetch = {fetch:this.sessionManager.getSessionFetch()};
+        let file = await getFileWithAcl(path, fetch);
+        let linkedResources = getLinkedResourceUrlAll(file);
+        let fallbackAcl = getFallbackAcl(file);
 
         let resourceInfo = {
             sourceIri: path, 
