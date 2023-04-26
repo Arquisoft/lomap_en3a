@@ -64,7 +64,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
     public render() {
         return (
             <section style={{overflow: "scroll"}}>
-                <div className="pointInformation">
+                <div className="mapInformation">
                     <h1>Title: {this.props.map.getName()}</h1>
                     <h2>Description: {this.props.map.getDescription()}</h2>
                     {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
