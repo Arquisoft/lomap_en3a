@@ -105,6 +105,24 @@ export default class PODManager {
         await this.saveDataset(imagesPath, placeImages);
     }
 
+    public async getImageUrls(placeUrl: string) {
+        let engine = new QueryEngine();
+        engine.invalidateHttpCache();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?url
+            WHERE {
+                ?s schema:URL ?url .
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/images"]));
+
+        return await result.toArray().then(r => {
+            console.log(r)
+            return r.map(binding => binding.get("url")?.value as string);
+        });     
+    }
+
     public async createAcl(path:string) {
         let fetch = {fetch:this.sessionManager.getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
