@@ -1,6 +1,3 @@
-import fs from "fs";
-import http from "http";
-import https from "https";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -12,16 +9,6 @@ const root = ReactDOM.createRoot(
 );
 
 document.title = "LoMap";
-
-let privateKey = fs.readFileSync(
-    "/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/privkey.pem", 'utf8');
-let certificate = fs.readFileSync(
-    "/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/fullchain.pem",
-    'utf8');
-let credentials = {key: privateKey, cert: certificate};
-http.createServer(App);
-let httpsServer = https.createServer(credentials, App);
-httpsServer.listen(80);
 
 root.render(
     <React.StrictMode>
