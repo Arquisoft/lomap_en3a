@@ -25,6 +25,7 @@ export default class PODManager {
         await this.saveDataset(path+"/images", createSolidDataset());
         await this.saveDataset(path+"/reviews", createSolidDataset());
         await this.createAcl(path+'/');
+        place.photos.forEach(async img => await this.addImage(img, place));
     }
 
     public async comment(comment: PlaceComment, place: Place) {
