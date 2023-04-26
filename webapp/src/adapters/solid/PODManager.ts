@@ -1,5 +1,5 @@
 import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
+import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, overwriteFile, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
@@ -76,6 +76,32 @@ export default class PODManager {
             return Assembler.toPlaceComments(r);
         });
         
+    }
+
+    public async addImage(image: File, place: Place) {
+        let imagePath: string = this.getBaseUrl() + "/data/interactions/images/"+ crypto.randomUUID();
+        await this.addImageToUser(image, imagePath);
+        await this.addImageToPlace(place.uuid, imagePath);
+    }
+
+    private async addImageToUser(image: File, imageUrl: string) {
+        try {
+            await overwriteFile(
+                imageUrl,
+                image,
+                {contentType: image.type, fetch: this.sessionManager.getSessionFetch()}
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    private async addImageToPlace(placeId: string, imageUrl: string) {
+        let imagesPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/images";
+        let placeImages = await getSolidDataset(imagesPath, {fetch: this.sessionManager.getSessionFetch()});
+
+        placeImages = setThing(placeImages, Assembler.urlToReference(imageUrl))
+        await this.saveDataset(imagesPath, placeImages);
     }
 
     public async createAcl(path:string) {
