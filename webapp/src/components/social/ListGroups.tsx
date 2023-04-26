@@ -43,7 +43,7 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         // Display while the data is fetched, remember to change the state to {loaded:true} so that
         // content is displayed instead of the LoadingPage
         if (!this.state.loaded) {
-            return <LoadingPage size={100}/>;
+            return <LoadingPage size={100} style={{position:"relative"}}/>;
         }
         return <>
             <PaginatedTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}

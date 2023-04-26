@@ -20,6 +20,12 @@
 }
 
 .Left h1 {
-     padding-right: 1em;
- }
+    padding-right: 1em;
+}
 
+/* Resize for responsive mobile phones */
+@media screen and (max-width: 1060px) {
+    .Header {
+        width: max-content;
+    }
+}
