@@ -1,16 +1,6 @@
-FROM node:18.13.0
-LABEL org.opencontainers.image.source https://github.com/Arquisoft/lomap_en3a
+FROM node:18-alpine
 COPY . /app
 WORKDIR /app
-#Install the dependencies
-RUN npm install
-
-ARG API_URI="http://172.190.53.158:5000/api"
-ENV REACT_APP_API_URI=$API_URI
-
-#Create an optimized version of the webapp
+RUN npm install --only=prod
 RUN npm run build
-
-#Execute npm run prod to run the server
-#CMD [ "npm", "run", "prod" ]
-CMD ["npm", "start"]
+CMD node server.js
