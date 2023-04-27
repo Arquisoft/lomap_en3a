@@ -1,0 +1,47 @@
+.privacy-options,
+.friend-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.radio-option,
+.checkbox-option {
+  display: inline-block;
+  position: relative;
+  padding-left: 35px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  line-height: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 10px;
+  background-color: #f1f1f1;
+}
+
+.radio-option.selected,
+.checkbox-option.selected {
+  background-color: #5cb85c;
+  color: #fff;
+  border-color: #4cae4c;
+}
+
+.radio-option input[type="radio"],
+.checkbox-option input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radio-option:hover,
+.checkbox-option:hover {
+  background-color: #ccc;
+}
+
+.radio-option.selected:hover,
+.checkbox-option.selected:hover {
+  background-color: #4cae4c;
+}

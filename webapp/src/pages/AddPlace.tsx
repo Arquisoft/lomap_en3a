@@ -5,8 +5,8 @@ import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 import PODManager from "../adapters/solid/PODManager";
-import PlacePrivacy from "../components/cmp";
-import PrivacyComponent from "../components/cmp";
+import PlacePrivacy from "../components/PrivacyComponent";
+import PrivacyComponent from "../components/PrivacyComponent";
 
 enum Category {
   restaurant = "restaurant",
@@ -34,12 +34,14 @@ interface IState {
 	longitudeError: string;
 	descriptionError: string;
 	visibility: string;
+	friends: string[];
 }
 
 // Define the props type.
 interface IProps{
 	placemark: Placemark;
 	callback?: Function;
+	friends: string[];
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
@@ -48,7 +50,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 	// Define default values for the page. This would not be necessary when the page is indexed.
 	public static defaultProps: IProps = {
-		placemark: new Placemark(0.5, 0.2, "asdf")
+		placemark: new Placemark(0.5, 0.2, "asdf"),
+		friends:  ['Alice', 'Bob', 'Charlie']
 	};
 
 	public constructor(props: IProps) {
@@ -68,7 +71,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			latitudeError: "",
 			longitudeError: "",
 			descriptionError: "",
-			visibility: ""
+			visibility: "public",
+			friends: []
 		};
 
 		// Binding the calls.
@@ -77,7 +81,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
 	}
 
 	// Function that returns the category list.
@@ -142,10 +145,13 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}));
 	};
 
-	// Define a handler function that changes the visibility of the file.
-	handleVisibilityChange (event: React.ChangeEvent<HTMLSelectElement>) {
-		this.setState({ visibility: event.target.value });
+	//Callback function to pass it to the PrivacyComponent
+	//It updates the privacy of the place
+	updatePrivacy = (privacy: string, friends: string[]) => {
+		this.setState({ visibility: privacy });
+		this.setState({ friends: friends });
 	}
+
 
 	// When the submit button is pressed, the parameters are validated and the object Place is created.
 	// Here is where this object should be taken from to make it persistent.
@@ -219,7 +225,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 
 	public render(): JSX.Element {
-		const friends = ['Alice', 'Bob', 'Charlie'];
 		return (
 		<section className="Place-form">
 			<h2>Fill the information of the new place.</h2>
@@ -263,7 +268,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			
 			<div id="visibility">
 				<h3>Select visibility of the place</h3>
-					<PrivacyComponent privacy="friends" friends={friends} />
+					<PrivacyComponent updatePrivacy={this.updatePrivacy} friends={this.props.friends} />
 			</div>
 			<button type="submit">Submit</button>
 			</form>
