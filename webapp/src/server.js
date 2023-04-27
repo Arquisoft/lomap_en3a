@@ -5,9 +5,9 @@ const path = require('path');
 
 //Load certificates
 var privateKey = fs.readFileSync(
-    'app/privkey.pem');
+    '/app/privkey.pem');
 var certificate = fs.readFileSync(
-    'app/fullchain.pem');
+    '/app/fullchain.pem');
 // var privateKey = fs.readFileSync(
 //     'src/certificates/alice.key');
 // var certificate = fs.readFileSync(
