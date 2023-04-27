@@ -7,6 +7,7 @@ import Map from "../../domain/Map";
 import ReactTable from "../basic/ReactTable";
 import "../../styles/userProfile.css";
 import Social from "../../pages/Social";
+import PODManager from "../../adapters/solid/PODManager";
 
 interface UserPageProps {
     user: User
@@ -75,7 +76,8 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
     }
 
     private async getMaps() {
-        //this.mapsArray = await new PODManager().getAllMaps(this.props.user.getWebId());
+        // TODO will need to be changed if the method getWebId is changed
+        //this.mapsArray = await new PODManager().getAllMaps(this.props.user.getWebId().split("/")[2]);
     }
 
     render() {

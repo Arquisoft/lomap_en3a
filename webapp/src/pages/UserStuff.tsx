@@ -66,9 +66,8 @@ export default class UserStuff extends React.Component<any, any> {
         this.setState(() => ({
             maps: mapsAux
         }));
-        // TODO FIX
-        // console.log(SolidSessionManager.getManager().getWebID());
-        this.user = await new FriendManager().getUserData("https://uo283069.inrupt.net/");
+        // TODO might need to change if the method getWebId is changed
+        this.user = await new FriendManager().getUserData("https://" + SolidSessionManager.getManager().getWebID().split("/")[2] + "/");
     }
 
     render() {

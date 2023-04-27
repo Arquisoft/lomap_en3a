@@ -117,7 +117,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
                         )}
                     </select>
                 </div>
-                <button type="submit">Search</button>
+                <button className="search-filter" type="submit">Search</button>
             </form>
         </aside>
     }

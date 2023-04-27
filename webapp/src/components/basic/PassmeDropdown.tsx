@@ -11,7 +11,7 @@ import Menu from '@mui/material/Menu';
  * @constructor
  */
 function PassmeDropdown(props: { presentMe: JSX.Element }) {
-
+// TODO needs a rework
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const open = Boolean(anchorEl);
@@ -35,7 +35,7 @@ function PassmeDropdown(props: { presentMe: JSX.Element }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                sx={{margin: "0 0 0.3em 1em"}}
+                sx={{margin: "0 0 0.3em 1em", backgroundColor:"#002E66"}}
                 className="hide-filters-button"
                 variant="contained"
             >
