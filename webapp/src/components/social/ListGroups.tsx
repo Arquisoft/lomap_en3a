@@ -1,6 +1,6 @@
 import React from "react";
 import User from "../../domain/User";
-import PaginatedTable from "../basic/PaginatedTable";
+import ReactTable from "../basic/ReactTable";
 import {TableBody} from "@mui/material";
 import LoadingPage from "../basic/LoadingPage";
 
@@ -24,7 +24,6 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         //TODO load the user's groups, as the user is passed as a parameter it should only require one async method
 
 
-
     }
 
     /**
@@ -44,13 +43,10 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         // Display while the data is fetched, remember to change the state to {loaded:true} so that
         // content is displayed instead of the LoadingPage
         if (!this.state.loaded) {
-            return <LoadingPage size={100} style={{position:"absolute", left: "45%"}}/>;
+            return <LoadingPage size={100} style={{position: "absolute", left: "45%"}}/>;
         }
         return <>
-            <PaginatedTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}
-                            page={this.state.page} pageHandler={this.onGroupPageChange}/>
+            <ReactTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}/>
         </>;
     }
-
-
 }

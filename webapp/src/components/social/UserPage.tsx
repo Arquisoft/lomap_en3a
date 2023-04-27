@@ -4,7 +4,7 @@ import TablePagination from '@mui/material/TablePagination';
 import {Avatar, Paper, TableBody, TableCell, TableRow} from "@mui/material";
 import Place from "../../domain/Place";
 import Map from "../../domain/Map";
-import PaginatedTable from "../basic/PaginatedTable";
+import ReactTable from "../basic/ReactTable";
 import "../../styles/userProfile.css";
 import Social from "../../pages/Social";
 
@@ -36,8 +36,6 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         super(props);
         this.placesArray = new Array<Place>();
         this.mapsArray = new Array<Map>();
-        this.mapsArray.push(new Map("Test", "Test", "Test"));
-        this.placesArray.push(new Place("test", 1, 1, "test", [], "test", "catTest"));
         this.state = {
             placePage: 0,
             mapPage: 0,
@@ -70,7 +68,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     < TableCell component="th" scope="row">{place.title}</TableCell>
                     <TableCell align="right">{place.latitude},{place.longitude}</TableCell>
                     <TableCell align="right">{place.description}</TableCell>
-                    <TableCell align="right">Info</TableCell>
+                    <TableCell align="right"><a>Info</a></TableCell>
                 </TableRow>
             ))}
         </TableBody>);
@@ -78,40 +76,6 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
 
     private async getMaps() {
         //this.mapsArray = await new PODManager().getAllMaps(this.props.user.getWebId());
-    }
-
-    /**
-     * Handles the change of page on the table of places, when a given page changes this method
-     * is in charge of updating the page number.
-     * Other attributes of the state are left unchanged as they will only be updated once
-     * in order to change the represented element.
-     * @param {React.MouseEvent<HTMLButtonElement> | null} event - The React mouse event
-     * @param {number} page - The page in which we are
-     */
-    private onPlacePageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
-        this.setState((previousState) => ({
-            placePage: page,
-            mapPage: previousState.mapPage,
-            placeShown: null,
-            pageToChange: null
-        }));
-    }
-
-    /**
-     * Handles the change of page on the table of maps, when a given page changes this method
-     * is in charge of updating the page number.
-     * Other attributes of the state are left unchanged as they will only be updated once
-     * in order to change the represented element.
-     * @param {React.MouseEvent<HTMLButtonElement> | null} event - The React mouse event
-     * @param {number} page - The page in which we are
-     */
-    private onMapPageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
-        this.setState((previousState) => ({
-            placePage: previousState.placePage,
-            mapPage: page,
-            placeShown: null,
-            pageToChange: null
-        }));
     }
 
     render() {
@@ -142,22 +106,15 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     <a href={this.props.user.getWebId()}>SOLID Profile</a>
                     <div className="friends-tables">
                         <label htmlFor="places-table">Friends places</label>
-                        <Paper id="places-table" sx={{margin: "0.5em"}}>
-                            <PaginatedTable tableName="places" tableBody={this.places}
-                                            headCells={["Title", "Coordinates", "Description", "Information"]}
-                                            headerCellStyle={{color: "white"}} page={this.state.placePage}
-                                            pageHandler={this.onPlacePageChange}></PaginatedTable>
-                        </Paper>
+                        <ReactTable tableName="places" tableBody={this.places}
+                                    headCells={["Title", "Coordinates", "Description", "Information"]}
+                                    headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
                         <label htmlFor="maps-table">Friends maps</label>
-                        <Paper id="maps-table" sx={{margin: "0.5em"}}>
-                            <PaginatedTable tableName="places" tableBody={this.maps}
-                                            headCells={["Name", "Description", "Link"]}
-                                            headerCellStyle={{color: "white"}} page={this.state.mapPage}
-                                            pageHandler={this.onMapPageChange}></PaginatedTable>
-
-                        </Paper>
+                        <ReactTable tableName="places" tableBody={this.maps}
+                                    headCells={["Name", "Description", "Link"]}
+                                    headerCellStyle={{color: "white"}} id={"maps-table"}></ReactTable>
                     </div>
                 </main>
-            </>);
+            </>)
     }
 }

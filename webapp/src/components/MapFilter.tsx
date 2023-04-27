@@ -61,7 +61,6 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     handleCategoryChange(event: React.ChangeEvent<HTMLInputElement>) {
         const target = event.target;
         const value = target.value;
-        const category = target.value;
 
         this.setState(prevState => ({
             selectedCategories: prevState.selectedCategories.set(value, event.target.checked)
@@ -76,7 +75,6 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     private handleFriendChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const target = event.target;
         const value = target.value;
-        const selectedFriend = target.value;
 
         this.setState({
             selectedFriend: value,

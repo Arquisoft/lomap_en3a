@@ -1,6 +1,7 @@
 import React from "react";
-import PaginatedTable from "../basic/PaginatedTable";
+import ReactTable from "../basic/ReactTable";
 import {TableBody} from "@mui/material";
+import Button from "@mui/material/Button";
 
 export default class GroupInfo extends React.Component<any, { page: number }> {
 
@@ -27,13 +28,18 @@ export default class GroupInfo extends React.Component<any, { page: number }> {
         }));
     }
 
+    private exitGroup() {
+        // TODO
+    }
+
     render() {
         return (
             <section>
                 <h2>Group title</h2>
                 <p>Group description</p>
-                <PaginatedTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
-                                tableBody={this.tableBody} page={this.state.page} pageHandler={this.onMapPageChange}/>
+                <Button variant="contained" color={"error"} onClick={this.exitGroup}></Button>
+                <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
+                            tableBody={this.tableBody}/>
             </section>
         );
     }
