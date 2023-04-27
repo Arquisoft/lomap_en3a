@@ -5,9 +5,9 @@ const path = require('path');
 
 //Load certificates
 var privateKey = fs.readFileSync(
-    '/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/privkey.pem');
+    '/app/privkey.pem');
 var certificate = fs.readFileSync(
-    '/etc/letsencrypt/live/lomapen3a.qatarcentral.cloudapp.azure.com/fullchain.pem');
+    '/app/fullchain.pem');
 // var privateKey = fs.readFileSync(
 //     'src/certificates/alice.key');
 // var certificate = fs.readFileSync(
