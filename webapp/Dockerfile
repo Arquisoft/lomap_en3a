@@ -14,5 +14,4 @@ RUN npm run build
 #Execute npm run prod to run the server
 #CMD [ "npm", "run", "prod" ]
 #CMD ["npm", "start"]
-CMD ["npm", "run", "build"]
-CMD ["node", ".\src\server.js"]
+CMD ["node", "./src/server.js"]
