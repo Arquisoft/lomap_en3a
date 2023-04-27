@@ -1,6 +1,6 @@
-FROM node:18-alpine
+FROM node:18.13
 COPY . /app
 WORKDIR /app
-RUN npm install --only=prod
+RUN npm install
 RUN npm run build
 CMD node server.js
