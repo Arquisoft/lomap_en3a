@@ -9,7 +9,8 @@ ARG API_URI="http://20.21.124.62:5000/api"
 ENV REACT_APP_API_URI=$API_URI
 
 #Create an optimized version of the webapp
-RUN npm run build
+RUN npm run build -v ./privkey.pem:/app/privkey.pem azureuser_webapp_1
+RUN npm run build -v ./fullchain.pem:/app/fullchain.pem azureuser_webapp_1
 
 #Execute npm run prod to run the server
 #CMD [ "npm", "run", "prod" ]
