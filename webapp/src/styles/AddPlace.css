@@ -1,7 +1,12 @@
-
-
-.Place-form p{
-  margin-bottom: 30px;
+@media screen and (min-width: 768px) {
+  .custom-modal-dialog {
+    width: 50%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+.Place-form p {
+  margin-bottom: 1.5rem;
 }
 .Place-form {
     display: flex;
@@ -9,26 +14,27 @@
     align-items: center;
     margin: 2%;
     padding: 2%;
-    border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
+    max-width: 95%; /* Set the maximum width for the form */
+    overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */
   }
   
   .Place-form label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     margin-right: 2%;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 0.625rem;
   }
   
   .Place-form input,
   .Place-form textarea {
-    padding: 5px;
-    margin-bottom: 20px;
+    padding: 0.3125rem;
+    margin-bottom: 1.25rem;
     border-radius: 3px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
   }
   
   .Place-form input:disabled {
@@ -44,7 +50,7 @@
   
   .Place-form button[type="submit"],
   .Place-form button {
-    padding: 2% 4%;
+    padding: 0.5rem 1rem;
     margin-top: 4%;
     border: none;
     border-radius: 3px;
@@ -65,7 +71,6 @@
     resize: none;
   }
 
-  /* Style for the preview of the uploaded photos */
   .Place-form .photo-preview {
     display: flex;
     align-items: center;
@@ -79,7 +84,7 @@
   }
   
   .Place-form .photo-preview button {
-    padding: 1% 2%;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 3px;
     background-color: #cc0000;
@@ -91,11 +96,9 @@
   .Place-form .photo-preview button:hover {
     background-color: #a30000;
   }
-  
-  /* Style for the button to clear all uploaded photos */
   .Place-form .clear-photos {
     margin-top: 4%;
-    padding: 2% 4%;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 3px;
     background-color: #cc0000;
@@ -107,19 +110,19 @@
   .Place-form .clear-photos:hover {
     background-color: #a30000;
   }
-
+  
   .Place-form .error {
     color: #ff0000;
     font-size: 1.2em;
     font-weight: bold;
   }
-
+  
   select {
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 0.5rem;
     border-radius: 4px;
     margin-bottom: 1em;
   }

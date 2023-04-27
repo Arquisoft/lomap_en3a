@@ -1,3 +1,11 @@
+@media screen and (min-width: 768px) {
+    .custom-modal-dialog {
+      width: 50%;
+      height: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+}
 
 #back {
     background-color: cornflowerblue;
@@ -20,6 +28,10 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+}
+.pointInfo{
+    max-width: 97%; /* Set the maximum width for the form */
+    overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */    
 }
 
 #pointInformation {

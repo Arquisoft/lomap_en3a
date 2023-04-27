@@ -133,7 +133,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         if (this.state.currentPlacemark !== null) {
             this.setState({
                 pageToShow:
-                    <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+                    <AddPlace open={true} map={this.map} placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
             });
         }
     }

@@ -11,6 +11,9 @@ import PODManager from "../adapters/solid/PODManager";
 import LoadingPage from "../components/basic/LoadingPage";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import PrivacyComponent from "../components/PrivacyComponent";
+import FriendManager from "../adapters/solid/FriendManager";
+import User from "../domain/User";
 
 interface PointInformationProps {
     placemark: Placemark;
@@ -23,6 +26,8 @@ interface PointInformationState {
     component: JSX.Element;
     visibility: string;
     open: boolean;
+    friends: User[];
+    friendsList: User[];
 }
 
 export default class PointInformation extends React.Component<PointInformationProps, PointInformationState> {
@@ -39,7 +44,9 @@ export default class PointInformation extends React.Component<PointInformationPr
             goBack: false,
             component: <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>,
             visibility: "",
-            open: this.props.open
+            open: this.props.open,
+            friends: [],
+            friendsList: [],
         };
         console.log(this.state.open);
         this.goBack = this.goBack.bind(this);
@@ -55,6 +62,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         });
     }
 
+
     private goBack() {
         this.setState({goBack: true});
     }
@@ -68,23 +76,12 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.setState({component: <OverviewPage place={this.point}/>});
     }
 
-    private handleVisibilityChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        switch (event.target.value) {
-            case "public":
-                this.setState({visibility: event.target.value});
-                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), true);
-                break;
-            case "private":
-                this.setState({visibility: event.target.value});
-                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), false);
-                break;
-            case "friends":
-                this.setState({visibility: event.target.value});
-                //this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), event.target.value);
-                break;
-        }
-    }
-
+	//Callback function to pass it to the PrivacyComponent
+	//It updates the privacy of the place
+	handleVisibilityChange = (privacy: string, friends: User[]) => {
+		this.setState({ visibility: privacy });
+		this.setState({ friends: friends });
+	}
     /**
      * Returns the point information view, the ImageList returns a Slider
      * with the given images and the Link is just a button to go back to
@@ -99,9 +96,9 @@ export default class PointInformation extends React.Component<PointInformationPr
                 this.setState(({open: false}));
                 this.goBack();
             }}>
-                <ModalDialog>
+                <ModalDialog className="custom-modal-dialog">
                     <ModalClose/>
-                    <section style={{overflow: "scroll"}}>
+                    <section className="pointInfo" /*style={{overflow: "scroll"}}*/>
                         <div className="pointInformation">
                             <h1>Title: {this.point.title}</h1>
                             <div id="images">
@@ -110,15 +107,10 @@ export default class PointInformation extends React.Component<PointInformationPr
                             <p>Location: {this.point.latitude != 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
 
                             {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
-                                <div>
-                                    <h3>Change the visibility of the Place</h3>
-                                    <select title="visibility" name="visibility" id="visibility"
-                                            value={this.state.visibility} onChange={this.handleVisibilityChange}>
-                                        <option value="public">Public</option>
-                                        <option value="private">Private</option>
-                                        <option value="friends">Friends</option>
-                                    </select>
-                                </div>}
+                                <div id="visibility">
+                                <h3>Select visibility of the place</h3>
+                                    <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
+                            </div>}
                         </div>
                         <div>
 
