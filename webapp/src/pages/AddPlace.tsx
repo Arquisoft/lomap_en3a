@@ -5,6 +5,8 @@ import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 import PODManager from "../adapters/solid/PODManager";
+import PlacePrivacy from "../components/cmp";
+import PrivacyComponent from "../components/cmp";
 
 enum Category {
   restaurant = "restaurant",
@@ -217,6 +219,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 
 	public render(): JSX.Element {
+		const friends = ['Alice', 'Bob', 'Charlie'];
 		return (
 		<section className="Place-form">
 			<h2>Fill the information of the new place.</h2>
@@ -257,13 +260,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 				<label htmlFor="photo">Photo:</label>
 				<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
 			</div>
+			
 			<div id="visibility">
 				<h3>Select visibility of the place</h3>
-				<select title="visibility" name="visibility" value={this.state.visibility} onChange={this.handleVisibilityChange}>
-					<option value="public">Public</option>
-					<option value="private">Private</option>
-					<option value="friends">Friends</option>
-				</select>
+					<PrivacyComponent privacy="friends" friends={friends} />
 			</div>
 			<button type="submit">Submit</button>
 			</form>
