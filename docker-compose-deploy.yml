@@ -6,7 +6,10 @@ services:
       - "5000:5000"
   webapp:
     image: ghcr.io/arquisoft/lomap_en3a/webapp:latest
+    volumes:
+      - ./fullchain.pem:/app/fullchain.pem
+      - ./privkey.pem:/app/privkey.pem
     ports:
-      - "443:3000"
+      - "443:443"
     depends_on: 
       - restapi
