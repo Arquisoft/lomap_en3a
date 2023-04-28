@@ -159,7 +159,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	handleVisibilityChange = (privacy: string, friends: User[]) => {
 		this.setState({ visibility: privacy });
 		this.setState({ friends: friends });
-		console.log(friends)
+		console.log("Privacy: " + privacy + " Friends: " + friends);
 	}
 
 	goBack() {

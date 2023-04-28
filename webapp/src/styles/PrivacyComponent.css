@@ -1,4 +1,5 @@
 .privacy-options,
+.friends-options,
 .friend-options {
   display: flex;
   flex-wrap: wrap;
@@ -9,7 +10,7 @@
   display: inline-block;
   position: relative;
   padding-left: 35px;
-  margin-right: 15px;
+  margin: 5px 15px;
   cursor: pointer;
   font-size: 14px;
   user-select: none;
@@ -18,13 +19,15 @@
   border-radius: 4px;
   padding: 3px 10px;
   background-color: #f1f1f1;
+  transition: all 0.3s ease; /* Add transition for smooth style changes */
 }
 
 .radio-option.selected,
 .checkbox-option.selected {
-  background-color: #5cb85c;
+  background-color: #028ad3;
   color: #fff;
-  border-color: #4cae4c;
+  border-color: #005fa3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
 }
 
 .radio-option input[type="radio"],
@@ -39,9 +42,11 @@
 .radio-option:hover,
 .checkbox-option:hover {
   background-color: #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
 }
 
 .radio-option.selected:hover,
 .checkbox-option.selected:hover {
-  background-color: #4cae4c;
+  background-color: #005fa3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
 }
