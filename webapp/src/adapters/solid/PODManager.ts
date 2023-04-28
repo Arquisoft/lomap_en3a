@@ -453,4 +453,17 @@ export default class PODManager {
         );
     }
 
+    public async changePlacePublicAccess(place:Place, isPublic:boolean) {
+        let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
+
+        await this.setPublicAccess(path+"/", isPublic);
+        for (let dataset of ['/images', '/comments', '/reviews']) {
+            await access.setPublicAccess(
+                path + dataset,
+                { read: isPublic, write: isPublic },
+                { fetch: this.sessionManager.getSessionFetch() },
+            );
+        }
+    }
+
 }
