@@ -15,13 +15,13 @@ This will launch the file `server.ts` using the package `ts-node-dev`. This pack
 #### Testing the rest API
 For testing we need to simulate petitions against the API. In this case we are using a tool called [Supertest](https://www.npmjs.com/package/supertest).
 
-<u>Note: These dependencies are save only for dev mode, we do not need them for production.</u>
+***Note: These dependencies are save only for dev mode, we do not need them for production.***
 
 The idea is to use Jest (as in the webapp) as the main testing framework. For making the get or post petitions we are going to use supertest. The [api.test.ts](tests/api.test.ts), has the implementation of the tests. The `beforeAll` method is charge of starting the API.
 
 After configuring the tests in the `package.json` we can run them using `npm run test`.
 
-## Docker image for the restapi :whale2:
+## Docker:whale2: image for the restapi
 In the Dockerfile of this folder we have the command for building an image for the restapi. We just install the dependencies and launch the API using `npm start`.
 
 ### Monitoring (Prometheus and Grafana)
@@ -34,8 +34,8 @@ Now when we launch the api, in [http://localhost:5000/metrics](http://localhost:
 
 For running Prometheus and Grafana we can use several docker images. Check `docker-compose.yml` to see how these images are launched. 
 
-<u>Note: in the `prometheus.yml` we are telling prometheus where is our restapi metrics end 
-point. In Grafana `datasources/datasource.yml` we are telling where to find prometheus data.</u>
+***Note: in the `prometheus.yml` we are telling prometheus where is our restapi metrics end 
+point. In Grafana `datasources/datasource.yml` we are telling where to find prometheus data.***
 
 In both configuration files we need to stablish the uris of restapi metrics and the 
 prometheus datasource. Right now they are configured to work using docker-compose network. If 
@@ -50,4 +50,4 @@ ab -m GET -n 10000 -c 100 http://localhost:5000/api/users/list
 ```
 In the Grafana dashboard we can see how the number of petitions increases dramatically after the call.
 
-A good reference with good explanations about monitoring in nodejs can be found [<u>here</u>](https://github.com/coder-society/nodejs-application-monitoring-with-prometheus-and-grafana).
+A good reference with good explanations about monitoring in nodejs can be found [here](https://github.com/coder-society/nodejs-application-monitoring-with-prometheus-and-grafana).
