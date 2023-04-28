@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
+import {Tooltip} from "@mui/joy";
 
 /**
  * A dropdown that presents the component passed inside of it
@@ -10,7 +11,7 @@ import Menu from '@mui/material/Menu';
  * @param {presentMe: JSX.Element} props
  * @constructor
  */
-function PassmeDropdown(props: { presentMe: JSX.Element }) {
+function PassmeDropdown(props: { presentMe: JSX.Element, buttonText: string, tooltip: string}) {
 // TODO needs a rework
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -29,18 +30,21 @@ function PassmeDropdown(props: { presentMe: JSX.Element }) {
 
     return (
         <div style={{width: "fit-content"}}>
-            <Button
-                id="basic-button"
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-                sx={{margin: "0 0 0.3em 1em", backgroundColor:"#002E66"}}
-                className="hide-filters-button"
-                variant="contained"
-            >
-                Show filters
-            </Button>
+
+            <Tooltip title={props.tooltip} variant={"soft"} enterDelay={500} arrow>
+                <Button
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    sx={{margin: "0 0 0.3em 1em", backgroundColor: "#002E66"}}
+                    className="hide-filters-button"
+                    variant="contained"
+                >
+                    {props.buttonText}
+                </Button>
+            </Tooltip>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

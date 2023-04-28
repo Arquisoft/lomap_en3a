@@ -3,12 +3,19 @@ import User from "../../domain/User";
 import ReactTable from "../basic/ReactTable";
 import {TableBody} from "@mui/material";
 import LoadingPage from "../basic/LoadingPage";
+import Button from "@mui/material/Button";
+import AddGroup from "./AddGroup";
+import {Modal, ModalClose, ModalDialog, Tooltip} from "@mui/joy";
 
 interface ListGroupsProps {
     user: User
 }
 
-export default class ListGroups extends React.Component<ListGroupsProps, { page: number, loaded: boolean }> {
+export default class ListGroups extends React.Component<ListGroupsProps, {
+    page: number,
+    loaded: boolean,
+    popupOpen: boolean,
+}> {
 
     private tableBody = (<TableBody>
         {}
@@ -18,25 +25,13 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
         super(props);
         this.state = {
             page: 0,
-            loaded: false
+            loaded: true,
+            popupOpen: false
         }
 
         //TODO load the user's groups, as the user is passed as a parameter it should only require one async method
 
 
-    }
-
-    /**
-     * Aimed to manage the page change on the paginated table of the groups
-     * @param event
-     * @param page
-     * @private
-     */
-    private onGroupPageChange(event: React.MouseEvent<HTMLButtonElement> | null, page: number) {
-        this.setState((prevState) => ({
-            page: page,
-            loaded: prevState.loaded
-        }));
     }
 
     render() {
@@ -46,7 +41,21 @@ export default class ListGroups extends React.Component<ListGroupsProps, { page:
             return <LoadingPage size={100} style={{position: "absolute", left: "45%"}}/>;
         }
         return <>
+            <Tooltip title={"Create a new group"} variant={"soft"} enterDelay={500} arrow>
+                <Button sx={{alignSelf: "end", marginLeft: "0.5em"}} color={"success"} variant={"contained"}
+                        onClick={() => {
+                            this.setState(({popupOpen: true}));
+                        }}>
+                    Create group
+                </Button>
+            </Tooltip>
             <ReactTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}/>
+            <Modal open={this.state.popupOpen} onClose={(() => this.setState(({popupOpen: false})))}>
+                <ModalDialog>
+                    <ModalClose accessKey={"x"}/>
+                    <AddGroup/>
+                </ModalDialog>
+            </Modal>
         </>;
     }
 }

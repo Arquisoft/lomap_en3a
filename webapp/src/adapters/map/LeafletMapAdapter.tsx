@@ -10,6 +10,8 @@ import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import PODManager from '../solid/PODManager';
+import Button from "@mui/material/Button";
+import {Tooltip} from "@mui/joy";
 
 
 /**
@@ -94,14 +96,16 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon}>
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
-                    <button onClick={async () => {
-                        this.setState({
-                            open: true,
-                            pageToShow:
-                                <PointInformation map={this.map} placemark={placemark} open={true}/>
-                        });
-                    }}>Get Info
-                    </button>
+                    <Tooltip title={"Get point information"} variant={"soft"} enterDelay={500} arrow>
+                        <Button size={"small"} variant={"text"} sx={{color: "black"}} onClick={async () => {
+                            this.setState({
+                                open: true,
+                                pageToShow:
+                                    <PointInformation map={this.map} placemark={placemark} open={true}/>
+                            });
+                        }}>Get Info
+                        </Button>
+                    </Tooltip>
                 </Popup>
             </Marker>
         )

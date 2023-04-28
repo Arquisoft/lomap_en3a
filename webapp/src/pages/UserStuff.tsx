@@ -81,7 +81,7 @@ export default class UserStuff extends React.Component<any, any> {
             return this.state.componentToDisplay;
         }
 
-        return (<main>
+        return (<main style={{margin: "1em"}}>
             <h2>{this.user?.getName()}</h2>
             <label htmlFor="maps-table">Users Maps</label>
             <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}

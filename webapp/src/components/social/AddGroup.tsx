@@ -1,14 +1,12 @@
 import React, {ChangeEvent} from "react";
-import {Input, Modal, ModalClose, ModalDialog} from "@mui/joy";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
-import LoadingPage from "../basic/LoadingPage";
 import {Button, Checkbox, FormControlLabel, FormGroup} from "@mui/material";
 import {TextField} from "@mui/material";
+import LoadingPage from "../basic/LoadingPage";
 
 
-export default class AddGroup extends React.Component<{ open: boolean }, {
-    open: boolean,
+export default class AddGroup extends React.Component<{}, {
     friends: User[],
     selectedFriends: Map<string, boolean>,
     anySelected: boolean,
@@ -18,7 +16,6 @@ export default class AddGroup extends React.Component<{ open: boolean }, {
     constructor(props: any) {
         super(props);
         this.state = {
-            open: this.props.open,
             friends: [],
             selectedFriends: new Map(),
             anySelected: false,
@@ -26,8 +23,9 @@ export default class AddGroup extends React.Component<{ open: boolean }, {
         }
 
         this.getUserFriends().then(() => {
-            this.setState(({
-                open: true
+            this.setState(() => ({
+                anySelected: false,
+                allSelected: false
             }));
         })
 
@@ -98,65 +96,61 @@ export default class AddGroup extends React.Component<{ open: boolean }, {
     render() {
 
         if (this.state.friends.length == 0) {
-            return <LoadingPage></LoadingPage>
+            return <div><LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>
+            </div>
         }
 
-        return (
-            <Modal open={this.state.open} onClose={() => this.setState(({open: false}))} sx={{overflow: "scroll"}}>
-                <ModalDialog>
-                    <ModalClose accessKey={"x"}/>
-                    <h2>New Group</h2>
-                    <form>
-                        <TextField
-                            id="standard-basic"
-                            name="group-name"
-                            label="Group name"
-                            variant="standard"
-                            sx={{marginBottom: "1em"}}
-                        />
-                        <label htmlFor="friends-checkbox">Select the friends to add</label>
-                        <div style={{
-                            border: "2px solid gray",
-                            borderRadius: "1em",
-                            width: "15em",
-                            paddingTop: "0.3em"
-                        }}>
-                            <FormGroup id="friends-checkbox"
-                                       style={{
-                                           display: "flex",
-                                           flexDirection: "row",
-                                           width: "100%",
-                                           height: "9em",
-                                           overflow: "scroll",
-                                           padding: "0.4em"
-                                       }}>
+        return (<div style={{overflow: "scroll"}}>
+                <h2>New Group</h2>
+                <form>
+                    <TextField
+                        id="standard-basic"
+                        name="group-name"
+                        label="Group name"
+                        variant="standard"
+                        sx={{marginBottom: "1em"}}
+                    />
+                    <label htmlFor="friends-checkbox">Select the friends to add</label>
+                    <div style={{
+                        border: "2px solid gray",
+                        borderRadius: "1em",
+                        width: "15em",
+                        paddingTop: "0.3em"
+                    }}>
+                        <FormGroup id="friends-checkbox"
+                                   style={{
+                                       display: "flex",
+                                       flexDirection: "row",
+                                       width: "100%",
+                                       height: "9em",
+                                       overflow: "scroll",
+                                       padding: "0.4em"
+                                   }}>
+                            <FormControlLabel
+                                label="All"
+                                control={
+                                    <Checkbox checked={this.state.allSelected}
+                                              indeterminate={this.state.anySelected}
+                                              onChange={this.handleCheckboxSelectAll}
+                                              sx={{width: "100%"}}
+                                    />
+                                }
+                            />
+                            {this.state.friends.map((user) => (
                                 <FormControlLabel
-                                    label="All"
-                                    control={
-                                        <Checkbox checked={this.state.allSelected}
-                                                  indeterminate={this.state.anySelected}
-                                                  onChange={this.handleCheckboxSelectAll}
-                                                  sx={{width: "100%"}}
-                                        />
-                                    }
-                                />
-                                {this.state.friends.map((user) => (
-                                    <FormControlLabel
-                                        control={<Checkbox value={user.getWebId()}
-                                                           onChange={this.handleCheckboxCheck}/>}
-                                        label={user.getName()}
-                                        checked={this.state.selectedFriends.get(user.getWebId()) || this.state.allSelected}
-                                        sx={{width: "100%"}}/>
-                                ))}
-                            </FormGroup>
-                        </div>
-                        <Button
-                            sx={{marginTop: "1em", alignSelf: "end", height:"2em"}} size={"small"}
-                            type={"submit"} variant={"contained"} color={"primary"}>Create</Button>
-                    </form>
-                </ModalDialog>
-            </Modal>
+                                    control={<Checkbox value={user.getWebId()}
+                                                       onChange={this.handleCheckboxCheck}/>}
+                                    label={user.getName()}
+                                    checked={this.state.selectedFriends.get(user.getWebId()) || this.state.allSelected}
+                                    sx={{width: "100%"}}/>
+                            ))}
+                        </FormGroup>
+                    </div>
+                    <Button
+                        sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}
+                        type={"submit"} variant={"contained"} color={"primary"}>Create</Button>
+                </form>
+            </div>
         );
     }
-
 }

@@ -1,13 +1,11 @@
 import React from "react";
 import User from "../../domain/User";
-import TablePagination from '@mui/material/TablePagination';
-import {Avatar, Paper, TableBody, TableCell, TableRow} from "@mui/material";
+import {Avatar, TableBody, TableCell, TableRow} from "@mui/material";
 import Place from "../../domain/Place";
 import Map from "../../domain/Map";
 import ReactTable from "../basic/ReactTable";
 import "../../styles/userProfile.css";
 import Social from "../../pages/Social";
-import PODManager from "../../adapters/solid/PODManager";
 
 interface UserPageProps {
     user: User
@@ -86,15 +84,15 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         }
         return (
             <>
-                <div className="back-page-link-container">
-                    <a className="back-page-link" onClick={() => {
-                        this.setState({
-                            placePage: 0,
-                            mapPage: 0,
-                            placeShown: null,
-                            pageToChange: (<Social/>)
-                        })
-                    }}>Friends list</a>
+                <div className="back-page-link-container" onClick={() => {
+                    this.setState({
+                        placePage: 0,
+                        mapPage: 0,
+                        placeShown: null,
+                        pageToChange: (<Social/>)
+                    })
+                }}>
+                    <a className="back-page-link">Friends list</a>
                 </div>
                 <main className="user-profile">
                     <h1>{this.props.user.getName()}</h1>

@@ -3,6 +3,8 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import UserPlaceHolder from "./UserPlaceHolder";
 import LoadingPage from "../basic/LoadingPage";
+import {Tooltip} from "@mui/joy";
+import EmptyFriendsList from "./EmptyFriendsList";
 
 
 interface UserListProps {
@@ -33,7 +35,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
                 this.setState(() => ({
                     loadedFriends: false
                 }));
-                this.listUsers = <li>No friends yet</li>;
+                this.listUsers = <EmptyFriendsList/>;
             } else {
                 this.setState(() => ({
                     loadedFriends: true
