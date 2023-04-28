@@ -4,7 +4,6 @@ import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
-import DataFactory from '@rdfjs/data-model';
 import PlaceComment from '../../domain/Place/PlaceComment';
 import PlaceRating from '../../domain/Place/PlaceRating';
 import User from '../../domain/User';

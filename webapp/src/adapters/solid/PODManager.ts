@@ -20,10 +20,10 @@ export default class PODManager {
     public async savePlace(place:Place): Promise<void> {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        await this.saveDataset(path+"/details", Assembler.placeToDataset(place), true);
+        await this.saveDataset(path+"/details", Assembler.placeToDataset(place));
         await this.saveDataset(path+"/comments", createSolidDataset(), true);
-        await this.saveDataset(path+"/images", createSolidDataset());
-        await this.saveDataset(path+"/reviews", createSolidDataset());
+        await this.saveDataset(path+"/images", createSolidDataset(), true);
+        await this.saveDataset(path+"/reviews", createSolidDataset(), true);
         await this.createAcl(path+'/');
         place.photos.forEach(async img => await this.addImage(img, place));
     }
@@ -37,6 +37,7 @@ export default class PODManager {
     private async addCommentToUser(comment: PlaceComment) {
         let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/" + comment.id;
         await this.saveDataset(commentPath, Assembler.commentToDataset(comment), true);
+        await this.setPublicAccess(commentPath, true);
     }
 
     private async addCommentToPlace(placeId: string, commentUrl: string) {
@@ -340,6 +341,7 @@ export default class PODManager {
     private async addReviewToUser(review: PlaceRating) {
         let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/" + review.id;
         await this.saveDataset(reviewPath, Assembler.reviewToDataset(review), true);
+        await this.setPublicAccess(reviewPath, true);
     }
 
     private async addReviewToPlace(placeId: string, reviewUrl: string) {
@@ -392,6 +394,25 @@ export default class PODManager {
         await this.saveDataset(path, Assembler.groupToDataset(group));
     }
 
+    public async createGroup(group: Group) {
+        let webID = this.sessionManager.getWebID();
+        let dataset = Assembler.groupToDataset(group);
+        await this.createGroupForUser(new User("", webID), group, dataset);
+
+        group.getMembers()
+                .filter(member => member.getWebId() !== webID)
+                .forEach(user => this.createGroupForUser(user, group, dataset));
+    }
+
+    private async createGroupForUser(user:User, group:Group, dataset:SolidDataset|undefined = undefined) {
+        let path = this.getBaseUrl(user.getWebId()) + "/groups/" + group.getId();
+        let groupDataset = dataset || Assembler.groupToDataset(group);
+        let otherMembers = group.getMembers().filter(member => member.getWebId() !== user.getWebId());
+
+        await this.saveDataset(path, groupDataset, true);
+        await this.setGroupAccess(path, new Group("", otherMembers), {read:true, write:true})
+    }
+
     public async getGroup(groupUrl: string): Promise<Group> {
         let engine = new QueryEngine();
         let query = `
@@ -410,12 +431,15 @@ export default class PODManager {
 
     public async setFriendsAccess(resourceUrl:string, canRead:boolean) {
         let group = await this.getGroup(this.getBaseUrl() + "/groups/friends");
+        await this.setGroupAccess(resourceUrl, group, { read: canRead });
+    }
 
+    public async setGroupAccess(resourceUrl:string, group:Group, permissions:any) {
         for (let user of group.getMembers()) {
             await access.setAgentAccess(
                 resourceUrl,
                 user.getWebId(),
-                { read: canRead },
+                permissions,
                 { fetch: this.sessionManager.getSessionFetch() }
             );
         }
