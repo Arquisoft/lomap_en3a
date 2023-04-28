@@ -68,9 +68,9 @@ export default class PODManager {
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?user ?comment ?id
             WHERE {
-                ?s schema:accountId ?user .
-                ?s schema:description ?comment .
-                ?s schema:identifier ?id .
+                ?s schema:accountId ?user ;
+                   schema:description ?comment ;
+                   schema:identifier ?id .
             }
         `;
         result = await engine.queryBindings(query, this.getQueryContext(urls));
@@ -222,12 +222,11 @@ export default class PODManager {
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?title ?desc ?lat ?lng ?id
             WHERE {
-                ?place ?p ?o .
-                ?place schema:name ?title .
-                ?place schema:description ?desc .
-                ?place schema:latitude ?lat .
-                ?place schema:longitude ?lng .  
-                ?place schema:identifier ?id .  
+                ?place schema:name ?title ;
+                       schema:description ?desc ;
+                       schema:latitude ?lat ;
+                       schema:longitude ?lng ;  
+                       schema:identifier ?id .  
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext([url+"/details"]));
@@ -267,11 +266,10 @@ export default class PODManager {
         let query = `
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?id ?name ?desc
-            WHERE {
-                ?details ?p ?o .    
-                ?details schema:identifier ?id .
-                ?details schema:name ?name .
-                ?details schema:description ?desc .  
+            WHERE {  
+                ?details schema:identifier ?id ;
+                         schema:name ?name ;
+                         schema:description ?desc .  
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext(urls));
@@ -284,12 +282,11 @@ export default class PODManager {
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?title ?lat ?lng ?placeUrl ?cat
             WHERE {
-                ?placemark ?p ?o .    
-                ?placemark schema:name ?title .
-                ?placemark schema:latitude ?lat .
-                ?placemark schema:longitude ?lng .  
-                ?placemark schema:url ?placeUrl . 
-                ?placemark schema:description ?cat . 
+                ?placemark schema:name ?title ;
+                           schema:latitude ?lat ;
+                           schema:longitude ?lng ;  
+                           schema:url ?placeUrl ; 
+                           schema:description ?cat . 
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext([mapURL]));
@@ -372,9 +369,9 @@ export default class PODManager {
             PREFIX schema: <http://schema.org/>
             SELECT (COUNT(?user) as ?number) (AVG(?review) as ?score)
             WHERE {
-                ?s schema:accountId ?user .
-                ?s schema:value ?review .
-                ?s schema:identifier ?id .
+                ?s schema:accountId ?user ;
+                   schema:value ?review ;
+                   schema:identifier ?id .
             }
         `;
         result = await engine.queryBindings(query, this.getQueryContext(urls));
