@@ -12,7 +12,7 @@ all the public places stored in the database and the other ones conform CRUD ope
 #### `npm start` :arrow_forward::arrow_forward:
 This will launch the file `server.ts` using the package `ts-node-dev`. This package is useful for launching Typescript files with the additional feature of being able to reload the server if we change the code.
 
-#### Testing the rest API
+### Testing the rest API :white_check_mark::white_check_mark:
 For testing we need to simulate petitions against the API. In this case we are using a tool called [Supertest](https://www.npmjs.com/package/supertest).
 
 ***Note: These dependencies are save only for dev mode, we do not need them for production.***
