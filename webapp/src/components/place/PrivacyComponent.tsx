@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "../styles/PrivacyComponent.css";
-import User from "../domain/User";
-import FriendManager from "../adapters/solid/FriendManager";
+import "../../styles/PrivacyComponent.css";
+import User from "../../domain/User";
+import FriendManager from "../../adapters/solid/FriendManager";
 import { map } from "leaflet";
-import LoadingPage from "./basic/LoadingPage";
+import LoadingPage from "../basic/LoadingPage";
 
 interface PrivacyComponentProps {
   //callback function to update the privacy of the place
@@ -13,7 +13,7 @@ interface PrivacyComponentProps {
 interface PrivacyComponentState {
   selectedPrivacy: string;
   selectedFriends: { [key: string]: boolean };
-  friends: User[];
+  friendsSelected: User[];
   loadedFriends: boolean;
   friendsList: User[];
 }
@@ -32,7 +32,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
       selectedPrivacy: "public",
       selectedFriends: {},
       friendsList: [],
-      friends: [],
+      friendsSelected: [],
       loadedFriends: false,
     };
 
@@ -48,12 +48,18 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
         }));
       }
     }).catch((error) => {
-      console.log("There was an error uploading the friends: " + error.message);
+      console.log("There was an error downloading the friends: " + error.message);
     });
+    this.handleFriendToggle = this.handleFriendToggle.bind(this);
   }
 
+  /**
+   * It recovers the friends from the user. After that, the components will be updated.
+   */
   public async componentDidMount(): Promise<void> {
-    this.setState({friendsList: await this.getUsers()});
+    const friendsList = await this.getUsers();
+    this.setState({ friendsList });
+    this.setState({ loadedFriends: true });
   }
 
   /**
@@ -61,7 +67,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
    * */
   private async getUsers() {
     const fm = new FriendManager();
-    return await fm.getFriendsList();
+    return fm.getFriendsList();
   }
 
   /**
@@ -73,25 +79,29 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
     
     //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
     const { selectedFriends } = this.state;
-    const friends = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??""]);
-    this.setState({ friends });
+    const friendsSelected = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??""]);
+    this.setState({ friendsSelected });
     //When privacy is changed, the callback function is called to update the privacy of the place
-    this.props.updatePrivacy(e.target.value, this.state.friends);
+    this.props.updatePrivacy(e.target.value, this.state.friendsSelected);
   };
 
   /**
    * Handle the change of the friend checkboxes.
+   * It updates the list of friends selected.
+   * It calls teh callback function to update the privacy of the place.
    * @param e The event of the change.
    */
   handleFriendToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const friendName = e.target.value;
     const { selectedFriends } = this.state;
-    const friend = this.state.friendsList.find((friend) => friend.getName() === friendName);
-
+    selectedFriends[friendName] = !selectedFriends[friendName];
     this.setState({ selectedFriends });
 
-    //When friends are changed, the callback function is called to update the privacy of the place
-    
+    //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
+    const friendsSelected = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??""]);
+    this.setState({ friendsSelected });
+    //When privacy is changed, the callback function is called to update the privacy of the place
+    this.props.updatePrivacy(e.target.value, this.state.friendsSelected);
   };
 
   

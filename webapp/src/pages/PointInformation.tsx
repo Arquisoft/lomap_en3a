@@ -11,7 +11,7 @@ import PODManager from "../adapters/solid/PODManager";
 import LoadingPage from "../components/basic/LoadingPage";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import PrivacyComponent from "../components/PrivacyComponent";
+import PrivacyComponent from "../components/place/PrivacyComponent";
 import FriendManager from "../adapters/solid/FriendManager";
 import User from "../domain/User";
 

@@ -5,8 +5,8 @@ import Place from "../domain/Place";
 import Placemark from "../domain/Placemark";
 import '../styles/AddPlace.css'
 import PODManager from "../adapters/solid/PODManager";
-import PlacePrivacy from "../components/PrivacyComponent";
-import PrivacyComponent from "../components/PrivacyComponent";
+import PlacePrivacy from "../components/place/PrivacyComponent";
+import PrivacyComponent from "../components/place/PrivacyComponent";
 import Map from "../domain/Map";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import User from "../domain/User";
@@ -159,6 +159,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	handleVisibilityChange = (privacy: string, friends: User[]) => {
 		this.setState({ visibility: privacy });
 		this.setState({ friends: friends });
+		console.log(friends)
 	}
 
 	goBack() {
