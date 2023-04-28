@@ -1,27 +1,27 @@
-## Restapi
-The objective for this part is to make a rest API using Express and Node.js using TypeScript. We will implement only two functions, one push petition, for registering a new user and a get petition, to list all the users in the system. The webservice will be deployed using docker.
-
-Lets analyze the main packages used in this part (file package.json):
-- express: this is the main dependency for building the API. Express is a NodeJS web framework very useful for building API endpoints though it has other applications as well.
-- cors: Cross-Origin Resource Sharing, is useful for allowing petitions only from certain domains, in this case, we will allow only petitions from localhost.
-- express-validator: useful for validate the input of the API calls. This improves security avoiding code injection attacks.    
-- express-prom-bundle and prom-client: middleware to capture the petitions and send statistics to prometheus. This is useful for monitoring the webservice.
-- @types packages. Types for coding using typescript.
+# Restapi
+The purpose for this part is to be a rest API using Express and Node.js using TypeScript, for 
+all the actions involving the centralised databased MongoDB :leaves: which is in charge of 
+storing the minimal information of public things. The 
+webservice will be deployed using Docker :whale2:.
      
-The code is quite straight forward, the [server.ts](server.ts) file launchs the api. The [api.ts](api.ts) is actually the api, where you will see there two api entry points, one post for creating a new user, and one get to list all the users. 
+The code is quite straight forward, the [server.ts](server.ts) file launchs the api. The [api.ts]
+(api.ts) is actually the api, where you will see there five api entry points, one for getting 
+all the public places stored in the database and the other ones conform CRUD operations with places.
 
-For launching the API we can use `npm start`. This will launch the file `server.ts` using the package `ts-node-dev`. This package is useful for launching Typescript files with the additional feature of being able to reload the server if we change the code.
+## How to run the API locally
+#### `npm start` :arrow_forward::arrow_forward:
+This will launch the file `server.ts` using the package `ts-node-dev`. This package is useful for launching Typescript files with the additional feature of being able to reload the server if we change the code.
 
-### Testing the rest api
-For testing we need to do simulate petitions against the API. In this case we are using a tool called [Supertest](https://www.npmjs.com/package/supertest).
+#### Testing the rest API
+For testing we need to simulate petitions against the API. In this case we are using a tool called [Supertest](https://www.npmjs.com/package/supertest).
 
-<mark>Note: These dependencies are save only for dev mode, we do not need them for production.</mark>
+<u>Note: These dependencies are save only for dev mode, we do not need them for production.</u>
 
 The idea is to use Jest (as in the webapp) as the main testing framework. For making the get or post petitions we are going to use supertest. The [api.test.ts](tests/api.test.ts), has the implementation of the tests. The `beforeAll` method is charge of starting the API.
 
 After configuring the tests in the `package.json` we can run them using `npm run test`.
 
-### Docker image for the restapi
+## Docker image for the restapi :whale2:
 In the Dockerfile of this folder we have the command for building an image for the restapi. We just install the dependencies and launch the API using `npm start`.
 
 ### Monitoring (Prometheus and Grafana)
@@ -34,9 +34,13 @@ Now when we launch the api, in [http://localhost:5000/metrics](http://localhost:
 
 For running Prometheus and Grafana we can use several docker images. Check `docker-compose.yml` to see how these images are launched. 
 
-<mark>Note: in the `prometheus.yml` we are telling prometheus where is our restapi metrics end point. In Grafana `datasources/datasource.yml` we are telling where to find prometheus data.</mark>
+<u>Note: in the `prometheus.yml` we are telling prometheus where is our restapi metrics end 
+point. In Grafana `datasources/datasource.yml` we are telling where to find prometheus data.</u>
 
-<mark>In both configuration files we need to stablish the uris of restapi metrics and the prometheus datasource. Right now they are configured to work using docker-compose network. If you want to use these individual docker commands, you need to change these uris to point to localhost</mark>
+In both configuration files we need to stablish the uris of restapi metrics and the 
+prometheus datasource. Right now they are configured to work using docker-compose network. If 
+you want to use these individual docker commands, you need to change these uris to point to 
+localhost.
 
 Once launched all the system is launched (see the Quick Start Guide), we can simulate a few petitions to our webservice:
 
@@ -46,4 +50,4 @@ ab -m GET -n 10000 -c 100 http://localhost:5000/api/users/list
 ```
 In the Grafana dashboard we can see how the number of petitions increases dramatically after the call.
 
-A good reference with good explanations about monitoring in nodejs can be found [here](https://github.com/coder-society/nodejs-application-monitoring-with-prometheus-and-grafana).
+A good reference with good explanations about monitoring in nodejs can be found [<u>here</u>](https://github.com/coder-society/nodejs-application-monitoring-with-prometheus-and-grafana).
