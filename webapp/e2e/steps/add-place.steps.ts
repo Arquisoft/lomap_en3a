@@ -2,18 +2,18 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import {setDefaultOptions} from "expect-puppeteer";
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/logout.feature');
+const feature = loadFeature('./features/add-place.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-setDefaultOptions({timeout: 5000})
+setDefaultOptions({timeout: 20000})
 
 defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true});
+      : await puppeteer.launch({ headless: false, slowMo: 50 });
     page = await browser.newPage();
 
     await page
@@ -23,12 +23,13 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('A user with a SOLID account logs out', ({given,when,then}) => {
+  test('A user adds a new place in the map', ({given,when,then}) => {
     
     let username:string;
     let password:string;
+    let placeName:string = "Test" + Math.floor(Math.random() * 100000);
 
-    given('A user with a SOLID account that has logged in the application', async () => {
+    given('A user that is logged in', async () => {
       username = "testlomapen3a"
       password = "Test_lomapen3a"
       //The user clicks on log in
@@ -45,14 +46,20 @@ defineFeature(feature, test => {
     });
     
 
-    when('The users logs out the application', async () => {
-      await expect(page).toClick('.Right > :nth-child(1) > :nth-child(1)');
-      await expect(page).toClick('.LogoutButton');
+    when('The users adds a place', async () => {
+      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1)');
+      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toFillForm('.Place-form > :nth-child(2)', {
+        name: placeName,
+        description: "This is a test place"
+      });
+      await expect(page).toClick('button', {text: "Submit"});
     });
 
-    then('The app goes to the login page', async () => {
-      await page.waitForNavigation()
-      await expect(page).toMatch("Select your POD provider");
+    then('The place can be seen on the map', async () => {
+      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+      await expect(page).toMatch(placeName);
     });
   })
 
