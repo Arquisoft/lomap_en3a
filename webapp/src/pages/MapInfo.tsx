@@ -1,8 +1,13 @@
 import React from "react";
-import "../styles/pointInfo.css";
+import "../styles/mapInfo.css";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+import UserStuff from "./UserStuff";
+import PrivacyComponent from "../components/place/PrivacyComponent";
+import User from "../domain/User";
+import Placemark from "../domain/Placemark";
+import PointInformation from "./PointInformation";
 
 interface MapInfoProps {
     map: Map;
@@ -11,67 +16,99 @@ interface MapInfoProps {
 interface MapInfoState {
     goBack: boolean;
     visibility: string;
+    pod: PODManager;
+    theMap: Map;
+    open: boolean;
+    selectedPlacemark: Placemark;
+    currentComponent: JSX.Element;
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
 
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
-    private pod = new PODManager();
 
     public constructor(props: any) {
         super(props);
         this.state = {
             goBack: false,
-            visibility: ""
+            visibility: "",
+            pod: new PODManager(),
+            theMap: this.props.map,
+            open: false,
+            selectedPlacemark: new Placemark(0, 0),
+            currentComponent: <div/>,
         };
         this.goBack = this.goBack.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+        this.handleBack = this.handleBack.bind(this);
+    }
+
+    private async loadPlaceMarks(callback: () => void) {
+        await this.state.pod.loadPlacemarks(this.state.theMap);
+        this.state.theMap.getPlacemarks().forEach((placemark) => {
+            console.log(placemark.getTitle());
+        });
+        callback();
     }
 
     private goBack() {
         this.setState({goBack: true});
     }
 
-    private handleVisibilityChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        switch (event.target.value) {
-            case "public":
-                this.setState({visibility: event.target.value});
-                this.pod.setPublicAccess(this.props.map.getId(), true);
-                break;
-            case "private":
-                this.setState({visibility: event.target.value});
-                this.pod.setPublicAccess(this.props.map.getId(), false);
-                break;
-            case "friends":
-                this.setState({visibility: event.target.value});
-                //this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), event.target.value);
-                break;
-        }
+    private handleVisibilityChange = (privacy: string, friends: User[]) => {
+        
+    }
+
+    public async componentDidMount() {
+        await this.loadPlaceMarks(() => {
+            this.setState({theMap: this.state.theMap});
+        });
+    }
+
+    handleBack(prevComponent: JSX.Element) {
+        this.setState({open: false});
     }
 
     /**
      * Returns the map information view
      */
     public render() {
+        if (this.state.goBack) {
+            return <UserStuff/>;
+        }
         return (
-            <section style={{overflow: "scroll"}}>
+            <section className="my-stuff">
                 <div className="mapInformation">
-                    <h1>Title: {this.props.map.getName()}</h1>
-                    <h2>Description: {this.props.map.getDescription()}</h2>
+                    <h1>Title: {this.state.theMap.getName()}</h1>
+                    <h2>Description: {this.state.theMap.getDescription()}</h2>
+                    <h2>Places:</h2>
+                    {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
+                    <div className="places-buttons" >
+                        {this.state.theMap.getPlacemarks().map((placemark) => (
+                            <div className="place-button">
+                                <h3>{placemark.getTitle()}</h3>
+                                <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
+                                Ver sitio
+                            </button>
+                            </div>
+                            ))
+                        }
+                    </div>
                     {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
                     <div>
-                        <h3>Change the visibility of the map</h3>
-                        <select title="visibility" name="visibility" id="visibility"
-                                value={this.state.visibility} onChange={this.handleVisibilityChange}>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                            <option value="friends">Friends</option>
-                        </select>
+                        <h3>Change the visibility of the Map</h3>
+                        <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                     </div>
                 </div>
                 <input type="button" id="back" value="Back" onClick={this.goBack}/>
+                {this.state.open && (
+                <PointInformation prevComponent={this.state.currentComponent} 
+                map={this.state.theMap} 
+                placemark={this.state.selectedPlacemark} 
+                open={true}
+                onBack={this.handleBack}/>
+            )}
             </section>
         );
     }
-
 }

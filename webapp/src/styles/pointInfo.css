@@ -7,7 +7,6 @@
     }
 }
 
-
 .pointInfo{
     max-width: 97%; /* Set the maximum width for the form */
     overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */    

@@ -27,6 +27,7 @@ interface LeafletMapAdapterState {
     pageToShow: JSX.Element | undefined;
     currentPlacemark: Placemark | null;
     open: boolean;
+    currentComponent: JSX.Element;
 }
 
 /**
@@ -60,8 +61,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         this.state = {
             pageToShow: undefined,
             currentPlacemark: null,
-            open: false
+            open: false,
+            currentComponent: <div/>,
         };
+
+        this.handleBack = this.handleBack.bind(this);
     }
 
     private isFiltered(p: Placemark): boolean {
@@ -98,7 +102,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                         this.setState({
                             open: true,
                             pageToShow:
-                                <PointInformation map={this.map} placemark={placemark} open={true}/>
+                                <PointInformation prevComponent={<LeafletMapAdapter map={this.props.map} categories={this.props.categories}/>} 
+                                map={this.map} 
+                                placemark={placemark} 
+                                open={true}
+                                onBack={this.handleBack}/>
                         });
                     }}>Get Info
                     </button>
@@ -170,6 +178,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private cancel(e: React.MouseEvent): void {
         this.setState({currentPlacemark: null});
         e.preventDefault();
+    }
+
+    handleBack(prevComponent: JSX.Element) {
+        this.setState({ pageToShow: prevComponent,
+        open: true });
     }
 
     public render(): JSX.Element {
