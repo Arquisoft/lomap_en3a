@@ -3,7 +3,6 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import UserPlaceHolder from "./UserPlaceHolder";
 import LoadingPage from "../basic/LoadingPage";
-import {Tooltip} from "@mui/joy";
 import EmptyFriendsList from "./EmptyFriendsList";
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Place from "../domain/Place";
-import ImageList from "../components/ImageList";
+import ImageList from "../components/basic/ImageList";
 import "../styles/pointInfo.css";
 import Map from "../domain/Map";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
