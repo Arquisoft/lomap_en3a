@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react';
-import {UserMenu} from "../UserMenu";
+import {UserMenu} from "../../components/UserMenu";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 
 beforeAll(() => {

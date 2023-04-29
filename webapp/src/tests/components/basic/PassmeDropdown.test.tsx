@@ -1,5 +1,5 @@
 import React from 'react';
-import PassmeDropdown from "../../basic/PassmeDropdown";
+import PassmeDropdown from "../../../components/basic/PassmeDropdown";
 import {fireEvent, render} from "@testing-library/react";
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import MapFilter from '../MapFilter';
+import MapFilter from '../../components/MapFilter';
 import {PlaceCategory} from '../../domain/Place/PlaceCategory';
 
 test('When the MapFilter renders, all the categories are shown', () => {

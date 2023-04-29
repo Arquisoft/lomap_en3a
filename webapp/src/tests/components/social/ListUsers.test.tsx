@@ -1,8 +1,8 @@
 import React from 'react';
 import {render, waitFor} from '@testing-library/react';
-import FriendManager from "../../adapters/solid/FriendManager";
-import User from "../../domain/User";
-import ListUsers from "../social/ListUsers";
+import FriendManager from "../../../adapters/solid/FriendManager";
+import User from "../../../domain/User";
+import ListUsers from "../../../components/social/ListUsers";
 
 test('The list of users renders one user correctly and the method getUsers has been called', async () => {
     const fm = new FriendManager();

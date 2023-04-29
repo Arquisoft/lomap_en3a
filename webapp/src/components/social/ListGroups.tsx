@@ -5,7 +5,7 @@ import {TableBody} from "@mui/material";
 import LoadingPage from "../basic/LoadingPage";
 import Button from "@mui/material/Button";
 import AddGroup from "./AddGroup";
-import {Modal, ModalClose, ModalDialog, Tooltip} from "@mui/joy";
+import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 
 interface ListGroupsProps {
     user: User
@@ -41,14 +41,12 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
             return <LoadingPage size={100} style={{position: "absolute", left: "45%"}}/>;
         }
         return <>
-            <Tooltip title={"Create a new group"} variant={"soft"} enterDelay={500} arrow>
-                <Button sx={{alignSelf: "end", marginLeft: "0.5em"}} color={"success"} variant={"contained"}
-                        onClick={() => {
-                            this.setState(({popupOpen: true}));
-                        }}>
-                    Create group
-                </Button>
-            </Tooltip>
+            <Button sx={{alignSelf: "end", marginLeft: "0.5em"}} color={"success"} variant={"contained"}
+                    onClick={() => {
+                        this.setState(({popupOpen: true}));
+                    }}>
+                Create group
+            </Button>
             <ReactTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}/>
             <Modal open={this.state.popupOpen} onClose={(() => this.setState(({popupOpen: false})))}>
                 <ModalDialog>

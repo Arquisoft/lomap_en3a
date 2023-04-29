@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, getByText, render, screen} from '@testing-library/react';
-import NavMenu from "../NavMenu";
+import NavMenu from "../../components/NavMenu";
 import {BrowserRouter} from "react-router-dom";
 
 test('nav menu is rendered', () => {

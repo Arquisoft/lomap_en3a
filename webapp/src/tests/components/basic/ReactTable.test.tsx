@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import ReactTable from "../../basic/ReactTable";
+import ReactTable from "../../../components/basic/ReactTable";
 import {TableBody, TableCell} from "@mui/material";
 
 

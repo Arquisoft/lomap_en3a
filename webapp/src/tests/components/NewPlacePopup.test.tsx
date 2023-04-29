@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import NewPlacePopup from "../NewPlacePopup";
+import NewPlacePopup from "../../components/NewPlacePopup";
 
 
 test('The new place popup is rendering correctly', () => {
