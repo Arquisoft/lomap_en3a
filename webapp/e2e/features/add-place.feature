@@ -1,4 +1,4 @@
-Feature: Logging in of a user
+Feature: Adding a place
 
 Scenario: A user adds a new place in the map
   Given A user that is logged in

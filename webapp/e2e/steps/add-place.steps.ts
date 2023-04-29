@@ -7,13 +7,13 @@ const feature = loadFeature('./features/add-place.feature');
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-setDefaultOptions({timeout: 20000})
+setDefaultOptions({timeout: 10000})
 
 defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 50 });
+      : await puppeteer.launch({ headless: true});
     page = await browser.newPage();
 
     await page

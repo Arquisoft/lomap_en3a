@@ -7,7 +7,7 @@ const feature = loadFeature('./features/login.feature');
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-setDefaultOptions({timeout: 5000})
+setDefaultOptions({timeout: 10000})
 
 defineFeature(feature, test => {
   beforeAll(async () => {

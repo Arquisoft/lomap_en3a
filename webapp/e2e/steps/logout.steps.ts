@@ -7,7 +7,7 @@ const feature = loadFeature('./features/logout.feature');
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-setDefaultOptions({timeout: 5000})
+setDefaultOptions({timeout: 10000})
 
 defineFeature(feature, test => {
   beforeAll(async () => {
@@ -29,8 +29,8 @@ defineFeature(feature, test => {
     let password:string;
 
     given('A user with a SOLID account that has logged in the application', async () => {
-      username = "testlomapen3a"
-      password = "Test_lomapen3a"
+      username = "lomapen3a"
+      password = "Placemarks3!"
       //The user clicks on log in
       await expect(page).toClick('input[value="Inrupt.net"]')
       await page.waitForNavigation()
