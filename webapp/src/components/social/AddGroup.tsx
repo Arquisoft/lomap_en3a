@@ -10,7 +10,8 @@ export default class AddGroup extends React.Component<{}, {
     friends: User[],
     selectedFriends: Map<string, boolean>,
     anySelected: boolean,
-    allSelected: boolean
+    allSelected: boolean,
+    componentHasLoaded: boolean
 }> {
 
     constructor(props: any) {
@@ -19,7 +20,8 @@ export default class AddGroup extends React.Component<{}, {
             friends: [],
             selectedFriends: new Map(),
             anySelected: false,
-            allSelected: false
+            allSelected: false,
+            componentHasLoaded: false
         }
 
         this.getUserFriends().then(() => {
@@ -39,7 +41,7 @@ export default class AddGroup extends React.Component<{}, {
         friends.forEach(friend => {
             this.state.selectedFriends.set(friend.getWebId(), false);
         })
-        this.setState(({friends: friends}))
+        this.setState(({friends: friends, componentHasLoaded: true}))
     }
 
     private handleCheckboxCheck(event: React.ChangeEvent<HTMLInputElement>) {
@@ -95,7 +97,7 @@ export default class AddGroup extends React.Component<{}, {
 
     render() {
 
-        if (this.state.friends.length == 0) {
+        if (!this.state.componentHasLoaded) {
             return <div><LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>
             </div>
         }
@@ -116,7 +118,7 @@ export default class AddGroup extends React.Component<{}, {
                         borderRadius: "1em",
                         width: "15em",
                         paddingTop: "0.3em"
-                    }}>
+                    }}>{this.state.friends.length > 0 ?
                         <FormGroup id="friends-checkbox"
                                    style={{
                                        display: "flex",
@@ -145,6 +147,7 @@ export default class AddGroup extends React.Component<{}, {
                                     sx={{width: "100%"}}/>
                             ))}
                         </FormGroup>
+                        : <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>}
                     </div>
                     <Button
                         sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}

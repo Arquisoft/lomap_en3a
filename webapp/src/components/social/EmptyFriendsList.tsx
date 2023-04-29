@@ -2,7 +2,7 @@ import React from "react";
 
 function EmptyFriendsList() {
     return (<>
-            <main style={{display: "flex"}}>
+            <main className={"empty-friend-list"} style={{display: "flex"}}>
                 <div style={{display: "flex", flexDirection: "column", marginLeft: "20%", gap: 0}}>
                     <h3 style={{fontSize: "x-large", marginBottom: 0}}>Your friend list is empty!</h3>
                     <h4 style={{marginTop: 0}}>Add some friends through your <a

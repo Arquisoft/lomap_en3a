@@ -4,7 +4,7 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import ListUsers from "../social/ListUsers";
 
-test('The list of users renders one user correctly', async () => {
+test('The list of users renders one user correctly and the method getUsers has been called', async () => {
     const fm = new FriendManager();
     const users = [new User("TestName1", "webId"), new User("TestName2", "webId2")];
     let spy = jest.spyOn(fm, "getFriendsList").mockImplementation(async () => {
@@ -15,20 +15,24 @@ test('The list of users renders one user correctly', async () => {
 
     await waitFor(() => {
         expect(getByText("TestName1")).toBeInTheDocument();
+        expect(spy).toHaveBeenCalled();
     })
 });
 
-/**
- test('The list of users calls the getUsers method at least once', async () => {
+
+test('The list of users shows a message when there are no friends on the list', async () => {
     const fm = new FriendManager();
-    const users = [new User("TestName1", "webId"), new User("TestName2", "webId2")];
+    const users: User[] = [];
     let spy = jest.spyOn(fm, "getFriendsList").mockImplementation(async () => {
         return users;
     })
-    const userList = shallow(<ListUsers fm={} callback={} />)
+
     const {getByText} = render(<ListUsers fm={fm} callback={() => {
     }}/>)
 
-    const getUsers = jest.spyOn(userList, "getUsers")
+    await waitFor(() => {
+        expect(getByText("Your friend list is empty!")).toBeInTheDocument();
+        const testImage = document.querySelector("img") as HTMLImageElement;
+        expect(testImage).toBeInTheDOM();
+    })
 });
- **/
