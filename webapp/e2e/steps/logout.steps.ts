@@ -2,7 +2,7 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import {setDefaultOptions} from "expect-puppeteer";
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/login.feature');
+const feature = loadFeature('./features/logout.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -13,7 +13,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true});
+      : await puppeteer.launch({ headless: false, slowMo: 50 });
     page = await browser.newPage();
 
     await page
@@ -23,18 +23,14 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('A user with a SOLID account logs in the application', ({given,when,then}) => {
+  test('A user with a SOLID account logs out', ({given,when,then}) => {
     
     let username:string;
     let password:string;
 
-    given('A user with a SOLID account', () => {
+    given('A user with a SOLID account that has logged in the application', async () => {
       username = "testlomapen3a"
       password = "Test_lomapen3a"
-    });
-    
-
-    when('The users logs in the application', async () => {
       //The user clicks on log in
       await expect(page).toClick('input[value="Inrupt.net"]')
       await page.waitForNavigation()
@@ -44,11 +40,19 @@ defineFeature(feature, test => {
         password: password
       });
       await expect(page).toClick("button", {text: 'Log In'});
-    });
-
-    then('The app goes to main page', async () => {
       await page.waitForNavigation()
       await expect(page).toMatch("Home");
+    });
+    
+
+    when('The users logs out the application', async () => {
+      await expect(page).toClick('.Right > :nth-child(1) > :nth-child(1)');
+      await expect(page).toClick('.LogoutButton');
+    });
+
+    then('The app goes to the login page', async () => {
+      await page.waitForNavigation()
+      await expect(page).toMatch("Select your POD provider");
     });
   })
 
