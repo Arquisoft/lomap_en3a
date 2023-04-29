@@ -40,11 +40,6 @@ export class UserMenu extends React.Component {
 
         return (
             <div>
-                <Dropdown>
-                  <span>
-                      <TbAdjustmentsFilled />
-                  </span>
-                </Dropdown>
                 <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
                   <span>
                       <Avatar alt="User avatar"
