@@ -116,18 +116,17 @@ export default class PointInformation extends React.Component<PointInformationPr
 
 
                             <button
-                                id={this.state.component.type === OverviewPage ? 'selected' : 'unselected'
-                                } onClick={this.handleClickOverview}>Overview
+                                 className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
+                                }`} onClick={this.handleClickOverview}>Overview
                             </button>
 
                             <button
-                                id={this.state.component.type === ReviewsPage ? 'selected' : 'unselected'
-                                } onClick={this.handleClickReview}>Reviews
+                                className={`pi-radio-option ${this.state.component.type === ReviewsPage ? "selected" : ""
+                                }`}  onClick={this.handleClickReview}>Reviews
                             </button>
 
                             {this.state.component}
                         </div>
-                        <input type="button" id="back" value="Back" onClick={this.goBack}/>
                     </section>
                 </ModalDialog>
             </Modal>

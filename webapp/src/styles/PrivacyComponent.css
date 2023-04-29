@@ -1,3 +1,7 @@
+.privacy-visibility{
+  margin-bottom: 15px;
+}
+
 .privacy-options,
 .friends-options,
 .friend-options {
@@ -9,8 +13,8 @@
 .checkbox-option {
   display: inline-block;
   position: relative;
-  padding-left: 35px;
-  margin: 5px 15px;
+  padding-left: 15px;
+  margin: 10px 10px;
   cursor: pointer;
   font-size: 14px;
   user-select: none;
@@ -24,7 +28,7 @@
 
 .radio-option.selected,
 .checkbox-option.selected {
-  background-color: #028ad3;
+  background-color: #2ea1cb;
   color: #fff;
   border-color: #005fa3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */

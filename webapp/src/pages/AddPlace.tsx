@@ -289,7 +289,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 						</div>
 						
 						<div id="visibility">
-							<h3>Select visibility of the place</h3>
+							<h3>Select the visibility of the place</h3>
 								<PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
 						</div>
 						<button type="submit">Submit</button>
@@ -301,8 +301,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 						{/* Use a button or a link element with onClick attribute */}
 						{this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage}>Clear photos</button>)}
-						
-						<input type="button" id="back" value="Back" onClick={this.goBack}/>
+
                     </section>
                 </ModalDialog>
             </Modal>

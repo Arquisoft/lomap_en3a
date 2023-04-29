@@ -7,28 +7,7 @@
     }
 }
 
-#back {
-    background-color: cornflowerblue;
-    border-radius: 8px;
-    border-width: 0;
-    color: #333333;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 10px 12px;
-    text-align: center;
-    transition: all 200ms;
-    vertical-align: baseline;
-    white-space: nowrap;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
+
 .pointInfo{
     max-width: 97%; /* Set the maximum width for the form */
     overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */    
@@ -85,20 +64,52 @@
     color: darkslateblue;
 }
 
-button#selected {
-    border-radius: 12px;
-    background-color: #002E66 ;
-    color: white;
-    padding: 10px;
-    margin: 5px;
+.pi-radio-option,
+.pi-checkbox-option {
+  display: inline-block;
+  position: relative;
+  padding-left: 15px;
+  margin: 10px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  line-height: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 10px;
+  background-color: #f1f1f1;
+  transition: all 0.3s ease; /* Add transition for smooth style changes */
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-button#unselected {
-    border-radius: 12px;
-    background-color: #B2CCEB;
-    color: black;
-    padding: 10px;
-    margin: 5px;
+.pi-radio-option.selected,
+.pi-checkbox-option.selected {
+  background-color: #20708d;
+  color: #fff;
+  border-color: #004474;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+}
+
+.pi-radio-option input[type="radio"],
+.pi-checkbox-option input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.pi-radio-option:hover,
+.pi-checkbox-option:hover {
+  background-color: #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+}
+
+.pi-radio-option.selected:hover,
+.pi-checkbox-option.selected:hover {
+  background-color: #004474;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
 }
 
 .OverviewPage {

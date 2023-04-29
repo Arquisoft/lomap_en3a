@@ -137,7 +137,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
   
   render() {
     return (
-      <div>
+      <div className="privacy-visibility">
         <div className="privacy-options">
           {/*Radio button for public privacy*/}
           <label className={`radio-option ${this.state.selectedPrivacy === "public" ? "selected" : ""}`}>
