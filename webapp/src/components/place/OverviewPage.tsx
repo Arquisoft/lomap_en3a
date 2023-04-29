@@ -6,7 +6,7 @@ import "../../styles/OverviewPage.css"; // Import the CSS file
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
-import { PhotoPreview } from "../../pages/AddPlace";
+import { PhotoPreview } from "./AddPlace";
 import PlacePhotos from "../../domain/Place/PlacePhotos";
 import PODManager from "../../adapters/solid/PODManager";
 

@@ -1,15 +1,15 @@
 import React, { ChangeEvent, Component } from "react";
-import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import PlaceManager from "../adapters/solid/PlaceManager";
-import Place from "../domain/Place";
-import Placemark from "../domain/Placemark";
-import '../styles/AddPlace.css'
-import PODManager from "../adapters/solid/PODManager";
-import PlacePrivacy from "../components/place/PrivacyComponent";
-import PrivacyComponent from "../components/place/PrivacyComponent";
-import Map from "../domain/Map";
+import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
+import PlaceManager from "../../adapters/solid/PlaceManager";
+import Place from "../../domain/Place";
+import Placemark from "../../domain/Placemark";
+import '../../styles/AddPlace.css'
+import PODManager from "../../adapters/solid/PODManager";
+import PlacePrivacy from "./PrivacyComponent";
+import PrivacyComponent from "./PrivacyComponent";
+import Map from "../../domain/Map";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import User from "../domain/User";
+import User from "../../domain/User";
 
 enum Category {
   restaurant = "restaurant",

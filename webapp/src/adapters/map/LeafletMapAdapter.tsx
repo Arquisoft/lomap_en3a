@@ -7,7 +7,7 @@ import {Icon, LatLngExpression, LeafletMouseEvent} from 'leaflet';
 import React from 'react';
 import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
-import AddPlace from '../../pages/AddPlace';
+import AddPlace from '../../components/place/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import PODManager from '../solid/PODManager';
 
