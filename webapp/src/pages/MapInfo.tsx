@@ -8,6 +8,7 @@ import PrivacyComponent from "../components/place/PrivacyComponent";
 import User from "../domain/User";
 import Placemark from "../domain/Placemark";
 import PointInformation from "./PointInformation";
+import LoadingPage from "../components/basic/LoadingPage";
 
 interface MapInfoProps {
     map: Map;
@@ -21,6 +22,7 @@ interface MapInfoState {
     open: boolean;
     selectedPlacemark: Placemark;
     currentComponent: JSX.Element;
+    loadedPlaces: boolean;
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
@@ -37,6 +39,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             open: false,
             selectedPlacemark: new Placemark(0, 0),
             currentComponent: <div/>,
+            loadedPlaces: false
         };
         this.goBack = this.goBack.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -61,7 +64,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
 
     public async componentDidMount() {
         await this.loadPlaceMarks(() => {
-            this.setState({theMap: this.state.theMap});
+            this.setState({theMap: this.state.theMap, loadedPlaces: true});
         });
     }
 
@@ -83,17 +86,26 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                     <h2>Description: {this.state.theMap.getDescription()}</h2>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
-                    <div className="places-buttons" >
-                        {this.state.theMap.getPlacemarks().map((placemark) => (
-                            <div className="place-button">
-                                <h3>{placemark.getTitle()}</h3>
-                                <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
-                                Ver sitio
-                            </button>
-                            </div>
-                            ))
-                        }
-                    </div>
+                    {this.state.loadedPlaces &&
+                        <div className="places-buttons" >
+                            {this.state.theMap.getPlacemarks().map((placemark) => (
+                                <div className="place-button">
+                                    <h3>{placemark.getTitle()}</h3>
+                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
+                                    Ver sitio
+                                </button>
+                                </div>
+                                ))
+                            }
+                        </div>
+                    }
+                    {!this.state.loadedPlaces && 
+                        <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
+                    }
+                    {this.state.loadedPlaces && 
+                        this.state.theMap.getPlacemarks().length === 0 &&
+                        <h3>There are no places in this map</h3>
+                    }
                     {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
                     <div>
                         <h3>Change the visibility of the Map</h3>
