@@ -1,7 +1,6 @@
 {
   "name": "webapp",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@comunica/query-sparql-solid": "^2.4.0",
     "@emotion/react": "^11.10.6",
@@ -30,7 +29,6 @@
     "react-leaflet": "^4.2.1",
     "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^6.8.2",
-    "react-scripts": "5.0.1",
     "react-simple-star-rating": "^5.1.7",
     "react-slideshow-image": "^4.2.1",
     "typescript": "^4.9.5",
@@ -40,8 +38,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!ol)/\" --coverage",
-    "test:e2e": "start-server-and-test 'npm --prefix ../restapi run prod' http://localhost:5000/api/places/list build 3000 \"cd e2e && jest\"",
-    "eject": "react-scripts eject"
+    "test:e2e": "start-server-and-test prod 3000 \"cd e2e && jest\"",
+    "eject": "react-scripts eject",
+    "prod": "ts-node-dev ./server.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -71,7 +70,9 @@
     "jest-cucumber": "^3.0.1",
     "jest-puppeteer": "^6.0.3",
     "puppeteer": "^13.0.1",
+    "react-scripts": "^5.0.0",
     "start-server-and-test": "^1.14.0",
-    "ts-jest": "^29.0.4"
+    "ts-jest": "^29.0.4",
+    "ts-node-dev": "^2.0.0"
   }
 }

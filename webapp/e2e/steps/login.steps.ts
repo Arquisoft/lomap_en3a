@@ -1,14 +1,15 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
+import {setDefaultOptions} from "expect-puppeteer";
 import puppeteer from "puppeteer";
 
 const feature = loadFeature('./features/login.feature');
 
-let page: puppe;
+let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-defineFeature(feature, test => {
+setDefaultOptions({timeout: 5000})
 
-  jest.setTimeout(100000); //for the times when SOLID servers are slow
+defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
@@ -28,25 +29,27 @@ defineFeature(feature, test => {
     let password:string;
 
     given('A user with a SOLID account', () => {
-      username = "test_lomapen3a"
-      password = "test"
+      username = "testlomapen3a"
+      password = "Test_lomapen3a"
     });
     
 
     when('The users logs in the application', async () => {
       //The user clicks on log in
-      await expect(page).toClick('button', { text: 'Log in' })
+      await expect(page).toClick('input[value="Inrupt.net"]')
       await page.waitForNavigation()
       //The user fills the SOLID login form
-      await expect(page).toFill("input[name='username']", username);
-      await expect(page).toFill("input[name='password']", password);
-      await expect(page).toClick("button[id='login']");
+      await expect(page).toFillForm('form[class="form-horizontal login-up-form"]', {
+        username: username,
+        password: password
+      });
+      await expect(page).toClick("button", {text: 'Log In'});
+      //await page.waitForTimeout(5000)
     });
 
-    then('The main page appears', async () => {
+    then('The app goes to main page', async () => {
       await page.waitForNavigation()
-      await page.waitForNavigation()
-      await expect(page).toMatch("Lomap");
+      await expect(page).toMatch("Home");
     });
   })
 
