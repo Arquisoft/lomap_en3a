@@ -42,11 +42,18 @@
   font-size: 1rem;
   transition: all 0.3s ease; /* Add transition for smooth style changes */
 }
+
 .Place-form input:focus,
 .Place-form textarea:focus,
 .Place-form select:focus {
   border-color: #005fa3; /* Change border color on focus */
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+}
+.Place-form input:hover,
+.Place-form textarea:hover,
+.Place-form select:hover {
+  border-color: #005fa3; /* Change border color on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
 }
 
 .Place-form input:disabled {
@@ -74,9 +81,8 @@
   transition: all 0.3s ease; /* Add transition for smooth style changes */
 }
 
-  .Place-form input[type="file"] {
-    margin-top: 4%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+  .Place-form input[type="file"]:hover {
+    box-shadow: 0 1px 2px rgba(185, 185, 185, 0.4); /* Add box-shadow for a more modern look */
   }
   
   

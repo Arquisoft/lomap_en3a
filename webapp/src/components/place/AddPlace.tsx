@@ -160,6 +160,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		this.setState({ visibility: privacy });
 		this.setState({ friends: friends });
 		console.log("Privacy: " + privacy + " Friends: " + friends);
+		//Print the friends in the friends array
+		for (let i = 0; i < friends.length; i++) {
+			console.log(friends[i].getName());
+		}
 	}
 
 	goBack() {

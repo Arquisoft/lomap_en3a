@@ -33,7 +33,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
     this.state = {
       selectedPrivacy: "public",
       selectedFriends: {},
-      friendsList: [],
+      friendsList: new Array<User>(),
       friendsSelected: [],
       loadedFriends: false,
       friendsButton: false,
@@ -64,6 +64,13 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
     const friendsList = await this.getUsers();
     this.setState({ friendsList });
     this.setState({ loadedFriends: true });
+    //print the friends in the console one by one
+    if (friendsList) {
+      friendsList.forEach((friend) => {
+        console.log(friend.getName());
+        console.log(friend.getWebId());
+      });
+    }
   }
 
   /**
@@ -178,9 +185,9 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
               </label>
           </div>
           {/*Display the friend checkboxes if friends privacy is selected*/}
-          {this.state.loadedFriends && this.state.friendsButton && this.state.friendsList.length > 0 && (
+          {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList??[]).length > 0 && (
             <div className="friend-options">
-              {this.state.friendsList.map((friend) => (
+              {(this.state.friendsList??[]).map((friend) => (
                 <label key={friend.getName()} className={`checkbox-option ${this.state.selectedFriends[friend.getName()??""] ? "selected" : ""}`}>
                   <input
                     type="checkbox"
@@ -195,7 +202,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             </div>
             )}
             {/*Display a message if there are no friends to select*/}
-            {this.state.loadedFriends && this.state.friendsButton && this.state.friendsList.length == 0 && (
+            {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList??[]).length == 0 && (
               <div className="friend-options">
                 <p>You have no friends.</p>
               </div>
