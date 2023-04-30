@@ -3,7 +3,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_en3a&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_en3a)
 
 <p align="center">
-<img src="/docs/images/LoMap_logo.PNG" alt="LoMap logo" height="200">
+<img src="/docs/images/LoMap_logo.ico" alt="LoMap logo" height="200">
 </p>
 
 # LoMap
