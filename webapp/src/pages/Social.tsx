@@ -40,5 +40,4 @@ export default class Social extends React.Component<any, FriendsState> {
             </section>
         );
     }
-
 }

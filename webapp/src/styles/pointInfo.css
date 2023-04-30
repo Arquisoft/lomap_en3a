@@ -1,104 +1,140 @@
+@media screen and (min-width: 768px) {
+  .custom-modal-dialog {
+    width: 50%;
+    height: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
 
-#back {
-    background-color: cornflowerblue;
-    border-radius: 8px;
-    border-width: 0;
-    color: #333333;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 10px 12px;
-    text-align: center;
-    transition: all 200ms;
-    vertical-align: baseline;
-    white-space: nowrap;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+.pointInfo{
+  max-width: 97%; /* Set the maximum width for the form */
+  overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */    
 }
 
 #pointInformation {
-    display: flex;
-    flex-direction: column;
-    margin: 1em;
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
 }
 
 #commentsContainer {
-    border: 0.1em solid black;
-    border-radius: 1.3em 0 0 1.3em;
-    background-color: white;
-    height: 15em;
-    width: 70%;
-    margin: 0.5em;
+  border: 0.1em solid black;
+  border-radius: 1.3em 0 0 1.3em;
+  background-color: white;
+  height: 15em;
+  width: 70%;
+  margin: 0.5em;
 }
 
 #comments {
-    height: 15em;
-    text-align: left;
-    overflow: hidden scroll;
-    color: black;
-    /* TODO change colors */
-    scrollbar-color: darkblue #e0e0e0;
-    scrollbar-width: thin;
+  height: 15em;
+  text-align: left;
+  overflow: hidden scroll;
+  color: black;
+  /* TODO change colors */
+  scrollbar-color: darkblue #e0e0e0;
+  scrollbar-width: thin;
 }
 
 /* For mobile phones */
 @media only screen and (max-width: 768px) {
-    #commentsContainer {
-        border: 0.1em solid black;
-        border-radius: 1.3em;
-        background-color: white;
-        height: 15em;
-        width: 90%;
-        margin: 0.5em;
-        padding: 0.6em 0.2em 0.6em 0;
-    }
+  #commentsContainer {
+      border: 0.1em solid black;
+      border-radius: 1.3em;
+      background-color: white;
+      height: 15em;
+      width: 90%;
+      margin: 0.5em;
+      padding: 0.6em 0.2em 0.6em 0;
+  }
 }
 
 #comments section {
-    border-bottom: 0.001em solid grey;
-    margin-top: 0.5em;
+  border-bottom: 0.001em solid grey;
+  margin-top: 0.5em;
 }
 
 #comments section a, #comments section p {
-    margin-left: 0.5em;
+  margin-left: 0.5em;
 }
 
 #comments section a {
-    color: darkslateblue;
+  color: darkslateblue;
 }
 
-button#selected {
-    border-radius: 12px;
-    background-color: #002E66 ;
-    color: white;
-    padding: 10px;
-    margin: 5px;
+.pi-radio-option,
+.pi-checkbox-option {
+display: inline-block;
+position: relative;
+padding-left: 15px;
+margin: 10px 10px;
+cursor: pointer;
+font-size: 14px;
+user-select: none;
+line-height: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+padding: 3px 10px;
+background-color: #f1f1f1;
+transition: all 0.3s ease; /* Add transition for smooth style changes */
+padding: 10px 20px;
+font-size: 16px;
 }
 
-button#unselected {
-    border-radius: 12px;
-    background-color: #B2CCEB;
-    color: black;
-    padding: 10px;
-    margin: 5px;
+.pi-radio-option.selected,
+.pi-checkbox-option.selected {
+background-color: #20708d;
+color: #fff;
+border-color: #004474;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+}
+
+.pi-radio-option input[type="radio"],
+.pi-checkbox-option input[type="checkbox"] {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+.pi-radio-option:hover,
+.pi-checkbox-option:hover {
+background-color: #ccc;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+}
+
+.pi-radio-option.selected:hover,
+.pi-checkbox-option.selected:hover {
+background-color: #004474;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
 }
 
 .OverviewPage {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-    border-radius: 4px;
-  }
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 4px;
+}
 
-  .ReviewsPage {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-    border-radius: 4px;
-  }
+.ReviewsPage {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #005fa3; /* Change border color on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+}
+  
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #005fa3; /* Change border color on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+}

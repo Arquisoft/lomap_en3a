@@ -1,10 +1,15 @@
 import React, { ChangeEvent, Component } from "react";
-import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import PlaceManager from "../adapters/solid/PlaceManager";
-import Place from "../domain/Place";
-import Placemark from "../domain/Placemark";
-import '../styles/AddPlace.css'
-import PODManager from "../adapters/solid/PODManager";
+import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
+import PlaceManager from "../../adapters/solid/PlaceManager";
+import Place from "../../domain/Place";
+import Placemark from "../../domain/Placemark";
+import '../../styles/AddPlace.css'
+import PODManager from "../../adapters/solid/PODManager";
+import PlacePrivacy from "./PrivacyComponent";
+import PrivacyComponent from "./PrivacyComponent";
+import Map from "../../domain/Map";
+import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import User from "../../domain/User";
 
 enum Category {
   restaurant = "restaurant",
@@ -32,12 +37,17 @@ interface IState {
 	longitudeError: string;
 	descriptionError: string;
 	visibility: string;
+	friends: User[];
+	goBack: boolean;
+	open: boolean;
 }
 
 // Define the props type.
 interface IProps{
 	placemark: Placemark;
 	callback?: Function;
+	map?: Map;
+	open: boolean;
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
@@ -46,7 +56,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 	// Define default values for the page. This would not be necessary when the page is indexed.
 	public static defaultProps: IProps = {
-		placemark: new Placemark(0.5, 0.2, "asdf")
+		placemark: new Placemark(0.5, 0.2, "asdf"),
+		open: false
 	};
 
 	public constructor(props: IProps) {
@@ -66,7 +77,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			latitudeError: "",
 			longitudeError: "",
 			descriptionError: "",
-			visibility: ""
+			visibility: "public",
+			friends: [],
+			goBack: false,
+			open: this.props.open,
 		};
 
 		// Binding the calls.
@@ -75,7 +89,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		this.handlePhotoChange = this.handlePhotoChange.bind(this);
 		this.handleClearImage = this.handleClearImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+		this.goBack = this.goBack.bind(this);
 	}
 
 	// Function that returns the category list.
@@ -140,10 +154,21 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}));
 	};
 
-	// Define a handler function that changes the visibility of the file.
-	handleVisibilityChange (event: React.ChangeEvent<HTMLSelectElement>) {
-		this.setState({ visibility: event.target.value });
+	//Callback function to pass it to the PrivacyComponent
+	//It updates the privacy of the place
+	handleVisibilityChange = (privacy: string, friends: User[]) => {
+		this.setState({ visibility: privacy });
+		this.setState({ friends: friends });
+		console.log("Privacy: " + privacy + " Friends: " + friends);
+		//Print the friends in the friends array
+		for (let i = 0; i < friends.length; i++) {
+			console.log(friends[i].getName());
+		}
 	}
+
+	goBack() {
+        this.setState({goBack: true});
+    }
 
 	// When the submit button is pressed, the parameters are validated and the object Place is created.
 	// Here is where this object should be taken from to make it persistent.
@@ -212,69 +237,78 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}
-
 	}
 
 
 	public render(): JSX.Element {
-		return (
-		<section className="Place-form">
-			<h2>Fill the information of the new place.</h2>
-			<form onSubmit={this.handleSubmit}>
-			<div>
-				<label htmlFor="name">Name:</label>
-				<input
-					type="text"
-					name="name"
-					placeholder="Name"
-					onChange={this.handleInputChange}
-				/>
-			</div>
-			{this.state.nameError && <span className="error">{this.state.nameError}</span>}
-			<div>
-				<h3>Location:</h3> 
-				<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
-			</div>
-      		<div>
-				<label htmlFor="category">Category:</label>
-				<select title="category" name="category" value={this.state.category} onChange={this.handleInputChange}>
-          		{this.getCategoryList().map((category) => (
-            		<option key={category} value={category}>{category}</option>
-          		))}
-        		</select>
-			</div>
-			{this.state.categoryError && <span className="error">{this.state.categoryError}</span>}
-			<div>
-				<label htmlFor="description">Description:</label>
-				<textarea
-					name="description"
-					placeholder="Introduce a description"
-					onChange={this.handleInputChange}
-				/>
-			</div>
-			{this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
-			<div>
-				<label htmlFor="photo">Photo:</label>
-				<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
-			</div>
-			<div id="visibility">
-				<h3>Select visibility of the place</h3>
-				<select title="visibility" name="visibility" value={this.state.visibility} onChange={this.handleVisibilityChange}>
-					<option value="public">Public</option>
-					<option value="private">Private</option>
-					<option value="friends">Friends</option>
-				</select>
-			</div>
-			<button type="submit">Submit</button>
-			</form>
-			{/* Display all uploaded photos using map function */}
-			{this.state.photosSelected.map((file) => (
-				<PhotoPreview key={file.name} file={file} onDelete={this.handleDeleteImage}/>
-			))}
+		if (this.state.goBack) {
+            return <LeafletMapAdapter map={this.props.map}/>;
+        }
 
-			{/* Use a button or a link element with onClick attribute */}
-			{this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage}>Clear photos</button>)}
-		</section>
+		return (
+			<Modal open={this.state.open} onClose={() => {
+                this.setState(({open: false}));
+                this.goBack();
+            }}>
+                <ModalDialog className="custom-modal-dialog">
+                    <ModalClose/>
+                    <section className="Place-form">
+						<h2>Fill the information of the new place.</h2>
+						<form onSubmit={this.handleSubmit}>
+						<div>
+							<label htmlFor="name">Name:</label>
+							<input
+								type="text"
+								name="name"
+								placeholder="Name"
+								onChange={this.handleInputChange}
+							/>
+						</div>
+						{this.state.nameError && <span className="error">{this.state.nameError}</span>}
+						<div>
+							<h3>Location:</h3> 
+							<p>longitude ({this.state.longitude}) and latitude ({this.state.latitude}).</p>
+						</div>
+						<div>
+							<label htmlFor="category">Category:</label>
+							<select title="category" name="category" value={this.state.category} onChange={this.handleInputChange}>
+							{this.getCategoryList().map((category) => (
+								<option key={category} value={category}>{category}</option>
+							))}
+							</select>
+						</div>
+						{this.state.categoryError && <span className="error">{this.state.categoryError}</span>}
+						<div>
+							<label htmlFor="description">Description:</label>
+							<textarea
+								name="description"
+								placeholder="Introduce a description"
+								onChange={this.handleInputChange}
+							/>
+						</div>
+						{this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
+						<div>
+							<label htmlFor="photo">Photo:</label>
+							<input title="photo" placeholder="Choose a photo" type="file" name="photo" onChange={this.handlePhotoChange} />
+						</div>
+						
+						<div id="visibility">
+							<h3>Select the visibility of the place</h3>
+								<PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
+						</div>
+						<button type="submit">Submit</button>
+						</form>
+						{/* Display all uploaded photos using map function */}
+						{this.state.photosSelected.map((file) => (
+							<PhotoPreview key={file.name} file={file} onDelete={this.handleDeleteImage}/>
+						))}
+
+						{/* Use a button or a link element with onClick attribute */}
+						{this.state.photosSelected.length > 1 && (<button onClick={this.handleClearImage}>Clear photos</button>)}
+
+                    </section>
+                </ModalDialog>
+            </Modal>
 		);
 	}  
 }

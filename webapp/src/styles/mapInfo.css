@@ -1,45 +1,72 @@
-
-#back {
-    background-color: cornflowerblue;
-    border-radius: 8px;
-    border-width: 0;
-    color: #333333;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 10px 12px;
-    text-align: center;
-    transition: all 200ms;
-    vertical-align: baseline;
-    white-space: nowrap;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
-#mapInformation {
-    display: flex;
-    flex-direction: column;
+.my-stuff{
     margin: 1em;
 }
 
-button#selected {
-    border-radius: 12px;
-    background-color: #002E66 ;
-    color: white;
-    padding: 10px;
-    margin: 5px;
+/*
+
+*/
+.places-buttons{
+    margin-left: 0.5em;
 }
 
-button#unselected {
-    border-radius: 12px;
-    background-color: #B2CCEB;
-    color: black;
-    padding: 10px;
-    margin: 5px;
+.place-button{
+  margin-bottom: 2em;
 }
+
+input#back{
+    display: inline-block;
+    position: relative;
+    padding-left: 15px;
+    margin: 10px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    user-select: none;
+    line-height: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    background-color: #007ba7;
+    border-color: #00506d;
+    color: #fff;
+    transition: all 0.3s ease; /* Add transition for smooth style changes */
+  }
+  
+  input#back:hover{
+    background-color: #005fa3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+  }
+
+  button[type="submit"]{
+    display: inline-block;
+    position: relative;
+    padding-left: 15px;
+    margin: 10px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    user-select: none;
+    line-height: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    background-color: #2ea1cb;
+    border-color: #017098;
+    color: #fff;
+    transition: all 0.3s ease; /* Add transition for smooth style changes */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #005fa3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+  }
+  
+  button[type="submit"].selected {
+    background-color: #2ea1cb;
+    color: #fff;
+    border-color: #005fa3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+  }
+  
+  button[type="submit"].selected:hover {
+    background-color: #005fa3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
+  }

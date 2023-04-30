@@ -7,7 +7,7 @@ import {Icon, LatLngExpression, LeafletMouseEvent} from 'leaflet';
 import React from 'react';
 import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
-import AddPlace from '../../pages/AddPlace';
+import AddPlace from '../../components/place/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import PODManager from '../solid/PODManager';
 import Button from "@mui/material/Button";
@@ -28,6 +28,7 @@ interface LeafletMapAdapterState {
     pageToShow: JSX.Element | undefined;
     currentPlacemark: Placemark | null;
     open: boolean;
+    currentComponent: JSX.Element;
 }
 
 /**
@@ -65,8 +66,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         this.state = {
             pageToShow: undefined,
             currentPlacemark: null,
-            open: false
+            open: false,
+            currentComponent: <div/>,
         };
+
+        this.handleBack = this.handleBack.bind(this);
     }
 
     private isFiltered(p: Placemark): boolean {
@@ -103,7 +107,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
                         this.setState({
                             open: true,
                             pageToShow:
-                                <PointInformation map={this.map} placemark={placemark} open={true}/>
+                                <PointInformation prevComponent={<LeafletMapAdapter map={this.props.map} categories={this.props.categories}/>} 
+                                map={this.map} 
+                                placemark={placemark} 
+                                open={true}
+                                onBack={this.handleBack}/>
                         });
                     }}>Get Info
                     </Button>
@@ -138,7 +146,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         if (this.state.currentPlacemark !== null) {
             this.setState({
                 pageToShow:
-                    <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+                    <AddPlace open={true} map={this.map} placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
             });
         }
     }
@@ -175,6 +183,11 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private cancel(e: React.MouseEvent): void {
         this.setState({currentPlacemark: null});
         e.preventDefault();
+    }
+
+    handleBack(prevComponent: JSX.Element) {
+        this.setState({ pageToShow: prevComponent,
+        open: true });
     }
 
     public render(): JSX.Element {
