@@ -2,11 +2,13 @@ import React from "react";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import UserPlaceHolder from "./UserPlaceHolder";
+import LoadingPage from "../basic/LoadingPage";
+import EmptyFriendsList from "./EmptyFriendsList";
 
 
 interface UserListProps {
     fm: FriendManager;
-    callback: (component : JSX.Element ) => void;
+    callback: (component: JSX.Element) => void;
 }
 
 interface UserListState {
@@ -16,7 +18,7 @@ interface UserListState {
 export default class ListUsers extends React.Component<UserListProps, UserListState> {
 
     private users: Array<User>;
-    private listUsers: JSX.Element = <h3>Loading...</h3>;
+    private listUsers: JSX.Element = <LoadingPage size={100} style={{position: "absolute", left: "45%"}}/>;
 
     public constructor(props: UserListProps) {
         super(props);
@@ -32,7 +34,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
                 this.setState(() => ({
                     loadedFriends: false
                 }));
-                this.listUsers = <li>No friends yet</li>;
+                this.listUsers = <EmptyFriendsList/>;
             } else {
                 this.setState(() => ({
                     loadedFriends: true

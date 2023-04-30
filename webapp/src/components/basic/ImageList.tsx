@@ -3,10 +3,6 @@ import React from "react";
 import {Slide} from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
-const spanStyle = {
-    background: '#efefef',
-    color: '#000000'
-}
 
 const divStyle = {
     display: 'flex',
@@ -23,7 +19,7 @@ const divStyle = {
  * with something different that allows them to have a caption.
  * @see The images passed must be in Base64
  * @author UO283069
- * @param props
+ * @param {any[]} props
  */
 function ImageList(props: { images: any[]; }) {
     if (props.images.length > 0) {
@@ -32,7 +28,7 @@ function ImageList(props: { images: any[]; }) {
                 <Slide>
                     {props.images.map((slideImage, index) => (
                         <div key={index}>
-                            <img style={{...divStyle}} src={slideImage}></img>
+                            <img style={{...divStyle}} src={slideImage} alt={"An image"}></img>
                         </div>
                     ))}
                 </Slide>

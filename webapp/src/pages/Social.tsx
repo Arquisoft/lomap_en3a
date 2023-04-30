@@ -1,13 +1,14 @@
 import React from "react";
-import ListUsers from "../components/friends/ListUsers";
+import ListUsers from "../components/social/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
 import "../styles/friendsPage.css";
+import ListGroups from "../components/social/ListGroups";
 
 interface FriendsState {
     componentToPresent: JSX.Element | null
 }
 
-export default class Friends extends React.Component<any, FriendsState> {
+export default class Social extends React.Component<any, FriendsState> {
 
     constructor(props: any) {
         super(props);
@@ -29,13 +30,14 @@ export default class Friends extends React.Component<any, FriendsState> {
         }
 
         return (
-            <section style={{height: "max-content"}}>
-                <h2>My friends</h2>
+            <section style={{height: "max-content", margin: "1em"}}>
+                <h2>My Friends</h2>
                 <div>
                     <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
+                <h2>My Groups</h2>
+                <ListGroups user={this.props.user} callback={this.changeComponentToPresent.bind(this)}/>
             </section>
         );
     }
-
 }
