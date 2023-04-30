@@ -124,7 +124,7 @@ export default class PODManager {
         return await result.toArray().then(r => {
             console.log(r)
             return r.map(binding => binding.get("url")?.value as string);
-        });     
+        });
     }
 
     public async createAcl(path:string) {
@@ -143,7 +143,7 @@ export default class PODManager {
         let acl = await this.createNewAcl(folder, path);
 
         acl = setPublicDefaultAccess(acl, permissions);
-        await saveAclFor({internal_resourceInfo: this.getResourceInfo(path,folder)}, acl, fetch);  
+        await saveAclFor({internal_resourceInfo: this.getResourceInfo(path,folder)}, acl, fetch);
     }
 
     private async createNewAcl(resource:any, path:string) {
@@ -389,7 +389,7 @@ export default class PODManager {
 
     public async createFriendsGroup(): Promise<void> {
         let users: User[] = await this.friends.getFriendsList();
-        let group = new Group("Friends", users); 
+        let group = new Group("Friends", users);
         let groupsPath = this.getBaseUrl() + "/groups";
         await this.saveDataset(groupsPath+"/friends", Assembler.groupToDataset(group));
         await this.setDefaultFolderPermissions(groupsPath+"/", {read:true, write:true});
