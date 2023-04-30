@@ -1,4 +1,4 @@
-import PODManager from "./PODManager";
+import SolidSessionManager from "./SolidSessionManager";
 import {
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
@@ -12,7 +12,7 @@ import {FOAF, VCARD} from "@inrupt/vocab-common-rdf";
  * */
 export default class FriendManager {
 
-    private podManager: PODManager = new PODManager();
+    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 
     /**
      * Ir searches all the friends related with the person logged in stored in the card from its POD
@@ -21,8 +21,8 @@ export default class FriendManager {
      * */
     public async getFriendsList(): Promise<Array<User>> {
         //URL with #me at the end
-        const webId = this.podManager.getBaseUrl();
-        const webIdDoc = await getSolidDataset(webId);
+        const webId = this.sessionManager.getWebID();
+        const webIdDoc = await getSolidDataset(webId, {fetch: this.sessionManager.getSessionFetch()});
         const friends = getThing(webIdDoc, webId);
         //It returns all the values in the knows property of the object Thing
         const friendWebIds = getUrlAll(<Thing>friends, FOAF.knows);
@@ -41,9 +41,8 @@ export default class FriendManager {
      * @return The object User corresponding to the POD of the webID
      * */
     public async getUserData(webID: string): Promise<User> {
-        let webId = webID + "profile/card";
-        let webIdDoc = await getSolidDataset(webId);
-        let friends = getThing(webIdDoc, webId + "#me");
+        let webIdDoc = await getSolidDataset(webID, {fetch: this.sessionManager.getSessionFetch()});
+        let friends = getThing(webIdDoc, webID);
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(<Thing>friends, VCARD.fn);
         let photo = webID + "profile/" + getStringNoLocale(<Thing>friends, VCARD.hasPhoto);
