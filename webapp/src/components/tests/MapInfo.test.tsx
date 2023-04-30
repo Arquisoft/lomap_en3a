@@ -29,11 +29,12 @@ beforeAll(() => {
         friendsList.push(user2);
         return Promise.resolve(friendsList);
     });
-    jest.spyOn(PODManager.prototype, "loadPlacemarks").mockImplementation(() => {
+    jest.spyOn(PODManager.prototype, "loadPlacemarks").mockImplementation((map) => {
         let placemarks = new Array<Placemark>();
         placemarks.push(placemark1);
         placemarks.push(placemark2);
-        return Promise.resolve(placemarks);
+        map.setPlacemarks(placemarks);
+        return Promise.resolve();
     });
 })
 
