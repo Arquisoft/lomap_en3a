@@ -1,5 +1,5 @@
 import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getFileWithAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, overwriteFile, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
+import { buildThing, createAclFromFallbackAcl, createSolidDataset, createThing, getFallbackAcl, getFileWithAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, getThing, overwriteFile, saveAclFor, saveSolidDatasetAt, setPublicDefaultAccess, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
@@ -11,6 +11,7 @@ import PlaceRating from '../../domain/Place/PlaceRating';
 import FriendManager from './FriendManager';
 import User from '../../domain/User';
 import Group from '../../domain/Group';
+import { RDF, RDFS } from '@inrupt/vocab-common-rdf';
 
 export default class PODManager {
     private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
@@ -127,41 +128,43 @@ export default class PODManager {
     }
 
     public async createAcl(path:string) {
-        let fetch = {fetch:this.sessionManager.getSessionFetch()};
-        let dataset = await getSolidDatasetWithAcl(path, fetch);
-        let linkedResources = getLinkedResourceUrlAll(dataset);
-        let fallbackAcl = getFallbackAcl(dataset);
-
-        let resourceInfo = {
-            sourceIri: path, 
-            isRawData: false, 
-            linkedResources: linkedResources,
-            aclUrl: path + '.acl' 
-        };
-
-        let acl = createAclFromFallbackAcl(
-            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
-        );
-        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
+        let dataset = await getSolidDatasetWithAcl(path, {fetch:this.sessionManager.getSessionFetch()});
+        await this.createNewAcl(dataset, path);
     }
 
     public async createFileAcl(path:string) {
-        let fetch = {fetch:this.sessionManager.getSessionFetch()};
-        let file = await getFileWithAcl(path, fetch);
-        let linkedResources = getLinkedResourceUrlAll(file);
-        let fallbackAcl = getFallbackAcl(file);
+        let file = await getFileWithAcl(path, {fetch:this.sessionManager.getSessionFetch()});
+        await this.createNewAcl(file, path);
+    }
 
-        let resourceInfo = {
+    public async setDefaultFolderPermissions(path:string, permissions:any) {
+        let fetch = {fetch:this.sessionManager.getSessionFetch()};
+        let folder = await getSolidDatasetWithAcl(path, fetch);
+        let acl = await this.createNewAcl(folder, path);
+
+        acl = setPublicDefaultAccess(acl, permissions);
+        await saveAclFor({internal_resourceInfo: this.getResourceInfo(path,folder)}, acl, fetch);  
+    }
+
+    private async createNewAcl(resource:any, path:string) {
+        let fallbackAcl = getFallbackAcl(resource);
+        let resourceInfo = this.getResourceInfo(path, resource);
+
+        let acl = createAclFromFallbackAcl(
+            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
+        );
+        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, {fetch:this.sessionManager.getSessionFetch()});
+        return acl;
+    }
+
+    private getResourceInfo(path:string, resource:any) {
+        let linkedResources = getLinkedResourceUrlAll(resource);
+        return {
             sourceIri: path, 
             isRawData: false, 
             linkedResources: linkedResources,
             aclUrl: path + '.acl' 
         };
-
-        let acl = createAclFromFallbackAcl(
-            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
-        );
-        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
     }
 
     private getResourceWithFallbackAcl(resourceInfo:any, fallbackAcl:any):any {
@@ -185,7 +188,7 @@ export default class PODManager {
         let userMaps:string = this.getBaseUrl() + '/user/maps';
         let urlThing = Assembler.urlToReference(path);
 
-        await this.saveDataset(path, Assembler.mapToDataset(map));
+        await this.saveDataset(path, Assembler.mapToDataset(map), true);
 
         await getSolidDataset(userMaps, {fetch: this.sessionManager.getSessionFetch()})
             .then(async dataset => {
@@ -387,8 +390,10 @@ export default class PODManager {
     public async createFriendsGroup(): Promise<void> {
         let users: User[] = await this.friends.getFriendsList();
         let group = new Group("Friends", users); 
-        let path = this.getBaseUrl() + "/groups/friends";
-        await this.saveDataset(path, Assembler.groupToDataset(group));
+        let groupsPath = this.getBaseUrl() + "/groups";
+        await this.saveDataset(groupsPath+"/friends", Assembler.groupToDataset(group));
+        await this.setDefaultFolderPermissions(groupsPath+"/", {read:true, write:true});
+        await this.setPublicAccess(groupsPath+"/", false, true);
     }
 
     public async createGroup(group: Group) {
@@ -404,10 +409,7 @@ export default class PODManager {
     private async createGroupForUser(user:User, group:Group, dataset:SolidDataset|undefined = undefined) {
         let path = this.getBaseUrl(user.getWebId()) + "/groups/" + group.getId();
         let groupDataset = dataset || Assembler.groupToDataset(group);
-        let otherMembers = group.getMembers().filter(member => member.getWebId() !== user.getWebId());
-
-        await this.saveDataset(path, groupDataset, true);
-        await this.setGroupAccess(path, new Group("", otherMembers), {read:true, write:true})
+        await this.saveDataset(path, groupDataset);
     }
 
     public async getGroup(groupUrl: string): Promise<Group> {
@@ -426,13 +428,64 @@ export default class PODManager {
         return await result.toArray().then(r => {return Assembler.toGroup(r[0]);});
     }
 
+    public async getGroupMaps(group: Group): Promise<Map[]> {
+        let webIDs = group.getMembers().map(m => m.getWebId());
+        let groupUrls = webIDs.map( id => this.getBaseUrl(id)+"/groups/"+group.getId() );
+        let engine = new QueryEngine();
+        engine.invalidateHttpCache();
+        let query = `
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            SELECT DISTINCT ?mapUrl
+            WHERE {   
+                ?bag rdfs:member ?mapUrl .
+            } 
+        `;
+        let urls: string[] = [];
+        let result = await engine.queryBindings(query, this.getQueryContext(groupUrls));
+
+        return await result.toArray().then(r => {
+            urls = r.map(binding => binding.get("mapUrl")?.value as string);
+            console.log(urls)
+            return this.getMapPreviews(urls);
+        });
+    }
+
+    public async addMapToGroup(map:Map, group:Group) {
+        console.log("add map to group")
+        let url = this.getBaseUrl() + "/data/maps/" + map.getId();
+        let otherMembers = group.getMembers().filter(m => m.getWebId() !== this.sessionManager.getWebID());
+        let newGroup = new Group(group.getName(), otherMembers, group.getId());
+
+        await this.saveMap(map);
+        await this.setGroupAccess(url, newGroup, {read:true, write:true});
+        console.log("inserting references")
+        await this.insertMapReferences(url, group);
+        console.log("finished")
+        let maps = await this.getGroupMaps(group);
+        maps.forEach(m => console.log(m.getId() + " " + m.getName()))
+    }
+
+    private async insertMapReferences(mapUrl:string, group:Group): Promise<void> {
+        let url = this.getBaseUrl()+'/groups/'+group.getId();
+        let dataset = await getSolidDataset(url, {fetch: this.sessionManager.getSessionFetch()});
+        let maps = getThing(dataset, url+"#maps");
+        dataset = setThing(dataset, buildThing(maps||createThing())
+            .addStringNoLocale(RDFS.member, mapUrl)
+            .build());
+
+        await this.saveDataset(url, dataset);
+    }
+
     public async setFriendsAccess(resourceUrl:string, canRead:boolean) {
         let group = await this.getGroup(this.getBaseUrl() + "/groups/friends");
         await this.setGroupAccess(resourceUrl, group, { read: canRead });
     }
 
     public async setGroupAccess(resourceUrl:string, group:Group, permissions:any) {
+        console.log("set permissions: " + group + resourceUrl)
         for (let user of group.getMembers()) {
+            console.log(user)
             await access.setAgentAccess(
                 resourceUrl,
                 user.getWebId(),
@@ -442,10 +495,10 @@ export default class PODManager {
         }
     }
 
-    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
+    public async setPublicAccess(resourceUrl:string, canRead:boolean, canWrite:boolean=false) {
         await access.setPublicAccess(
             resourceUrl,
-            { read: isPublic },
+            { read: canRead, write: canWrite },
             { fetch: this.sessionManager.getSessionFetch() },
         );
     }
@@ -455,11 +508,7 @@ export default class PODManager {
 
         await this.setPublicAccess(path+"/", isPublic);
         for (let dataset of ['/images', '/comments', '/reviews']) {
-            await access.setPublicAccess(
-                path + dataset,
-                { read: isPublic, write: isPublic },
-                { fetch: this.sessionManager.getSessionFetch() },
-            );
+            await this.setPublicAccess(path + dataset, true, true);
         }
     }
 
