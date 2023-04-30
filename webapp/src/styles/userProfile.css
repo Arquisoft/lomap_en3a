@@ -1,0 +1,33 @@
+.user-profile {
+    margin: 0 2em 5em 2em;
+}
+
+.back-page-link-container {
+    width: 7em;
+    border-bottom-left-radius: 0.1em;
+    border-bottom-right-radius: 0.1em;
+    background-color: #002E66;
+    padding: 0.5em;
+}
+
+.back-page-link-container:hover {
+    cursor: pointer;
+    background-color: #005fa3;
+}
+
+.back-page-link, .back-page-link:visited {
+    color: white;
+    font-size: large;
+}
+
+.friends-tables {
+    margin-top: 3em;
+}
+
+.table-header {
+    background-color: #002E66;
+}
+
+.paginated-table {
+    min-width: 650px;
+}

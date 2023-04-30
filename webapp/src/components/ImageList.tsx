@@ -26,18 +26,20 @@ const divStyle = {
  * @param props
  */
 function ImageList(props: { images: any[]; }) {
-    return (
-        <div className="slide-container">
-            <Slide>
-                {props.images.map((slideImage, index) => (
-                    <div key={index}>
-                        <img style={{...divStyle }} src={slideImage} ></img>
-                    </div>
-                ))}
-            </Slide>
-        </div>
-    )
-        ; // TODO could add some alt text
+    if (props.images.length > 0) {
+        return (
+            <div className="slide-container">
+                <Slide>
+                    {props.images.map((slideImage, index) => (
+                        <div key={index}>
+                            <img style={{...divStyle}} src={slideImage}></img>
+                        </div>
+                    ))}
+                </Slide>
+            </div>
+        );
+    }
+    return <></>; // TODO could add some alt text
 }
 
 export default ImageList;
