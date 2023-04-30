@@ -43,6 +43,10 @@ select[name="map"] {
     width: fit-content;
 }
 
+.map-header {
+    margin: 1em;
+}
+
 .map-options {
     display: flex;
 }

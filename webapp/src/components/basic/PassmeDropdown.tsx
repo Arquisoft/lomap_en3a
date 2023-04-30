@@ -10,8 +10,8 @@ import Menu from '@mui/material/Menu';
  * @param {presentMe: JSX.Element} props
  * @constructor
  */
-function PassmeDropdown(props: { presentMe: JSX.Element }) {
-
+function PassmeDropdown(props: { presentMe: JSX.Element, buttonText: string }) {
+// TODO needs a rework
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const open = Boolean(anchorEl);
@@ -35,11 +35,11 @@ function PassmeDropdown(props: { presentMe: JSX.Element }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                sx={{margin: "0 0 0.3em 1em"}}
+                sx={{margin: "0 0 0.3em 1em", backgroundColor: "#002E66"}}
                 className="hide-filters-button"
                 variant="contained"
             >
-                Show filters
+                {props.buttonText}
             </Button>
             <Menu
                 id="basic-menu"

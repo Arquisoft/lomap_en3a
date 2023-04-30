@@ -30,13 +30,13 @@ export default class Social extends React.Component<any, FriendsState> {
         }
 
         return (
-            <section style={{height: "max-content"}}>
-                <h2>My friends</h2>
+            <section style={{height: "max-content", margin: "1em"}}>
+                <h2>My Friends</h2>
                 <div>
                     <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
                 <h2>My Groups</h2>
-                <ListGroups user={this.props.user}/>
+                <ListGroups user={this.props.user} callback={this.changeComponentToPresent.bind(this)}/>
             </section>
         );
     }

@@ -78,7 +78,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                                 return (<option value={m.getId()}>{m.getName()}</option>)
                             })}
                         </select>
-                        <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}/>
+                        <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
+                                        buttonText={"Show Filters"}/>
                     </div>
                 </div>
 

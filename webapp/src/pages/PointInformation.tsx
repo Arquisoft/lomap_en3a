@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import Place from "../domain/Place";
-import ImageList from "../components/ImageList";
+import ImageList from "../components/basic/ImageList";
 import "../styles/pointInfo.css";
 import Map from "../domain/Map";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
@@ -50,7 +50,6 @@ export default class PointInformation extends React.Component<PointInformationPr
             friends: [],
             friendsList: [],
         };
-        console.log(this.state.open);
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);

@@ -15,6 +15,10 @@
     background-color: #005fa3;
 }
 
+.back-page-link-container:hover a {
+    color: white;
+}
+
 .back-page-link, .back-page-link:visited {
     color: white;
     font-size: large;
