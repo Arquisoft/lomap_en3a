@@ -1,10 +1,10 @@
-import SolidSessionManager from "./SolidSessionManager";
+import PODManager from "./PODManager";
 import {
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
 } from "@inrupt/solid-client";
 import User from "../../domain/User";
-import {FOAF} from "@inrupt/vocab-common-rdf";
+import {FOAF, VCARD} from "@inrupt/vocab-common-rdf";
 
 /**
  * This class is for all actions related with management of friends of each user. Like
@@ -12,7 +12,7 @@ import {FOAF} from "@inrupt/vocab-common-rdf";
  * */
 export default class FriendManager {
 
-    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
+    private podManager: PODManager = new PODManager();
 
     /**
      * Ir searches all the friends related with the person logged in stored in the card from its POD
@@ -21,7 +21,7 @@ export default class FriendManager {
      * */
     public async getFriendsList(): Promise<Array<User>> {
         //URL with #me at the end
-        const webId = this.sessionManager.getWebID();
+        const webId = this.podManager.getBaseUrl();
         const webIdDoc = await getSolidDataset(webId);
         const friends = getThing(webIdDoc, webId);
         //It returns all the values in the knows property of the object Thing
@@ -45,7 +45,12 @@ export default class FriendManager {
         let webIdDoc = await getSolidDataset(webId);
         let friends = getThing(webIdDoc, webId + "#me");
         //It returns all the values in the knows property of the object Thing
-        let name = getStringNoLocale(<Thing>friends, FOAF.name);
-        return new User(name, webID);
+        let name = getStringNoLocale(<Thing>friends, VCARD.fn);
+        let photo = webID + "profile/" + getStringNoLocale(<Thing>friends, VCARD.hasPhoto);
+        let note = getStringNoLocale(<Thing>friends, VCARD.note);
+        let role = getStringNoLocale(<Thing>friends, VCARD.role);
+        let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
+
+        return new User(name, webID, photo, note, role, organization);
     }
 }

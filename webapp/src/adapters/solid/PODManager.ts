@@ -1,31 +1,46 @@
-import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
+import {QueryEngine} from '@comunica/query-sparql-solid';
+import {
+    createAclFromFallbackAcl,
+    createSolidDataset,
+    getFallbackAcl,
+    getLinkedResourceUrlAll,
+    getSolidDataset,
+    getSolidDatasetWithAcl,
+    saveAclFor,
+    saveSolidDatasetAt,
+    setThing,
+    SolidDataset,
+} from '@inrupt/solid-client';
 import Map from '../../domain/Map';
 import Assembler from './Assembler';
 import SolidSessionManager from './SolidSessionManager';
 import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
-import { universalAccess as access } from "@inrupt/solid-client";
+import {universalAccess as access} from "@inrupt/solid-client";
 import PlaceComment from '../../domain/Place/PlaceComment';
 import PlaceRating from '../../domain/Place/PlaceRating';
 
 export default class PODManager {
-    private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
 
+    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 
-    public async savePlace(place:Place): Promise<boolean> {
-        let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
+    public async savePlace(place: Place): Promise<boolean> {
+        let path: string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        await this.saveDataset(path+"/comments", createSolidDataset());
-        await this.saveDataset(path+"/images", createSolidDataset());
-        await this.saveDataset(path+"/reviews", createSolidDataset());
-        return this.saveDataset(path+"/details", Assembler.placeToDataset(place), true)
-            .then(() => {return true})
-            .catch(() => {return false});
+        await this.saveDataset(path + "/comments", createSolidDataset());
+        await this.saveDataset(path + "/images", createSolidDataset());
+        await this.saveDataset(path + "/reviews", createSolidDataset());
+        return this.saveDataset(path + "/details", Assembler.placeToDataset(place), true)
+            .then(() => {
+                return true
+            })
+            .catch(() => {
+                return false
+            });
     }
 
     public async comment(comment: PlaceComment, place: Place) {
-        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/"+comment.id;
+        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/" + comment.id;
         await this.addCommentToUser(comment);
         await this.addCommentToPlace(place.uuid, commentPath);
     }
@@ -53,7 +68,7 @@ export default class PODManager {
                 ?s schema:URL ?url .
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/comments"]));
+        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl + "/comments"]));
         let urls: string[] = [];
         await result.toArray().then(r => {
             urls = r.map(binding => binding.get("url")?.value as string);
@@ -72,20 +87,20 @@ export default class PODManager {
         return await result.toArray().then(r => {
             return Assembler.toPlaceComments(r);
         });
-        
+
     }
 
-    public async createAcl(path:string) {
-        let fetch = {fetch:this.sessionManager.getSessionFetch()};
+    public async createAcl(path: string) {
+        let fetch = {fetch: this.sessionManager.getSessionFetch()};
         let dataset = await getSolidDatasetWithAcl(path, fetch);
         let linkedResources = getLinkedResourceUrlAll(dataset);
         let fallbackAcl = getFallbackAcl(dataset);
 
         let resourceInfo = {
-            sourceIri: path, 
-            isRawData: false, 
+            sourceIri: path,
+            isRawData: false,
             linkedResources: linkedResources,
-            aclUrl: path + '.acl' 
+            aclUrl: path + '.acl'
         };
 
         let acl = createAclFromFallbackAcl(
@@ -94,40 +109,44 @@ export default class PODManager {
         await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
     }
 
-    private getResourceWithFallbackAcl(resourceInfo:any, fallbackAcl:any):any {
+    private getResourceWithFallbackAcl(resourceInfo: any, fallbackAcl: any): any {
         return {
             internal_resourceInfo: resourceInfo,
-            internal_acl: { 
-                resourceAcl: null, 
-                fallbackAcl: fallbackAcl 
+            internal_acl: {
+                resourceAcl: null,
+                fallbackAcl: fallbackAcl
             }
         }
     }
 
     /**
      * Saves a map to the user's POD
-     * 
+     *
      * @param map the map to be saved
      * @returns wether the map could be saved
      */
-    public async saveMap(map:Map): Promise<boolean> {
-        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
+    public async saveMap(map: Map): Promise<boolean> {
+        let path: string = this.getBaseUrl() + '/data/maps/' + map.getId();
 
         return this.saveDataset(path, Assembler.mapToDataset(map), true)
-            .then(() => {return true})
-            .catch(() => {return false});
+            .then(() => {
+                return true
+            })
+            .catch(() => {
+                return false
+            });
     }
 
-    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
+    public async setPublicAccess(resourceUrl: string, isPublic: boolean) {
         await access.setPublicAccess(
             resourceUrl,
-            { read: isPublic },
-            { fetch: this.sessionManager.getSessionFetch() },
+            {read: isPublic},
+            {fetch: this.sessionManager.getSessionFetch()},
         );
     }
 
     public async loadPlacemarks(map: Map): Promise<void> {
-        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
+        let path: string = this.getBaseUrl() + '/data/maps/' + map.getId();
         let placemarks = await this.getPlacemarks(path);
         map.setPlacemarks(placemarks);
     }
@@ -135,11 +154,11 @@ export default class PODManager {
     /**
      * Returns the details of all the maps of the user.
      * The placemarks will not be loaded.
-     * 
+     *
      * @returns an array of maps containing the details to be displayed as a preview
      */
     public async getAllMaps(): Promise<Array<Map>> {
-        let path:string = this.getBaseUrl() + '/data/maps/';
+        let path: string = this.getBaseUrl() + '/data/maps/';
 
         let urls = await this.getContainedUrls(path);
         let maps = await this.getMapPreviews(urls);
@@ -147,7 +166,7 @@ export default class PODManager {
         return maps;
     }
 
-    public async getPlace(url:string): Promise<Place> {
+    public async getPlace(url: string): Promise<Place> {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
@@ -161,13 +180,15 @@ export default class PODManager {
                 ?place schema:identifier ?id .  
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext([url+"/details"]));
-        return await result.toArray().then(r => {return Assembler.toPlace(r[0]);});
+        let result = await engine.queryBindings(query, this.getQueryContext([url + "/details"]));
+        return await result.toArray().then(r => {
+            return Assembler.toPlace(r[0]);
+        });
     }
 
     /**
      * Returns the urls of all the resources in the given path
-     * 
+     *
      * @param path the path in which the urls will be searched
      * @returns the urls of all the resources in the given path
      */
@@ -189,7 +210,7 @@ export default class PODManager {
 
     /**
      * Maps the given urls to Map objects
-     * 
+     *
      * @param urls the urls of the map datasets
      * @returns an array of Map objects with the details of each map
      */
@@ -206,10 +227,12 @@ export default class PODManager {
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext(urls));
-        return await result.toArray().then(r => {return Assembler.toMapPreviews(r);});
+        return await result.toArray().then(r => {
+            return Assembler.toMapPreviews(r);
+        });
     }
 
-    private async getPlacemarks(mapURL:string): Promise<Array<Placemark>> {
+    private async getPlacemarks(mapURL: string): Promise<Array<Placemark>> {
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
@@ -224,7 +247,9 @@ export default class PODManager {
             }
         `;
         let result = await engine.queryBindings(query, this.getQueryContext([mapURL]));
-        return await result.toArray().then(r => {return Assembler.toPlacemarkArray(r);});
+        return await result.toArray().then(r => {
+            return Assembler.toPlacemarkArray(r);
+        });
     }
 
     /**
@@ -232,16 +257,16 @@ export default class PODManager {
      * @returns the context for the query
      */
     private getQueryContext(sources: Array<string>): any {
-        return {sources: sources, fetch: this.sessionManager.getSessionFetch() }
+        return {sources: sources, fetch: this.sessionManager.getSessionFetch()}
     }
 
     /**
      * Saves a dataset in the user's POD
-     * 
+     *
      * @param path the URI of the dataset
      * @param dataset the dataset to be saved
      */
-    private async saveDataset(path:string, dataset:SolidDataset, createAcl:boolean=false): Promise<void> {
+    private async saveDataset(path: string, dataset: SolidDataset, createAcl: boolean = false): Promise<void> {
         let fetch = this.sessionManager.getSessionFetch();
         await saveSolidDatasetAt(path, dataset, {fetch: fetch});
         if (createAcl) {
@@ -251,11 +276,11 @@ export default class PODManager {
 
     /**
      * Returns the root url of a POD
-     * 
+     *
      * @param webID the webID of the POD's user
      * @returns the root URL of the POD
      */
-    public getBaseUrl(webID:string=''): string {
+    public getBaseUrl(webID: string = ''): string {
         if (webID === '') {
             webID = this.sessionManager.getWebID();
         }
@@ -264,7 +289,7 @@ export default class PODManager {
 
 
     public async review(review: PlaceRating, place: Place) {
-        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/"+review.id;
+        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/" + review.id;
         await this.addReviewToUser(review);
         await this.addReviewToPlace(place.uuid, reviewPath);
     }
@@ -292,7 +317,7 @@ export default class PODManager {
                 ?s schema:URL ?url .
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/reviews"]));
+        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl + "/reviews"]));
         let urls: string[] = [];
         await result.toArray().then(r => {
             urls = r.map(binding => binding.get("url")?.value as string);
@@ -311,10 +336,10 @@ export default class PODManager {
         return await result.toArray().then(r => {
             return {
                 reviews: Number(r[0].get("number")?.value),
-                score:   Number(r[0].get("score")?.value)
+                score: Number(r[0].get("score")?.value)
             }
         });
-        
+
     }
 
 }
