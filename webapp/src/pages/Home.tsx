@@ -41,6 +41,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     public async componentDidMount(): Promise<void> {
+        this.podManager.createFriendsGroup();
         let maps = await this.podManager.getAllMaps();
 
         if (this.state.data !== undefined) {
