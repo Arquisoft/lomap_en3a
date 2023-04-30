@@ -1,10 +1,10 @@
 import React from 'react';
 import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
-import AddPlace from "../place/AddPlace";
 import Placemark from '../../domain/Placemark';
 import SolidSessionManager from '../../adapters/solid/SolidSessionManager';
 import FriendManager from '../../adapters/solid/FriendManager';
 import User from '../../domain/User';
+import AddPlace from '../../components/place/AddPlace';
 
 const latitude = 0.2;
 const longitude = 0.9;

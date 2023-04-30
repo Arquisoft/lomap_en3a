@@ -1,9 +1,9 @@
 import React from 'react';
 import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
-import PrivacyComponent from '../place/PrivacyComponent';
 import FriendManager from '../../adapters/solid/FriendManager';
 import User from '../../domain/User';
 import SolidSessionManager from '../../adapters/solid/SolidSessionManager';
+import PrivacyComponent from '../../components/place/PrivacyComponent';
 
 const latitude = 0.2;
 const longitude = 0.9;

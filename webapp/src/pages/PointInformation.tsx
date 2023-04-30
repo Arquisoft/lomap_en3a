@@ -19,8 +19,8 @@ interface PointInformationProps {
     placemark: Placemark;
     map: Map;
     open: boolean;
-    prevComponent: ReactElement;
-    onBack: (prevComponent: ReactElement) => void;
+    prevComponent?: ReactElement;
+    onBack?: (prevComponent: ReactElement) => void;
 }
 
 interface PointInformationState {
@@ -91,12 +91,13 @@ export default class PointInformation extends React.Component<PointInformationPr
     public render(): JSX.Element {
         if (this.state.goBack) {
             //return <LeafletMapAdapter map={this.props.map}/>;
-            return this.props.prevComponent;
+            return this.props.prevComponent??<LeafletMapAdapter map={this.props.map}/>;
         }
         return (
             <Modal open={this.state.open} onClose={() => {
                 this.setState(({open: false}));
-                this.props.onBack(this.props.prevComponent);
+                if (this.props.onBack !== undefined)
+                    this.props.onBack(this.props.prevComponent??<LeafletMapAdapter map={this.props.map}/>);
             }}>
                 <ModalDialog className="custom-modal-dialog">
                     <ModalClose/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
-import OverviewPage from '../place/OverviewPage';
 import Place from '../../domain/Place';
+import OverviewPage from '../../components/place/OverviewPage';
 
 const crypto = require('crypto');
 
