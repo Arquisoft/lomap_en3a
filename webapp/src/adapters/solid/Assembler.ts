@@ -1,12 +1,13 @@
 import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, RDF, VCARD } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
-import DataFactory from '@rdfjs/data-model';
 import PlaceComment from '../../domain/Place/PlaceComment';
 import PlaceRating from '../../domain/Place/PlaceRating';
+import User from '../../domain/User';
+import Group from '../../domain/Group';
 
 export default class Assembler {
 
@@ -53,14 +54,6 @@ export default class Assembler {
             .build();
 
         return thing;
-    }
-
-    private static thingAsBlankNode(name: string, thing: Thing): Thing {
-        return {
-            type: "Subject",
-            url: "_:" + name,
-            predicates: thing.predicates
-        };
     }
 
     public static mapToDataset(map: Map): SolidDataset {
@@ -156,6 +149,38 @@ export default class Assembler {
             .build();
 
         return setThing(dataset, thing);
+    }
+
+    public static groupToDataset(group: Group): SolidDataset {
+        let dataset = createSolidDataset(); 
+        let mapsThing = buildThing(createThing({name:"maps"}))
+            .addStringNoLocale(RDF.type, RDF.Bag)
+            .build();
+
+        let thing = buildThing(createThing({name: "details"}))
+            .addStringNoLocale(VCARD.Name, group.getName())
+            .addStringNoLocale(VCARD.hasUID, group.getId());
+
+        for (let user of group.getMembers()) {
+            thing = thing.addStringNoLocale(VCARD.hasMember, user.getWebId());
+        }
+
+        dataset = setThing(dataset, thing.build());
+        return setThing(dataset, mapsThing);
+    }
+
+    public static toGroup(binding: Bindings): Group {
+        let name = binding.get("name")?.value as string;
+        let id = binding.get("id")?.value as string;
+        let members = [];
+
+        let concatenatedIDs = binding.get("members")?.value as string;
+        let webIDs = concatenatedIDs.split(',');
+        for (let friend of webIDs) {
+            members.push(new User(friend.slice(8, friend.indexOf(".inrupt")), friend))
+        }
+
+        return new Group(name, members, id)
     }
 
 }
