@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-import {Tooltip} from "@mui/joy";
 
 /**
  * A dropdown that presents the component passed inside of it

@@ -41,7 +41,6 @@ export default class PointInformation extends React.Component<PointInformationPr
             visibility: "",
             open: this.props.open
         };
-        console.log(this.state.open);
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);

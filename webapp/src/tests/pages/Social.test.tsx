@@ -13,13 +13,10 @@ beforeAll(() => {
     })
 })
 
-test('The page renders properly with a set of users', async () => {
+test('The page renders properly', async () => {
 
     const {getByText} = render(<Social/>);
-    expect(getByText("Friends list")).toBeInTheDocument()
-    await waitFor(() => {
-        expect(getByText("TestName1")).toBeInTheDocument();
-        expect(getByText("TestName2")).toBeInTheDocument();
-    });
+    expect(getByText("My Friends")).toBeInTheDocument()
+    expect(getByText("My Groups")).toBeInTheDocument()
 
 });

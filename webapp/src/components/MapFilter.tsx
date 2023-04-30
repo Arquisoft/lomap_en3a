@@ -22,9 +22,12 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     public constructor(props: MapfilterProps) {
         super(props);
         this.friends = [];
-
+        let auxMap = new Map();
+        for (const cat in this.categories) {
+            auxMap.set(cat, false);
+        }
         this.state = {
-            selectedCategories: new Map(),
+            selectedCategories: auxMap,
             selectedFriend: "none"
         }
 
@@ -82,14 +85,12 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     }
 
     /**
-     * Function to handle the submit of the filter
+     * Function to handle the submission of the filter
      * @param event
      * @private
      */
     private applyFilter(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var a = this.state.selectedCategories;
-        // TODO handle the map filtering
         let categories: string[] = [];
         for (let cat of this.categories) {
             if (this.state.selectedCategories.get(cat)) categories.push(cat)
