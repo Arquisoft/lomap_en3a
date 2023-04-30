@@ -10,11 +10,13 @@ import LoadingPage from "../basic/LoadingPage";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import AddGroup from "./AddGroup";
 import AddMap from "../map/AddMap";
+import Social from "../../pages/Social";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
     emptyTable: JSX.Element | null,
-    popupOpen: boolean
+    popupOpen: boolean,
+    goBack: boolean
 }> {
 
     private tableBody = <></>;
@@ -25,7 +27,8 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
         this.state = {
             loading: true,
             emptyTable: null,
-            popupOpen: false
+            popupOpen: false,
+            goBack: false
         }
 
         this.getGroupMaps().then((maps) => {
@@ -51,20 +54,39 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                 loading: false
             }));
         })
+
+        this.createMapForGroup = this.createMapForGroup.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
     private async getGroupMaps() {
         return await new PODManager().getGroupMaps(this.props.group);
     }
 
+    /*
+    * When the button create map is pressed, the popup is opened
+    */
     private createMapForGroup() {
+        this.setState(({
+            popupOpen: true
+        }));
 
+    }
+
+    goBack() {
+        this.setState(({
+            goBack: true
+        }));
     }
 
     render() {
 
+        if (this.state.goBack) {
+            return <Social/>;
+        }
+
         if (this.state.loading) {
-            return <LoadingPage/>;
+            return <div><LoadingPage/></div>;
         }
 
         return (
@@ -83,6 +105,7 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                         <AddMap group={this.props.group}/>
                     </ModalDialog>
                 </Modal>
+                <input type="button" id="back" value="Back" onClick={this.goBack}/>
             </section>
         );
     }

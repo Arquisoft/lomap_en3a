@@ -8,8 +8,9 @@ import PODManager from "../../adapters/solid/PODManager";
 export default class AddMap extends React.Component<{ group: Group }, {
     mapTitle: string,
     error: string | null,
-    description: string,
-    isCreationDone: boolean
+    mapDescription: string,
+    isCreationDone: boolean,
+    hasLoaded: boolean
 }> {
 
     constructor(props: any) {
@@ -17,26 +18,37 @@ export default class AddMap extends React.Component<{ group: Group }, {
         this.state = {
             mapTitle: "New map",
             error: null,
-            description: "",
-            isCreationDone: true
+            mapDescription: "",
+            isCreationDone: false,
+            hasLoaded: true
         }
+        this.createMapForGroup = this.createMapForGroup.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     }
 
     private createMapForGroup(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         if (this.state.mapTitle.trim().length === 0) {
             this.setState(({
                 error: "The map title can not be empty"
             }));
-        } else if (this.state.description.trim().length === 0) {
+        } else if (this.state.mapDescription.trim().length === 0) {
             this.setState(({
                 error: "The map description can not be empty"
             }));
         } else {
-            const map: Map = new Map(this.state.mapTitle, this.state.description);
-            new PODManager().addMapToGroup(map, this.props.group).then(() => {
-                this.setState(({
-                    isCreationDone: true
-                }));
+            this.setState(({
+                hasLoaded: false
+            }));
+            const map: Map = new Map(this.state.mapTitle, this.state.mapDescription);
+            let pod = new PODManager();
+            pod.saveMap(map).then(() => {
+                pod.addMapToGroup(map, this.props.group).then(() => {
+                    this.setState(({
+                        isCreationDone: true
+                    }));
+                });
             });
         }
     }
@@ -55,7 +67,7 @@ export default class AddMap extends React.Component<{ group: Group }, {
         const value = target.value;
 
         this.setState(({
-            description: value
+            mapDescription: value
         }));
     }
 
@@ -66,23 +78,31 @@ export default class AddMap extends React.Component<{ group: Group }, {
             </div>
         }
 
-        return (<div style={{overflow: "scroll"}}>
+        if (!this.state.hasLoaded) {
+            return <LoadingPage/>
+        }
+
+        return (
+        <div >
             <form onSubmit={this.createMapForGroup}>
                 <span><p>{this.state.error}</p></span>
                 <h1>{this.state.mapTitle}</h1>
+                <h2>Title of the map:</h2>
                 <TextField
                     id="standard-basic"
-                    name="group-name"
-                    label="Group name"
+                    name="map-name"
+                    label="Map name"
                     variant="standard"
                     sx={{marginBottom: "1em"}}
                     onChange={this.handleInputChange}
                 />
+
+                <h2>Description:</h2>
                 <TextField
                     id="standard-basic"
-                    name="group-name"
-                    label="Group name"
-                    variant="outlined"
+                    name="map-description"
+                    label="Map description"
+                    variant="standard"
                     sx={{marginBottom: "1em"}}
                     onChange={this.handleDescriptionChange}
                 />
