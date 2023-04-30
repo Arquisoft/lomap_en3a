@@ -56,14 +56,6 @@ export default class Assembler {
         return thing;
     }
 
-    private static thingAsBlankNode(name: string, thing: Thing): Thing {
-        return {
-            type: "Subject",
-            url: "_:" + name,
-            predicates: thing.predicates
-        };
-    }
-
     public static mapToDataset(map: Map): SolidDataset {
         let dataset = createSolidDataset();
         let details =  buildThing(createThing({name: "details"}))
@@ -161,14 +153,20 @@ export default class Assembler {
 
     public static groupToDataset(group: Group): SolidDataset {
         let dataset = createSolidDataset(); 
-        let thing = buildThing(createThing({name: "friends"}))
-            .addStringNoLocale(VCARD.Name, "friends")
+        let mapsThing = buildThing(createThing({name:"maps"}))
+            .addStringNoLocale(RDF.type, RDF.Bag)
+            .build();
+
+        let thing = buildThing(createThing({name: "details"}))
+            .addStringNoLocale(VCARD.Name, group.getName())
             .addStringNoLocale(VCARD.hasUID, group.getId());
 
         for (let user of group.getMembers()) {
             thing = thing.addStringNoLocale(VCARD.hasMember, user.getWebId());
         }
-        return setThing(dataset, thing.build());
+
+        dataset = setThing(dataset, thing.build());
+        return setThing(dataset, mapsThing);
     }
 
     public static toGroup(binding: Bindings): Group {
