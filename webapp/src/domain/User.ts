@@ -1,12 +1,12 @@
 export default class User {
-    private readonly webID: string | null;
+    private readonly webID: string;
     private readonly name: string | null;
     private _photo: string | null = null;
     private _note: string | null = null;
     private _role: string | null = null;
     private _organization: string | null = null;
 
-    constructor(name: string | null, webID: string | null) {
+    constructor(name: string | null, webID: string) {
         this.name = name;
         this.webID = webID;
     }
