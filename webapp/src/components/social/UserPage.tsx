@@ -54,7 +54,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
             this.maps = (<TableBody>
                 {this.mapsArray.map((map) => (
                     <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                        < TableCell component="th" scope="row">{map.getName()}</TableCell>
+                        <TableCell component="th" scope="row">{map.getName()}</TableCell>
                         <TableCell align="right"><a>See map</a></TableCell>
                     </TableRow>
                 ))}

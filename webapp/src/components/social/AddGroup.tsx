@@ -1,9 +1,12 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, FormEvent} from "react";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import {Button, Checkbox, FormControlLabel, FormGroup} from "@mui/material";
 import {TextField} from "@mui/material";
 import LoadingPage from "../basic/LoadingPage";
+import PODManager from "../../adapters/solid/PODManager";
+import Group from "../../domain/Group";
+import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 
 
 export default class AddGroup extends React.Component<{}, {
@@ -11,7 +14,10 @@ export default class AddGroup extends React.Component<{}, {
     selectedFriends: Map<string, boolean>,
     anySelected: boolean,
     allSelected: boolean,
-    componentHasLoaded: boolean
+    componentHasLoaded: boolean,
+    groupTitle: string,
+    error: string | null,
+    isCreationDone: boolean
 }> {
 
     constructor(props: any) {
@@ -21,7 +27,10 @@ export default class AddGroup extends React.Component<{}, {
             selectedFriends: new Map(),
             anySelected: false,
             allSelected: false,
-            componentHasLoaded: false
+            componentHasLoaded: false,
+            groupTitle: "",
+            error: null,
+            isCreationDone: false
         }
 
         this.getUserFriends().then(() => {
@@ -34,6 +43,8 @@ export default class AddGroup extends React.Component<{}, {
         this.handleCheckboxCheck = this.handleCheckboxCheck.bind(this);
         this.handleCheckboxSelectAll = this.handleCheckboxSelectAll.bind(this);
         this.checkIfAllChecked = this.checkIfAllChecked.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.createGroup = this.createGroup.bind(this);
     }
 
     private async getUserFriends() {
@@ -95,22 +106,83 @@ export default class AddGroup extends React.Component<{}, {
 
     }
 
+    private createGroup(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        // Check for possible wrong values
+        if (this.state.groupTitle.trim().length == 0) {
+            this.setState(({
+                error: "The group name can not be empty"
+            }));
+        } else {
+            let users: User[] = [];
+
+            // Create the array of friends
+            for (let friend in this.state.friends) {
+                const webID = this.state.friends[friend].getWebId();
+                if (this.state.selectedFriends.get(webID)) {
+                    users.push(new User(null, webID));
+                }
+            }
+
+            // Add this user to the group
+
+            users.push(new User(null, SolidSessionManager.getManager().getWebID()));
+
+            // Create the group
+            let group = new Group(this.state.groupTitle, users);
+            console.log(group);
+            new PODManager().createGroup(group).then(() => {
+                this.setState(({
+                    isCreationDone: true
+                }));
+            });
+
+            // Now we must tell the component to display loading again
+            this.setState(({
+                componentHasLoaded: false
+            }));
+
+        }
+
+    }
+
+    private handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+        const target = event.target;
+        const value = target.value;
+
+        this.setState(({
+            groupTitle: value
+        }));
+    }
+
     render() {
+
+        // TODO to be changed
+        if (this.state.isCreationDone) {
+            return <div>
+                <h2>Done!</h2>
+            </div>
+        }
 
         if (!this.state.componentHasLoaded) {
             return <div><LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>
             </div>
         }
 
+        // TODO do a cool error display :=)
+
         return (<div style={{overflow: "scroll"}}>
-                <h2>New Group</h2>
-                <form>
+                <h2>{this.state.groupTitle.length > 0 ? this.state.groupTitle : "New Group"}</h2>
+                <span><p>{this.state.error}</p></span>
+                <form onSubmit={this.createGroup}>
                     <TextField
                         id="standard-basic"
                         name="group-name"
                         label="Group name"
                         variant="standard"
                         sx={{marginBottom: "1em"}}
+                        onChange={this.handleInputChange}
                     />
                     <label htmlFor="friends-checkbox">Select the friends to add</label>
                     <div style={{

@@ -417,7 +417,7 @@ export default class PODManager {
     }
 
     public async getAllUserGroups(): Promise<Group[]> {
-        let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups');
+        let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups/');
         return await this.getGroupsFromUrls(urls);
     }
 

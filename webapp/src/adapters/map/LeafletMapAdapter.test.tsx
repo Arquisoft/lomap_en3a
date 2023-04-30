@@ -15,7 +15,7 @@ beforeAll(() => {
 
     // We  mock the implementation of the map saving functionality
     jest.spyOn(PODManager.prototype, "saveMap").mockImplementation(async (map) => {
-            return true;
+
         }
     )
 });

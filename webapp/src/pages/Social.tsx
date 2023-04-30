@@ -36,7 +36,7 @@ export default class Social extends React.Component<any, FriendsState> {
                     <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 </div>
                 <h2>My Groups</h2>
-                <ListGroups user={this.props.user}/>
+                <ListGroups user={this.props.user} callback={this.changeComponentToPresent.bind(this)}/>
             </section>
         );
     }

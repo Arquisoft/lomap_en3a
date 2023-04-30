@@ -1,36 +1,65 @@
 import React from "react";
 import User from "../../domain/User";
 import ReactTable from "../basic/ReactTable";
-import {TableBody} from "@mui/material";
+import {TableBody, TableCell, TableRow} from "@mui/material";
 import LoadingPage from "../basic/LoadingPage";
 import Button from "@mui/material/Button";
 import AddGroup from "./AddGroup";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import PODManager from "../../adapters/solid/PODManager";
+import Group from "../../domain/Group";
+import GroupInfo from "./GroupInfo";
 
 interface ListGroupsProps {
-    user: User
+    user: User,
+    callback: (component: JSX.Element) => void
 }
 
 export default class ListGroups extends React.Component<ListGroupsProps, {
     page: number,
     loaded: boolean,
     popupOpen: boolean,
+    tableBody: JSX.Element
 }> {
-
-    private tableBody = (<TableBody>
-        {}
-    </TableBody>)
 
     constructor(props: ListGroupsProps) {
         super(props);
         this.state = {
             page: 0,
-            loaded: true,
-            popupOpen: false
+            loaded: false,
+            popupOpen: false,
+            tableBody: <></>
         }
 
-        //TODO load the user's groups, as the user is passed as a parameter it should only require one async method
+        this.getGroups().then((groups) => {
+            console.log(groups);
+            let body = (<TableBody>
+                {groups.map((group) => (
+                    <TableRow key={group.getId()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                        <TableCell component="th" scope="row">
+                            {group.getName()}
+                        </TableCell>
+                        <TableCell align="right">
+                            <a onClick={() => {
+                                this.getGroupInfo(group)
+                            }}>See info</a>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>);
+            this.setState(({
+                loaded: true,
+                tableBody: body
+            }));
+        })
+    }
 
+    private getGroupInfo(group: Group) {
+        this.props.callback(<GroupInfo group={group}/>);
+    }
+
+    private async getGroups() {
+        return await new PODManager().getAllUserGroups();
 
     }
 
@@ -47,7 +76,7 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
                     }}>
                 Create group
             </Button>
-            <ReactTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.tableBody}/>
+            <ReactTable tableName={"user-groups"} headCells={["Group name", "Link"]} tableBody={this.state.tableBody}/>
             <Modal open={this.state.popupOpen} onClose={(() => this.setState(({popupOpen: false})))}>
                 <ModalDialog>
                     <ModalClose accessKey={"x"}/>
