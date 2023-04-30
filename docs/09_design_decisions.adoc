@@ -51,7 +51,7 @@ We consider that the improvement in performance along with the data decentraliza
 Status: Accepted
 
 
-=== ADR 4: Friends places information.
+=== ADR 4: Social places information.
 
 The application is required to display places that the friends of the user has shared. This friend's information should be private and stored on their own Pod. A list of the friend's places will be computed from the information stored on the Pods of their friends.
 

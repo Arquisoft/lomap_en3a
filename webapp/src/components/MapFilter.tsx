@@ -21,7 +21,15 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
 
     public constructor(props: MapfilterProps) {
         super(props);
-        this.friends = new Array();
+        this.friends = [];
+        let auxMap = new Map();
+        for (const cat in this.categories) {
+            auxMap.set(cat, false);
+        }
+        this.state = {
+            selectedCategories: auxMap,
+            selectedFriend: "none"
+        }
 
         this.getFriends().then(() => {
             this.setState(() => ({
@@ -56,7 +64,6 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     handleCategoryChange(event: React.ChangeEvent<HTMLInputElement>) {
         const target = event.target;
         const value = target.value;
-        const category = target.value;
 
         this.setState(prevState => ({
             selectedCategories: prevState.selectedCategories.set(value, event.target.checked)
@@ -71,7 +78,6 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     private handleFriendChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const target = event.target;
         const value = target.value;
-        const selectedFriend = target.value;
 
         this.setState({
             selectedFriend: value,
@@ -79,14 +85,12 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
     }
 
     /**
-     * Function to handle the submit of the filter
+     * Function to handle the submission of the filter
      * @param event
      * @private
      */
     private applyFilter(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        var a = this.state.selectedCategories;
-        // TODO handle the map filtering
         let categories: string[] = [];
         for (let cat of this.categories) {
             if (this.state.selectedCategories.get(cat)) categories.push(cat)
@@ -114,7 +118,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
                         )}
                     </select>
                 </div>
-                <button type="submit">Search</button>
+                <button className="search-filter" type="submit">Search</button>
             </form>
         </aside>
     }

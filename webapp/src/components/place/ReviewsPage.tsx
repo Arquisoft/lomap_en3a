@@ -4,6 +4,7 @@ import IPlacePageProps from "./IPlacePage";
 import "./../../styles/pointInfo.css";
 import PODManager from "../../adapters/solid/PODManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
+import LoadingPage from "../basic/LoadingPage";
 
 interface ReviewsPageState {
     comments: PlaceComment[];
@@ -29,10 +30,10 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
     }
 
     public async componentDidMount(): Promise<void> {
-        this.setState({comments: [], loading:true})
+        this.setState({comments: [], loading: true})
         let comments = await this.pod.getComments(this.props.placeUrl as string);
         let score = (await this.pod.getScore(this.props.placeUrl as string)).score;
-        this.setState({comments: comments, score:score, loading:false})
+        this.setState({comments: comments, score: score, loading: false})
     }
 
     render() {
@@ -42,14 +43,14 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
                 <Rating readonly initialValue={this.state.score}></Rating>
             </div>
             <h3>Comments</h3>
-            {this.state.loading && <p>Loading...</p>}
+            {this.state.loading && <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>}
             {!this.state.loading && <div id="commentsContainer">
                 <div id="comments">
                     {this.state.comments.length <= 0 && <p>No comments yet</p>}
-                    {this.state.comments.length > 0 && 
+                    {this.state.comments.length > 0 &&
                         this.state.comments.map((comment) => (
                             <section>
-                                <a href={comment.user}>{comment.user.replace("https://","").split(".")[0]}</a>
+                                <a href={comment.user}>{comment.user.replace("https://", "").split(".")[0]}</a>
                                 <p>{comment.comment}</p>
                             </section>
                         ))

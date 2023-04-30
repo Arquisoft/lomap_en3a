@@ -1,7 +1,7 @@
 import React from 'react';
 import {act, fireEvent, render, screen} from '@testing-library/react';
 import {BrowserRouter} from "react-router-dom";
-import LogoutButton from "../LogoutButton";
+import LogoutButton from "../../components/LogoutButton";
 
 test('logout button is rendered', () => {
     render(<BrowserRouter><LogoutButton style = {{color: "blue"}} /></BrowserRouter>);

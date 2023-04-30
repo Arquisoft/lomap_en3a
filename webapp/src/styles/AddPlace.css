@@ -1,63 +1,95 @@
-
-
-.Place-form p{
-  margin-bottom: 30px;
+@media screen and (min-width: 768px) {
+  .custom-modal-dialog {
+    width: 50%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 4px; /* Add border-radius for a more modern look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+  }
 }
+
 .Place-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2%;
-    padding: 2%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #259DCC;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2%;
+  padding: 2%;
+  max-width: 95%; /* Set the maximum width for the form */
+  overflow-y: auto; /* Hide the scrollbar when not needed and only show when content overflows vertically */
+}
+
+.Place-form p,
+.Place-form h2,
+.Place-form h3 {
+  margin-bottom: 1.5rem;
+}
+
+.Place-form label {
+  display: block;
+  margin-bottom: 0.625rem;
+  margin-right: 2%;
+  font-weight: bold;
+  margin-top: 0.625rem;
+}
+
+.Place-form input,
+.Place-form textarea,
+.Place-form select {
+  padding: 0.3125rem;
+  margin-bottom: 1.25rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.3s ease; /* Add transition for smooth style changes */
+}
+
+.Place-form input:focus,
+.Place-form textarea:focus,
+.Place-form select:focus {
+  border-color: #005fa3; /* Change border color on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+}
+.Place-form input:hover,
+.Place-form textarea:hover,
+.Place-form select:hover {
+  border-color: #005fa3; /* Change border color on focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+}
+
+.Place-form input:disabled {
+  background-color: #2e2e2e; /* Change the background color of disabled fields */
+  color: #ffffff; /* Change the text color of disabled fields */
+  border-color: #7d7d7d; /* Change the border color of disabled fields */
+  opacity: 1; /* Override the default opacity setting for disabled fields */
+}
+  
+.Place-form button[type="submit"],
+.Place-form button,
+.Place-form input[type="button"] {
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  margin-top: 4%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #2ea1cb;
+  border-color: #017098;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
+  transition: all 0.3s ease; /* Add transition for smooth style changes */
+}
+
+  .Place-form input[type="file"]:hover {
+    box-shadow: 0 1px 2px rgba(185, 185, 185, 0.4); /* Add box-shadow for a more modern look */
   }
   
-  .Place-form label {
-    display: block;
-    margin-bottom: 10px;
-    margin-right: 2%;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .Place-form input,
-  .Place-form textarea {
-    padding: 5px;
-    margin-bottom: 20px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-  
-  .Place-form input:disabled {
-    background-color: #2e2e2e; /* Change the background color of disabled fields */
-    color: #ffffff; /* Change the text color of disabled fields */
-    border-color: #7d7d7d; /* Change the border color of disabled fields */
-    opacity: 1; /* Override the default opacity setting for disabled fields */
-  }
-  
-  .Place-form input[type="file"] {
-    margin-top: 4%;
-  }
-  
-  .Place-form button[type="submit"],
-  .Place-form button {
-    padding: 2% 4%;
-    margin-top: 4%;
-    border: none;
-    border-radius: 3px;
-    background-color: #028ad3;
-    color: #fff;
-    font-size: 1em;
-    cursor: pointer;
-  }
   
   .Place-form button[type="submit"]:hover,
   .Place-form button:hover {
     background-color: #005fa3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
   }
   
   .Place-form textarea{
@@ -66,7 +98,6 @@
     resize: none;
   }
 
-  /* Style for the preview of the uploaded photos */
   .Place-form .photo-preview {
     display: flex;
     align-items: center;
@@ -80,7 +111,7 @@
   }
   
   .Place-form .photo-preview button {
-    padding: 1% 2%;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 3px;
     background-color: #cc0000;
@@ -92,11 +123,9 @@
   .Place-form .photo-preview button:hover {
     background-color: #a30000;
   }
-  
-  /* Style for the button to clear all uploaded photos */
   .Place-form .clear-photos {
     margin-top: 4%;
-    padding: 2% 4%;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 3px;
     background-color: #cc0000;
@@ -108,19 +137,19 @@
   .Place-form .clear-photos:hover {
     background-color: #a30000;
   }
-
+  
   .Place-form .error {
     color: #ff0000;
     font-size: 1.2em;
     font-weight: bold;
   }
-
+  
   select {
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 0.5rem;
     border-radius: 4px;
     margin-bottom: 1em;
   }
