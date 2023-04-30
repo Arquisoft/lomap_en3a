@@ -15,10 +15,63 @@
     height: 30%;
 }
 
-.NavElement span{
+.NavElement span {
     padding: 0 0.5em;
 }
 
 .NavElement:hover {
     color: #000000;
+}
+
+@media screen and (max-width: 1060px) {
+    .NavElement {
+        padding: 1em 1em 1.5em 1em;
+    }
+    .NavElement span {
+        padding: 0 0.5em;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .NavElement{
+        display: block;
+        text-wrap: normal;
+    }
+    .NavElement{
+        padding-right: 0;
+    }
+}
+@media screen and (max-width: 600px) {
+    .NavElement:last-child{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .NavElement:nth-child(4){
+        display: none;
+    }
+    .Left{
+        width: 50%;
+    }
+    .Header {
+        width: 100%;
+    }
+}
+
+/* For mobile phones */
+@media screen and (max-width: 550px) {
+    .NavElement:nth-child(3), .NavElement:nth-child(2){
+        display: none;
+    }
+    .NavElement{
+        padding-top: 0.2em;
+    }
+    .Left h1{
+        z-index: 0;
+        width: 50%;
+    }
+    .Header {
+        width: 100%;
+    }
 }

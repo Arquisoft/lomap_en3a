@@ -10,6 +10,7 @@ import NewPlacePopup from '../../components/NewPlacePopup';
 import AddPlace from '../../pages/AddPlace';
 import PointInformation from '../../pages/PointInformation';
 import PODManager from '../solid/PODManager';
+import Button from "@mui/material/Button";
 
 
 /**
@@ -26,6 +27,7 @@ interface LeafletMapAdapterProps {
 interface LeafletMapAdapterState {
     pageToShow: JSX.Element | undefined;
     currentPlacemark: Placemark | null;
+    open: boolean;
 }
 
 /**
@@ -46,6 +48,9 @@ const Handler = (props: any) => {
 
 /**
  * Shows and manages the events of a Leaflet map
+ *
+ * @param {Map} [map]
+ * @param {Category} [categories]
  */
 export default class LeafletMapAdapter extends React.Component<LeafletMapAdapterProps, LeafletMapAdapterState> {
     private defaultIcon: Icon = new Icon({iconUrl: markerIconPng, iconSize: [30, 50], iconAnchor: [15, 50]});
@@ -55,10 +60,12 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
+        // TODO testMap?
         this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             pageToShow: undefined,
             currentPlacemark: null,
+            open: false
         };
     }
 
@@ -92,24 +99,14 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon}>
                 <Popup offset={[0, -50]}>
                     <h1>{placemark.getTitle()}</h1>
-                    <button onClick={async () => {
-                        // We hide the filter
-                        const a = document.getElementById("mapFilterComponent");
-                        if (a != null) {
-                            a.style.visibility = "hidden";
-                        }
-                        // Hide the map options TODO it is HIGHLY recommendable to change this
-                        // TODO Please fix
-                        const options = document.querySelector(".map-options");
-                        if (options != null) {
-                            options.setAttribute("hidden", "true");
-                        }
+                    <Button size={"small"} variant={"text"} sx={{color: "black"}} onClick={async () => {
                         this.setState({
+                            open: true,
                             pageToShow:
-                                <PointInformation map={this.map} placemark={placemark}/>
+                                <PointInformation map={this.map} placemark={placemark} open={true}/>
                         });
                     }}>Get Info
-                    </button>
+                    </Button>
                 </Popup>
             </Marker>
         )

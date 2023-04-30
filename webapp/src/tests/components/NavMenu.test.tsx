@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, getByText, render, screen} from '@testing-library/react';
-import NavMenu from "../NavMenu";
+import NavMenu from "../../components/NavMenu";
 import {BrowserRouter} from "react-router-dom";
 
 test('nav menu is rendered', () => {
@@ -9,7 +9,7 @@ test('nav menu is rendered', () => {
     expect(homeOptionText).toBeInTheDocument();
     const myPlacesOptionText = screen.getByText("My places");
     expect(myPlacesOptionText).toBeInTheDocument();
-    const friendsOptionText = screen.getByText("Friends");
+    const friendsOptionText = screen.getByText("Social");
     expect(friendsOptionText).toBeInTheDocument();
     const publicMapOptionText = screen.getByText("Public map");
     expect(publicMapOptionText).toBeInTheDocument();
@@ -32,9 +32,9 @@ test('choose my places option', () => {
 
 test('choose friends option', () => {
     const {container} = render(<BrowserRouter><NavMenu /></BrowserRouter>);
-    const homeOption = getByText(container,"Friends");
+    const homeOption = getByText(container,"Social");
     fireEvent.click(homeOption);
-    expect(window.location.pathname).toBe("/friends")
+    expect(window.location.pathname).toBe("/social")
 });
 
 test('choose friends option', () => {
