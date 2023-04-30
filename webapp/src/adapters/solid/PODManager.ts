@@ -413,7 +413,17 @@ export default class PODManager {
     }
 
     public async getGroup(groupUrl: string): Promise<Group> {
+        return (await this.getGroupsFromUrls([groupUrl]))[0];
+    }
+
+    public async getAllUserGroups(): Promise<Group[]> {
+        let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups');
+        return await this.getGroupsFromUrls(urls);
+    }
+
+    private async getGroupsFromUrls(urls:string[]) {
         let engine = new QueryEngine();
+        engine.invalidateHttpCache();
         let query = `
             PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
             SELECT DISTINCT ?name ?id (GROUP_CONCAT(DISTINCT ?member; SEPARATOR=",") AS ?members)
@@ -424,9 +434,15 @@ export default class PODManager {
             } 
             GROUP BY ?name ?id
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext([groupUrl]));
-        return await result.toArray().then(r => {return Assembler.toGroup(r[0]);});
+        let result = await engine.queryBindings(query, this.getQueryContext(urls));
+
+        let groups:Group[] = []
+        await result.toArray().then(r => {
+            r.forEach(binding =>groups.push( Assembler.toGroup(binding) ));
+        });
+        return groups;
     }
+
 
     public async getGroupMaps(group: Group): Promise<Map[]> {
         let webIDs = group.getMembers().map(m => m.getWebId());
