@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
 import AddPlace from "../place/AddPlace";

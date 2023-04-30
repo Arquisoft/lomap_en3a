@@ -92,7 +92,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                                 <div className="place-button">
                                     <h3>{placemark.getTitle()}</h3>
                                     <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
-                                    Ver sitio
+                                    See detail
                                 </button>
                                 </div>
                                 ))
