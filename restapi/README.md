@@ -4,8 +4,7 @@ all the actions involving the centralised databased MongoDB :leaves: which is in
 storing the minimal information of public things. The 
 webservice will be deployed using Docker :whale2:.
      
-The code is quite straight forward, the [server.ts](server.ts) file launchs the api. The [api.ts]
-(api.ts) is actually the api, where you will see there five api entry points, one for getting 
+The code is quite straight forward, the [server.ts](server.ts) file launches the api. The [api.ts](api.ts) is actually the api, where you will see there five api entry points, one for getting 
 all the public places stored in the database and the other ones conform CRUD operations with places.
 
 ## How to run the API locally
