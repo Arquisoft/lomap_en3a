@@ -7,10 +7,14 @@ import PODManager from "../../adapters/solid/PODManager";
 import {Simulate} from "react-dom/test-utils";
 import load = Simulate.load;
 import LoadingPage from "../basic/LoadingPage";
+import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import AddGroup from "./AddGroup";
+import AddMap from "../map/AddMap";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
-    emptyTable: JSX.Element | null
+    emptyTable: JSX.Element | null,
+    popupOpen: boolean
 }> {
 
     private tableBody = <></>;
@@ -20,7 +24,8 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
 
         this.state = {
             loading: true,
-            emptyTable: null
+            emptyTable: null,
+            popupOpen: false
         }
 
         this.getGroupMaps().then((maps) => {
@@ -52,6 +57,10 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
         return await new PODManager().getGroupMaps(this.props.group);
     }
 
+    private createMapForGroup() {
+
+    }
+
     render() {
 
         if (this.state.loading) {
@@ -62,11 +71,18 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
             <section>
                 <h2>{this.props.group.getName()}</h2>
                 <p>Members in this group: {this.props.group.getMembers().length}</p>
+                <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"}>Create a map</Button>
                 {
                     this.state.emptyTable != null ? this.state.emptyTable :
                         <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
                                     tableBody={this.tableBody}/>
                 }
+                <Modal open={this.state.popupOpen} onClose={(() => this.setState(({popupOpen: false})))}>
+                    <ModalDialog>
+                        <ModalClose accessKey={"x"}/>
+                        <AddMap group={this.props.group}/>
+                    </ModalDialog>
+                </Modal>
             </section>
         );
     }
