@@ -3,12 +3,13 @@ import cors from 'cors';
 import bp from 'body-parser';
 import promBundle from 'express-prom-bundle';
 import api from "./api";
+import db_uri from "./settings";
 
 const app: Application = express();
 const port: number = 5000;
 
 const mongoose = require("mongoose")
-const uri: string = "mongodb+srv://lomapen3a:HkO74fQ5tNY8gvfj@lomapen3a.sscscjd.mongodb.net/lomapen3a?retryWrites=true&w=majority";
+const uri: string = db_uri;
 const options = { useNewUrlParser: true, useUnifiedTopology: true};
 mongoose.connect(uri, options).then(
     () => console.log("Database is listening")).catch((error: Error) =>
