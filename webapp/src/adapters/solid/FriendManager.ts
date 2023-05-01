@@ -51,7 +51,7 @@ export default class FriendManager {
         let role = getStringNoLocale(<Thing>friends, VCARD.role);
         let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
 
-        let user = new User(name, basePath);
+        let user = new User(name, basePath + "profile/card#me");
         user.photo = photo;
         user.note = note;
         user.role = role;
