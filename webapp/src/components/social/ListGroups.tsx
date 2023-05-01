@@ -32,12 +32,12 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
             tableBody: null
         }
 
-        this.testNoUse();
+        this.renderGroupList();
     }
 
-    private testNoUse() {
+    private renderGroupList() {
         this.getGroups().then((groups) => {
-            if (groups.length > 0) {
+            if (groups && groups.length > 0) {
                 let body: JSX.Element = (<TableBody>
                     {groups.map((group) => (
                         <TableRow key={group.getId()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
@@ -88,7 +88,7 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
                             tableBody={this.state.tableBody}/>}
             <Modal open={this.state.popupOpen} onClose={(() => {
                 this.setState(({popupOpen: false}));
-                this.testNoUse()
+                this.renderGroupList()
             })}>
                 <ModalDialog>
                     <ModalClose accessKey={"x"}/>
