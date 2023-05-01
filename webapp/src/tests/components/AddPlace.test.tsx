@@ -11,7 +11,7 @@ const longitude = 0.9;
 const title = "Test";
 const category = "Test";
 
-beforeAll(() => {
+beforeEach(() => {
     // As the session manager uses fetching functions
     jest.spyOn(SolidSessionManager.prototype, "isLoggedIn").mockImplementation(() => {
         return true;
@@ -60,5 +60,23 @@ test('The AddPlace component is working as expected', async () => {
         const descriptionTextarea = screen.getByPlaceholderText('Introduce a description') as HTMLTextAreaElement;
         fireEvent.change(descriptionTextarea, { target: { value: 'Test' } });
         expect(descriptionTextarea.value).toBe('Test');
+    })
+});
+
+test('User can add images to the place', async () => {
+    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    await waitFor(() => {
+        const photoInput = getByPlaceholderText('Choose a photo') as HTMLInputElement;
+        fireEvent.change(photoInput, { target: { files: [new File(['test'], 'test.jpg', { type: 'image/jpeg' })] } });
+        expect(photoInput.files?.length).toBe(1);
+    })
+});
+
+test('User can change the category of the place', async () => {
+    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    await waitFor(() => {
+        const categorySelect = getByPlaceholderText('Restaurant') as HTMLSelectElement;
+        fireEvent.change(categorySelect, { target: { value: 'Museum' } });
+        expect(categorySelect.value).toBe('Museum');
     })
 });

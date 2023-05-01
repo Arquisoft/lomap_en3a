@@ -31,7 +31,8 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             rating: 0,
             photosSelected: [],
             photosError: "",
-            commentError: ""
+            commentError: "",
+            placeUrl: props.placeUrl,
         }
 
         //Binding
@@ -79,7 +80,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 		}
 	}
 
-
     isPhotoInArray(photo: File, photosSelected: File[]) : boolean {
 		for (let i = 0; i < photosSelected.length; i++) {
 			if (photo.name === photosSelected[i].name) {
@@ -120,33 +120,21 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             return;
         }
 
-        /**
-         * This is for the new implementation of the comments
-         */
-        if (this.props.placeUrl !== null) {
+        if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
-            //this.pod.comment(comment, placeUrl); //run asynchronously
+            this.pod.comment(comment, placeUrl); //run asynchronously
         }
-
-        this.pod.comment(comment, this.state.place); //run asynchronously
         this.setState({commentError: ""});
-        
-        console.log("Form submitted, comment:", comment);
     };
 
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         var rating = new PlaceRating(this.sessionManager.getWebID(), this.state.rating);
-        //Here the persistence of the object
-        /**
-         * This is for the new implementation of the reviews
-         */
-        if (this.props.placeUrl !== null) {
+
+        if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
-            //this.pod.review(comment, placeUrl); //run asynchronously
+            this.pod.review(rating, placeUrl); //run asynchronously
         }
-        this.pod.review(rating, this.state.place) //run asynchronously
-        console.log("Form submitted, rating:", rating);
     };
 
     handleSubmitPhoto (event: React.FormEvent<HTMLFormElement>) {
@@ -164,17 +152,14 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         this.setState({photosError: ""});
 
         /**
-         * This is for the new implementation of the photos
+         * Iterate through the array of photos and upload them to the POD
          */
-        if (this.props.placeUrl !== null) {
+        if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
-            //var photo = new PlacePhotos(placeUrl, this.sessionManager.getWebID(), this.state.photosSelected);
+            this.state.photosSelected.forEach(photo => {
+                this.pod.addImage(photo, placeUrl);
+            });
         }
-
-        var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
-        //Here the persistence of the object
-
-        console.log("Form submitted, photo:", photo);
     };
 
     render() {    

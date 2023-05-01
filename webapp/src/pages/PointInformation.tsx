@@ -61,7 +61,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
         this.setState({
-            component: <OverviewPage place={this.point}/>
+            component: <OverviewPage place={this.point} placeUrl={"this.props.placemark.getPlaceUrl()"}/>
         });
     }
 
@@ -94,7 +94,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     };
 
     private handleClickOverview() {
-        this.setState({component: <OverviewPage place={this.point}/>});
+        this.setState({component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
     }
 
 	//Callback function to pass it to the PrivacyComponent
