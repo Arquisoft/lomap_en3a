@@ -29,8 +29,8 @@ defineFeature(feature, test => {
     let password:string;
 
     given('A user with a SOLID account that has logged in the application', async () => {
-      username = "lomapen3a"
-      password = "Placemarks3!"
+      username = "testlomapen3a"
+      password = "Test_lomapen3a"
       //The user clicks on log in
       await expect(page).toClick('input[value="Inrupt.net"]')
       await page.waitForNavigation()

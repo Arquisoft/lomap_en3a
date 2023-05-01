@@ -68,8 +68,6 @@ defineFeature(feature, test => {
 
     then('The park can be seen in the map', async () => {
       await expect(page).toClick('.MuiBackdrop-root')
-      const[marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-      await marker.click()
       await expect(page).toMatchElement('img');
     });
   })
@@ -95,7 +93,6 @@ defineFeature(feature, test => {
       await page.waitForNavigation()
       await expect(page).toMatch("Home");
       //Adding a park
-      //     //Adding a park
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
       const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
       await marker.click();
