@@ -90,7 +90,8 @@ export default class AddMap extends React.Component<{ group: Group }, {
         }
 
         if (!this.state.hasLoaded) {
-            return <div><LoadingPage/></div>
+            return <div><LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>
+            </div>
         }
 
         return (
