@@ -125,8 +125,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             this.pod.comment(comment, placeUrl); //run asynchronously
         }
         this.setState({commentError: ""});
-        
-        console.log("Form submitted, comment:", comment);
     };
 
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
@@ -137,7 +135,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             let placeUrl = this.props.placeUrl;
             this.pod.review(rating, placeUrl); //run asynchronously
         }
-        console.log("Form submitted, rating:", rating);
     };
 
     handleSubmitPhoto (event: React.FormEvent<HTMLFormElement>) {
