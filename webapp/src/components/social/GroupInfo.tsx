@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTable from "../basic/ReactTable";
-import {TableBody, TableCell, TableRow} from "@mui/material";
+import {Button, TableBody, TableCell, TableRow} from "@mui/material";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
 import {Simulate} from "react-dom/test-utils";

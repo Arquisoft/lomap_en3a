@@ -50,8 +50,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             currentComponent: <div/>,
             loadedPlaces: false,
             tablePlacesBody: <></>,
-            emptyListOfPoints: null
-            loadedPlaces: false,
+            emptyListOfPoints: null,
             friends: [],
         };
         this.goBack = this.goBack.bind(this);
@@ -101,7 +100,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
     }
 
     private handleVisibilityChange = (privacy: string, friends: User[]) => {
-		this.setState({ visibility: privacy, friends: friends });
+        this.setState({visibility: privacy, friends: friends});
     }
 
     private handleVisibility() {
@@ -115,10 +114,10 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                 break;
         }
 
-		if (this.state.friends.length > 0) {
-			let group = new Group("", this.state.friends);
-			this.state.pod.setGroupAccess(mapUrl, group, {read: true});
-		}
+        if (this.state.friends.length > 0) {
+            let group = new Group("", this.state.friends);
+            this.state.pod.setGroupAccess(mapUrl, group, {read: true});
+        }
 
     }
 
@@ -128,10 +127,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         });
     }
 
-    handleBack(prevComponent
-                   :
-                   JSX.Element
-    ) {
+    handleBack(prevComponent: JSX.Element) {
         this.setState({open: false});
     }
 
@@ -142,7 +138,10 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         if (this.state.goBack) {
             return <UserStuff/>;
         }
-        return (
+        return (<>
+            <div className="back-page-link-container" id="back" onClick={this.goBack}>
+                <a className="back-page-link">Back</a>
+            </div>
             <section className="my-stuff">
                 <div className="mapInformation">
                     <h1>{this.state.theMap.getName()}</h1>
@@ -150,15 +149,16 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
                     {this.state.loadedPlaces &&
-                        <div className="places-buttons" >
+                        <div className="places-buttons">
                             {this.state.theMap.getPlacemarks().map((placemark) => (
                                 <div className="place-button">
                                     <h3>{placemark.getTitle()}</h3>
-                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
-                                    See detail
-                                </button>
+                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})}
+                                            type="submit">
+                                        See detail
+                                    </button>
                                 </div>
-                                ))
+                            ))
                             }
                         </div>
                     }
@@ -178,57 +178,22 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                 <div>
                     <input type="button" id="confirm" value="Confirm change" onClick={this.handleVisibility}/>
                 </div>
-                <input type="button" id="back" value="Back" onClick={this.goBack}/>
                 {this.state.open && (
-                <PointInformation prevComponent={this.state.currentComponent} 
-                map={this.state.theMap} 
-                placemark={this.state.selectedPlacemark} 
-                open={true}
-                onBack={this.handleBack}/>
-            )}
+                    <PointInformation prevComponent={this.state.currentComponent}
+                                      map={this.state.theMap}
+                                      placemark={this.state.selectedPlacemark}
+                                      open={true}
+                                      onBack={this.handleBack}/>
+                )}
             </section>
-        return (<>
-                <div className="back-page-link-container" id="back" onClick={this.goBack}>
-                    <a className="back-page-link">Back</a>
-                </div>
-                <section className="my-stuff">
-                    <div className="mapInformation">
-                        <h1>Title: {this.state.theMap.getName()}</h1>
-                        <h2>Description: {this.state.theMap.getDescription()}</h2>
-                        <h2>Places:</h2>
-                        {this.state.emptyListOfPoints || this.state.loadedPlaces &&
-                            <div className="places-buttons">
-                                <ReactTable tableName="places" tableBody={this.state.tablePlacesBody}
-                                            headCells={["Title", " "]}
-                                            headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
-                            </div>
-                        }
-                        {!this.state.loadedPlaces &&
-                            <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
-                        }
-                        {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
-                        <div>
-                            <h3>Change the visibility of the Map</h3>
-                            <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
-                        </div>
-                    </div>
-                    {this.state.open && (
-                        <PointInformation prevComponent={this.state.currentComponent}
-                                          map={this.state.theMap}
-                                          placemark={this.state.selectedPlacemark}
-                                          open={true}
-                                          onBack={this.handleBack}/>
-                    )}
-                </section>
-                <Footer style={{
-                    backgroundColor: "#002E66",
-                    color: "white",
-                    textAlign: "center",
-                    fontSize: "x-small",
-                    height: "6em",
-                    paddingTop: "0.3em"
-                }}/>
-            </>
-        );
+            <Footer style={{
+                backgroundColor: "#002E66",
+                color: "white",
+                textAlign: "center",
+                fontSize: "x-small",
+                height: "6em",
+                paddingTop: "0.3em"
+            }}/>
+        </>);
     }
 }

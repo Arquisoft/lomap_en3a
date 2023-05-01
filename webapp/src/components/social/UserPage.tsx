@@ -82,24 +82,23 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     ))}
                 </TableBody>)
             }));
-
         });
 
         this.getPlaces().then((places) => {
-            console.log(places);
+            let aux = (<TableBody>
+                {places.map((place) => (
+                    <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                        <TableCell component="th" scope="row">{place.title}</TableCell>
+                        <TableCell align="right">{place.description}</TableCell>
+                        <TableCell align="right"><a onClick={() => {
+                            this.showPlace(place);
+                        }}>See place information</a></TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>);
             this.setState(({
-                hasLoadedPlaces: true,
-                places: (<TableBody>
-                    {places.map((place) => (
-                        <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                            <TableCell component="th" scope="row">{place.title}</TableCell>
-                            <TableCell align="right">{place.description}</TableCell>
-                            <TableCell align="right"><a onClick={() => {
-                                this.showPlace(place);
-                            }}>See map</a></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>)
+                places: aux,
+                hasLoadedPlaces: true
             }))
         });
 
@@ -129,6 +128,12 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
             shownPlaceMark: placemark,
             openPointPopup: true
         }));
+    }
+
+    private handleClosePoint() {
+        this.setState(({
+            openPointPopup: false
+        }))
     }
 
     render() {
@@ -205,10 +210,8 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                         height: "100%"
                     }}/>
                 </Dialog>
-                {this.state.openPointPopup && (
-                    <PointInformation placemark={this.state.shownPlaceMark || undefined}
-                                      open={true}/>
-                )}
+                {this.state.openPointPopup && <PointInformation placemark={this.state.shownPlaceMark || undefined}
+                                                                open={true} onBack={this.handleClosePoint.bind(this)}/>}
                 <Footer style={{
                     backgroundColor: "#002E66",
                     color: "white",
