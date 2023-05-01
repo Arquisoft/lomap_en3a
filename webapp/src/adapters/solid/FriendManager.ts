@@ -4,7 +4,7 @@ import {
     getUrlAll, Thing
 } from "@inrupt/solid-client";
 import User from "../../domain/User";
-import {FOAF} from "@inrupt/vocab-common-rdf";
+import {FOAF, VCARD} from "@inrupt/vocab-common-rdf";
 
 /**
  * This class is for all actions related with management of friends of each user. Like
@@ -44,7 +44,18 @@ export default class FriendManager {
         let webIdDoc = await getSolidDataset(webID, {fetch: this.sessionManager.getSessionFetch()});
         let friends = getThing(webIdDoc, webID);
         //It returns all the values in the knows property of the object Thing
-        let name = getStringNoLocale(<Thing>friends, FOAF.name);
+        let name = getStringNoLocale(<Thing>friends, VCARD.fn);
+        let photo = webID + "profile/" + getStringNoLocale(<Thing>friends, VCARD.hasPhoto);
+        let note = getStringNoLocale(<Thing>friends, VCARD.note);
+        let role = getStringNoLocale(<Thing>friends, VCARD.role);
+        let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
+
+        let user = new User(name, webID);
+        user.photo = photo;
+        user.note = note;
+        user.role = role;
+        user.organization = organization;
+
         return new User(name, webID);
     }
 }

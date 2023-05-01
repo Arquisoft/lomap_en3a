@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node-dev ./server.ts",
+    "prod": "ts-node ./server.ts",
     "test": "jest --runInBand --coverage"
   },
   "keywords": [],

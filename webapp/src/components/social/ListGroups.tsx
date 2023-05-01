@@ -32,25 +32,26 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
         }
 
         this.getGroups().then((groups) => {
-            console.log(groups);
-            let body = (<TableBody>
-                {groups.map((group) => (
-                    <TableRow key={group.getId()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                        <TableCell component="th" scope="row">
-                            {group.getName()}
-                        </TableCell>
-                        <TableCell align="right">
-                            <a onClick={() => {
-                                this.getGroupInfo(group)
-                            }}>See info</a>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>);
-            this.setState(({
-                loaded: true,
-                tableBody: body
-            }));
+            if (groups) {
+                let body = (<TableBody>
+                    {groups.map((group) => (
+                        <TableRow key={group.getId()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">
+                                {group.getName()}
+                            </TableCell>
+                            <TableCell align="right">
+                                <a onClick={() => {
+                                    this.getGroupInfo(group)
+                                }}>See info</a>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>);
+                this.setState(({
+                    loaded: true,
+                    tableBody: body
+                }));
+            }
         })
     }
 

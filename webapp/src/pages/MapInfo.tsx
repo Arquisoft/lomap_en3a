@@ -9,6 +9,7 @@ import User from "../domain/User";
 import Placemark from "../domain/Placemark";
 import PointInformation from "./PointInformation";
 import LoadingPage from "../components/basic/LoadingPage";
+import Group from "../domain/Group";
 
 interface MapInfoProps {
     map: Map;
@@ -23,6 +24,7 @@ interface MapInfoState {
     selectedPlacemark: Placemark;
     currentComponent: JSX.Element;
     loadedPlaces: boolean;
+    friends: User[];
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
@@ -39,11 +41,13 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             open: false,
             selectedPlacemark: new Placemark(0, 0),
             currentComponent: <div/>,
-            loadedPlaces: false
+            loadedPlaces: false,
+            friends: [],
         };
         this.goBack = this.goBack.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
         this.handleBack = this.handleBack.bind(this);
+        this.handleVisibility = this.handleVisibility.bind(this);
     }
 
     private async loadPlaceMarks(callback: () => void) {
@@ -59,7 +63,24 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
     }
 
     private handleVisibilityChange = (privacy: string, friends: User[]) => {
-        
+		this.setState({ visibility: privacy, friends: friends });        
+    }
+
+    private handleVisibility() {
+        let mapUrl = this.state.pod.getBaseUrl() + '/data/maps/' + this.props.map.getId();
+        switch (this.state.visibility) {
+            case "public":
+                this.state.pod.setPublicAccess(mapUrl, true);
+                break;
+            case "private":
+                this.state.pod.setPublicAccess(mapUrl, false);
+                break;
+        }
+
+		if (this.state.friends.length > 0) {
+			let group = new Group("", this.state.friends);
+			this.state.pod.setGroupAccess(mapUrl, group, {read: true});
+		}
     }
 
     public async componentDidMount() {
@@ -82,8 +103,8 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         return (
             <section className="my-stuff">
                 <div className="mapInformation">
-                    <h1>Title: {this.state.theMap.getName()}</h1>
-                    <h2>Description: {this.state.theMap.getDescription()}</h2>
+                    <h1>{this.state.theMap.getName()}</h1>
+                    <h3>{this.state.theMap.getDescription()}</h3>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
                     {this.state.loadedPlaces &&
@@ -104,13 +125,16 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                     }
                     {this.state.loadedPlaces && 
                         this.state.theMap.getPlacemarks().length === 0 &&
-                        <h3>There are no places in this map</h3>
+                        <p>There are no places in this map</p>
                     }
                     {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
-                    <div>
+                    <div id="visibility">
                         <h3>Change the visibility of the Map</h3>
                         <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                     </div>
+                </div>
+                <div>
+                    <input type="button" id="confirm" value="Confirm change" onClick={this.handleVisibility}/>
                 </div>
                 <input type="button" id="back" value="Back" onClick={this.goBack}/>
                 {this.state.open && (

@@ -135,7 +135,6 @@ export default class PlaceManager {
             this.fakeList.push(new Place(<string>name, <number>lat, <number>long, <string>description, [], undefined,""))
         }
 
-        
         return this.fakeList;
     }
 }
