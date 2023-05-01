@@ -1,9 +1,0 @@
-@startuml
-
-title Components from Oviedo 
-
-[Hekklki]
-[Hello] as Hello  
-component [Graphic User\nInterface] as GUI
-
-@enduml
