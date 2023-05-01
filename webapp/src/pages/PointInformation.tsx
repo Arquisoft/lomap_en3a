@@ -123,7 +123,10 @@ export default class PointInformation extends React.Component<PointInformationPr
                     <ModalClose/>
                     <section className="pointInfo" /*style={{overflow: "scroll"}}*/>
                         <div className="pointInformation">
-                            <h1>Title: {this.point.title}</h1>
+                            {this.point.title === "Loading..." && 
+                            <h1>Title: {this.point.title}</h1>}
+                            {this.point.title !== "Loading..." &&
+                                <h1>{this.point.title}</h1>}
                             <div id="images">
                                 <ImageList images={this.point.photos}></ImageList>
                             </div>
@@ -131,7 +134,7 @@ export default class PointInformation extends React.Component<PointInformationPr
 
                             {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
                                 <div id="visibility">
-                                <h3>Select visibility of the place</h3>
+                                <h3>Change visibility of the place:</h3>
                                     <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                             </div>}
                         </div>

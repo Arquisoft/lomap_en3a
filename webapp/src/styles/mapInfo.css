@@ -12,6 +12,12 @@
 .place-button{
   margin-bottom: 2em;
 }
+/*
+  Css for a div that has id visibility
+*/
+#visibility{
+    margin-top: 2em;
+}
 
 input#back{
     display: inline-block;
