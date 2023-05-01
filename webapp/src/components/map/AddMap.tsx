@@ -4,23 +4,27 @@ import {Button, TextField} from "@mui/material";
 import Group from "../../domain/Group";
 import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
+import "../../styles/AddMap.css"
+import { error } from "console";
 
 export default class AddMap extends React.Component<{ group: Group }, {
     mapTitle: string,
-    error: string | null,
     mapDescription: string,
     isCreationDone: boolean,
-    hasLoaded: boolean
+    hasLoaded: boolean,
+    titleError: string,
+    descriptionError: string
 }> {
 
     constructor(props: any) {
         super(props);
         this.state = {
             mapTitle: "New map",
-            error: null,
             mapDescription: "",
             isCreationDone: false,
-            hasLoaded: true
+            hasLoaded: true,
+            titleError: "",
+            descriptionError: ""
         }
         this.createMapForGroup = this.createMapForGroup.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -29,28 +33,37 @@ export default class AddMap extends React.Component<{ group: Group }, {
 
     private createMapForGroup(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (this.state.mapTitle.trim().length === 0) {
+        let erorrs = false;
+        if (this.state.mapTitle.trim().length === 0 || this.state.mapTitle === "New map") {
             this.setState(({
-                error: "The map title can not be empty"
+                titleError: "The map title can not be empty or 'NewMap'"
             }));
-        } else if (this.state.mapDescription.trim().length === 0) {
+            erorrs = true;
+        } 
+        if (this.state.mapDescription.trim().length === 0) {
             this.setState(({
-                error: "The map description can not be empty"
+                descriptionError: "The map description can not be empty"
             }));
-        } else {
-            this.setState(({
-                hasLoaded: false
-            }));
-            const map: Map = new Map(this.state.mapTitle, this.state.mapDescription);
-            let pod = new PODManager();
-            pod.saveMap(map).then(() => {
-                pod.addMapToGroup(map, this.props.group).then(() => {
-                    this.setState(({
-                        isCreationDone: true
-                    }));
-                });
-            });
+            erorrs = true;
+        } 
+
+        if (erorrs) {
+            return;
         }
+
+        this.setState(({
+            hasLoaded: false
+        }));
+        const map: Map = new Map(this.state.mapTitle, this.state.mapDescription);
+        let pod = new PODManager();
+        pod.saveMap(map).then(() => {
+            pod.addMapToGroup(map, this.props.group).then(() => {
+                this.setState(({
+                    isCreationDone: true
+                }));
+            });
+        });
+        
     }
 
     private handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -85,7 +98,6 @@ export default class AddMap extends React.Component<{ group: Group }, {
         return (
         <div >
             <form onSubmit={this.createMapForGroup}>
-                <span><p>{this.state.error}</p></span>
                 <h1>{this.state.mapTitle}</h1>
                 <h2>Title of the map:</h2>
                 <TextField
@@ -96,7 +108,7 @@ export default class AddMap extends React.Component<{ group: Group }, {
                     sx={{marginBottom: "1em"}}
                     onChange={this.handleInputChange}
                 />
-
+                {this.state.titleError && <span className="error">{this.state.titleError}</span>}
                 <h2>Description:</h2>
                 <TextField
                     id="standard-basic"
@@ -106,6 +118,7 @@ export default class AddMap extends React.Component<{ group: Group }, {
                     sx={{marginBottom: "1em"}}
                     onChange={this.handleDescriptionChange}
                 />
+                {this.state.descriptionError && <span className="error">{this.state.descriptionError}</span>}
                 <Button
                     sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}
                     type={"submit"} variant={"contained"} color={"primary"}>Create</Button>
