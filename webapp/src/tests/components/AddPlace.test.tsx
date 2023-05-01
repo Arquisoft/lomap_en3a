@@ -73,12 +73,14 @@ test('The AddPlace component is working as expected', async () => {
 });
 
 test('User can add images to the place', async () => {
+
     Object.defineProperty(URL, 'createObjectURL', {
         value: jest.fn(() => 'mock-url'),
       });
       Object.defineProperty(URL, 'revokeObjectURL', {
         value: jest.fn(() => 'mock-url'),
       });
+
     const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
     await waitFor(() => {
         const photoInput = getByPlaceholderText('Choose a photo') as HTMLInputElement;
@@ -86,6 +88,7 @@ test('User can add images to the place', async () => {
         expect(photoInput.files?.length).toBe(1);
     })
 });
+
 
 /**
  * JEST test for testing if the category of the place can be changed.
@@ -144,4 +147,13 @@ test('form can be submitted and proper action is executed', async () => {
     // Perform custom assertions on specific fields
     expect(submittedPlacemark.title).toBe('Test Place');
     expect(submittedPlacemark.category).toBe('restaurant');
+});
+
+test('User can change the category of the place', async () => {
+    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    await waitFor(() => {
+        const categorySelect = getByPlaceholderText('Restaurant') as HTMLSelectElement;
+        fireEvent.change(categorySelect, { target: { value: 'Museum' } });
+        expect(categorySelect.value).toBe('Museum');
+    })
 });
