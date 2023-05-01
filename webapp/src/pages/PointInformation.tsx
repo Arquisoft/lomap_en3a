@@ -38,6 +38,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     private point: Place;
     private pod = new PODManager();
+    private photosURLs: string[] = [];
 
     public constructor(props: any) {
         super(props);
@@ -60,6 +61,7 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
+        this.photosURLs = await this.pod.getImageUrls(this.props.placemark.getPlaceUrl());
         this.setState({
             component: <OverviewPage place={this.point} placeUrl={"this.props.placemark.getPlaceUrl()"}/>
         });
@@ -131,7 +133,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                             {this.point.title !== "Loading..." &&
                                 <h1>{this.point.title}</h1>}
                             <div id="images">
-                                <ImageList images={this.point.photos}></ImageList>
+                                <ImageList images={this.photosURLs}></ImageList>
                             </div>
                             <p>Location: {this.point.latitude != 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
 
