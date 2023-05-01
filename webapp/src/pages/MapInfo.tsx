@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import ReactTable from "../components/basic/ReactTable";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import EmptyList from "../components/basic/EmptyList";
+import Social from "./Social";
 
 interface MapInfoProps {
     map: Map;
@@ -119,6 +120,9 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             return <UserStuff/>;
         }
         return (<>
+                <div className="back-page-link-container" id="back" onClick={this.goBack}>
+                    <a className="back-page-link">Back</a>
+                </div>
                 <section className="my-stuff">
                     <div className="mapInformation">
                         <h1>Title: {this.state.theMap.getName()}</h1>
@@ -140,7 +144,6 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                             <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                         </div>
                     </div>
-                    <input type="button" id="back" value="Back" onClick={this.goBack}/>
                     {this.state.open && (
                         <PointInformation prevComponent={this.state.currentComponent}
                                           map={this.state.theMap}

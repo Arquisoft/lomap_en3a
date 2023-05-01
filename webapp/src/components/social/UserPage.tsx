@@ -148,7 +148,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                         pageToChange: (<Social/>)
                     })
                 }}>
-                    <a className="back-page-link">Friends list</a>
+                    <a className="back-page-link">Back</a>
                 </div>
                 <main className="user-profile">
                     <h1>{this.props.user.getName()}</h1>
