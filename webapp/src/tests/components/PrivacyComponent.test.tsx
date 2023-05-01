@@ -10,7 +10,7 @@ const longitude = 0.9;
 const title = "Test";
 const category = "Test";
 
-beforeAll(() => {
+beforeEach(() => {
     jest.spyOn(SolidSessionManager.prototype, "isLoggedIn").mockImplementation(() => {
         return true;
     })
@@ -43,5 +43,8 @@ test('The PrivacyComponent is rendered correctly', async () => {
         expect(buttonPrivate).toBeInTheDocument();
         const buttonShare = screen.getByRole("checkbox", {name: "Share with friends"});
         expect(buttonShare).toBeInTheDocument();
+        fireEvent.click(buttonShare);
+        const friend1 = screen.getByRole("checkbox", {name: "testFriend1"});
+        expect(friend1).toBeInTheDocument();
     })
 });

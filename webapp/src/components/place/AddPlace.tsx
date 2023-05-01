@@ -177,7 +177,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		event.preventDefault();
 		let isFormValid : boolean;
 		isFormValid = true;
-		
+
 		//Validating parameters.
 		if (!this.state.name) {
 			this.setState({ nameError: "Name is required" });
