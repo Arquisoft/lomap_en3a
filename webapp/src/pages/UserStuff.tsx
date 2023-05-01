@@ -83,7 +83,12 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
         }
 
         return (<main style={{margin: "0"}}>
-            <h2 style={{margin: "1em"}}>{this.user?.getName()}</h2>
+            <div className={"user-info"} style={{marginLeft: "1em"}}>
+                <h2 style={{marginBottom: 0}}>{this.user?.getName()}</h2>
+                <h3 style={{color: "#2D2D2D", marginTop: 0, marginBottom: 0}}>{this.user?.role}</h3>
+                <h4 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.user?.organization}</h4>
+                <p style={{marginTop: 0}}>{this.user?.note}</p>
+            </div>
             <label htmlFor="maps-table" style={{margin: "1em"}}>Users Maps</label>
             <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
                         headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
@@ -93,7 +98,8 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
                 textAlign: "center",
                 fontSize: "x-small",
                 height: "6em",
-                paddingTop: "0.3em"
+                paddingTop: "0.3em",
+                marginTop: "20%"
             }}/>
         </main>)
     }

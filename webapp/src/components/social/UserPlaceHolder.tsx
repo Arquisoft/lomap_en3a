@@ -50,22 +50,24 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
             display: "flex",
             flexWrap: "wrap",
         }}>
-            <Tooltip title={"See " + this.props.user.getName() + "'s profile"} variant={"soft"} enterDelay={500} arrow>
+            <Tooltip title={"See " + (this.props.user.getName() || "Unknwon") + "'s profile"} variant={"soft"} enterDelay={500} arrow>
                 <Card className="card">
                     <CardActionArea sx={{height: "100%"}} className="card" onClick={() => {
                         this.getFriendInfo(this.user)
                     }}>
-                        <CardHeader avatar={<Avatar alt="User avatar"
-                                                    sx={{
-                                                        backgroundColor: "#B2CCEB",
-                                                        width: 60,
-                                                        height: 60
-                                                    }}>{this.user.getName()?.charAt(0)}</Avatar>}
+                        <CardHeader sx={{height: 70, marginTop: 5, paddingTop: 0, marginLeft:"15%"}} avatar={<Avatar alt="User avatar"
+                                                                                                   src={this.user.photo}
+                                                                                                   sx={{
+                                                                                                       backgroundColor: "#B2CCEB",
+                                                                                                       width: 100,
+                                                                                                       height: 100
+                                                                                                   }}>{this.user.getName()?.charAt(0)}</Avatar>}
                         />
-                        <CardContent>
-                            <h3>{this.user.getName()}</h3>
-                            <Typography>Friend text</Typography>
-                            <a href={this.user.getWebId()}>SOLID profile</a>
+                        <CardContent sx={{paddingTop: 0}}>
+                            <h3 style={{fontSize: "x-large", marginBottom: 0}}>{this.user.getName() || "Unknown friend"}</h3>
+                            <h4 style={{color: "#2D2D2D", marginTop: 0, marginBottom: 0}}>{this.user.organization}</h4>
+                            <h5 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.user.role}</h5>
+                            <p style={{marginTop: 0}}>{this.user.note}</p>
                         </CardContent>
                     </CardActionArea>
                 </Card>

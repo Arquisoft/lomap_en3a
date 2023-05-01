@@ -156,15 +156,19 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     <a className="back-page-link">Back</a>
                 </div>
                 <main className="user-profile">
-                    <h1>{this.props.user.getName()}</h1>
+                    <h1>{this.props.user.getName() || "Unknown friend"}</h1>
                     <Avatar alt="User avatar"
+                            src={this.props.user.photo}
                             sx={{
                                 backgroundColor: "#B2CCEB",
                                 width: 200,
                                 height: 200,
                                 fontSize: 100
                             }}>{this.props.user.getName()?.charAt(0)}</Avatar>
+                    <h3 style={{color: "#2D2D2D", marginTop: 0, marginBottom: 0}}>{this.props.user.organization}</h3>
+                    <h4 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.props.user.role}</h4>
                     <a href={this.props.user.getWebId()}>SOLID Profile</a>
+                    <p style={{marginTop: 0}}>{this.props.user.note}</p>
                     <div className="friends-tables">
                         <label htmlFor="places-table">{this.props.user.getName() || "Friend"}'s Places</label>
                         <ReactTable tableName="places" tableBody={this.state.places}

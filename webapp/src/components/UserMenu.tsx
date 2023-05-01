@@ -13,19 +13,21 @@ import User from "../domain/User";
 /**
  * The menu with all the options related to the user (personal information, log out)
  */
-export class UserMenu extends React.Component<any, { user: User | null }> {
+export class UserMenu extends React.Component<any, { photo: string | undefined }> {
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            user: null
+            photo: undefined
         }
 
         this.getUser().then((user) => {
+            console.log(user);
             this.setState(({
-                user: user
+                photo: user.photo
             }));
+            console.log(this.state.photo)
         });
     }
 
@@ -39,7 +41,7 @@ export class UserMenu extends React.Component<any, { user: User | null }> {
     };
 
     private async getUser() {
-        return await new FriendManager().getUserData(SolidSessionManager.getManager().getWebID());
+        return await new FriendManager().getUserData(SolidSessionManager.getManager().getWebID().replace("profile/card#me",""));
     }
 
     render() {
@@ -64,11 +66,13 @@ export class UserMenu extends React.Component<any, { user: User | null }> {
                 <Dropdown trigger={[`click`]} overlay={options} animation="slide-up" placement="bottomRight">
                   <span>
                       <Avatar alt="User avatar"
-                              src={this.state.user?.photo != null ? this.state.user?.photo : undefined}
+                              src={this.state.photo}
                               sx={{
                                   backgroundColor: "#B2CCEB",
-                                  width: "4em",
-                                  height: "4em",
+                                  width: "3.5em",
+                                  height: "3.5em",
+                                  marginTop: "0.5em",
+                                  marginBottom: "0.5em"
                               }}>{SolidSessionManager.getManager().getWebID()?.charAt(8).toUpperCase()}</Avatar>
                   </span>
                 </Dropdown>
