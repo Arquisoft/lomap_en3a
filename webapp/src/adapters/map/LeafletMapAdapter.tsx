@@ -102,19 +102,23 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         return (
             <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon}>
                 <Popup offset={[0, -50]}>
-                    <h1>{placemark.getTitle()}</h1>
-                    <Button size={"small"} variant={"text"} sx={{color: "black"}} onClick={async () => {
-                        this.setState({
-                            open: true,
-                            pageToShow:
-                                <PointInformation prevComponent={<LeafletMapAdapter map={this.props.map} categories={this.props.categories}/>} 
-                                map={this.map} 
-                                placemark={placemark} 
-                                open={true}
-                                onBack={this.handleBack}/>
-                        });
-                    }}>Get Info
-                    </Button>
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <h1>{placemark.getTitle()}</h1>
+                        <Button size={"small"} variant={"text"} sx={{color: "black", alignSelf: "center"}}
+                                onClick={async () => {
+                                    this.setState({
+                                        open: true,
+                                        pageToShow:
+                                            <PointInformation prevComponent={<LeafletMapAdapter map={this.props.map}
+                                                                                                categories={this.props.categories}/>}
+                                                              map={this.map}
+                                                              placemark={placemark}
+                                                              open={true}
+                                                              onBack={this.handleBack}/>
+                                    });
+                                }}>Get Info
+                        </Button>
+                    </div>
                 </Popup>
             </Marker>
         )
@@ -146,7 +150,8 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         if (this.state.currentPlacemark !== null) {
             this.setState({
                 pageToShow:
-                    <AddPlace open={true} map={this.map} placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+                    <AddPlace open={true} map={this.map} placemark={this.state.currentPlacemark}
+                              callback={this.addMarker.bind(this)}/>
             });
         }
     }
@@ -186,8 +191,10 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     }
 
     handleBack(prevComponent: JSX.Element) {
-        this.setState({ pageToShow: prevComponent,
-        open: true });
+        this.setState({
+            pageToShow: prevComponent,
+            open: true
+        });
     }
 
     public render(): JSX.Element {

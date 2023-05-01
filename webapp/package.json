@@ -9,6 +9,7 @@
     "@inrupt/solid-client-authn-browser": "^1.13.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@inrupt/vocab-solid": "^1.0.4",
+    "@mui/icons-material": "^5.11.16",
     "@mui/joy": "^5.0.0-alpha.77",
     "@mui/material": "^5.11.12",
     "@mui/material-next": "^6.0.0-alpha.77",

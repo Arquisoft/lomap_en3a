@@ -10,7 +10,7 @@ import SolidSessionManager from "../adapters/solid/SolidSessionManager";
  */
 export default class Layout extends React.Component {
     public async componentDidMount(): Promise<void> {
-        await SolidSessionManager.getManager().fetchUserData();    
+        await SolidSessionManager.getManager().fetchUserData();
     }
 
     public render() {
@@ -22,5 +22,5 @@ export default class Layout extends React.Component {
                 </div>
             </div>
         )
-    } 
+    }
 }

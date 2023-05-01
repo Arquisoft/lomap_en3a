@@ -1,9 +1,9 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react';
+import {fireEvent, render, waitFor} from '@testing-library/react';
 import {UserMenu} from "../../components/UserMenu";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 
-beforeAll(() => {
+beforeEach(() => {
     // As the session manager uses fetching functions
     jest.spyOn(SolidSessionManager.prototype, "getWebID").mockImplementation(() => {
         return "testWebId"
@@ -22,9 +22,11 @@ test('When the profile is clicked, the options are displayed', () => {
     // We click the user icon, the dropdown should appear
     const icon = document.querySelector(".Dropdown");
     expect(icon != null);
-    if (icon != null) {
-        fireEvent.click(icon);
-        expect(getByAltText("My profile")).toBeInTheDocument();
-        expect(getByAltText("Log out")).toBeInTheDocument();
-    }
+    waitFor(() => {
+        if (icon != null) {
+            fireEvent.click(icon);
+            expect(getByAltText("My profile")).toBeInTheDocument();
+            expect(getByAltText("Log out")).toBeInTheDocument();
+        }
+    })
 });

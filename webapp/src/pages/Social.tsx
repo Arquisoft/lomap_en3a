@@ -1,8 +1,9 @@
 import React from "react";
 import ListUsers from "../components/social/ListUsers";
 import FriendManager from "../adapters/solid/FriendManager";
-import "../styles/friendsPage.css";
+import "../styles/social.css";
 import ListGroups from "../components/social/ListGroups";
+import Footer from "../components/Footer";
 
 interface FriendsState {
     componentToPresent: JSX.Element | null
@@ -32,11 +33,20 @@ export default class Social extends React.Component<any, FriendsState> {
         return (
             <section style={{height: "max-content", margin: "1em"}}>
                 <h2>My Friends</h2>
-                <div>
-                    <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
-                </div>
+                <ListUsers fm={new FriendManager()} callback={this.changeComponentToPresent.bind(this)}></ListUsers>
                 <h2>My Groups</h2>
                 <ListGroups user={this.props.user} callback={this.changeComponentToPresent.bind(this)}/>
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    width: "100%",
+                    marginTop: "50%"
+                }}/>
             </section>
         );
     }
