@@ -7,8 +7,6 @@ import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
 import Group from "../../domain/Group";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-
-
 export default class AddGroup extends React.Component<{}, {
     friends: User[],
     selectedFriends: Map<string, boolean>,
