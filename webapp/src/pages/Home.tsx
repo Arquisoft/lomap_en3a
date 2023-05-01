@@ -6,6 +6,7 @@ import PODManager from "../adapters/solid/PODManager";
 import Placemark from "../domain/Placemark";
 import {PlaceType} from "../types/PlaceType";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
+import Footer from "../components/Footer";
 
 
 interface HomeProps {
@@ -87,6 +88,14 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     <div className="content">
                         <LeafletMapAdapter map={this.state.data} categories={this.state.filter}/>
                     </div>}
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    height: "6em",
+                    paddingTop: "0.3em"
+                }}/>
             </section>
         );
     }

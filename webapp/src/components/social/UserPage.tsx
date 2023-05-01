@@ -1,6 +1,6 @@
 import React from "react";
 import User from "../../domain/User";
-import {AppBar, Avatar, Dialog, IconButton, TableBody, TableCell, TableRow} from "@mui/material";
+import {AppBar, Avatar, Dialog, IconButton, TableBody, TableCell, TableRow, Typography} from "@mui/material";
 import Place from "../../domain/Place";
 import Map from "../../domain/Map";
 import ReactTable from "../basic/ReactTable";
@@ -14,6 +14,8 @@ import {TransitionProps} from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
 import Footer from "../Footer";
+import PointInformation from "../../pages/PointInformation";
+import Placemark from "../../domain/Placemark";
 
 interface UserPageProps {
     user: User
@@ -22,10 +24,14 @@ interface UserPageProps {
 interface UserPageState {
     placeShown: Place | null
     pageToChange: JSX.Element | null
-    hasLoaded: boolean,
+    hasLoadedMaps: boolean,
+    hasLoadedPlaces: boolean,
     maps: JSX.Element,
     showMapPopUp: boolean,
-    mapForPopUp: Map | null
+    mapForPopUp: Map | null,
+    places: JSX.Element,
+    shownPlaceMark: Placemark,
+    openPointPopup: boolean
 }
 
 /**
@@ -49,17 +55,21 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         this.state = {
             placeShown: null,
             pageToChange: null,
-            hasLoaded: false,
+            hasLoadedMaps: false,
+            hasLoadedPlaces: false,
             maps: <></>,
             showMapPopUp: false,
-            mapForPopUp: null
+            mapForPopUp: null,
+            places: <></>,
+            shownPlaceMark: new Placemark(0, 0, "Error"),
+            openPointPopup: false
+
         }
 
         // Get the maps from the user, update the pages of the tables
         this.getMaps().then((maps) => {
-            console.log(maps);
             this.setState(({
-                hasLoaded: true,
+                hasLoadedMaps: true,
                 maps: (<TableBody>
                     {maps.map((map) => (
                         <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
@@ -73,16 +83,34 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                 </TableBody>)
             }));
 
-        }).catch(() => {
+        });
+
+        this.getPlaces().then((places) => {
+            console.log(places);
             this.setState(({
-                pageToChange: (<h1>There was a problem</h1>)
-            }));
+                hasLoadedPlaces: true,
+                places: (<TableBody>
+                    {places.map((place) => (
+                        <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">{place.title}</TableCell>
+                            <TableCell align="right">{place.description}</TableCell>
+                            <TableCell align="right"><a onClick={() => {
+                                this.showPlace(place);
+                            }}>See map</a></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>)
+            }))
         });
 
     }
 
     private async getMaps() {
         return await new PODManager().getAllMaps(this.props.user.getWebId());
+    }
+
+    private async getPlaces() {
+        return await new PODManager().getAllUserPlaces(this.props.user.getWebId());
     }
 
     private showMap(map: Map) {
@@ -94,12 +122,21 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
         });
     }
 
+    private showPlace(place: Place) {
+        let placeURL = new PODManager().getBaseUrl(this.props.user.getWebId()) + "/data/places/" + place.uuid;
+        const placemark = new Placemark(place.latitude, place.longitude, place.title, placeURL);
+        this.setState(({
+            shownPlaceMark: placemark,
+            openPointPopup: true
+        }));
+    }
+
     render() {
         if (this.state?.pageToChange != null) {
             return this.state.pageToChange;
         }
 
-        if (!this.state.hasLoaded) {
+        if (!this.state.hasLoadedMaps && !this.state.hasLoadedPlaces) {
             return <LoadingPage/>;
         }
 
@@ -124,8 +161,12 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                             }}>{this.props.user.getName()?.charAt(0)}</Avatar>
                     <a href={this.props.user.getWebId()}>SOLID Profile</a>
                     <div className="friends-tables">
-                        <label htmlFor="maps-table">Friends maps</label>
-                        <ReactTable tableName="places" tableBody={this.state.maps}
+                        <label htmlFor="places-table">{this.props.user.getName() || "Friend"}'s Places</label>
+                        <ReactTable tableName="places" tableBody={this.state.places}
+                                    headCells={["Title", "Description", "Link"]}
+                                    headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
+                        <label htmlFor="maps-table">{this.props.user.getName() || "Friend"}'s Maps</label>
+                        <ReactTable tableName="maps" tableBody={this.state.maps}
                                     headCells={["Name", "Description", "Link"]}
                                     headerCellStyle={{color: "white"}} id={"maps-table"}></ReactTable>
                     </div>
@@ -150,6 +191,9 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                             >
                                 <CloseIcon/>
                             </IconButton>
+                            <Typography>
+                                {this.state.mapForPopUp?.getName()}
+                            </Typography>
                         </Toolbar>
                     </AppBar>
                     <LeafletMapAdapter map={this.state.mapForPopUp !== null ? this.state.mapForPopUp : undefined}/>
@@ -161,6 +205,18 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                         height: "100%"
                     }}/>
                 </Dialog>
+                {this.state.openPointPopup && (
+                    <PointInformation placemark={this.state.shownPlaceMark || undefined}
+                                      open={true}/>
+                )}
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    height: "6em",
+                    paddingTop: "0.3em"
+                }}/>
             </>)
     }
 }

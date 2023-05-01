@@ -8,6 +8,7 @@ import ReactTable from "../components/basic/ReactTable";
 import {Paper, TableBody, TableCell, TableRow} from "@mui/material";
 import LoadingPage from "../components/basic/LoadingPage";
 import MapInfo from "./MapInfo";
+import Footer from "../components/Footer";
 
 interface UserStuffState {
     maps: Map[]
@@ -84,11 +85,19 @@ export default class UserStuff extends React.Component<any, any> {
             return this.state.componentToDisplay;
         }
 
-        return (<main style={{margin: "1em"}}>
-            <h2>{this.user?.getName()}</h2>
-            <label htmlFor="maps-table">Users Maps</label>
+        return (<main style={{margin: "0"}}>
+            <h2 style={{margin: "1em"}}>{this.user?.getName()}</h2>
+            <label htmlFor="maps-table" style={{margin: "1em"}}>Users Maps</label>
             <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
                         headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
+            <Footer style={{
+                backgroundColor: "#002E66",
+                color: "white",
+                textAlign: "center",
+                fontSize: "x-small",
+                height: "6em",
+                paddingTop: "0.3em"
+            }}/>
         </main>)
     }
 

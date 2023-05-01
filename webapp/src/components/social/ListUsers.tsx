@@ -3,7 +3,7 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import UserPlaceHolder from "./UserPlaceHolder";
 import LoadingPage from "../basic/LoadingPage";
-import EmptyFriendsList from "./EmptyFriendsList";
+import EmptyList from "../basic/EmptyList";
 
 
 interface UserListProps {
@@ -34,7 +34,10 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
                 this.setState(() => ({
                     loadedFriends: false
                 }));
-                this.listUsers = <EmptyFriendsList/>;
+                this.listUsers =
+                    <EmptyList firstHeader={"Your friend list is empty!"} image={"/map-magnifier.png"}
+                               secondHeader={<>Add some friends through your <a
+                                          href={"inrupt.net"}>inrupt.net</a> account</>}/>;
             } else {
                 this.setState(() => ({
                     loadedFriends: true

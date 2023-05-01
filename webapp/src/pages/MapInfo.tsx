@@ -9,6 +9,10 @@ import User from "../domain/User";
 import Placemark from "../domain/Placemark";
 import PointInformation from "./PointInformation";
 import LoadingPage from "../components/basic/LoadingPage";
+import Footer from "../components/Footer";
+import ReactTable from "../components/basic/ReactTable";
+import {TableBody, TableCell, TableRow} from "@mui/material";
+import EmptyList from "../components/basic/EmptyList";
 
 interface MapInfoProps {
     map: Map;
@@ -23,6 +27,8 @@ interface MapInfoState {
     selectedPlacemark: Placemark;
     currentComponent: JSX.Element;
     loadedPlaces: boolean;
+    tablePlacesBody: JSX.Element,
+    emptyListOfPoints: JSX.Element | null
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
@@ -39,7 +45,9 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             open: false,
             selectedPlacemark: new Placemark(0, 0),
             currentComponent: <div/>,
-            loadedPlaces: false
+            loadedPlaces: false,
+            tablePlacesBody: <></>,
+            emptyListOfPoints: null
         };
         this.goBack = this.goBack.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -48,9 +56,37 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
 
     private async loadPlaceMarks(callback: () => void) {
         await this.state.pod.loadPlacemarks(this.state.theMap);
-        this.state.theMap.getPlacemarks().forEach((placemark) => {
-            console.log(placemark.getTitle());
-        });
+        if (this.state.theMap.getPlacemarks().length > 0) {
+            this.setState(({
+                tablePlacesBody: (<TableBody>
+                    {this.state.theMap.getPlacemarks().map((placemark) => (
+                        <TableRow key={placemark.getTitle()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">{placemark.getTitle()}</TableCell>
+                            <TableCell align="right">
+                                <button
+                                    onClick={() => this.setState({open: true, selectedPlacemark: placemark})}
+                                    type="submit">
+                                    See detail...
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>)
+            }));
+        } else {
+            this.setState(({
+                emptyListOfPoints: (<EmptyList firstHeader={"There are no places in this map..."}
+                                               secondHeader={"Try adding some!"}
+                                               image={"/marker_black.png"}
+                                               imageStyle={{
+                                                   width: "100px",
+                                                   height: "194px",
+                                                   marginLeft: "2em",
+                                                   alignSelf: "end"
+                                               }}/>)
+            }))
+        }
+
         callback();
     }
 
@@ -59,7 +95,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
     }
 
     private handleVisibilityChange = (privacy: string, friends: User[]) => {
-        
+
     }
 
     public async componentDidMount() {
@@ -68,7 +104,10 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         });
     }
 
-    handleBack(prevComponent: JSX.Element) {
+    handleBack(prevComponent
+                   :
+                   JSX.Element
+    ) {
         this.setState({open: false});
     }
 
@@ -79,48 +118,46 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         if (this.state.goBack) {
             return <UserStuff/>;
         }
-        return (
-            <section className="my-stuff">
-                <div className="mapInformation">
-                    <h1>Title: {this.state.theMap.getName()}</h1>
-                    <h2>Description: {this.state.theMap.getDescription()}</h2>
-                    <h2>Places:</h2>
-                    {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
-                    {this.state.loadedPlaces &&
-                        <div className="places-buttons" >
-                            {this.state.theMap.getPlacemarks().map((placemark) => (
-                                <div className="place-button">
-                                    <h3>{placemark.getTitle()}</h3>
-                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
-                                    See detail
-                                </button>
-                                </div>
-                                ))
-                            }
+        return (<>
+                <section className="my-stuff">
+                    <div className="mapInformation">
+                        <h1>Title: {this.state.theMap.getName()}</h1>
+                        <h2>Description: {this.state.theMap.getDescription()}</h2>
+                        <h2>Places:</h2>
+                        {this.state.emptyListOfPoints || this.state.loadedPlaces &&
+                            <div className="places-buttons">
+                                <ReactTable tableName="places" tableBody={this.state.tablePlacesBody}
+                                            headCells={["Title", " "]}
+                                            headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
+                            </div>
+                        }
+                        {!this.state.loadedPlaces &&
+                            <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
+                        }
+                        {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
+                        <div>
+                            <h3>Change the visibility of the Map</h3>
+                            <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                         </div>
-                    }
-                    {!this.state.loadedPlaces && 
-                        <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
-                    }
-                    {this.state.loadedPlaces && 
-                        this.state.theMap.getPlacemarks().length === 0 &&
-                        <h3>There are no places in this map</h3>
-                    }
-                    {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
-                    <div>
-                        <h3>Change the visibility of the Map</h3>
-                        <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                     </div>
-                </div>
-                <input type="button" id="back" value="Back" onClick={this.goBack}/>
-                {this.state.open && (
-                <PointInformation prevComponent={this.state.currentComponent} 
-                map={this.state.theMap} 
-                placemark={this.state.selectedPlacemark} 
-                open={true}
-                onBack={this.handleBack}/>
-            )}
-            </section>
+                    <input type="button" id="back" value="Back" onClick={this.goBack}/>
+                    {this.state.open && (
+                        <PointInformation prevComponent={this.state.currentComponent}
+                                          map={this.state.theMap}
+                                          placemark={this.state.selectedPlacemark}
+                                          open={true}
+                                          onBack={this.handleBack}/>
+                    )}
+                </section>
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    height: "6em",
+                    paddingTop: "0.3em"
+                }}/>
+            </>
         );
     }
 }

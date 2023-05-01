@@ -12,10 +12,11 @@ export default class Footer extends React.Component<{ style?: React.CSSPropertie
                 backgroundColor: "#002E66",
                 color: "white",
                 textAlign: "center",
-                fontSize: "x-small"
+                fontSize: "x-small",
+                height: "100%"
             }}>
                 <p>LoMap® is a software product developed by the lomap_en3a team</p>
-                <p>Carlos Triana Fernandez David Martínez Castañon, Guillermo Dylan Carvajal Aza, Iván Menéndez Mosegui,
+                <p>Carlos Triana Fernández, David Martínez Castañon, Guillermo Dylan Carvajal Aza, Iván Menéndez Mosegui,
                     Pelayo Reguera García</p>
             </footer>
         )

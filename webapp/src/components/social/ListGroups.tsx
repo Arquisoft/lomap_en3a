@@ -9,7 +9,7 @@ import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import PODManager from "../../adapters/solid/PODManager";
 import Group from "../../domain/Group";
 import GroupInfo from "./GroupInfo";
-import EmptyGroupList from "./EmptyGroupList";
+import EmptyList from "../basic/EmptyList";
 
 interface ListGroupsProps {
     user: User,
@@ -82,7 +82,8 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
                     }}>
                 Create group
             </Button>
-            {this.state.tableBody == null ? <EmptyGroupList/> :
+            {this.state.tableBody == null ? <EmptyList firstHeader={"You don't have any group..."} image={"/globe.png"}
+                                                       secondHeader={"Try adding some friends or creating one yourself!"}/> :
                 <ReactTable id={"user-groups"} tableName={"user-groups"} headCells={["Group name", "Link"]}
                             tableBody={this.state.tableBody}/>}
             <Modal open={this.state.popupOpen} onClose={(() => {

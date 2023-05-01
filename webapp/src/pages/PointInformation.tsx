@@ -17,7 +17,7 @@ import User from "../domain/User";
 
 interface PointInformationProps {
     placemark: Placemark;
-    map: Map;
+    map?: Map;
     open: boolean;
     prevComponent?: JSX.Element;
     onBack?: (prevComponent: ReactElement) => void;

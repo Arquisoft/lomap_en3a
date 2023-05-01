@@ -50,11 +50,11 @@ export default class PODManager {
         await this.saveDataset(path + "/reviews", createSolidDataset(), true);
         await this.createAcl(path + '/');
         place.photos.forEach(async img => await this.addImage(img, place));
-        this.setPublicAccess(this.getBaseUrl()+'/data/places/', true);
+        this.setPublicAccess(this.getBaseUrl() + '/data/places/', true);
     }
 
     public async comment(comment: PlaceComment, place: Place) {
-        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/"+comment.id;
+        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/" + comment.id;
         await this.addCommentToUser(comment);
         await this.addCommentToPlace(place.uuid, commentPath);
     }
@@ -240,7 +240,6 @@ export default class PODManager {
 
         let urls = await this.getContainedUrls(path);
         let maps = await this.getMapPreviews(urls);
-        console.log(maps)
         return maps;
     }
 
@@ -418,16 +417,12 @@ export default class PODManager {
 
     }
 
-    public async getPlace(url:string): Promise<Place> {
-        return (await this.getPlacesFromUrls([url]))[0];
-    }
-
-    public async getAllUserPlaces(webID:string=""): Promise<Place[]> {
-        let urls = await this.getContainedUrls(this.getBaseUrl(webID)+'/data/places/');
+    public async getAllUserPlaces(webID: string = ""): Promise<Place[]> {
+        let urls = await this.getContainedUrls(this.getBaseUrl(webID) + '/data/places/');
         return await this.getPlacesFromUrls(urls);
     }
 
-    private async getPlacesFromUrls(urls:string[]): Promise<Place[]> {
+    private async getPlacesFromUrls(urls: string[]): Promise<Place[]> {
         let engine = new QueryEngine();
         engine.invalidateHttpCache();
         let query = `
@@ -441,11 +436,13 @@ export default class PODManager {
                        schema:identifier ?id .  
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext(urls.map(url => url+"/details")));
+        console.log("la info")
+        console.log(this.getQueryContext(urls.map(url => url + "/details")));
+        let result = await engine.queryBindings(query, this.getQueryContext(urls.map(url => url + "/details")));
 
-        let places:Place[] = []
+        let places: Place[] = []
         await result.toArray().then(r => {
-            r.forEach(binding =>places.push( Assembler.toPlace(binding) ));
+            r.forEach(binding => places.push(Assembler.toPlace(binding)));
         });
         return places;
     }
@@ -499,9 +496,9 @@ export default class PODManager {
         `;
         let result = await engine.queryBindings(query, this.getQueryContext(urls));
 
-        let groups:Group[] = []
+        let groups: Group[] = []
         await result.toArray().then(r => {
-            r.forEach(binding =>groups.push( Assembler.toGroup(binding) ));
+            r.forEach(binding => groups.push(Assembler.toGroup(binding)));
         });
         return groups;
     }
@@ -509,7 +506,7 @@ export default class PODManager {
 
     public async getGroupMaps(group: Group): Promise<Map[]> {
         let webIDs = group.getMembers().map(m => m.getWebId());
-        let groupUrls = webIDs.map( id => this.getBaseUrl(id)+"/groups/"+group.getId() );
+        let groupUrls = webIDs.map(id => this.getBaseUrl(id) + "/groups/" + group.getId());
         let engine = new QueryEngine();
         engine.invalidateHttpCache();
         let query = `
@@ -530,14 +527,14 @@ export default class PODManager {
         });
     }
 
-    public async addMapToGroup(map:Map, group:Group) {
+    public async addMapToGroup(map: Map, group: Group) {
         console.log("add map to group")
         let url = this.getBaseUrl() + "/data/maps/" + map.getId();
         let otherMembers = group.getMembers().filter(m => m.getWebId() !== this.sessionManager.getWebID());
         let newGroup = new Group(group.getName(), otherMembers, group.getId());
 
         await this.saveMap(map);
-        await this.setGroupAccess(url, newGroup, {read:true, write:true});
+        await this.setGroupAccess(url, newGroup, {read: true, write: true});
         console.log("inserting references")
         await this.insertMapReferences(url, group);
         console.log("finished")
@@ -545,11 +542,11 @@ export default class PODManager {
         maps.forEach(m => console.log(m.getId() + " " + m.getName()))
     }
 
-    private async insertMapReferences(mapUrl:string, group:Group): Promise<void> {
-        let url = this.getBaseUrl()+'/groups/'+group.getId();
+    private async insertMapReferences(mapUrl: string, group: Group): Promise<void> {
+        let url = this.getBaseUrl() + '/groups/' + group.getId();
         let dataset = await getSolidDataset(url, {fetch: this.sessionManager.getSessionFetch()});
-        let maps = getThing(dataset, url+"#maps");
-        dataset = setThing(dataset, buildThing(maps||createThing())
+        let maps = getThing(dataset, url + "#maps");
+        dataset = setThing(dataset, buildThing(maps || createThing())
             .addStringNoLocale(RDFS.member, mapUrl)
             .build());
 
@@ -561,7 +558,7 @@ export default class PODManager {
         await this.setGroupAccess(resourceUrl, group, {read: canRead});
     }
 
-    public async setGroupAccess(resourceUrl:string, group:Group, permissions:any) {
+    public async setGroupAccess(resourceUrl: string, group: Group, permissions: any) {
         console.log("set permissions: " + group + resourceUrl)
         for (let user of group.getMembers()) {
             console.log(user)
@@ -569,23 +566,23 @@ export default class PODManager {
                 resourceUrl,
                 user.getWebId(),
                 permissions,
-                { fetch: this.sessionManager.getSessionFetch() }
+                {fetch: this.sessionManager.getSessionFetch()}
             );
         }
     }
 
-    public async setPublicAccess(resourceUrl:string, canRead:boolean, canWrite:boolean=false) {
+    public async setPublicAccess(resourceUrl: string, canRead: boolean, canWrite: boolean = false) {
         await access.setPublicAccess(
             resourceUrl,
-            { read: canRead, write: canWrite },
-            { fetch: this.sessionManager.getSessionFetch() },
+            {read: canRead, write: canWrite},
+            {fetch: this.sessionManager.getSessionFetch()},
         );
     }
 
-    public async changePlacePublicAccess(place:Place, isPublic:boolean) {
-        let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
+    public async changePlacePublicAccess(place: Place, isPublic: boolean) {
+        let path: string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        await this.setPublicAccess(path+"/", isPublic);
+        await this.setPublicAccess(path + "/", isPublic);
         for (let dataset of ['/images', '/comments', '/reviews']) {
             await this.setPublicAccess(path + dataset, true, true);
         }
