@@ -43,14 +43,11 @@ test('When the submit button is clicked, the callback method is executed', () =>
 
     render(filter.render());
 
-    const mockedHandler = jest.spyOn(filter, "handleCategoryChange").mockImplementation(jest.fn());
-
     const checkbox = document.querySelector("input[type='checkbox']") as HTMLInputElement;
     expect(checkbox != null);
     if (checkbox != null) {
         fireEvent.click(checkbox);
         expect(checkbox.checked).toBe(true);
-        //expect(mockedHandler).toHaveBeenCalled();
     }
  });
 

@@ -1,9 +1,8 @@
 import React from 'react';
-import {fireEvent, render, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import FriendManager from '../../adapters/solid/FriendManager';
 import User from '../../domain/User';
 import AddGroup from "../../components/social/AddGroup";
-import userEvent from "@testing-library/user-event";
 import crypto from "crypto";
 
 Object.defineProperty(globalThis, 'crypto', {
@@ -29,6 +28,8 @@ test('The AddGroup component is rendering correctly', async () => {
         expect(getByText("New Group")).toBeInTheDocument();
         expect(getByText("Select the friends to add")).toBeInTheDocument();
         expect(getByText("Create")).toBeInTheDocument();
+        expect(getByText("test1")).toBeInTheDocument();
+        expect(getByText("test2")).toBeInTheDocument();
     });
 });
 
