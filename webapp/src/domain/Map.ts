@@ -43,5 +43,4 @@ export default class Map {
     public getName(): string {
         return this.name;
     }
-
 }
