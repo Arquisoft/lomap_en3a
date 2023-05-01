@@ -37,13 +37,13 @@ export default class FriendManager {
     /**
      * From a webID it returns all the information from a person in a User object
      *
-     * @param webID A string identifying the pod of a user
+     * @param basePath A string identifying the pod of a user
      *
      * @return The object User corresponding to the POD of the webID
      * */
-    public async getUserData(webID: string): Promise<User> {
-        let webIdDoc = await getSolidDataset(webID + "profile/card", {fetch: this.sessionManager.getSessionFetch()});
-        let friends = getThing(webIdDoc, webID + "profile/card#me");
+    public async getUserData(basePath: string): Promise<User> {
+        let webIdDoc = await getSolidDataset(basePath + "profile/card", {fetch: this.sessionManager.getSessionFetch()});
+        let friends = getThing(webIdDoc, basePath + "profile/card#me");
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(<Thing>friends, VCARD.fn);
         let photo = (getNamedNode(<Thing>friends, VCARD.hasPhoto))?.value
@@ -51,12 +51,12 @@ export default class FriendManager {
         let role = getStringNoLocale(<Thing>friends, VCARD.role);
         let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
 
-        let user = new User(name, webID);
+        let user = new User(name, basePath);
         user.photo = photo;
         user.note = note;
         user.role = role;
         user.organization = organization;
 
-        return new User(name, webID);
+        return user;
     }
 }
