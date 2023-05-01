@@ -35,7 +35,7 @@ function ImageList(props: { images: any[]; }) {
             </div>
         );
     }
-    return <></>; // TODO could add some alt text
+    return <>No images uploaded yet</>; // TODO could add some alt text
 }
 
 export default ImageList;
