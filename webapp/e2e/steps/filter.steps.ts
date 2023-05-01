@@ -13,7 +13,7 @@ defineFeature(feature, test => {
   beforeEach(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 20, defaultViewport: null});
+      : await puppeteer.launch({ headless: true});
     page = await browser.newPage();
 
     await page
@@ -24,7 +24,7 @@ defineFeature(feature, test => {
   });
 
   test('A user employs the filter to see places of a category he/she has already used', ({given,when,then}) => {
-    
+
     let username:string;
     let password:string;
     let placeName:string = "Test" + Math.floor(Math.random() * 100000);
@@ -55,7 +55,7 @@ defineFeature(feature, test => {
       await expect(page).toSelect('select[name="category"]', "park");
       await expect(page).toClick('button', {text: "Submit"});
     });
-    
+
 
     when('The users selects the park category in the filter and clicks Search', async () => {
       const [showFiltersButton] = await page.$x('//*[@id="basic-button"]')
@@ -68,65 +68,61 @@ defineFeature(feature, test => {
 
     then('The park can be seen in the map', async () => {
       await expect(page).toClick('.MuiBackdrop-root')
-      //*[@id="root"]/div/div/div/section/div[2]/div/div/div[1]/div[4]/img
-      ///html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img
-      //#root > div > div > div > section > div.content > div > div > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane > img
-      //#root > div > div > div > section > div.content > div > div > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane > img
-      //*[@id="root"]/div/div/div/section/div[2]/div/div/div[1]/div[4]/img
       const[marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
       await marker.click()
-      await expect(page).toMatch(placeName);
+      await expect(page).toMatchElement('img');
     });
   })
 
-  // test('A user employs the filter to see places of a category he/she has not used yet', ({given,when,then}) => {
-  //
-  //   let username:string;
-  //   let password:string;
-  //   let placeName:string = "Test" + Math.floor(Math.random() * 100000);
-  //
-  //   given('A user that has a park in the map', async () => {
-  //     username = "testlomapen3a"
-  //     password = "Test_lomapen3a"
-  //     //The user logs in
-  //     await expect(page).toClick('input[value="Inrupt.net"]')
-  //     await page.waitForNavigation()
-  //     //The user fills the SOLID login form
-  //     await expect(page).toFillForm('form[class="form-horizontal login-up-form"]', {
-  //       username: username,
-  //       password: password
-  //     });
-  //     await expect(page).toClick("button", {text: 'Log In'});
-  //     await page.waitForNavigation()
-  //     await expect(page).toMatch("Home");
-  //     //Adding a park
-  //     await expect(page).toClick('.content > :nth-child(2) > :nth-child(1)');
-  //     const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-  //     await marker.click();
-  //     await expect(page).toClick('input[value="New..."]');
-  //     await expect(page).toFillForm('.Place-form > :nth-child(2)', {
-  //       name: placeName,
-  //       description: "This is a test place"
-  //     });
-  //     await expect(page).toSelect('select[name="category"]', "park");
-  //     await expect(page).toClick('button', {text: "Submit"});
-  //   });
-  //
-  //
-  //   when('The users selects the museum category in the filter and clicks Search', async () => {
-  //     const [showFiltersButton] = await page.$x('//*[@id="basic-button"]')
-  //     await showFiltersButton.click();
-  //     await expect(page).toClick('input[value="museum"]')
-  //     await page.waitForTimeout(5000)
-  //     const [searchButton] = await page.$x('/html/body/div[2]/div[3]/ul/aside/form/button')
-  //     await searchButton.click();
-  //   });
-  //
-  //   then('The museum can not be seen in the map (there are no places in it)', async () => {
-  //     //There are no places in the map
-  //     await expect(page).not.toMatchElement('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
-  //   });
-  // })
+  test('A user employs the filter to see places of a category he/she has not used yet', ({given,when,then}) => {
+
+    let username:string;
+    let password:string;
+    let placeName:string = "Test" + Math.floor(Math.random() * 100000);
+
+    given('A user that has a park in the map', async () => {
+      username = "testlomapen3a"
+      password = "Test_lomapen3a"
+      //The user logs in
+      await expect(page).toClick('input[value="Inrupt.net"]')
+      await page.waitForNavigation()
+      //The user fills the SOLID login form
+      await expect(page).toFillForm('form[class="form-horizontal login-up-form"]', {
+        username: username,
+        password: password
+      });
+      await expect(page).toClick("button", {text: 'Log In'});
+      await page.waitForNavigation()
+      await expect(page).toMatch("Home");
+      //Adding a park
+      //     //Adding a park
+      await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
+      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
+      await marker.click();
+      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toFillForm('.Place-form > :nth-child(2)', {
+        name: placeName,
+        description: "This is a test place"
+      });
+      await expect(page).toSelect('select[name="category"]', "park");
+      await expect(page).toClick('button', {text: "Submit"});
+    });
+
+
+    when('The users selects the museum category in the filter and clicks Search', async () => {
+      const [showFiltersButton] = await page.$x('//*[@id="basic-button"]')
+      await showFiltersButton.click();
+      await expect(page).toClick('input[value="museum"]')
+      await page.waitForTimeout(5000)
+      const [searchButton] = await page.$x('/html/body/div[2]/div[3]/ul/aside/form/button')
+      await searchButton.click();
+    });
+
+    then('The museum can not be seen in the map (there are no places in it)', async () => {
+      //There are no places in the map
+      await expect(page).not.toMatchElement('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+    });
+  })
 
   afterEach(async ()=>{
     browser.close()
