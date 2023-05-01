@@ -17,7 +17,7 @@ input#back{
     display: inline-block;
     position: relative;
     padding-left: 15px;
-    margin: 10px 10px;
+    margin: 25px 10px;
     cursor: pointer;
     font-size: 1.2rem;
     user-select: none;
@@ -36,37 +36,46 @@ input#back{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
   }
 
-  button[type="submit"]{
+  /*
+    css for button of type submit and input with id confirm
+  */
+  button[type="submit"],
+  input#confirm{
     display: inline-block;
     position: relative;
     padding-left: 15px;
-    margin: 10px 10px;
+    margin: 5px 10px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
     user-select: none;
     line-height: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     background-color: #2ea1cb;
     border-color: #017098;
     color: #fff;
     transition: all 0.3s ease; /* Add transition for smooth style changes */
+     /* bold font */
+     font-weight: bold;
   }
   
-  button[type="submit"]:hover {
+  button[type="submit"]:hover,
+  input#confirm:hover{
     background-color: #005fa3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
   }
   
-  button[type="submit"].selected {
+  button[type="submit"].selected,
+  input#confirm.selected{
     background-color: #2ea1cb;
     color: #fff;
     border-color: #005fa3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow for a more modern look */
   }
   
-  button[type="submit"].selected:hover {
+  button[type="submit"].selected:hover,
+  input#confirm.selected:hover{
     background-color: #005fa3;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
   }
