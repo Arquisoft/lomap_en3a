@@ -1,5 +1,6 @@
 import SolidSessionManager from "./SolidSessionManager";
 import {
+    getLiteral, getNamedNode,
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
 } from "@inrupt/solid-client";
@@ -41,11 +42,11 @@ export default class FriendManager {
      * @return The object User corresponding to the POD of the webID
      * */
     public async getUserData(webID: string): Promise<User> {
-        let webIdDoc = await getSolidDataset(webID, {fetch: this.sessionManager.getSessionFetch()});
-        let friends = getThing(webIdDoc, webID);
+        let webIdDoc = await getSolidDataset(webID + "profile/card", {fetch: this.sessionManager.getSessionFetch()});
+        let friends = getThing(webIdDoc, webID + "profile/card#me");
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(<Thing>friends, VCARD.fn);
-        let photo = webID + "profile/" + getStringNoLocale(<Thing>friends, VCARD.hasPhoto);
+        let photo = (getNamedNode(<Thing>friends, VCARD.hasPhoto))?.value
         let note = getStringNoLocale(<Thing>friends, VCARD.note);
         let role = getStringNoLocale(<Thing>friends, VCARD.role);
         let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
