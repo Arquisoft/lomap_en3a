@@ -56,12 +56,10 @@ export default class AddMap extends React.Component<{ group: Group }, {
         }));
         const map: Map = new Map(this.state.mapTitle, this.state.mapDescription);
         let pod = new PODManager();
-        pod.saveMap(map).then(() => {
-            pod.addMapToGroup(map, this.props.group).then(() => {
-                this.setState(({
-                    isCreationDone: true
-                }));
-            });
+        pod.addMapToGroup(map, this.props.group).then(() => {
+            this.setState(({
+                isCreationDone: true
+            }));
         });
         
     }
