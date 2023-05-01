@@ -9,7 +9,6 @@ import Group from "../../domain/Group";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
 
-
 export default class AddGroup extends React.Component<{}, {
     friends: User[],
     selectedFriends: Map<string, boolean>,
@@ -18,6 +17,8 @@ export default class AddGroup extends React.Component<{}, {
     componentHasLoaded: boolean,
     groupTitle: string,
     isCreationDone: boolean
+    error: string | null,
+    emptyList: JSX.Element
 }> {
 
     constructor(props: any) {
@@ -30,6 +31,9 @@ export default class AddGroup extends React.Component<{}, {
             componentHasLoaded: false,
             groupTitle: "",
             isCreationDone: false
+            error: null,
+            isCreationDone: false,
+            emptyList: <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>
         }
 
         this.getUserFriends().then(() => {
@@ -48,10 +52,15 @@ export default class AddGroup extends React.Component<{}, {
 
     private async getUserFriends() {
         let friends = await new FriendManager().getFriendsList();
-        friends.forEach(friend => {
-            this.state.selectedFriends.set(friend.getWebId(), false);
-        })
-        this.setState(({friends: friends, componentHasLoaded: true}))
+        if (friends){
+            friends.forEach(friend => {
+                this.state.selectedFriends.set(friend.getWebId(), false);
+            })
+            this.setState(({friends: friends, componentHasLoaded: true}))
+        }
+        else {
+            this.setState(({componentHasLoaded: true}))
+        }
     }
 
     private handleCheckboxCheck(event: React.ChangeEvent<HTMLInputElement>) {
@@ -215,7 +224,7 @@ export default class AddGroup extends React.Component<{}, {
                                     sx={{width: "100%"}}/>
                             ))}
                         </FormGroup>
-                        : <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>}
+                        : this.state.emptyList}
                     </div>
                     <Button
                         sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}

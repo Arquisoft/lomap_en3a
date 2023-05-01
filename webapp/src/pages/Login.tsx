@@ -57,7 +57,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
                         <legend>Sign in</legend>
                         <section>
                             <p>Select your POD provider</p>
-                            <input type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
+                            <input id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
                         </section>
                     </fieldset>
                 </main>
