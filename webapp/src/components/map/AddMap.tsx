@@ -79,7 +79,7 @@ export default class AddMap extends React.Component<{ group: Group }, {
         }
 
         if (!this.state.hasLoaded) {
-            return <LoadingPage/>
+            return <div><LoadingPage/></div>
         }
 
         return (
