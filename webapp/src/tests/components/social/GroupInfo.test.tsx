@@ -4,6 +4,8 @@ import UserPage from '../../../components/social/UserPage';
 import User from '../../../domain/User';
 import GroupInfo from '../../../components/social/GroupInfo';
 import Group from '../../../domain/Group';
+import PODManager from '../../../adapters/solid/PODManager';
+import Map from '../../../domain/Map';
 
 const name = "test";
 const name1 = "test1";
@@ -14,18 +16,47 @@ const testUser1 = new User(name1, webID1);
 const testUser2 = new User(name2, webID2);
 const members = [testUser1, testUser2];
 
+const crypto = require('crypto');
 
-beforeAll(() => {
-    // As the session manager uses fetching functions
+Object.defineProperty(globalThis, 'crypto', {
+    value: {
+        randomUUID: () => crypto.randomUUID()
+    }
+});
+
+let maps = new Array<Map>();
+const map1 = new Map("Friends places", "https://testMap1");
+const map2 = new Map("Friends maps", "https://testMap2");
+maps.push(map1);
+maps.push(map2);
+
+beforeEach(() => {
 })
 
 test('The UserPage component is rendering correctly', async () => {
+    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation( async (group) => {
+
+        return Promise.resolve(maps);
+    })
     const {getByText} = render(<GroupInfo group={new Group(name, members)} />)
     await waitFor(() => {
-        expect(getByText("test1")).toBeInTheDocument();
+        expect(getByText("test")).toBeInTheDocument();
+        expect(getByText("Members in this group: 2")).toBeInTheDocument();
         expect(getByText("Friends places")).toBeInTheDocument();
         expect(getByText("Friends maps")).toBeInTheDocument();
-        expect(getByText("Link")).toBeInTheDocument();
-        expect(getByText("Information")).toBeInTheDocument();
+    })
+});
+
+test('The UserPage component is rendering correctly', async () => {
+    // As the session manager uses fetching functions
+    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation( async (group) => {
+        return [];
+    })
+
+    const {getByText} = render(<GroupInfo group={new Group(name, members)} />)
+    await waitFor(() => {
+        expect(getByText("test")).toBeInTheDocument();
+        expect(getByText("Members in this group: 2")).toBeInTheDocument();
+        expect(getByText("This group has no maps")).toBeInTheDocument();
     })
 });
