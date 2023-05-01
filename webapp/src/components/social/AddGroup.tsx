@@ -16,7 +16,7 @@ export default class AddGroup extends React.Component<{}, {
     allSelected: boolean,
     componentHasLoaded: boolean,
     groupTitle: string,
-    isCreationDone: boolean
+    isCreationDone: boolean,
     error: string | null,
     emptyList: JSX.Element
 }> {
@@ -30,9 +30,8 @@ export default class AddGroup extends React.Component<{}, {
             allSelected: false,
             componentHasLoaded: false,
             groupTitle: "",
-            isCreationDone: false
-            error: null,
             isCreationDone: false,
+            error: null,
             emptyList: <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>
         }
 

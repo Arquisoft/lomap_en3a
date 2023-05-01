@@ -6,14 +6,7 @@ import Social from "../../pages/Social";
 import SolidSessionManager from '../../adapters/solid/SolidSessionManager';
 import PODManager from "../../adapters/solid/PODManager";
 import Group from "../../domain/Group";
-// To prevent crypto error
-const crypto = require('crypto');
 
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
 
 let users: User[];
 

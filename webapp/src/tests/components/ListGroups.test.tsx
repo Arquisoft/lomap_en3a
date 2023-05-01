@@ -6,14 +6,8 @@ import ListGroups from "../../components/social/ListGroups";
 import User from "../../domain/User";
 import PODManager from "../../adapters/solid/PODManager";
 import Group from "../../domain/Group";
-import crypto from "crypto";
 import {Simulate} from "react-dom/test-utils";
 
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
 
 beforeEach(() => {
     // As the session manager uses fetching functions

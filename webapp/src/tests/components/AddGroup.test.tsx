@@ -3,13 +3,7 @@ import {render, waitFor} from '@testing-library/react';
 import FriendManager from '../../adapters/solid/FriendManager';
 import User from '../../domain/User';
 import AddGroup from "../../components/social/AddGroup";
-import crypto from "crypto";
 
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
 
 beforeEach(() => {
     jest.spyOn(FriendManager.prototype, "getFriendsList").mockImplementation(() => {

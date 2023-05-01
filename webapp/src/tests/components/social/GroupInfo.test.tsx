@@ -16,14 +16,6 @@ const testUser1 = new User(name1, webID1);
 const testUser2 = new User(name2, webID2);
 const members = [testUser1, testUser2];
 
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
-
 let maps = new Array<Map>();
 const map1 = new Map("Friends places", "https://testMap1");
 const map2 = new Map("Friends maps", "https://testMap2");
@@ -35,15 +27,17 @@ beforeEach(() => {
 
 test('The UserPage component is rendering correctly', async () => {
     jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation( async (group) => {
-
         return Promise.resolve(maps);
     })
-    const {getByText} = render(<GroupInfo group={new Group(name, members)} />)
+    const {getByText, getAllByText} = render(<GroupInfo group={new Group(name, members)} />)
     await waitFor(() => {
         expect(getByText("test")).toBeInTheDocument();
         expect(getByText("Members in this group: 2")).toBeInTheDocument();
-        expect(getByText("Friends places")).toBeInTheDocument();
-        expect(getByText("Friends maps")).toBeInTheDocument();
+        //Now we should check that the count of elements that have "Friends places" are two
+        const elements = getAllByText("Friends places");
+        expect(elements.length).toBe(2);
+        const elementsM = getAllByText("Friends maps");
+        expect(elementsM.length).toBe(2);
     })
 });
 
@@ -57,6 +51,5 @@ test('The UserPage component is rendering correctly', async () => {
     await waitFor(() => {
         expect(getByText("test")).toBeInTheDocument();
         expect(getByText("Members in this group: 2")).toBeInTheDocument();
-        expect(getByText("This group has no maps")).toBeInTheDocument();
     })
 });

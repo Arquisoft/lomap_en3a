@@ -7,15 +7,6 @@ import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import PODManager from "../../adapters/solid/PODManager";
 import Place from "../../domain/Place";
 
-// To prevent crypto error
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
-
 // Place to use in the tests
 let place: Place;
 // Placemark to use in the tests

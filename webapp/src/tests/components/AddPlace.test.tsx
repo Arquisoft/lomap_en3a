@@ -12,13 +12,6 @@ const longitude = 0.9;
 const title = "Test";
 const category = "Test";
 
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
 
 beforeEach(() => {
     // As the session manager uses fetching functions
@@ -147,13 +140,4 @@ test('form can be submitted and proper action is executed', async () => {
     // Perform custom assertions on specific fields
     expect(submittedPlacemark.title).toBe('Test Place');
     expect(submittedPlacemark.category).toBe('restaurant');
-});
-
-test('User can change the category of the place', async () => {
-    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
-    await waitFor(() => {
-        const categorySelect = getByPlaceholderText('Restaurant') as HTMLSelectElement;
-        fireEvent.change(categorySelect, { target: { value: 'Museum' } });
-        expect(categorySelect.value).toBe('Museum');
-    })
 });

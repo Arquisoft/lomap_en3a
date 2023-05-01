@@ -7,14 +7,6 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 
-// To prevent crypto error
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});
 
 test('The page renders properly with no maps', async () => {
 

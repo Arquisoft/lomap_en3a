@@ -3,13 +3,6 @@ import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing
 import Place from '../../domain/Place';
 import OverviewPage from '../../components/place/OverviewPage';
 
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});  
 
 const latitude = 0.2;
 const longitude = 0.9;

@@ -43,11 +43,10 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                         </TableRow>
                     ))}
                 </TableBody>);
-            } else {
-                this.setState(({
-
-                }))
             }
+            this.setState(({
+                loading: false
+            }));
         })
 
         this.createMapForGroup = this.createMapForGroup.bind(this);
