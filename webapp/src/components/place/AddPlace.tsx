@@ -293,7 +293,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 						</div>
 						
 						<div id="visibility">
-							<h3>Select the visibility of the place</h3>
+							<h3>Select the visibility of the place:</h3>
 								<PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
 						</div>
 						<button type="submit">Submit</button>

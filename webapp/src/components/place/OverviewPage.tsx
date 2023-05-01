@@ -119,16 +119,32 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (!isValid) {
             return;
         }
+
+        /**
+         * This is for the new implementation of the comments
+         */
+        if (this.props.placeUrl !== null) {
+            let placeUrl = this.props.placeUrl;
+            //this.pod.comment(comment, placeUrl); //run asynchronously
+        }
+
         this.pod.comment(comment, this.state.place); //run asynchronously
         this.setState({commentError: ""});
         
         console.log("Form submitted, comment:", comment);
     };
-    
+
     handleSubmitRating (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         var rating = new PlaceRating(this.sessionManager.getWebID(), this.state.rating);
         //Here the persistence of the object
+        /**
+         * This is for the new implementation of the reviews
+         */
+        if (this.props.placeUrl !== null) {
+            let placeUrl = this.props.placeUrl;
+            //this.pod.review(comment, placeUrl); //run asynchronously
+        }
         this.pod.review(rating, this.state.place) //run asynchronously
         console.log("Form submitted, rating:", rating);
     };
@@ -147,6 +163,14 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         }
         this.setState({photosError: ""});
 
+        /**
+         * This is for the new implementation of the photos
+         */
+        if (this.props.placeUrl !== null) {
+            let placeUrl = this.props.placeUrl;
+            //var photo = new PlacePhotos(placeUrl, this.sessionManager.getWebID(), this.state.photosSelected);
+        }
+
         var photo = new PlacePhotos(this.state.place, this.sessionManager.getWebID(), this.state.photosSelected);
         //Here the persistence of the object
 
@@ -157,7 +181,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         return (
           <div className="OverviewPage">
             <div>
-                <h1>{this.state.place.description}</h1>
+                <h2>{this.state.place.description}</h2>
             </div>
 
             <form onSubmit={this.handleSubmitComment}>
