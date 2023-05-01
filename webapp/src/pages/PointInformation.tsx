@@ -14,6 +14,7 @@ import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import PrivacyComponent from "../components/place/PrivacyComponent";
 import FriendManager from "../adapters/solid/FriendManager";
 import User from "../domain/User";
+import Group from "../domain/Group";
 
 interface PointInformationProps {
     placemark: Placemark;
@@ -54,6 +55,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+        this.savePlaceVisibility = this.savePlaceVisibility.bind(this);
     }
 
     public async componentDidMount(): Promise<void> {
@@ -68,6 +70,24 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.setState({goBack: true});
     }
 
+    private savePlaceVisibility() {
+        let placeUrl = this.props.placemark.getPlaceUrl();
+		
+		switch (this.state.visibility) {
+            case "public":
+                this.pod.setPublicAccess(placeUrl, true);
+                break;
+            case "private":
+                this.pod.setPublicAccess(placeUrl, false);
+                break;
+        }
+
+		if (this.state.friends.length > 0) {
+			let group = new Group("", this.state.friends);
+			this.pod.setGroupAccess(placeUrl, group, {read: true});
+		}
+    }
+
     private handleClickReview() {
         this.setState({component: <ReviewsPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
 
@@ -80,8 +100,7 @@ export default class PointInformation extends React.Component<PointInformationPr
 	//Callback function to pass it to the PrivacyComponent
 	//It updates the privacy of the place
 	handleVisibilityChange = (privacy: string, friends: User[]) => {
-		this.setState({ visibility: privacy });
-		this.setState({ friends: friends });
+		this.setState({ visibility: privacy, friends: friends });
 	}
     /**
      * Returns the point information view, the ImageList returns a Slider
@@ -95,6 +114,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         }
         return (
             <Modal open={this.state.open} onClose={() => {
+                this.savePlaceVisibility();
                 this.setState(({open: false}));
                 if (this.props.onBack !== undefined)
                     this.props.onBack(this.props.prevComponent??<LeafletMapAdapter map={this.props.map}/>);

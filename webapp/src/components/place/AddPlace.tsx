@@ -10,6 +10,7 @@ import PrivacyComponent from "./PrivacyComponent";
 import Map from "../../domain/Map";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import User from "../../domain/User";
+import Group from "../../domain/Group";
 
 enum Category {
   restaurant = "restaurant",
@@ -28,11 +29,11 @@ interface IState {
 	name: string;
 	latitude: number;
 	longitude: number;
-  category: string;
+  	category: string;
 	description: string;
 	photosSelected: File[]; // The array of photos.
 	nameError: string;
-  categoryError: string;
+  	categoryError: string;
 	latitudeError: string;
 	longitudeError: string;
 	descriptionError: string;
@@ -216,22 +217,26 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, undefined ,this.state.category);
-		this.pod.savePlace(place); //run asynchronously
+		await this.pod.savePlace(place); //run asynchronously
 
+		
+		let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
+		
 		switch (this.state.visibility) {
             case "public":
-                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), true);
+                this.pod.setPublicAccess(placeUrl, true);
                 break;
             case "private":
-                this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), false);
-                break;
-            case "friends":
-                //this.pod.setPublicAccess(this.props.placemark.getPlaceUrl(), event.target.value);
+                this.pod.setPublicAccess(placeUrl, false);
                 break;
         }
 
+		if (this.state.friends.length > 0) {
+			let group = new Group("", this.state.friends);
+			this.pod.setGroupAccess(placeUrl, group, {'Permission read': true});
+		}
+
 		if (this.props.callback !== undefined) {
-			let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 			this.props.callback(new Placemark(
 				this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
