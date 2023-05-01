@@ -164,7 +164,7 @@ export default abstract class AbstractSolidRepository {
         let result = await engine.queryBindings(query, this.getQueryContext([path]));
 
         return await result.toArray().then(r => {
-            return r.map(binding => binding.get("content"));
+            return r.map(binding => binding.get("content")?.value as string);
         });
     }
 
