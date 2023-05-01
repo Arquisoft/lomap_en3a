@@ -50,6 +50,7 @@ export default class PODManager {
         await this.saveDataset(path + "/reviews", createSolidDataset(), true);
         await this.createAcl(path + '/');
         place.photos.forEach(async img => await this.addImage(img, place));
+        this.setPublicAccess(this.getBaseUrl()+'/data/places/', true);
     }
 
     public async comment(comment: PlaceComment, place: Place) {
@@ -415,6 +416,38 @@ export default class PODManager {
             }
         });
 
+    }
+
+    public async getPlace(url:string): Promise<Place> {
+        return (await this.getPlacesFromUrls([url]))[0];
+    }
+
+    public async getAllUserPlaces(webID:string=""): Promise<Place[]> {
+        let urls = await this.getContainedUrls(this.getBaseUrl(webID)+'/data/places/');
+        return await this.getPlacesFromUrls(urls);
+    }
+
+    private async getPlacesFromUrls(urls:string[]): Promise<Place[]> {
+        let engine = new QueryEngine();
+        engine.invalidateHttpCache();
+        let query = `
+            PREFIX schema: <http://schema.org/>
+            SELECT DISTINCT ?title ?desc ?lat ?lng ?id
+            WHERE {
+                ?place schema:name ?title ;
+                       schema:description ?desc ;
+                       schema:latitude ?lat ;
+                       schema:longitude ?lng ;  
+                       schema:identifier ?id .  
+            }
+        `;
+        let result = await engine.queryBindings(query, this.getQueryContext(urls.map(url => url+"/details")));
+
+        let places:Place[] = []
+        await result.toArray().then(r => {
+            r.forEach(binding =>places.push( Assembler.toPlace(binding) ));
+        });
+        return places;
     }
 
     public async createFriendsGroup(): Promise<void> {
