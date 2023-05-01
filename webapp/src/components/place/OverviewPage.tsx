@@ -31,7 +31,8 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             rating: 0,
             photosSelected: [],
             photosError: "",
-            commentError: ""
+            commentError: "",
+            placeUrl: props.placeUrl,
         }
 
         //Binding
@@ -78,7 +79,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 			}
 		}
 	}
-
 
     isPhotoInArray(photo: File, photosSelected: File[]) : boolean {
 		for (let i = 0; i < photosSelected.length; i++) {

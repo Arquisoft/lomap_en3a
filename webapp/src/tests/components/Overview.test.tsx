@@ -28,7 +28,7 @@ beforeAll(() => {
     The friends from the friendsList are expected to have a checkbox each one.
 */
 test('The PrivacyComponent is rendered correctly', async () => {
-    const {getByText} = render(<OverviewPage place={new Place(title, 0, 0, description, [], "", "")}/>)
+    const {getByText} = render(<OverviewPage place={new Place(title, 0, 0, description, [], "", "")} placeUrl={''}/>)
     await waitFor(() => {
         expect(getByText(description)).toBeInTheDocument();
         expect(getByText("Comment:")).toBeInTheDocument();
