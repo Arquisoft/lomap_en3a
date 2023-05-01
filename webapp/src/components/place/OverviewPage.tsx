@@ -123,12 +123,12 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         /**
          * This is for the new implementation of the comments
          */
-        if (this.props.placeUrl !== null) {
+        if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
-            //this.pod.comment(comment, placeUrl); //run asynchronously
+            this.pod.comment(comment, placeUrl); //run asynchronously
         }
 
-        this.pod.comment(comment, this.state.place); //run asynchronously
+        //this.pod.comment(comment, this.state.place); //run asynchronously
         this.setState({commentError: ""});
         
         console.log("Form submitted, comment:", comment);
@@ -141,11 +141,11 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         /**
          * This is for the new implementation of the reviews
          */
-        if (this.props.placeUrl !== null) {
+        if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
-            //this.pod.review(comment, placeUrl); //run asynchronously
+            this.pod.review(rating, placeUrl); //run asynchronously
         }
-        this.pod.review(rating, this.state.place) //run asynchronously
+        //this.pod.review(rating, this.state.place) //run asynchronously
         console.log("Form submitted, rating:", rating);
     };
 
