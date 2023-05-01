@@ -41,8 +41,8 @@ beforeAll(() => {
 test('The AddPlace component is rendering correctly', async () => {
     const {getByText} = render(<MapInfo map={map}/>)
     await waitFor(() => {
-        expect(getByText("Title: TestMap")).toBeInTheDocument();
-        expect(getByText("Description: TestDescription")).toBeInTheDocument();
+        expect(getByText("TestMap")).toBeInTheDocument();
+        expect(getByText("TestDescription")).toBeInTheDocument();
         expect(getByText("TestPlacemark1")).toBeInTheDocument();
         expect(getByText("TestPlacemark2")).toBeInTheDocument();
 

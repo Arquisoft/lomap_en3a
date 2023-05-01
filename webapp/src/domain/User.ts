@@ -1,7 +1,7 @@
 export default class User {
     private readonly webID: string;
     private readonly name: string | null;
-    private _photo: string | null = null;
+    private _photo: string | undefined;
     private _note: string | null = null;
     private _role: string | null = null;
     private _organization: string | null = null;
@@ -19,7 +19,7 @@ export default class User {
         return this.webID;
     }
 
-    set photo(photo: string | null){
+    set photo(photo: string | undefined){
         this._photo = photo;
     }
 

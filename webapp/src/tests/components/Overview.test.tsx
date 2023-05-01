@@ -3,13 +3,6 @@ import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing
 import Place from '../../domain/Place';
 import OverviewPage from '../../components/place/OverviewPage';
 
-const crypto = require('crypto');
-
-Object.defineProperty(globalThis, 'crypto', {
-    value: {
-        randomUUID: () => crypto.randomUUID()
-    }
-});  
 
 const latitude = 0.2;
 const longitude = 0.9;
@@ -28,7 +21,7 @@ beforeAll(() => {
     The friends from the friendsList are expected to have a checkbox each one.
 */
 test('The PrivacyComponent is rendered correctly', async () => {
-    const {getByText} = render(<OverviewPage place={new Place(title, 0, 0, description, [], "", "")}/>)
+    const {getByText} = render(<OverviewPage place={new Place(title, 0, 0, description, [], "", "")} placeUrl={''}/>)
     await waitFor(() => {
         expect(getByText(description)).toBeInTheDocument();
         expect(getByText("Comment:")).toBeInTheDocument();

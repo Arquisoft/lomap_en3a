@@ -76,7 +76,6 @@ export default class Place {
         return this._category;
     }
 
-
     // public imageToBase64(image : File){
     //     var fs = require('fs');
     //     // read binary data

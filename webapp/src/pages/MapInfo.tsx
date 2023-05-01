@@ -9,6 +9,11 @@ import User from "../domain/User";
 import Placemark from "../domain/Placemark";
 import PointInformation from "./PointInformation";
 import LoadingPage from "../components/basic/LoadingPage";
+import Footer from "../components/Footer";
+import ReactTable from "../components/basic/ReactTable";
+import {TableBody, TableCell, TableRow} from "@mui/material";
+import EmptyList from "../components/basic/EmptyList";
+import Social from "./Social";
 import Group from "../domain/Group";
 
 interface MapInfoProps {
@@ -25,6 +30,8 @@ interface MapInfoState {
     currentComponent: JSX.Element;
     loadedPlaces: boolean;
     friends: User[];
+    tablePlacesBody: JSX.Element,
+    emptyListOfPoints: JSX.Element | null
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
@@ -42,6 +49,8 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             selectedPlacemark: new Placemark(0, 0),
             currentComponent: <div/>,
             loadedPlaces: false,
+            tablePlacesBody: <></>,
+            emptyListOfPoints: null,
             friends: [],
         };
         this.goBack = this.goBack.bind(this);
@@ -52,9 +61,37 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
 
     private async loadPlaceMarks(callback: () => void) {
         await this.state.pod.loadPlacemarks(this.state.theMap);
-        this.state.theMap.getPlacemarks().forEach((placemark) => {
-            console.log(placemark.getTitle());
-        });
+        if (this.state.theMap.getPlacemarks().length > 0) {
+            this.setState(({
+                tablePlacesBody: (<TableBody>
+                    {this.state.theMap.getPlacemarks().map((placemark) => (
+                        <TableRow key={placemark.getTitle()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">{placemark.getTitle()}</TableCell>
+                            <TableCell align="right">
+                                <button
+                                    onClick={() => this.setState({open: true, selectedPlacemark: placemark})}
+                                    type="submit">
+                                    See detail...
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>)
+            }));
+        } else {
+            this.setState(({
+                emptyListOfPoints: (<EmptyList firstHeader={"There are no places in this map..."}
+                                               secondHeader={"Try adding some!"}
+                                               image={"/marker_black.png"}
+                                               imageStyle={{
+                                                   width: "100px",
+                                                   height: "194px",
+                                                   marginLeft: "2em",
+                                                   alignSelf: "end"
+                                               }}/>)
+            }))
+        }
+
         callback();
     }
 
@@ -63,7 +100,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
     }
 
     private handleVisibilityChange = (privacy: string, friends: User[]) => {
-		this.setState({ visibility: privacy, friends: friends });        
+        this.setState({visibility: privacy, friends: friends});
     }
 
     private handleVisibility() {
@@ -77,10 +114,11 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                 break;
         }
 
-		if (this.state.friends.length > 0) {
-			let group = new Group("", this.state.friends);
-			this.state.pod.setGroupAccess(mapUrl, group, {read: true});
-		}
+        if (this.state.friends.length > 0) {
+            let group = new Group("", this.state.friends);
+            this.state.pod.setGroupAccess(mapUrl, group, {read: true});
+        }
+
     }
 
     public async componentDidMount() {
@@ -100,7 +138,10 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
         if (this.state.goBack) {
             return <UserStuff/>;
         }
-        return (
+        return (<>
+            <div className="back-page-link-container" id="back" onClick={this.goBack}>
+                <a className="back-page-link">Back</a>
+            </div>
             <section className="my-stuff">
                 <div className="mapInformation">
                     <h1>{this.state.theMap.getName()}</h1>
@@ -108,22 +149,23 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
                     {this.state.loadedPlaces &&
-                        <div className="places-buttons" >
+                        <div className="places-buttons">
                             {this.state.theMap.getPlacemarks().map((placemark) => (
                                 <div className="place-button">
                                     <h3>{placemark.getTitle()}</h3>
-                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})} type="submit">
-                                    See detail
-                                </button>
+                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})}
+                                            type="submit">
+                                        See detail
+                                    </button>
                                 </div>
-                                ))
+                            ))
                             }
                         </div>
                     }
-                    {!this.state.loadedPlaces && 
+                    {!this.state.loadedPlaces &&
                         <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
                     }
-                    {this.state.loadedPlaces && 
+                    {this.state.loadedPlaces &&
                         this.state.theMap.getPlacemarks().length === 0 &&
                         <p>There are no places in this map</p>
                     }
@@ -136,15 +178,22 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                 <div>
                     <input type="button" id="confirm" value="Confirm change" onClick={this.handleVisibility}/>
                 </div>
-                <input type="button" id="back" value="Back" onClick={this.goBack}/>
                 {this.state.open && (
-                <PointInformation prevComponent={this.state.currentComponent} 
-                map={this.state.theMap} 
-                placemark={this.state.selectedPlacemark} 
-                open={true}
-                onBack={this.handleBack}/>
-            )}
+                    <PointInformation prevComponent={this.state.currentComponent}
+                                      map={this.state.theMap}
+                                      placemark={this.state.selectedPlacemark}
+                                      open={true}
+                                      onBack={this.handleBack}/>
+                )}
             </section>
-        );
+            <Footer style={{
+                backgroundColor: "#002E66",
+                color: "white",
+                textAlign: "center",
+                fontSize: "x-small",
+                height: "6em",
+                paddingTop: "0.3em"
+            }}/>
+        </>);
     }
 }

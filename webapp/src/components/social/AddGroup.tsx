@@ -7,7 +7,7 @@ import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
 import Group from "../../domain/Group";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-
+import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
 
 export default class AddGroup extends React.Component<{}, {
     friends: User[],
@@ -16,8 +16,9 @@ export default class AddGroup extends React.Component<{}, {
     allSelected: boolean,
     componentHasLoaded: boolean,
     groupTitle: string,
+    isCreationDone: boolean,
     error: string | null,
-    isCreationDone: boolean
+    emptyList: JSX.Element
 }> {
 
     constructor(props: any) {
@@ -29,8 +30,9 @@ export default class AddGroup extends React.Component<{}, {
             allSelected: false,
             componentHasLoaded: false,
             groupTitle: "",
+            isCreationDone: false,
             error: null,
-            isCreationDone: false
+            emptyList: <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>
         }
 
         this.getUserFriends().then(() => {
@@ -49,10 +51,15 @@ export default class AddGroup extends React.Component<{}, {
 
     private async getUserFriends() {
         let friends = await new FriendManager().getFriendsList();
-        friends.forEach(friend => {
-            this.state.selectedFriends.set(friend.getWebId(), false);
-        })
-        this.setState(({friends: friends, componentHasLoaded: true}))
+        if (friends){
+            friends.forEach(friend => {
+                this.state.selectedFriends.set(friend.getWebId(), false);
+            })
+            this.setState(({friends: friends, componentHasLoaded: true}))
+        }
+        else {
+            this.setState(({componentHasLoaded: true}))
+        }
     }
 
     private handleCheckboxCheck(event: React.ChangeEvent<HTMLInputElement>) {
@@ -111,9 +118,7 @@ export default class AddGroup extends React.Component<{}, {
 
         // Check for possible wrong values
         if (this.state.groupTitle.trim().length == 0) {
-            this.setState(({
-                error: "The group name can not be empty"
-            }));
+            return;
         } else {
             let users: User[] = [];
 
@@ -158,10 +163,10 @@ export default class AddGroup extends React.Component<{}, {
 
     render() {
 
-        // TODO to be changed
         if (this.state.isCreationDone) {
-            return <div>
+            return <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
                 <h2>Done!</h2>
+                <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
             </div>
         }
 
@@ -170,11 +175,8 @@ export default class AddGroup extends React.Component<{}, {
             </div>
         }
 
-        // TODO do a cool error display :=)
-
         return (<div style={{overflow: "scroll"}}>
                 <h2>{this.state.groupTitle.length > 0 ? this.state.groupTitle : "New Group"}</h2>
-                <span><p>{this.state.error}</p></span>
                 <form onSubmit={this.createGroup}>
                     <TextField
                         id="standard-basic"
@@ -183,6 +185,8 @@ export default class AddGroup extends React.Component<{}, {
                         variant="standard"
                         sx={{marginBottom: "1em"}}
                         onChange={this.handleInputChange}
+                        error={this.state.groupTitle === ""}
+                        helperText={this.state.groupTitle === "" ? 'Empty field!' : ' '}
                     />
                     <label htmlFor="friends-checkbox">Select the friends to add</label>
                     <div style={{
@@ -219,7 +223,7 @@ export default class AddGroup extends React.Component<{}, {
                                     sx={{width: "100%"}}/>
                             ))}
                         </FormGroup>
-                        : <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>}
+                        : this.state.emptyList}
                     </div>
                     <Button
                         sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}

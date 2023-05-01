@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, {ReactElement} from "react";
 import Place from "../domain/Place";
 import ImageList from "../components/basic/ImageList";
 import "../styles/pointInfo.css";
@@ -18,9 +18,9 @@ import Group from "../domain/Group";
 
 interface PointInformationProps {
     placemark: Placemark;
-    map: Map;
+    map?: Map;
     open: boolean;
-    prevComponent?: ReactElement;
+    prevComponent?: JSX.Element;
     onBack?: (prevComponent: ReactElement) => void;
 }
 
@@ -38,6 +38,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     private point: Place;
     private pod = new PODManager();
+    private photosURLs: string[] = [];
 
     public constructor(props: any) {
         super(props);
@@ -60,8 +61,9 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
+        this.photosURLs = await this.pod.getImageUrls(this.props.placemark.getPlaceUrl());
         this.setState({
-            component: <OverviewPage place={this.point}/>
+            component: <OverviewPage place={this.point} placeUrl={"this.props.placemark.getPlaceUrl()"}/>
         });
     }
 
@@ -72,8 +74,8 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     private savePlaceVisibility() {
         let placeUrl = this.props.placemark.getPlaceUrl();
-		
-		switch (this.state.visibility) {
+
+        switch (this.state.visibility) {
             case "public":
                 this.pod.setPublicAccess(placeUrl, true);
                 break;
@@ -82,10 +84,10 @@ export default class PointInformation extends React.Component<PointInformationPr
                 break;
         }
 
-		if (this.state.friends.length > 0) {
-			let group = new Group("", this.state.friends);
-			this.pod.setGroupAccess(placeUrl, group, {read: true});
-		}
+        if (this.state.friends.length > 0) {
+            let group = new Group("", this.state.friends);
+            this.pod.setGroupAccess(placeUrl, group, {read: true});
+        }
     }
 
     private handleClickReview() {
@@ -94,14 +96,15 @@ export default class PointInformation extends React.Component<PointInformationPr
     };
 
     private handleClickOverview() {
-        this.setState({component: <OverviewPage place={this.point}/>});
+        this.setState({component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
     }
 
-	//Callback function to pass it to the PrivacyComponent
-	//It updates the privacy of the place
-	handleVisibilityChange = (privacy: string, friends: User[]) => {
-		this.setState({ visibility: privacy, friends: friends });
-	}
+    //Callback function to pass it to the PrivacyComponent
+    //It updates the privacy of the place
+    handleVisibilityChange = (privacy: string, friends: User[]) => {
+        this.setState({visibility: privacy, friends: friends});
+    }
+
     /**
      * Returns the point information view, the ImageList returns a Slider
      * with the given images and the Link is just a button to go back to
@@ -110,43 +113,45 @@ export default class PointInformation extends React.Component<PointInformationPr
     public render(): JSX.Element {
         if (this.state.goBack) {
             //return <LeafletMapAdapter map={this.props.map}/>;
-            return this.props.prevComponent??<LeafletMapAdapter map={this.props.map}/>;
+            return this.props.prevComponent ?? <LeafletMapAdapter map={this.props.map}/>;
         }
         return (
             <Modal open={this.state.open} onClose={() => {
                 this.savePlaceVisibility();
                 this.setState(({open: false}));
-                if (this.props.onBack !== undefined)
-                    this.props.onBack(this.props.prevComponent??<LeafletMapAdapter map={this.props.map}/>);
+                if (this.props.onBack !== undefined) {
+                    console.log("It goes back")
+                    this.props.onBack(this.props.prevComponent ?? <LeafletMapAdapter map={this.props.map}/>);
+                }
             }}>
                 <ModalDialog className="custom-modal-dialog">
-                    <ModalClose/>
+                    <ModalClose />
                     <section className="pointInfo" /*style={{overflow: "scroll"}}*/>
                         <div className="pointInformation">
-                            {this.point.title === "Loading..." && 
-                            <h1>Title: {this.point.title}</h1>}
+                            {this.point.title === "Loading..." &&
+                                <h1>Title: {this.point.title}</h1>}
                             {this.point.title !== "Loading..." &&
                                 <h1>{this.point.title}</h1>}
                             <div id="images">
-                                <ImageList images={this.point.photos}></ImageList>
+                                <ImageList images={this.photosURLs}></ImageList>
                             </div>
                             <p>Location: {this.point.latitude != 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
 
                             {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
                                 <div id="visibility">
-                                <h3>Change visibility of the place:</h3>
+                                    <h3>Change visibility of the place:</h3>
                                     <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
-                            </div>}
+                                </div>}
                         </div>
                         <div>
                             <button
-                                    className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
+                                className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
                                 }`} onClick={this.handleClickOverview}>Overview
                             </button>
 
                             <button
                                 className={`pi-radio-option ${this.state.component.type === ReviewsPage ? "selected" : ""
-                                }`}  onClick={this.handleClickReview}>Reviews
+                                }`} onClick={this.handleClickReview}>Reviews
                             </button>
                             {this.state.component}
                         </div>

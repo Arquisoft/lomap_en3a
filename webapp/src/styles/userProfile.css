@@ -8,6 +8,7 @@
     border-bottom-right-radius: 0.1em;
     background-color: #002E66;
     padding: 0.5em;
+    text-align: center;
 }
 
 .back-page-link-container:hover {
@@ -34,4 +35,8 @@
 
 .paginated-table {
     min-width: 650px;
+}
+
+.LeafletMapAdapter {
+    height: 100%;
 }
