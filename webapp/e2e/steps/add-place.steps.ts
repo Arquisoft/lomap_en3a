@@ -47,8 +47,9 @@ defineFeature(feature, test => {
     
 
     when('The users adds a place', async () => {
-      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1)');
-      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+      await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
+      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
+      await marker.click();
       await expect(page).toClick('input[value="New..."]');
       await expect(page).toFillForm('.Place-form > :nth-child(2)', {
         name: placeName,
@@ -58,7 +59,8 @@ defineFeature(feature, test => {
     });
 
     then('The place can be seen on the map', async () => {
-      await expect(page).toClick('.content > :nth-child(2) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
+      await marker.click();
       await expect(page).toMatch(placeName);
     });
   })
