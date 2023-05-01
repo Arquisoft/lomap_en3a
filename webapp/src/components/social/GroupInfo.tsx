@@ -1,12 +1,8 @@
 import React from "react";
 import ReactTable from "../basic/ReactTable";
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import Button from "@mui/material/Button";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
-import LoadingPage from "../basic/LoadingPage";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
@@ -37,14 +33,10 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                     ))}
                 </TableBody>);
             } else {
-                // TODO change
                 this.setState(({
-                    emptyTable: <h2>This group has no maps</h2>
-                }));
+
+                }))
             }
-            this.setState(({
-                loading: false
-            }));
         })
     }
 
@@ -53,20 +45,12 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
     }
 
     render() {
-
-        if (this.state.loading) {
-            return <LoadingPage/>;
-        }
-
         return (
             <section>
                 <h2>{this.props.group.getName()}</h2>
                 <p>Members in this group: {this.props.group.getMembers().length}</p>
-                {
-                    this.state.emptyTable != null ? this.state.emptyTable :
-                        <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
-                                    tableBody={this.tableBody}/>
-                }
+                <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
+                            tableBody={this.tableBody}/>
             </section>
         );
     }

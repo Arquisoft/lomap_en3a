@@ -1,7 +1,12 @@
+.App {
+    background: url("../../public/background_login.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
 @font-face {
     font-family: "PatrickHand";
     src: local("PatrickHand"),
-      url("./fonts/PatrickHand-Regular.ttf") format("truetype");
+    url("./fonts/PatrickHand-Regular.ttf") format("truetype");
     font-weight: normal;
 }
 
@@ -11,6 +16,7 @@
         font-size: 3vw;
     }
 }
+
 @media (min-width: 601px) {
     .LoginPage {
         width: 30%;
@@ -18,8 +24,8 @@
 }
 
 .LoginPage {
-    color: #ffffff;
-    background-color: #020024;
+    color: black;
+    background-color: #FAF9F6;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,14 +35,17 @@
 }
 
 .LoginPage h1 {
-    color: #ffffff;
-    font-family: "PatrickHand";
+    color: black;
+    font-family: "PatrickHand", serif;
     font-size: 4em;
 }
 
 .LoginPage p {
     font-size: 1.2em;
     margin-bottom: 3em;
+}
+.LoginPage fieldset{
+    margin-bottom: 2em;
 }
 
 .LoginPage fieldset > legend {
@@ -51,14 +60,12 @@
     padding: 2em;
     border: 0.25em solid;
     width: 75%;
-    padding-bottom: 2em;
-
-    border-image: linear-gradient(to right bottom, #9D00FF, #FF00E1) 10;
+    border-image: linear-gradient(to right bottom, #002E66, #028ad3) 10;
 }
 
 .LoginPage fieldset > section > input {
     color: #ffffff;
-    background-color: #7C4DFF;
+    background-color: #005fa3;
     font-size: 1.5em;
     padding: 0.5em;
     width: 100%;
@@ -66,16 +73,11 @@
     border: none;
 }
 
-* {
-    box-sizing: border-box;
+.LoginPage fieldset > section > input:hover {
+    background-color: #002E66;
+    cursor: pointer;
 }
 
-.coloredGround {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    align-self: center;
-    border-radius: 0.5em;
-    background: linear-gradient(45deg, lightblue, blue) fixed;
+* {
+    box-sizing: border-box;
 }

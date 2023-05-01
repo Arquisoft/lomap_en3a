@@ -9,7 +9,7 @@ interface LoadingPageProps {
 /**
  * Just a simple loading page, arguments can be passed to style it as needed.
  *
- * @param {{}} [style=[{position: "fixed",top: "50%",left: "45%"}]]
+ * @param {{}} [style=[{position: "fixed",top: "35%",left: "45%"}]]
  * @param {number} [size=200]
  * @constructor
  */
@@ -22,7 +22,7 @@ export default class LoadingPage extends React.Component<LoadingPageProps, any> 
     render() {
         return <div style={this.props.style || {
             position: "fixed",
-            top: "50%",
+            top: "35%",
             left: "45%"
         }}><CircularProgress size={this.props.size || 200}></CircularProgress></div>;
     }

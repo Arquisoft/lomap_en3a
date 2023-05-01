@@ -19,7 +19,7 @@ interface PointInformationProps {
     placemark: Placemark;
     map: Map;
     open: boolean;
-    prevComponent?: ReactElement;
+    prevComponent?: JSX.Element;
     onBack?: (prevComponent: ReactElement) => void;
 }
 

@@ -35,3 +35,7 @@
 .paginated-table {
     min-width: 650px;
 }
+
+.LeafletMapAdapter {
+    height: 100%;
+}

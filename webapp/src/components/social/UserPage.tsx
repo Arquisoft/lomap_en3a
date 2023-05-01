@@ -1,21 +1,31 @@
 import React from "react";
 import User from "../../domain/User";
-import {Avatar, TableBody, TableCell, TableRow} from "@mui/material";
+import {AppBar, Avatar, Dialog, IconButton, TableBody, TableCell, TableRow} from "@mui/material";
 import Place from "../../domain/Place";
 import Map from "../../domain/Map";
 import ReactTable from "../basic/ReactTable";
 import "../../styles/userProfile.css";
 import Social from "../../pages/Social";
+import PODManager from "../../adapters/solid/PODManager";
+import LoadingPage from "../basic/LoadingPage";
+import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
+import Slide from '@mui/material/Slide';
+import {TransitionProps} from '@mui/material/transitions';
+import CloseIcon from '@mui/icons-material/Close';
+import Toolbar from '@mui/material/Toolbar';
+import Footer from "../Footer";
 
 interface UserPageProps {
     user: User
 }
 
 interface UserPageState {
-    placePage: number
-    mapPage: number
     placeShown: Place | null
     pageToChange: JSX.Element | null
+    hasLoaded: boolean,
+    maps: JSX.Element,
+    showMapPopUp: boolean,
+    mapForPopUp: Map | null
 }
 
 /**
@@ -25,69 +35,78 @@ interface UserPageState {
  */
 export default class UserPage extends React.Component<UserPageProps, UserPageState> {
 
-    private placesArray: Array<Place>;
-    private mapsArray: Array<Map>;
-    private places: JSX.Element;
-    private maps: JSX.Element;
-
+    private Transition = React.forwardRef(function Transition(
+        props: TransitionProps & {
+            children: React.ReactElement;
+        },
+        ref: React.Ref<unknown>,
+    ) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
 
     constructor(props: UserPageProps) {
         super(props);
-        this.placesArray = new Array<Place>();
-        this.mapsArray = new Array<Map>();
         this.state = {
-            placePage: 0,
-            mapPage: 0,
             placeShown: null,
-            pageToChange: null
+            pageToChange: null,
+            hasLoaded: false,
+            maps: <></>,
+            showMapPopUp: false,
+            mapForPopUp: null
         }
 
-        this.places = <></>;
-        this.maps = <></>;
-
         // Get the maps from the user, update the pages of the tables
-        this.getMaps().then(() => {
-            this.setState(() => ({
-                placePage: 0,
-                mapPage: 0
+        this.getMaps().then((maps) => {
+            console.log(maps);
+            this.setState(({
+                hasLoaded: true,
+                maps: (<TableBody>
+                    {maps.map((map) => (
+                        <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">{map.getName()}</TableCell>
+                            <TableCell align="right">{map.getDescription()}</TableCell>
+                            <TableCell align="right"><a onClick={() => {
+                                this.showMap(map);
+                            }}>See map</a></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>)
             }));
-            this.maps = (<TableBody>
-                {this.mapsArray.map((map) => (
-                    <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                        <TableCell component="th" scope="row">{map.getName()}</TableCell>
-                        <TableCell align="right"><a>See map</a></TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>);
+
+        }).catch(() => {
+            this.setState(({
+                pageToChange: (<h1>There was a problem</h1>)
+            }));
         });
 
-        this.places = (<TableBody>
-            {this.placesArray.map((place) => (
-                <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                    < TableCell component="th" scope="row">{place.title}</TableCell>
-                    <TableCell align="right">{place.latitude},{place.longitude}</TableCell>
-                    <TableCell align="right">{place.description}</TableCell>
-                    <TableCell align="right"><a>Info</a></TableCell>
-                </TableRow>
-            ))}
-        </TableBody>);
     }
 
     private async getMaps() {
-        // TODO will need to be changed if the method getWebId is changed
-        //this.mapsArray = await new PODManager().getAllMaps(this.props.user.getWebId().split("/")[2]);
+        return await new PODManager().getAllMaps(this.props.user.getWebId());
+    }
+
+    private showMap(map: Map) {
+        new PODManager().loadPlacemarks(map, this.props.user.getWebId()).then(() => {
+            this.setState(({
+                showMapPopUp: true,
+                mapForPopUp: map
+            }))
+        });
     }
 
     render() {
         if (this.state?.pageToChange != null) {
             return this.state.pageToChange;
         }
+
+        if (!this.state.hasLoaded) {
+            return <LoadingPage/>;
+        }
+
         return (
             <>
                 <div className="back-page-link-container" onClick={() => {
                     this.setState({
-                        placePage: 0,
-                        mapPage: 0,
                         placeShown: null,
                         pageToChange: (<Social/>)
                     })
@@ -105,16 +124,43 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                             }}>{this.props.user.getName()?.charAt(0)}</Avatar>
                     <a href={this.props.user.getWebId()}>SOLID Profile</a>
                     <div className="friends-tables">
-                        <label htmlFor="places-table">Friends places</label>
-                        <ReactTable tableName="places" tableBody={this.places}
-                                    headCells={["Title", "Coordinates", "Description", "Information"]}
-                                    headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
                         <label htmlFor="maps-table">Friends maps</label>
-                        <ReactTable tableName="places" tableBody={this.maps}
+                        <ReactTable tableName="places" tableBody={this.state.maps}
                                     headCells={["Name", "Description", "Link"]}
                                     headerCellStyle={{color: "white"}} id={"maps-table"}></ReactTable>
                     </div>
                 </main>
+                <Dialog
+                    fullScreen
+                    open={this.state.showMapPopUp}
+                    onClose={() => {
+                        this.setState(({showMapPopUp: false}))
+                    }}
+                    TransitionComponent={this.Transition}
+                >
+                    <AppBar sx={{position: 'relative', backgroundColor: "#002E66"}}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={() => {
+                                    this.setState(({showMapPopUp: false}))
+                                }}
+                                aria-label="close"
+                            >
+                                <CloseIcon/>
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <LeafletMapAdapter map={this.state.mapForPopUp !== null ? this.state.mapForPopUp : undefined}/>
+                    <Footer style={{
+                        backgroundColor: "#002E66",
+                        color: "white",
+                        textAlign: "center",
+                        fontSize: "x-small",
+                        height: "100%"
+                    }}/>
+                </Dialog>
             </>)
     }
 }

@@ -35,6 +35,7 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
         this.state = {
             changePage: false
         }
+        console.log(this.user);
     }
 
     private getFriendInfo(user: User) {
