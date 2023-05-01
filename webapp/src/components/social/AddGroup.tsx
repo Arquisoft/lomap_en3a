@@ -15,7 +15,8 @@ export default class AddGroup extends React.Component<{}, {
     componentHasLoaded: boolean,
     groupTitle: string,
     error: string | null,
-    isCreationDone: boolean
+    isCreationDone: boolean,
+    emptyList: JSX.Element
 }> {
 
     constructor(props: any) {
@@ -28,7 +29,8 @@ export default class AddGroup extends React.Component<{}, {
             componentHasLoaded: false,
             groupTitle: "",
             error: null,
-            isCreationDone: false
+            isCreationDone: false,
+            emptyList: <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>
         }
 
         this.getUserFriends().then(() => {
@@ -47,10 +49,15 @@ export default class AddGroup extends React.Component<{}, {
 
     private async getUserFriends() {
         let friends = await new FriendManager().getFriendsList();
-        friends.forEach(friend => {
-            this.state.selectedFriends.set(friend.getWebId(), false);
-        })
-        this.setState(({friends: friends, componentHasLoaded: true}))
+        if (friends){
+            friends.forEach(friend => {
+                this.state.selectedFriends.set(friend.getWebId(), false);
+            })
+            this.setState(({friends: friends, componentHasLoaded: true}))
+        }
+        else {
+            this.setState(({componentHasLoaded: true}))
+        }
     }
 
     private handleCheckboxCheck(event: React.ChangeEvent<HTMLInputElement>) {
@@ -217,7 +224,7 @@ export default class AddGroup extends React.Component<{}, {
                                     sx={{width: "100%"}}/>
                             ))}
                         </FormGroup>
-                        : <p style={{marginLeft: "2em"}}>Your friend list is empty!</p>}
+                        : this.state.emptyList}
                     </div>
                     <Button
                         sx={{marginTop: "1em", alignSelf: "end", height: "2em"}} size={"small"}
