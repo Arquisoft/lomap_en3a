@@ -219,7 +219,7 @@ export default class AddGroup extends React.Component<{}, {
                                 <FormControlLabel
                                     control={<Checkbox value={user.getWebId()}
                                                        onChange={this.handleCheckboxCheck}/>}
-                                    label={user.getName()}
+                                    label={user.getName() || user.getWebId()}
                                     checked={this.state.selectedFriends.get(user.getWebId()) || this.state.allSelected}
                                     sx={{width: "100%"}}/>
                             ))}
