@@ -60,7 +60,7 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
             this.setState(() => ({
                 loaded: true
             }));
-        }).catch(error => {
+        }).catch(() => {
             this.setState(() => ({
                 loaded: true
             }));
@@ -76,7 +76,6 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
 
     private async loadUserData() {
         const mapsAux = await new PODManager().getAllMaps();
-        console.log(mapsAux)
         if (mapsAux.length === 0) {
             this.setState(({
                 loaded: true

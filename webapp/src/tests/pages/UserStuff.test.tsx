@@ -7,24 +7,25 @@ import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 
-
-test('The page renders properly with no maps', async () => {
-
-    let maps: Map[] = [];
-    jest.spyOn(PODManager.prototype, "getAllMaps").mockImplementation(async () => {
-        return maps;
-    })
+beforeEach(() => {
     jest.spyOn(FriendManager.prototype, "getUserData").mockImplementation(async (webID) => {
         return new User("Test user", "test");
     });
     jest.spyOn(SolidSessionManager.prototype, "getWebID").mockImplementation(() => {
         return "test";
     });
+});
 
+test('The page renders properly with no maps', async () => {
+    let maps: Map[] = [];
+    jest.spyOn(PODManager.prototype, "getAllMaps").mockImplementation(async () => {
+        return maps;
+    })
     const {getByText} = render(<UserStuff/>);
     await waitFor(() => {
         expect(getByText("Test user")).toBeInTheDocument();
-        expect(getByText("Map link")).toBeInTheDocument();
+        expect(getByText("Users Maps")).toBeInTheDocument();
+        expect(getByText("You dont seem to have any map!")).toBeInTheDocument();
+        expect(getByText("Try creating a new one")).toBeInTheDocument();
     })
-
 });
