@@ -46,7 +46,7 @@ test('The AddPlace component is rendering correctly', async () => {
         expect(getByText("TestPlacemark1")).toBeInTheDocument();
         expect(getByText("TestPlacemark2")).toBeInTheDocument();
 
-        const buttonSeeDetail = screen.getAllByText("See detail");
+        const buttonSeeDetail = screen.getAllByText("See detail...");
         expect(buttonSeeDetail.length === 2).toBeTruthy();
     });
 });

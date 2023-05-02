@@ -7,7 +7,7 @@ test('nav menu is rendered', () => {
     render(<BrowserRouter><NavMenu /></BrowserRouter>);
     const homeOptionText = screen.getByText("Home");
     expect(homeOptionText).toBeInTheDocument();
-    const myPlacesOptionText = screen.getByText("My places");
+    const myPlacesOptionText = screen.getByText("My Stuff");
     expect(myPlacesOptionText).toBeInTheDocument();
     const friendsOptionText = screen.getByText("Social");
     expect(friendsOptionText).toBeInTheDocument();
@@ -25,9 +25,9 @@ test('choose home option', () => {
 
 test('choose my places option', () => {
     const {container} = render(<BrowserRouter><NavMenu /></BrowserRouter>);
-    const homeOption = getByText(container,"My places");
+    const homeOption = getByText(container,"My Stuff");
     fireEvent.click(homeOption);
-    expect(window.location.pathname).toBe("/map/personal")
+    expect(window.location.pathname).toBe("/stuff")
 });
 
 test('choose friends option', () => {

@@ -26,30 +26,30 @@ beforeEach(() => {
 })
 
 test('The UserPage component is rendering correctly', async () => {
-    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation( async (group) => {
+    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation(async (group) => {
         return Promise.resolve(maps);
     })
-    const {getByText, getAllByText} = render(<GroupInfo group={new Group(name, members)} />)
+    const {getByText} = render(<GroupInfo group={new Group(name, members)}/>)
     await waitFor(() => {
         expect(getByText("test")).toBeInTheDocument();
-        expect(getByText("Members in this group: 2")).toBeInTheDocument();
+        expect(getByText("Number of members: 2")).toBeInTheDocument();
         //Now we should check that the count of elements that have "Friends places" are two
-        const elements = getAllByText("Friends places");
-        expect(elements.length).toBe(2);
-        const elementsM = getAllByText("Friends maps");
-        expect(elementsM.length).toBe(2);
+        const elements = getByText("Friends places");
+        expect(elements).toBeInTheDocument();
+        const elementsM = getByText("Friends maps");
+        expect(elementsM).toBeInTheDocument();
     })
 });
 
 test('The UserPage component is rendering correctly', async () => {
     // As the session manager uses fetching functions
-    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation( async (group) => {
+    jest.spyOn(PODManager.prototype, "getGroupMaps").mockImplementation(async (group) => {
         return [];
     })
 
-    const {getByText} = render(<GroupInfo group={new Group(name, members)} />)
+    const {getByText} = render(<GroupInfo group={new Group(name, members)}/>)
     await waitFor(() => {
         expect(getByText("test")).toBeInTheDocument();
-        expect(getByText("Members in this group: 2")).toBeInTheDocument();
+        expect(getByText("Number of members: 2")).toBeInTheDocument();
     })
 });
