@@ -17,9 +17,9 @@ interface PublicMapViewProps{
 interface PublicMapViewState {
     filter: string[] | undefined,
     publicMap: Map,
-    loadedMap: boolean
+    loadedMap: boolean, 
+    loading: boolean
 }
-
 
 export default class PublicMapView extends React.Component<PublicMapViewProps, PublicMapViewState> {
     podManager: PODManager;
@@ -29,13 +29,13 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
         this.state = {
             filter: undefined,
             publicMap: new Map("Public map", "The generated public map"),
-            loadedMap: false
+            loadedMap: false,
+            loading: true,
         };
     }
 
     public async componentDidMount(): Promise<void> {
         this.getPublicPlaces();
-        
     }
 
     public async getPublicPlaces(): Promise<void> {
@@ -46,7 +46,7 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
             Placemarks.push(new Placemark(place.latitude, place.longitude, place.title))
         });
         this.state.publicMap.setPlacemarks(Placemarks);
-        this.setState({loadedMap: true});
+        this.setState({loadedMap: true, loading: false});
     }
 
     private setFilter(categories: string[] | undefined): void {
@@ -56,8 +56,9 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
         return (
             <section className='Home'>
               <div className="map-header">
+                {this.state.loading && <h2>Loading...</h2>}
                 <div className="map-options">
-                  <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
+                    <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
                                   buttonText={"Show Filters"}/>
                 </div>
               </div>
