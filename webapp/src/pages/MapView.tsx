@@ -5,9 +5,10 @@ import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Footer from "../components/Footer";
-import { ModalDialog, ModalClose } from "@mui/joy";
-import { Button, Modal } from "@mui/material";
+import {ModalDialog, ModalClose} from "@mui/joy";
+import {Button, Modal} from "@mui/material";
 import AddMap from "../components/map/AddMap";
+import LoadingPage from "../components/basic/LoadingPage";
 
 
 interface MapViewProps {
@@ -18,6 +19,7 @@ interface MapViewState {
     filter: string[] | undefined,
     maps: Map[],
     popUpOpen: boolean,
+    loading: boolean
 }
 
 export default class MapView extends React.Component<MapViewProps, MapViewState> {
@@ -30,14 +32,18 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
             filter: undefined,
             maps: [],
             popUpOpen: false,
+            loading: true
         };
         this.createMapForGroup = this.createMapForGroup.bind(this);
     }
 
     public async componentDidMount(): Promise<void> {
         let maps = await this.podManager.getAllMaps();
-        this.setState({maps: maps,
-            data: maps[0]});
+        this.setState({
+                maps: maps,
+                data: maps[0],
+                loading: false
+            });
     }
 
     private async changeMap(event: ChangeEvent): Promise<void> {
@@ -62,6 +68,11 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
     }
 
     public render(): JSX.Element {
+
+        if (this.state.loading) {
+            return <LoadingPage/>;
+        }
+
         return (
             <section className='Home'>
                 <div className="map-header">
@@ -74,13 +85,14 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
                         </select>
                         <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
                                         buttonText={"Show Filters"}/>
-                        <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"} sx={{margin: "0 0 0.3em 1em", height: "fit-content"}}>Create a map</Button>
+                        <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"}
+                                sx={{margin: "0 0 0.3em 1em", height: "fit-content"}}>Create a map</Button>
                     </div>
                 </div>
                 <Modal open={this.state.popUpOpen} onClose={(() => this.setState(({popUpOpen: false})))}>
                     <ModalDialog>
                         <ModalClose accessKey={"x"} onClick={(() => this.setState(({popUpOpen: false})))}/>
-                        <AddMap />
+                        <AddMap/>
                     </ModalDialog>
                 </Modal>
                 {this.state.data !== undefined &&
