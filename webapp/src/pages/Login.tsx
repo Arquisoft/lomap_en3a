@@ -2,6 +2,7 @@ import React from 'react';
 import {Navigate} from 'react-router-dom';
 import SolidSessionManager from '../adapters/solid/SolidSessionManager';
 import '../styles/login.css';
+import PODManager from '../adapters/solid/PODManager';
 
 
 /**
@@ -47,6 +48,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
      */
     public render(): JSX.Element {
         if (this.state.loggedIn) {
+            new PODManager().init();
             return (<Navigate to="/map/public" replace={true}/>);
         }
         return (
@@ -59,7 +61,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
                         <section>
                             <p>Select your POD provider</p>
                             <input style={{marginBottom: "0.3em"}} id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
-                            <input id="login" type="button" value="SolidCommunity" onClick={this.getLoginFor("solidcommunity")}/>
+                            <input id="loginSC" type="button" value="SolidCommunity" onClick={this.getLoginFor("solidcommunity")}/>
                         </section>
                     </fieldset>
                 </main>
