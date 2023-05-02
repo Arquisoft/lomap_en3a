@@ -42,6 +42,24 @@ test('The "new" button of the popup shows the add place page', async () => {
     });
     expect(getByText(document.body, "SHOW FILTERS"));
 })
+
+test('The map is filtered by category', async () => {
+    let placemarks = [
+        new Placemark(0, 0, "", "", "park"),
+        new Placemark(1, 1, "", "", "park"),
+        new Placemark(2, 2, "", "", "bar"),
+        new Placemark(3, 3, "", "", "restaurant"),
+        new Placemark(4, 4, "", "", "hotel")
+    ];
+    let mapObject = new Map("","");
+    mapObject.setPlacemarks(placemarks);
+    render(<LeafletMapAdapter map={mapObject} categories={["park", "hotel"]} />);
+
+    let markers = document.querySelector("div.leaflet-pane:nth-child(4)");
+    let images = (markers as Element).getElementsByTagName("img");
+    expect(images.length == 3);
+});
+
 function getNewPlacemark() {
     // Click on the map
     render(<LeafletMapAdapter/>);
