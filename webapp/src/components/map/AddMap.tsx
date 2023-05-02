@@ -6,7 +6,7 @@ import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
 import "../../styles/AddMap.css"
 
-export default class AddMap extends React.Component<{ group: Group }, {
+export default class AddMap extends React.Component<{ group?: Group }, {
     mapTitle: string,
     mapDescription: string,
     isCreationDone: boolean,
@@ -44,7 +44,7 @@ export default class AddMap extends React.Component<{ group: Group }, {
                 descriptionError: "The map description can not be empty"
             }));
             erorrs = true;
-        } 
+        }
 
         if (erorrs) {
             return;
@@ -55,12 +55,19 @@ export default class AddMap extends React.Component<{ group: Group }, {
         }));
         const map: Map = new Map(this.state.mapTitle, this.state.mapDescription);
         let pod = new PODManager();
-        pod.addMapToGroup(map, this.props.group).then(() => {
-            this.setState(({
-                isCreationDone: true
-            }));
-        });
-        
+        if (this.props.group !== undefined) {
+            pod.addMapToGroup(map, this.props.group).then(() => {
+                this.setState(({
+                    isCreationDone: true
+                }));
+            });
+        } else {
+            pod.saveMap(map).then(() => {
+                this.setState(({
+                    isCreationDone: true
+                }));
+            });
+        }
     }
 
     private handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {

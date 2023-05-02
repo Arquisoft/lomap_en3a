@@ -7,6 +7,9 @@ import MapFilter from "../components/MapFilter";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Placemark from "../domain/Placemark";
 import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";
+import { Button, Modal } from "@mui/material";
+import { ModalDialog, ModalClose } from "@mui/joy";
+import AddMap from "../components/map/AddMap";
 
 interface PublicMapViewProps{
 }
@@ -14,9 +17,9 @@ interface PublicMapViewProps{
 interface PublicMapViewState {
     filter: string[] | undefined,
     publicMap: Map,
-    loadedMap: boolean
+    loadedMap: boolean,
+    loading: boolean,
 }
-
 
 export default class PublicMapView extends React.Component<PublicMapViewProps, PublicMapViewState> {
     podManager: PODManager;
@@ -26,13 +29,13 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
         this.state = {
             filter: undefined,
             publicMap: new Map("Public map", "The generated public map"),
-            loadedMap: false
+            loadedMap: false,
+            loading: true,
         };
     }
 
     public async componentDidMount(): Promise<void> {
         this.getPublicPlaces();
-        
     }
 
     public async getPublicPlaces(): Promise<void> {
@@ -43,34 +46,35 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
             Placemarks.push(new Placemark(place.latitude, place.longitude, place.title))
         });
         this.state.publicMap.setPlacemarks(Placemarks);
-        this.setState({loadedMap: true});
+        this.setState({loadedMap: true, loading: false});
     }
 
     private setFilter(categories: string[] | undefined): void {
         this.setState({filter: categories});
     }
+
     public render(): JSX.Element {
         return (
             <section className='Home'>
               <div className="map-header">
+                {this.state.loading && <h2>Loading...</h2>}
                 <div className="map-options">
-                  <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
+                    <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
                                   buttonText={"Show Filters"}/>
                 </div>
-              </div>
-              <div className="content">
-                {this.state.loadedMap && <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
-              </div>
-              <Footer style={{
-                  backgroundColor: "#002E66",
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: "x-small",
-                  height: "6em",
-                  paddingTop: "0.3em"
-              }}/>
+                </div>
+                <div className="content">
+                    {this.state.loadedMap && <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
+                </div>
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    height: "6em",
+                    paddingTop: "0.3em"
+                }}/>
             </section>
-          );
-        
+        );
     }
 }

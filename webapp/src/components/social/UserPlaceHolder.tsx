@@ -47,7 +47,7 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
 
     private shortText(text: string | null) {
         if (text === null) {
-            return "Unknwon friend";
+            return "Unknow friend";
         }
         if (text.length > 13) {
             return text.substring(0, 10).concat('...');

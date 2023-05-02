@@ -61,7 +61,6 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
         this.setState(({
             popupOpen: true
         }));
-
     }
 
     goBack() {
@@ -71,15 +70,13 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
     }
 
     render() {
-
         if (this.state.goBack) {
             return <Social/>;
         }
-
         if (this.state.loading) {
             return <div><LoadingPage/></div>;
         }
-
+        
         return (
             <section>
                 <h2>{this.props.group.getName()}</h2>
