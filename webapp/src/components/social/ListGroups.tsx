@@ -33,10 +33,12 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
         }
 
         this.renderGroupList();
+
     }
 
     private renderGroupList() {
         this.getGroups().then((groups) => {
+            console.log(groups);
             if (groups && groups.length > 0) {
                 let body: JSX.Element = (<TableBody>
                     {groups.map((group) => (
@@ -53,10 +55,12 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
                     ))}
                 </TableBody>);
                 this.setState(({
-                    loaded: true,
                     tableBody: body
                 }));
             }
+            this.setState(({
+                loaded: true
+            }))
         })
     }
 

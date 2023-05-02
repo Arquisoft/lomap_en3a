@@ -9,6 +9,7 @@ import {TableBody, TableCell, TableRow} from "@mui/material";
 import LoadingPage from "../components/basic/LoadingPage";
 import MapInfo from "./MapInfo";
 import Footer from "../components/Footer";
+import EmptyList from "../components/basic/EmptyList";
 
 interface UserStuffState {
     maps: Map[]
@@ -20,12 +21,12 @@ interface UserStuffState {
 export default class UserStuff extends React.Component<any, UserStuffState> {
 
     private user: User | null;
-    private tableMaps: JSX.Element;
+    private tableMaps: JSX.Element | null;
 
     constructor(props: any) {
         super(props);
         this.user = null;
-        this.tableMaps = <></>;
+        this.tableMaps = null;
         this.state = {
             maps: [],
             user: SolidSessionManager.getManager().getWebID(),
@@ -50,6 +51,10 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
             this.setState(() => ({
                 loaded: true
             }));
+        }).catch(error => {
+            this.setState(() => ({
+                loaded: true
+            }));
         });
 
     }
@@ -62,9 +67,16 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
 
     private async loadUserData() {
         const mapsAux = await new PODManager().getAllMaps();
-        this.setState(() => ({
-            maps: mapsAux
-        }));
+        console.log(mapsAux)
+        if (mapsAux.length === 0) {
+            this.setState(({
+                loaded: true
+            }));
+        } else {
+            this.setState(() => ({
+                maps: mapsAux
+            }));
+        }
         let webId = SolidSessionManager.getManager().getWebID();
         webId = webId.split("/")[2];
         this.user = await new FriendManager().getUserData("https://" + webId + "/");
@@ -80,6 +92,11 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
 
         if (this.state.componentToDisplay != null) {
             return this.state.componentToDisplay;
+        }
+
+        if (this.tableMaps === null) {
+            return <EmptyList firstHeader={"You dont seem to have any map!"} secondHeader={"Try creating a new one"}
+                              image={"/map-magnifier.png"}/>
         }
 
         return (<main style={{margin: "0"}}>

@@ -19,6 +19,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
         super(props);
         this.state = {loggedIn: false};
         this.urls.set("inrupt", "https://inrupt.net/login");
+        this.urls.set("solidcommunity", "https://solidcommunity.net/login");
     }
 
     /**
@@ -57,7 +58,8 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
                         <legend>Sign in</legend>
                         <section>
                             <p>Select your POD provider</p>
-                            <input id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
+                            <input style={{marginBottom: "0.3em"}} id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
+                            <input id="login" type="button" value="SolidCommunity" onClick={this.getLoginFor("solidcommunity")}/>
                         </section>
                     </fieldset>
                 </main>
