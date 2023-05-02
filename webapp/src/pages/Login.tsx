@@ -2,6 +2,7 @@ import React from 'react';
 import {Navigate} from 'react-router-dom';
 import SolidSessionManager from '../adapters/solid/SolidSessionManager';
 import '../styles/login.css';
+import PODManager from '../adapters/solid/PODManager';
 
 
 /**
@@ -19,6 +20,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
         super(props);
         this.state = {loggedIn: false};
         this.urls.set("inrupt", "https://inrupt.net/login");
+        this.urls.set("solidcommunity", "https://solidcommunity.net/login");
     }
 
     /**
@@ -46,6 +48,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
      */
     public render(): JSX.Element {
         if (this.state.loggedIn) {
+            new PODManager().init();
             return (<Navigate to="/home" replace={true}/>);
         }
         return (
@@ -58,6 +61,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
                         <section>
                             <p>Select your POD provider</p>
                             <input id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
+                            <input id="loginSC" type="button" value="SolidCommunity" onClick={this.getLoginFor("solidcommunity")}/>
                         </section>
                     </fieldset>
                 </main>
