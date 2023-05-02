@@ -57,44 +57,144 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
         });
         this.handleFriendToggle = this.handleFriendToggle.bind(this);
     }
+  }
 
-    /**
-     * It recovers the friends from the user. After that, the components will be updated.
-     */
-    public async componentDidMount(): Promise<void> {
-        const friendsList = await this.getUsers();
-        this.setState({friendsList});
-        this.setState({loadedFriends: true});
-        //print the friends in the console one by one
-        if (friendsList) {
-            friendsList.forEach((friend) => {
-                console.log(friend.getName());
-                console.log(friend.getWebId());
-            });
-        }
+  /**
+   * It recovers the friends from the current user logged in
+   * */
+  private async getUsers() {
+    const fm = new FriendManager();
+    return fm.getFriendsList();
+  }
+
+  /**
+   * Handle the change of the privacy radio buttons.
+   * @param e The event of the change.
+   */
+  handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
+    const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.getName()??friend.getWebId()]);
+    this.setState({ friendsSelected , selectedPrivacy: e.target.value}, () => {
+      //When privacy is changed, the callback function is called to update the privacy of the place
+      if (this.state.friendsButton) {
+        this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
+      } else {
+        this.props.updatePrivacy(this.state.selectedPrivacy, []);
+      }
+      });
+  };
+
+  /**
+   * Handle the change of the friends radio button. When it is checked the value of the friendsButton is updated.
+   * if it was already checked, it is unchecked.
+   * @param e The event of the change.
+   * */
+  handleFriendsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.state.prevFriendsButton) {
+      // If the friends radio button was previously selected, unselect
+      this.setState({ friendsButton: false, prevFriendsButton: false}, () => {
+        this.props.updatePrivacy(this.state.selectedPrivacy, []);
+      });
+    } else {
+      // If the friends radio button was not previously selected, select it
+      this.setState({ friendsButton: true, prevFriendsButton: true}, () => {
+        this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
+      });
     }
+  };
 
-    /**
-     * It recovers the friends from the current user logged in
-     * */
-    private async getUsers() {
-        const fm = new FriendManager();
-        return fm.getFriendsList();
-    }
+  /**
+   * Handle the change of the friend checkboxes.
+   * It updates the list of friends selected.
+   * It calls the callback function to update the privacy of the place.
+   * @param e The event of the change.
+   */
+  handleFriendToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const friendValue = e.target.value;
+    const { selectedFriends } = this.state;
 
-    /**
-     * Handle the change of the privacy radio buttons.
-     * @param e The event of the change.
-     */
-    handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
-        const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.getName() ?? ""]);
-        this.setState({friendsSelected, selectedPrivacy: e.target.value}, () => {
-            //When privacy is changed, the callback function is called to update the privacy of the place
-            if (this.state.friendsButton) {
-                this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
-            } else {
-                this.props.updatePrivacy(this.state.selectedPrivacy, []);
+    //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
+    selectedFriends[friendValue] = !selectedFriends[friendValue];
+    const friendsSelected = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??friend.getWebId()]);
+
+    this.setState({ selectedFriends, friendsSelected }, () => {
+       //When privacy is changed, the callback function is called to update the privacy of the place
+      if (this.state.friendsButton) {
+        this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
+      } else {
+        this.props.updatePrivacy(this.state.selectedPrivacy, []);
+      }
+    });   
+  };
+
+  
+  render() {
+    return (
+      <div className="privacy-visibility">
+        <div className="privacy-options">
+          {/*Radio button for public privacy*/}
+          <label className={`radio-option ${this.state.selectedPrivacy === "public" ? "selected" : ""}`}>
+            <input
+              type="radio"
+              name="privacy"
+              value="public"
+              checked={this.state.selectedPrivacy === "public"}
+              onChange={this.handlePrivacyChange}
+            />
+            Public
+          </label>
+          {/*Radio button for private privacy*/}
+          <label className={`radio-option ${this.state.selectedPrivacy === "private" ? "selected" : ""}`}>
+            <input
+              type="radio"
+              name="privacy"
+              value="private"
+              checked={this.state.selectedPrivacy === "private"}
+              onChange={this.handlePrivacyChange}
+            />
+            Private
+          </label>
+        </div>
+        {/*Display the friends privacy options if friends option is checked*/}
+        <div className="privacy-friends">
+          <div className="friends-options">
+            {/*Radio button for friends privacy*/}
+            <label className={`checkbox-option ${this.state.friendsButton ? "selected" : ""}`}>
+                <input
+                  type="checkbox"
+                  name="privacy"
+                  value="friends"
+                  checked={this.state.friendsButton}
+                  onChange={this.handleFriendsChange}
+                />
+                Share with friends
+              </label>
+          </div>
+          {/*Display the friend checkboxes if friends privacy is selected*/}
+          {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList??[]).length > 0 && (
+            <div className="friend-options">
+              {(this.state.friendsList??[]).map((friend) => (
+                <label key={friend.getName()} className={`checkbox-option ${this.state.selectedFriends[friend.getName()??friend.getWebId()] ? "selected" : ""}`}>
+                  <input
+                    type="checkbox"
+                    name="friends"
+                    value={friend.getName()??friend.getWebId()}
+                    checked={this.state.selectedFriends[friend.getName()??friend.getWebId()]}
+                    onChange={this.handleFriendToggle}
+                  />
+                  {friend.getName()}
+                </label>
+              ))}
+            </div>
+            )}
+            {/*Display a message if there are no friends to select*/}
+            {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList??[]).length == 0 && (
+              <div className="friend-options">
+                <p>You have no friends.</p>
+              </div>
+            )}
+            {!this.state.loadedFriends && this.state.friendsButton && 
+              <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
             }
         });
     };
