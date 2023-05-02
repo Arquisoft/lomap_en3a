@@ -41,21 +41,21 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
         };
         this.handleFriendToggle = this.handleFriendToggle.bind(this);
     }
-  
+
     async componentDidMount() {
         // We assign to users the actual list of users
-        this.getUsers().then(() => 
-          if (this.state.friendsList.length === 0) {
-              this.setState(() => ({
-                  loadedFriends: false,
-              }));
-          } else {
-              this.setState(() => ({
-                  loadedFriends: true,
-              }));
-          }
+        this.getUsers().then(() => {
+            if (this.state.friendsList.length === 0) {
+                this.setState(() => ({
+                    loadedFriends: false,
+                }));
+            } else {
+                this.setState(() => ({
+                    loadedFriends: true,
+                }));
+            }
         }).catch((error) => {
-          console.log("There was an error downloading the friends: " + error.message);
+            console.log("There was an error downloading the friends: " + error.message);
         });
     }
 
@@ -63,26 +63,26 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
      * It recovers the friends from the current user logged in
      * */
     private async getUsers() {
-      let fm = new FriendManager();
-      this.setState({friendsList: await fm.getFriendsList()});
+        let fm = new FriendManager();
+        this.setState({friendsList: await fm.getFriendsList()});
     }
 
-  /**
-   * Handle the change of the privacy radio buttons.
-   * @param e The event of the change.
-   */
-  handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
-    const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.simplfiedWebID()]);
-    this.setState({ friendsSelected , selectedPrivacy: e.target.value}, () => {
-      //When privacy is changed, the callback function is called to update the privacy of the place
-      if (this.state.friendsButton) {
-        this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
-      } else {
-        this.props.updatePrivacy(this.state.selectedPrivacy, []);
-      }
-      });
-  };
+    /**
+     * Handle the change of the privacy radio buttons.
+     * @param e The event of the change.
+     */
+    handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
+        const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.simplfiedWebID()]);
+        this.setState({friendsSelected, selectedPrivacy: e.target.value}, () => {
+            //When privacy is changed, the callback function is called to update the privacy of the place
+            if (this.state.friendsButton) {
+                this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);
+            } else {
+                this.props.updatePrivacy(this.state.selectedPrivacy, []);
+            }
+        });
+    };
 
 
     /**
@@ -203,4 +203,6 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             </div>
         );
     }
-}export default PrivacyComponent;
+}
+
+export default PrivacyComponent;
