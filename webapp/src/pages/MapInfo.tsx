@@ -146,37 +146,27 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                 <div className="mapInformation">
                     <h1>{this.state.theMap.getName()}</h1>
                     <h3>{this.state.theMap.getDescription()}</h3>
+                    <div id="visibility">
+                        <h3>Change the visibility of the Map</h3>
+                        <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
+                    </div>
+                    <div>
+                        <input type="button" id="confirm" value="Confirm change" onClick={this.handleVisibility}/>
+                    </div>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
                     {this.state.loadedPlaces &&
-                        <div className="places-buttons">
-                            {this.state.theMap.getPlacemarks().map((placemark) => (
-                                <div className="place-button">
-                                    <h3>{placemark.getTitle()}</h3>
-                                    <button onClick={() => this.setState({open: true, selectedPlacemark: placemark})}
-                                            type="submit">
-                                        See detail
-                                    </button>
-                                </div>
-                            ))
-                            }
-                        </div>
+                        <ReactTable tableName={"map-places"} headCells={["Place Title", ""]}
+                                    tableBody={this.state.tablePlacesBody}/>
                     }
                     {!this.state.loadedPlaces &&
                         <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
                     }
                     {this.state.loadedPlaces &&
                         this.state.theMap.getPlacemarks().length === 0 &&
-                        <p>There are no places in this map</p>
+                        this.state.emptyListOfPoints
                     }
                     {/*{this.props.map.isOwner(this.sessionManager.getWebID()) &&*/}
-                    <div id="visibility">
-                        <h3>Change the visibility of the Map</h3>
-                        <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
-                    </div>
-                </div>
-                <div>
-                    <input type="button" id="confirm" value="Confirm change" onClick={this.handleVisibility}/>
                 </div>
                 {this.state.open && (
                     <PointInformation prevComponent={this.state.currentComponent}
