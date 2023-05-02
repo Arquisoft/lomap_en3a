@@ -203,6 +203,4 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             </div>
         );
     }
-}
-
-export default PrivacyComponent;
+}export default PrivacyComponent;
