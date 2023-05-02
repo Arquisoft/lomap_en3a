@@ -32,6 +32,16 @@ test('The cancel button of the popup removes the marker', async () => {
     expect(getByText(document.body, "Cancel") === undefined);
 });
 
+test('The "new" button of the popup shows the add place page', async () => {
+    let marker = getNewPlacemark();
+    fireEvent.click(marker);
+    fireEvent.click(getByText(document.body, "New..."));
+    await waitFor(() => {
+        expect(getByText(document.body,"Fill the information of the new place."));
+        fireEvent.click(document.querySelector(".MuiModalClose-root") as Element);
+    });
+    expect(getByText(document.body, "SHOW FILTERS"));
+})
 function getNewPlacemark() {
     // Click on the map
     render(<LeafletMapAdapter/>);
