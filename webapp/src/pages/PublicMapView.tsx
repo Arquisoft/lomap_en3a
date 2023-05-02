@@ -10,6 +10,9 @@ import MapFilter from "../components/MapFilter";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Placemark from "../domain/Placemark";
 import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";
+import { Button, Modal } from "@mui/material";
+import { ModalDialog, ModalClose } from "@mui/joy";
+import AddMap from "../components/map/AddMap";
 
 interface PublicMapViewProps{
 }
@@ -17,8 +20,8 @@ interface PublicMapViewProps{
 interface PublicMapViewState {
     filter: string[] | undefined,
     publicMap: Map,
-    loadedMap: boolean, 
-    loading: boolean
+    loadedMap: boolean,
+    loading: boolean,
 }
 
 export default class PublicMapView extends React.Component<PublicMapViewProps, PublicMapViewState> {
@@ -52,6 +55,7 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
     private setFilter(categories: string[] | undefined): void {
         this.setState({filter: categories});
     }
+
     public render(): JSX.Element {
         return (
             <section className='Home'>
@@ -61,20 +65,19 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
                     <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
                                   buttonText={"Show Filters"}/>
                 </div>
-              </div>
-              <div className="content">
-                {this.state.loadedMap && <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
-              </div>
-              <Footer style={{
-                  backgroundColor: "#002E66",
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: "x-small",
-                  height: "6em",
-                  paddingTop: "0.3em"
-              }}/>
+                </div>
+                <div className="content">
+                    {this.state.loadedMap && <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
+                </div>
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    height: "6em",
+                    paddingTop: "0.3em"
+                }}/>
             </section>
-          );
-        
+        );
     }
 }
