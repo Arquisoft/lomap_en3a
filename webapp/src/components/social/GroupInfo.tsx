@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTable from "../basic/ReactTable";
-import {Button, TableBody, TableCell, TableRow} from "@mui/material";
+import {AppBar, Button, Dialog, IconButton, TableBody, TableCell, TableRow, Toolbar, Typography} from "@mui/material";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
 import {Simulate} from "react-dom/test-utils";
@@ -13,16 +13,34 @@ import BackButton from "../basic/BackButton";
 import FriendsList from "./FriendsList";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from '@mui/material/Slide';
+import {TransitionProps} from '@mui/material/transitions';
+import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
+import Footer from "../Footer";
+import Map from "../../domain/Map";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
     popupOpen: boolean,
     goBack: boolean,
     isTableEmpty: boolean,
-    members: User[]
+    members: User[],
+    mapOpen: boolean,
+    selectedMap: Map | undefined,
+    loadedFriends: boolean
 }> {
 
     private tableBody = <></>;
+    private Transition = React.forwardRef(function Transition(
+        props: TransitionProps & {
+            children: React.ReactElement;
+        },
+        ref: React.Ref<unknown>,
+    ) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
+
 
     constructor(props: any) {
         super(props);
@@ -32,22 +50,35 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
             popupOpen: false,
             goBack: false,
             isTableEmpty: false,
-            members: []
+            members: [],
+            mapOpen: false,
+            selectedMap: undefined,
+            loadedFriends: false
         }
 
         this.generateTable();
 
-        for (let i = 0; i < this.props.group.getMembers().length; i++) {
-            this.getUsers("https://" + this.props.group.getMembers()[i].simplfiedWebID() + "/").then((user) => {
+        this.createMapForGroup = this.createMapForGroup.bind(this);
+        this.goBack = this.goBack.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadMembers().then(() => {
+            console.log("RELOAD")
+            this.setState(({
+                loadedFriends: true
+            }));
+        });
+    }
+
+    private async loadMembers() {
+        await Promise.all(this.props.group.getMembers().map((member) => {
+            this.getUsers("https://" + member.simplfiedWebID() + "/").then((user) => {
                 this.setState((prevState) => {
                     prevState.members.push(user);
                 });
             });
-
-        }
-
-        this.createMapForGroup = this.createMapForGroup.bind(this);
-        this.goBack = this.goBack.bind(this);
+        }));
     }
 
     private generateTable() {
@@ -60,7 +91,9 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                             <TableCell
                                 align="right">{map.getDescription().length > 0 ? map.getDescription() : "No description given"}
                             </TableCell>
-                            <TableCell align="right"><a>See map</a></TableCell>
+                            <TableCell align="right"><a onClick={() => {
+                                this.showMap(map)
+                            }}>See map</a></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>);
@@ -73,6 +106,15 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                 loading: false
             }));
         })
+    }
+
+    private showMap(map: Map) {
+        new PODManager().loadPlacemarks(map).then(() => {
+            this.setState(({
+                selectedMap: map,
+                mapOpen: true
+            }))
+        });
     }
 
     private async getGroupMaps() {
@@ -108,16 +150,11 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
         return (<>
                 <BackButton onClick={this.goBack}/>
                 <section style={{margin: "0 1em 0 1em"}}>
-                    <div className={"group-header"}
-                         style={{display: "flex", flexDirection: "row", alignItems: "stretch"}}>
-                        <div>
-                            <h2>{this.props.group.getName()}</h2>
-                            <p>Members in this group: {this.props.group.getMembers().length}</p>
-                        </div>
-                        <aside style={{alignSelf: "end", marginLeft: "50%"}}>
-                            <h3>Members</h3>
-                            <FriendsList users={this.state.members}/>
-                        </aside>
+                    <div className={"group-header"} style={{marginBottom: "1em"}}>
+                        <h1>{this.props.group.getName()}</h1>
+                        <h2 style={{margin: "0"}}>Members</h2>
+                        <p style={{margin: "0"}}>Number of members: {this.props.group.getMembers().length}</p>
+                        {this.state.loadedFriends && <FriendsList users={this.state.members}/>}
                     </div>
                     <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"}>Create a
                         map</Button>
@@ -137,7 +174,43 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                             <AddMap group={this.props.group}/>
                         </ModalDialog>
                     </Modal>
+                    <Dialog
+                        fullScreen
+                        open={this.state.mapOpen}
+                        onClose={() => {
+                            this.setState(({mapOpen: false}))
+                        }}
+                        TransitionComponent={this.Transition}
+                    >
+                        <AppBar sx={{position: 'relative', backgroundColor: "#002E66"}}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={() => {
+                                        this.setState(({mapOpen: false}))
+                                    }}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon/>
+                                </IconButton>
+                                <Typography>
+                                    {this.state.selectedMap?.getName()}
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <LeafletMapAdapter map={this.state.selectedMap}/>
+                        <Footer/>
+                    </Dialog>
                 </section>
+                <Footer style={{
+                    backgroundColor: "#002E66",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "x-small",
+                    marginTop: "10%",
+                    height: "10%"
+                }}/>
             </>
         );
     }

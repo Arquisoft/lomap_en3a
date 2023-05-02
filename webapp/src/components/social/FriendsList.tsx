@@ -10,7 +10,14 @@ import User from "../../domain/User";
 
 export default function FriendsList(props: { users: User[] }) {
     return (
-        <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+        <List sx={{
+            width: '100%',
+            maxWidth: 360,
+            border: "0.05em solid black",
+            borderRadius: "1em",
+            margin: "0.3em 0 0.5em 0",
+            overflow: "scroll"
+        }}>
             {props.users.map((user) => (
                 <>
                     <ListItem alignItems="flex-start">
