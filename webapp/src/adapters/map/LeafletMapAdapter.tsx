@@ -153,7 +153,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
     }
 
-    protected addMarker(p: Placemark): void {
+    public addMarker(p: Placemark): void {
         this.map.add(p);
         this.pod.saveMap(this.map);
         this.setState({

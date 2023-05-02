@@ -9,7 +9,7 @@ export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
      * Override the addMarker method to add the marker to the map
      * @param p 
      */
-    protected addMarker(p: Placemark): void {
+    public override addMarker(p: Placemark): void {
         this.map.add(p);
         this.setState({
             pageToShow: undefined,
