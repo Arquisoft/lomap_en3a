@@ -1,17 +1,19 @@
 import React from "react";
 import PODManager from "../adapters/solid/PODManager";
-import { getPlaces } from "../api/api";
+import {getPlaces} from "../api/api";
 import Map from "../domain/Map";
 import Footer from "../components/Footer";
 import MapFilter from "../components/MapFilter";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Placemark from "../domain/Placemark";
 import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";
-import { Button, Modal } from "@mui/material";
-import { ModalDialog, ModalClose } from "@mui/joy";
+import {Button, Modal} from "@mui/material";
+import {ModalDialog, ModalClose} from "@mui/joy";
 import AddMap from "../components/map/AddMap";
+import EmptyList from "../components/basic/EmptyList";
+import LoadingPage from "../components/basic/LoadingPage";
 
-interface PublicMapViewProps{
+interface PublicMapViewProps {
 }
 
 interface PublicMapViewState {
@@ -19,10 +21,12 @@ interface PublicMapViewState {
     publicMap: Map,
     loadedMap: boolean,
     loading: boolean,
+    mapLoaded: boolean
 }
 
 export default class PublicMapView extends React.Component<PublicMapViewProps, PublicMapViewState> {
     podManager: PODManager;
+
     constructor(props: any) {
         super(props);
         this.podManager = new PODManager();
@@ -31,11 +35,24 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
             publicMap: new Map("Public map", "The generated public map"),
             loadedMap: false,
             loading: true,
+            mapLoaded: true,
         };
     }
 
-    public async componentDidMount(): Promise<void> {
-        this.getPublicPlaces();
+    public componentDidMount() {
+        this.getPublicPlaces().then(() => {
+            if (this.state.publicMap.getPlacemarks().length === 0) {
+                this.setState(({
+                    mapLoaded: false,
+                    loading: false
+                }))
+            }
+        }).catch(() => {
+            this.setState(({
+                mapLoaded: false,
+                loading: false
+            }))
+        });
     }
 
     public async getPublicPlaces(): Promise<void> {
@@ -54,24 +71,35 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
     }
 
     public render(): JSX.Element {
+
+        if (this.state.loading) {
+            return <LoadingPage/>;
+        }
+
+
+        if (!this.state.mapLoaded) {
+            return <EmptyList firstHeader={"We seem to be having trouble with our services"}
+                              secondHeader={"Please try again later!"} image={"/sad_face.webp"}
+                              imageStyle={{width: 231, height: 231}}/>
+        }
+
         return (
-            <section className='Home'>
-              <div className="map-header">
-                {this.state.loading && <h2>Loading...</h2>}
-                <div className="map-options">
+            <section className='Home' style={{height: "100%"}}>
+                <div className={"map-header"} style={{height: "0.3em", margin: 0}} />
+                <div className="map-options" style={{position: "absolute", zIndex: "1", left: "2em", top: "6.7em"}}>
                     <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
-                                  buttonText={"Show Filters"}/>
-                </div>
+                                    buttonText={"Show Filters"}/>
                 </div>
                 <div className="content">
-                    {this.state.loadedMap && <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
+                    {this.state.loadedMap &&
+                        <LeafletPublicMapAdapter map={this.state.publicMap} categories={this.state.filter}/>}
                 </div>
                 <Footer style={{
                     backgroundColor: "#002E66",
                     color: "white",
                     textAlign: "center",
                     fontSize: "x-small",
-                    height: "6em",
+                    height: "7em",
                     paddingTop: "0.3em"
                 }}/>
             </section>
