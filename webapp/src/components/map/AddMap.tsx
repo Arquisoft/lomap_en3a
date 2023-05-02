@@ -5,7 +5,6 @@ import Group from "../../domain/Group";
 import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
 import "../../styles/AddMap.css"
-import { error } from "console";
 
 export default class AddMap extends React.Component<{ group: Group }, {
     mapTitle: string,

@@ -22,7 +22,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
 
     public constructor(props: UserListProps) {
         super(props);
-        this.users = new Array<User>; // Empty list
+        this.users = new Array<User>(); // Empty list
 
         this.setState(() => ({
             loadedFriends: false
@@ -30,7 +30,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
 
         // We assign to users the actual list of users
         this.getUsers().then(() => {
-            if (this.users.length == 0) {
+            if (this.users.length === 0) {
                 this.setState(() => ({
                     loadedFriends: false
                 }));

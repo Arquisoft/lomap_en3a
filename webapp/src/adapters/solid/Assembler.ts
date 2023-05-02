@@ -1,4 +1,4 @@
-import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
+import { buildThing, createSolidDataset, createThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT, RDF, VCARD } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
@@ -85,7 +85,7 @@ export default class Assembler {
     }
 
     public static toMapPreviews(bindings: Bindings[]): Array<Map> {
-        let result: Array<Map> = new Array();
+        let result: Array<Map> = [];
 
         for (let binding of bindings) {
             this.addMapPreview(binding, result);
@@ -104,7 +104,7 @@ export default class Assembler {
     }
 
     public static toPlacemarkArray(bindings: Bindings[]): Array<Placemark> {
-        let result: Array<Placemark> = new Array();
+        let result: Array<Placemark> = [];
 
         for (let binding of bindings) {
             this.addPlacemark(binding, result);
@@ -135,7 +135,7 @@ export default class Assembler {
         if ([title, desc, lat, lng, id].every(p => p!==undefined)) {
             return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, id as string, "no-category");
         } else {
-            throw "Undefined property for place";
+            throw new Error("Undefined property for place");
         }
     }
 

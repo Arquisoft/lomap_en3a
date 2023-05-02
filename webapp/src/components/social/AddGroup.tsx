@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent} from "react";
+import React, {ChangeEvent} from "react";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import {Button, Checkbox, FormControlLabel, FormGroup} from "@mui/material";
@@ -95,7 +95,7 @@ export default class AddGroup extends React.Component<{}, {
         let all = true;
         let none = true;
         this.state.selectedFriends.forEach((value, key) => {
-            if (key != passedKey) {
+            if (key !== passedKey) {
                 if (!value) {
                     all = false;
                 } else {
@@ -117,7 +117,7 @@ export default class AddGroup extends React.Component<{}, {
         event.preventDefault();
 
         // Check for possible wrong values
-        if (this.state.groupTitle.trim().length == 0) {
+        if (this.state.groupTitle.trim().length === 0) {
             return;
         } else {
             let users: User[] = [];

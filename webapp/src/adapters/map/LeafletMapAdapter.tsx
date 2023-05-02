@@ -78,7 +78,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
             console.log(p.getCategory())
             console.log(this.props.categories)
             console.log(p.getCategory() in this.props.categories)
-            return this.props.categories.indexOf(p.getCategory()) != -1;
+            return this.props.categories.indexOf(p.getCategory()) !== -1;
         }
         return true;
     }
@@ -169,7 +169,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private getCenter(): LatLngExpression {
         let length: number = this.map.getPlacemarks().length;
 
-        if (length == 0) {
+        if (length === 0) {
             return [43.5547300, -5.9248300] // Avilés
         }
         let last = this.map.getPlacemarks()[length - 1];
@@ -198,7 +198,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     }
 
     public render(): JSX.Element {
-        if (this.state.pageToShow != undefined) {
+        if (this.state.pageToShow !== undefined) {
             return this.state.pageToShow;
         }
         return (

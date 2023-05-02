@@ -1,6 +1,6 @@
 import React from "react";
 import User from "../../domain/User";
-import {Avatar, Box, Card, CardActionArea, CardContent, CardHeader, Typography} from "@mui/material";
+import {Avatar, Box, Card, CardActionArea, CardContent, CardHeader} from "@mui/material";
 import UserPage from "./UserPage";
 import {Tooltip} from "@mui/joy";
 

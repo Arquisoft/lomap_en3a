@@ -7,7 +7,6 @@ import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import PlaceComment from "../../domain/Place/PlaceComment";
 import PlaceRating from "../../domain/Place/PlaceRating";
 import {PhotoPreview} from "./AddPlace";
-import PlacePhotos from "../../domain/Place/PlacePhotos";
 import PODManager from "../../adapters/solid/PODManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
@@ -116,7 +115,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         //Here the persistence of the object
 
         var isValid = true;
-        if (!this.state.comment || this.state.comment.trim().length == 0) {
+        if (!this.state.comment || this.state.comment.trim().length === 0) {
             this.setState({commentError: "You must enter a comment."});
             isValid = false;
         }
