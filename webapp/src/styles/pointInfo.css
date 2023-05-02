@@ -20,19 +20,17 @@
 
 #commentsContainer {
   border: 0.1em solid black;
-  border-radius: 1.3em 0 0 1.3em;
+  border-radius: 0.3em;
   background-color: white;
   height: 15em;
-  width: 70%;
   margin: 0.5em;
 }
 
 #comments {
-  height: 15em;
+  height: 14.90em;
   text-align: left;
   overflow: hidden scroll;
   color: black;
-  /* TODO change colors */
   scrollbar-color: darkblue #e0e0e0;
   scrollbar-width: thin;
 }

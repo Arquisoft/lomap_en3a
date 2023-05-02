@@ -45,26 +45,42 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
         });
     }
 
+    private shortText(text: string | null) {
+        if (text === null) {
+            return "Unknwon friend";
+        }
+        if (text.length > 13) {
+            return text.substring(0, 10).concat('...');
+        }
+        return text;
+    }
+
     render() {
         return <Box style={{
             display: "flex",
             flexWrap: "wrap",
         }}>
-            <Tooltip title={"See " + (this.props.user.getName() || "Unknwon") + "'s profile"} variant={"soft"} enterDelay={500} arrow>
+            <Tooltip title={"See " + (this.props.user.getName() || "Unknwon") + "'s profile"} variant={"soft"}
+                     enterDelay={500} arrow>
                 <Card className="card">
                     <CardActionArea sx={{height: "100%"}} className="card" onClick={() => {
                         this.getFriendInfo(this.user)
                     }}>
-                        <CardHeader sx={{height: 70, marginTop: 5, paddingTop: 0, marginLeft:"15%"}} avatar={<Avatar alt="User avatar"
-                                                                                                   src={this.user.photo}
-                                                                                                   sx={{
-                                                                                                       backgroundColor: "#B2CCEB",
-                                                                                                       width: 100,
-                                                                                                       height: 100
-                                                                                                   }}>{this.user.getName()?.charAt(0)}</Avatar>}
+                        <CardHeader sx={{height: 65, marginTop: 5, paddingTop: 0, marginLeft: "15%"}}
+                                    avatar={<Avatar alt="User avatar"
+                                                    src={this.user.photo}
+                                                    sx={{
+                                                        backgroundColor: "#B2CCEB",
+                                                        width: 100,
+                                                        height: 100
+                                                    }}>{this.user.getName()?.charAt(0)}</Avatar>}
                         />
-                        <CardContent sx={{paddingTop: 0}}>
-                            <h3 style={{fontSize: "x-large", marginBottom: 0}}>{this.user.getName() || "Unknown friend"}</h3>
+                        <CardContent sx={{paddingTop: 0, height: 75}}>
+                            <h3 style={{
+                                fontSize: "x-large",
+                                marginBottom: 0
+                            }}>{this.shortText(this.user.getName())}</h3>
+                            <p>{this.user.getName() === null ? "(" + this.user.getWebId().replace("/profile/card#me", "") + ")" : null}</p>
                             <h4 style={{color: "#2D2D2D", marginTop: 0, marginBottom: 0}}>{this.user.organization}</h4>
                             <h5 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.user.role}</h5>
                             <p style={{marginTop: 0}}>{this.user.note}</p>

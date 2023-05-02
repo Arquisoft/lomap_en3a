@@ -23,7 +23,7 @@ export default class GroupsRepository extends AbstractSolidRepository {
      * @returns the groups of the user
      */
     public async getAllUserGroups(): Promise<Group[]> {
-        let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups');
+        let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups/');
         return await this.getGroupsFromUrls(urls);
     }
 

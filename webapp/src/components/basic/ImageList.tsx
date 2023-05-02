@@ -9,8 +9,9 @@ const divStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundSize: 'cover',
-    height: '25em',
-    width: '100%'
+    maxHeight: '15em',
+    maxWidth: '100%',
+    margin: "auto"
 }
 
 /**
