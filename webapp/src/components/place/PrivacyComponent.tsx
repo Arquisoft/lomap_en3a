@@ -40,32 +40,33 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             friendsButton: false,
             prevFriendsButton: false,
         };
-
-        // We assign to users the actual list of users
-        this.getUsers().then(() => {
-            if (this.state.friendsList.length == 0) {
-                this.setState(() => ({
-                    loadedFriends: false,
-                }));
-            } else {
-                this.setState(() => ({
-                    loadedFriends: true,
-                }));
-            }
-        }).catch((error) => {
-            console.log("There was an error downloading the friends: " + error.message);
-        });
         this.handleFriendToggle = this.handleFriendToggle.bind(this);
     }
   
+    async componentDidMount() {
+        // We assign to users the actual list of users
+        this.getUsers().then(() => {
+          if (this.state.friendsList.length == 0) {
+              this.setState(() => ({
+                  loadedFriends: false,
+              }));
+          } else {
+              this.setState(() => ({
+                  loadedFriends: true,
+              }));
+          }
+        }).catch((error) => {
+          console.log("There was an error downloading the friends: " + error.message);
+        });
+    }
 
-  /**
-   * It recovers the friends from the current user logged in
-   * */
-  private async getUsers() {
-    const fm = new FriendManager();
-    return fm.getFriendsList();
-  }
+    /**
+     * It recovers the friends from the current user logged in
+     * */
+    private async getUsers() {
+      let fm = new FriendManager();
+      this.setState({friendsList: await fm.getFriendsList()});
+    }
 
   /**
    * Handle the change of the privacy radio buttons.
