@@ -87,7 +87,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
    */
   handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
-    const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.getName()??""]);
+    const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.getName()??friend.getWebId()]);
     this.setState({ friendsSelected , selectedPrivacy: e.target.value}, () => {
       //When privacy is changed, the callback function is called to update the privacy of the place
       if (this.state.friendsButton) {
@@ -124,12 +124,12 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
    * @param e The event of the change.
    */
   handleFriendToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const friendName = e.target.value;
+    const friendValue = e.target.value;
     const { selectedFriends } = this.state;
-    
+
     //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
-    selectedFriends[friendName] = !selectedFriends[friendName];
-    const friendsSelected = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??""]);
+    selectedFriends[friendValue] = !selectedFriends[friendValue];
+    const friendsSelected = this.state.friendsList.filter((friend) => selectedFriends[friend.getName()??friend.getWebId()]);
 
     this.setState({ selectedFriends, friendsSelected }, () => {
        //When privacy is changed, the callback function is called to update the privacy of the place
@@ -188,12 +188,12 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
           {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList??[]).length > 0 && (
             <div className="friend-options">
               {(this.state.friendsList??[]).map((friend) => (
-                <label key={friend.getName()} className={`checkbox-option ${this.state.selectedFriends[friend.getName()??""] ? "selected" : ""}`}>
+                <label key={friend.getName()} className={`checkbox-option ${this.state.selectedFriends[friend.getName()??friend.getWebId()] ? "selected" : ""}`}>
                   <input
                     type="checkbox"
                     name="friends"
-                    value={friend.getName()??""}
-                    checked={this.state.selectedFriends[friend.getName()??""]}
+                    value={friend.getName()??friend.getWebId()}
+                    checked={this.state.selectedFriends[friend.getName()??friend.getWebId()]}
                     onChange={this.handleFriendToggle}
                   />
                   {friend.getName()}

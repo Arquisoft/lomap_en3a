@@ -10,11 +10,10 @@ import NavElement from "./NavElement";
 const NavMenu: React.FunctionComponent = () => {
     return (
         <div className='NavMenu'>
+            <NavElement url={"/map/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
             <NavElement url={"/home"} name={"Home"} icon={<NavIcon.FaHome/>}/>
-            <NavElement url={"/map/personal"} name={"My places"} icon={<NavIcon.FaUser/>}/>
             <NavElement url={"/stuff"} name={"My Stuff"} icon={<HiFolder/>}/>
             <NavElement url={"/social"} name={"Social"} icon={<NavIcon.FaUserFriends/>}/>
-            <NavElement url={"/map/public"} name={"Public map"} icon={<NavIcon.FaGlobeAmericas/>}/>
         </div>
     )
 }
