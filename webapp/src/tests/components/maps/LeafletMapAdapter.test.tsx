@@ -27,9 +27,10 @@ test('A placemark is added when the user clicks on the map', async () => {
 test('The cancel button of the popup removes the marker', async () => {
     let marker = getNewPlacemark();
     fireEvent.click(marker);
-    expect(getByText(document.body, "Cancel"));
+    const cancelButton = getByText(document.body, "Cancel")
+    expect(cancelButton).toBeInTheDocument();
     fireEvent.click(getByText(document.body, "Cancel"));
-    expect(getByText(document.body, "Cancel") === undefined);
+    expect(cancelButton).not.toBeInTheDocument();
 });
 
 test('The "new" button of the popup shows the add place page', async () => {
@@ -40,7 +41,10 @@ test('The "new" button of the popup shows the add place page', async () => {
         expect(getByText(document.body,"Fill the information of the new place."));
         fireEvent.click(document.querySelector(".MuiModalClose-root") as Element);
     });
-    expect(getByText(document.body, "SHOW FILTERS"));
+    await waitFor(() => {
+        let map = document.querySelector(".leaflet-container") as Element;
+        expect(map).toBeInTheDocument()
+    });
 })
 
 test('The map is filtered by category', async () => {
