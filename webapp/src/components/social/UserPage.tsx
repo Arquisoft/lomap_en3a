@@ -17,6 +17,7 @@ import Footer from "../Footer";
 import PointInformation from "../../pages/PointInformation";
 import Placemark from "../../domain/Placemark";
 import EmptyList from "../basic/EmptyList";
+import BackButton from "../basic/BackButton";
 
 interface UserPageProps {
     user: User
@@ -164,14 +165,12 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
 
         return (
             <>
-                <div className="back-page-link-container" onClick={() => {
+                <BackButton onClick={() => {
                     this.setState({
                         placeShown: null,
                         pageToChange: (<Social/>)
                     })
-                }}>
-                    <a className="back-page-link">Back</a>
-                </div>
+                }}/>
                 <main className="user-profile">
                     <h1>{this.props.user.getName() || "Unknown friend"}</h1>
                     <Avatar alt="User avatar"

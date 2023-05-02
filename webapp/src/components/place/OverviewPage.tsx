@@ -234,6 +234,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                         <ModalClose/>
                         <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
                             <h2>Done!</h2>
+                            <p>Your submission might take a while to be processed...</p>
                             <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
                         </div>
                     </ModalDialog>

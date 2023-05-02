@@ -44,7 +44,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
   
     async componentDidMount() {
         // We assign to users the actual list of users
-        this.getUsers().then(() => {
+        this.getUsers().then(() => 
           if (this.state.friendsList.length === 0) {
               this.setState(() => ({
                   loadedFriends: false,
