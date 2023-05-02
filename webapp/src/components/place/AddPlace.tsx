@@ -1,11 +1,9 @@
 import React, { ChangeEvent, Component } from "react";
 import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
-import PlaceManager from "../../adapters/solid/PlaceManager";
 import Place from "../../domain/Place";
 import Placemark from "../../domain/Placemark";
 import '../../styles/AddPlace.css'
 import PODManager from "../../adapters/solid/PODManager";
-import PlacePrivacy from "./PrivacyComponent";
 import PrivacyComponent from "./PrivacyComponent";
 import Map from "../../domain/Map";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
@@ -387,7 +385,7 @@ export class PhotoPreview extends Component<Props, State> {
 		return (
 		<div className="photo-preview">
 			<h2>Preview of {name}</h2>
-			<img src={url} alt="Uploaded photo" />
+			<img src={url} alt="" />
 			<button onClick={this.handleDelete} type="submit">Delete photo</button>
 		</div>
 		);

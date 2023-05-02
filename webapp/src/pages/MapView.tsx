@@ -3,8 +3,6 @@ import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import MapFilter from "../components/MapFilter";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
-import Placemark from "../domain/Placemark";
-import {PlaceType} from "../types/PlaceType";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Footer from "../components/Footer";
 import { ModalDialog, ModalClose } from "@mui/joy";
@@ -46,7 +44,7 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
         let select: HTMLSelectElement = (event.target as HTMLSelectElement);
         let index: number = select.selectedIndex;
         let id: string = select.options[index].value;
-        let map: Map | undefined = this.state.maps.find(m => m.getId() == id);
+        let map: Map | undefined = this.state.maps.find(m => m.getId() === id);
 
         if (map !== undefined) {
             this.setState({data: undefined});

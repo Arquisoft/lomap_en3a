@@ -1,10 +1,7 @@
-import React, { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import React from "react";
 import PODManager from "../adapters/solid/PODManager";
 import { getPlaces } from "../api/api";
-import { PlaceType } from "../types/PlaceType";
 import Map from "../domain/Map";
-import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
 import Footer from "../components/Footer";
 import MapFilter from "../components/MapFilter";
 import PassmeDropdown from "../components/basic/PassmeDropdown";

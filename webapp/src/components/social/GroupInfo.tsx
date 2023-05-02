@@ -3,11 +3,8 @@ import ReactTable from "../basic/ReactTable";
 import {Button, TableBody, TableCell, TableRow} from "@mui/material";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
 import LoadingPage from "../basic/LoadingPage";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import AddGroup from "./AddGroup";
 import AddMap from "../map/AddMap";
 import Social from "../../pages/Social";
 
