@@ -19,6 +19,9 @@ export default class User {
         return this.webID;
     }
 
+    public simplfiedWebID(){
+        return this.webID.replace("/profile/card#me", "").replace("https://","");
+    }
     set photo(photo: string | undefined){
         this._photo = photo;
     }
