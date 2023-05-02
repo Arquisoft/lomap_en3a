@@ -3,7 +3,7 @@ import {Rating} from "react-simple-star-rating";
 import IPlacePageProps from "./IPlacePage";
 import "./../../styles/pointInfo.css";
 import PODManager from "../../adapters/solid/PODManager";
-import PlaceComment from "../../domain/Place/PlaceComment";
+import PlaceComment from "../../domain/place/PlaceComment";
 import LoadingPage from "../basic/LoadingPage";
 
 interface ReviewsPageState {

@@ -4,8 +4,8 @@ import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
-import PlaceComment from '../../domain/Place/PlaceComment';
-import PlaceRating from '../../domain/Place/PlaceRating';
+import PlaceComment from '../../domain/place/PlaceComment';
+import PlaceRating from '../../domain/place/PlaceRating';
 import User from '../../domain/User';
 import Group from '../../domain/Group';
 

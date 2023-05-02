@@ -1,9 +1,9 @@
 import { QueryEngine } from "@comunica/query-sparql-solid";
-import PlaceComment from "../../../domain/Place/PlaceComment";
+import PlaceComment from "../../../domain/place/PlaceComment";
 import Assembler from "../Assembler";
 import AbstractSolidRepository from "./AbstractSolidRepository";
 import { getSolidDataset, overwriteFile, setThing } from "@inrupt/solid-client";
-import PlaceRating from "../../../domain/Place/PlaceRating";
+import PlaceRating from "../../../domain/place/PlaceRating";
 
 export default class InteractionsRepository extends AbstractSolidRepository {
 

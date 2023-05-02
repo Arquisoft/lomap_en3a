@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";
 import {Button, Checkbox, FormControlLabel, FormGroup} from "@mui/material";

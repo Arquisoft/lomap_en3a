@@ -59,7 +59,7 @@ export default class ListUsers extends React.Component<UserListProps, UserListSt
         return (<div className="friendsGrid">
                 {this.state?.loadedFriends ? this.users.map((user) =>
                     <UserPlaceHolder user={user} callback={this.props.callback}></UserPlaceHolder>
-                ) : this.listUsers || this.listUsers}
+                ) : this.listUsers}
             </div>
         );
     }

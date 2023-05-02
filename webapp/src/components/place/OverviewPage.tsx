@@ -4,8 +4,8 @@ import IPlacePageProps from "./IPlacePage";
 import IPlacePageState from "./IPlacePage";
 import "../../styles/OverviewPage.css"; // Import the CSS file
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-import PlaceComment from "../../domain/Place/PlaceComment";
-import PlaceRating from "../../domain/Place/PlaceRating";
+import PlaceComment from "../../domain/place/PlaceComment";
+import PlaceRating from "../../domain/place/PlaceRating";
 import {PhotoPreview} from "./AddPlace";
 import PODManager from "../../adapters/solid/PODManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
