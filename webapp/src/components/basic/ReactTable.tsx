@@ -1,6 +1,5 @@
 import React from "react";
 import {Paper, SxProps, Table, TableCell, TableContainer, TableHead, Theme} from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
 import "../../styles/paginatedTablesContentStyle.css";
 
 interface PaginatedTableProps {
@@ -35,7 +34,7 @@ export default class ReactTable extends React.Component<PaginatedTableProps, any
                         <TableHead className="table-header">
                             {this.props.headCells.map((head, index) => (
                                 <TableCell sx={this.props.headerCellStyle || {color: "white"}}
-                                           align={index != 0 ? "right" : "left"}>{head}</TableCell>
+                                           align={index !== 0 ? "right" : "left"}>{head}</TableCell>
                             ))}
                         </TableHead>
                         {this.props.tableBody}

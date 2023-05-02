@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import "../../styles/PrivacyComponent.css";
 import User from "../../domain/User";
 import FriendManager from "../../adapters/solid/FriendManager";
-import {map} from "leaflet";
 import LoadingPage from "../basic/LoadingPage";
 
 interface PrivacyComponentProps {
@@ -45,8 +44,8 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
   
     async componentDidMount() {
         // We assign to users the actual list of users
-        this.getUsers().then(() => {
-          if (this.state.friendsList.length == 0) {
+        this.getUsers().then(() => 
+          if (this.state.friendsList.length === 0) {
               this.setState(() => ({
                   loadedFriends: false,
               }));
@@ -192,7 +191,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
                         </div>
                     )}
                     {/*Display a message if there are no friends to select*/}
-                    {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList ?? []).length == 0 && (
+                    {this.state.loadedFriends && this.state.friendsButton && (this.state.friendsList ?? []).length === 0 && (
                         <div className="friend-options">
                             <p>You have no friends.</p>
                         </div>

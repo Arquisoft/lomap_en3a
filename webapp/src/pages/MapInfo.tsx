@@ -13,7 +13,6 @@ import Footer from "../components/Footer";
 import ReactTable from "../components/basic/ReactTable";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import EmptyList from "../components/basic/EmptyList";
-import Social from "./Social";
 import Group from "../domain/Group";
 import BackButton from "../components/basic/BackButton";
 

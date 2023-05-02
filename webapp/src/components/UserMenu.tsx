@@ -6,9 +6,7 @@ import Dropdown from 'rc-dropdown';
 import Menu, {Divider, Item as MenuItem} from 'rc-menu';
 import {Link} from "react-router-dom";
 import {Avatar} from "@mui/material";
-import {TbAdjustmentsFilled} from "react-icons/tb";
 import FriendManager from "../adapters/solid/FriendManager";
-import User from "../domain/User";
 
 /**
  * The menu with all the options related to the user (personal information, log out)

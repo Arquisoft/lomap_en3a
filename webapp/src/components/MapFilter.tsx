@@ -1,6 +1,6 @@
 import React from "react";
 import FriendManager from "../adapters/solid/FriendManager";
-import {PlaceCategory} from "../domain/Place/PlaceCategory";
+import {PlaceCategory} from "../domain/place/PlaceCategory";
 import User from "../domain/User";
 import '../styles/mapFilter.css';
 

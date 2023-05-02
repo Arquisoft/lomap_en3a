@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Social from './pages/Social';
@@ -6,8 +6,6 @@ import MapView from './pages/MapView';
 import Login from './pages/Login';
 import Layout from "./components/Layout";
 import PrivateRoute from "./components/CustomRoute";
-import {PlaceType} from "./types/PlaceType";
-import {getPlaces} from "./api/api";
 import UserStuff from "./pages/UserStuff";
 import PublicMapView from './pages/PublicMapView';
 

@@ -1,12 +1,14 @@
 import Map from '../../domain/Map';
 import Place from '../../domain/Place';
-import PlaceComment from '../../domain/Place/PlaceComment';
-import PlaceRating from '../../domain/Place/PlaceRating';
+import PlaceComment from '../../domain/place/PlaceComment';
+import PlaceRating from '../../domain/place/PlaceRating';
 import Group from '../../domain/Group';
 import PlacesRepository from './repositories/PlacesRepository';
 import InteractionsRepository from './repositories/InteractionsRepository';
 import MapsRepository from './repositories/MapsRepository';
 import GroupsRepository from './repositories/GroupsRepository';
+import { createContainerAt, getSolidDataset } from '@inrupt/solid-client';
+import SolidSessionManager from './SolidSessionManager';
 
 export default class PODManager {
 
@@ -14,6 +16,32 @@ export default class PODManager {
     private places: PlacesRepository = new PlacesRepository();
     private interactions: InteractionsRepository = new InteractionsRepository();
     private groups: GroupsRepository = new GroupsRepository();
+
+
+    public async init(): Promise<void> {
+        let fetch = {fetch: SolidSessionManager.getManager().getSessionFetch()};
+        let groupsPath = this.getBaseUrl() + "/groups/";
+        let mapsPath = this.getBaseUrl() + "/data/maps/";
+        let placesPath = this.getBaseUrl() + "/data/places/";
+
+        await this.initFolder(mapsPath, fetch);
+        await this.initFolder(placesPath, fetch);
+        await this.createFriendsGroup();
+        await this.setDefaultFolderPermissions(groupsPath, {read:true, write:true});
+        await this.setPublicAccess(groupsPath, false, true);
+    }
+
+    private async initFolder(path:string, fetch:any) {
+        await getSolidDataset(path, fetch)
+            .then(async () => {
+                await this.setPublicAccess(path, true);
+            })
+            .catch(async () => {
+                await createContainerAt(path, fetch);
+                await this.maps.createAcl(path);
+                await this.setPublicAccess(path, true);
+            });
+    }
 
 
     // MAPS

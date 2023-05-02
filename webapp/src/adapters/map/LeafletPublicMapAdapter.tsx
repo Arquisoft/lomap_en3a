@@ -1,7 +1,6 @@
 import Placemark from "../../domain/Placemark";
 import LeafletMapAdapter from "./LeafletMapAdapter";
 import { addPlace } from "../../api/api";
-import {PlaceType} from "../../types/PlaceType";
 
 export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
     

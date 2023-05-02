@@ -1,5 +1,3 @@
-import Place from "../Place";
-
 export default class PlaceRating {
 
   // private fields
