@@ -46,8 +46,11 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
     }
 
     private shortText(text: string | null) {
+        if(text?.match("inrupt.net") || text?.match("solidcommunity.net")){
+            return text.substring(0, 15).concat('...');
+        }
         if (text === null) {
-            return "Unknwon friend";
+            return null;
         }
         if (text.length > 13) {
             return text.substring(0, 10).concat('...');
@@ -60,7 +63,7 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
             display: "flex",
             flexWrap: "wrap",
         }}>
-            <Tooltip title={"See " + (this.props.user.getName() || "Unknwon") + "'s profile"} variant={"soft"}
+            <Tooltip title={"See " + (this.props.user.getName() || "Unknown") + "'s profile"} variant={"soft"}
                      enterDelay={500} arrow>
                 <Card className="card">
                     <CardActionArea sx={{height: "100%"}} className="card" onClick={() => {
@@ -79,11 +82,19 @@ export default class UserPlaceHolder extends React.Component<UserPlaceHolderProp
                             <h3 style={{
                                 fontSize: "x-large",
                                 marginBottom: 0
-                            }}>{this.shortText(this.user.getName())}</h3>
-                            <p>{this.user.getName() === null ? "(" + this.user.getWebId().replace("/profile/card#me", "") + ")" : null}</p>
-                            <h4 style={{color: "#2D2D2D", marginTop: 0, marginBottom: 0}}>{this.user.organization}</h4>
-                            <h5 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.user.role}</h5>
-                            <p style={{marginTop: 0}}>{this.user.note}</p>
+                            }}>{this.shortText(this.user.getName()) || "Unknown"}</h3>
+                            <p>{this.user.getName() === null ? "(" + this.shortText(this.user.simplfiedWebID()) + ")" : null}</p>
+                            <h4 style={{
+                                color: "#2D2D2D",
+                                marginTop: 0,
+                                marginBottom: 0
+                            }}>{this.shortText(this.user.organization)}</h4>
+                            <h5 style={{
+                                color: "#505050",
+                                marginTop: 0,
+                                marginBottom: 0
+                            }}>{this.shortText(this.user.role)}</h5>
+                            <p style={{marginTop: 0}}>{this.shortText(this.user.note)}</p>
                         </CardContent>
                     </CardActionArea>
                 </Card>

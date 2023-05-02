@@ -94,10 +94,6 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
             return this.state.componentToDisplay;
         }
 
-        if (this.tableMaps === null) {
-            return <EmptyList firstHeader={"You dont seem to have any map!"} secondHeader={"Try creating a new one"}
-                              image={"/map-magnifier.png"}/>
-        }
 
         return (<main style={{margin: "0"}}>
             <div className={"user-info"} style={{marginLeft: "1em"}}>
@@ -107,8 +103,12 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
                 <p style={{marginTop: 0}}>{this.user?.note}</p>
             </div>
             <label htmlFor="maps-table" style={{margin: "1em"}}>Users Maps</label>
-            <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
-                        headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
+            {this.tableMaps === null ?
+                <EmptyList firstHeader={"You dont seem to have any map!"} secondHeader={"Try creating a new one"}
+                           image={"/map-magnifier.png"}/> :
+                <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
+                            headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
+            }
             <Footer style={{
                 backgroundColor: "#002E66",
                 color: "white",

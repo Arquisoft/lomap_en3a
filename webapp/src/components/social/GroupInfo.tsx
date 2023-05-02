@@ -4,18 +4,22 @@ import {Button, TableBody, TableCell, TableRow} from "@mui/material";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
 import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
 import LoadingPage from "../basic/LoadingPage";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import AddGroup from "./AddGroup";
 import AddMap from "../map/AddMap";
 import Social from "../../pages/Social";
+import EmptyList from "../basic/EmptyList";
+import BackButton from "../basic/BackButton";
+import FriendsList from "./FriendsList";
+import FriendManager from "../../adapters/solid/FriendManager";
+import User from "../../domain/User";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
-    emptyTable: JSX.Element | null,
     popupOpen: boolean,
-    goBack: boolean
+    goBack: boolean,
+    isTableEmpty: boolean,
+    members: User[]
 }> {
 
     private tableBody = <></>;
@@ -25,11 +29,28 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
 
         this.state = {
             loading: true,
-            emptyTable: null,
             popupOpen: false,
-            goBack: false
+            goBack: false,
+            isTableEmpty: false,
+            members: []
         }
 
+        this.generateTable();
+
+        for (let i = 0; i < this.props.group.getMembers().length; i++) {
+            this.getUsers("https://" + this.props.group.getMembers()[i].simplfiedWebID() + "/").then((user) => {
+                this.setState((prevState) => {
+                    prevState.members.push(user);
+                });
+            });
+
+        }
+
+        this.createMapForGroup = this.createMapForGroup.bind(this);
+        this.goBack = this.goBack.bind(this);
+    }
+
+    private generateTable() {
         this.getGroupMaps().then((maps) => {
             if (maps.length > 0) {
                 this.tableBody = (<TableBody>
@@ -43,18 +64,23 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
                         </TableRow>
                     ))}
                 </TableBody>);
+            } else {
+                this.setState(({
+                    isTableEmpty: true
+                }));
             }
             this.setState(({
                 loading: false
             }));
         })
-
-        this.createMapForGroup = this.createMapForGroup.bind(this);
-        this.goBack = this.goBack.bind(this);
     }
 
     private async getGroupMaps() {
         return await new PODManager().getGroupMaps(this.props.group);
+    }
+
+    private async getUsers(webID: string) {
+        return await new FriendManager().getUserData(webID);
     }
 
     /*
@@ -83,26 +109,40 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
             return <div><LoadingPage/></div>;
         }
 
-        return (
-            <section>
-                <h2>{this.props.group.getName()}</h2>
-                <p>Members in this group: {this.props.group.getMembers().length}</p>
-                <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
-                            tableBody={this.tableBody}/>
-                <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"}>Create a map</Button>
-                {
-                    this.state.emptyTable != null ? this.state.emptyTable :
-                        <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
-                                    tableBody={this.tableBody}/>
-                }
-                <Modal open={this.state.popupOpen} onClose={(() => this.setState(({popupOpen: false})))}>
-                    <ModalDialog>
-                        <ModalClose accessKey={"x"}/>
-                        <AddMap group={this.props.group}/>
-                    </ModalDialog>
-                </Modal>
-                <input type="button" id="back" value="Back" onClick={this.goBack}/>
-            </section>
+        return (<>
+                <BackButton onClick={this.goBack}/>
+                <section style={{margin: "0 1em 0 1em"}}>
+                    <div className={"group-header"}
+                         style={{display: "flex", flexDirection: "row", alignItems: "stretch"}}>
+                        <div>
+                            <h2>{this.props.group.getName()}</h2>
+                            <p>Members in this group: {this.props.group.getMembers().length}</p>
+                        </div>
+                        <aside style={{alignSelf: "end", marginLeft: "50%"}}>
+                            <h3>Members</h3>
+                            <FriendsList users={this.state.members}/>
+                        </aside>
+                    </div>
+                    <Button onClick={this.createMapForGroup} variant={"contained"} color={"success"}>Create a
+                        map</Button>
+                    {
+                        this.state.isTableEmpty ?
+                            <EmptyList firstHeader={"This group does not have maps..."} image={"/map-magnifier.png"}
+                                       secondHeader={"Try adding some!"}/> :
+                            <ReactTable tableName={"group-maps"} headCells={["Title", "Description", "Link"]}
+                                        tableBody={this.tableBody}/>
+                    }
+                    <Modal open={this.state.popupOpen} onClose={(() => {
+                        this.setState(({popupOpen: false}));
+                        this.generateTable();
+                    })}>
+                        <ModalDialog>
+                            <ModalClose accessKey={"x"}/>
+                            <AddMap group={this.props.group}/>
+                        </ModalDialog>
+                    </Modal>
+                </section>
+            </>
         );
     }
 
