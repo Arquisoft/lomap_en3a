@@ -31,7 +31,6 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
     }
 
     public async componentDidMount(): Promise<void> {
-        this.podManager.createFriendsGroup();
         let maps = await this.podManager.getAllMaps();
         this.setState({maps: maps,
             data: maps[0]});

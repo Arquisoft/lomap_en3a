@@ -36,8 +36,6 @@ export default class GroupsRepository extends AbstractSolidRepository {
         let groupsPath = this.getBaseUrl() + "/groups";
 
         await this.saveDataset(groupsPath+"/friends", Assembler.groupToDataset(group));
-        await this.setDefaultFolderPermissions(groupsPath+"/", {read:true, write:true});
-        await this.setPublicAccess(groupsPath+"/", false, true);
     }
 
     /**
