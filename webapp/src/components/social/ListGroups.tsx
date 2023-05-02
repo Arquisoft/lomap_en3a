@@ -87,7 +87,8 @@ export default class ListGroups extends React.Component<ListGroupsProps, {
                 Create group
             </Button>
             {this.state.tableBody == null ? <EmptyList firstHeader={"You don't have any group..."} image={"/globe.png"}
-                                                       secondHeader={"Try adding some friends or creating one yourself!"}/> :
+                                                       secondHeader={"Try adding some friends or creating one yourself!"}
+                                                       imageStyle={{height: 231, width: 231}}/> :
                 <ReactTable id={"user-groups"} tableName={"user-groups"} headCells={["Group name", "Link"]}
                             tableBody={this.state.tableBody}/>}
             <Modal open={this.state.popupOpen} onClose={(() => {

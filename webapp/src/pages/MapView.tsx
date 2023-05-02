@@ -9,6 +9,7 @@ import {ModalDialog, ModalClose} from "@mui/joy";
 import {Button, Modal} from "@mui/material";
 import AddMap from "../components/map/AddMap";
 import LoadingPage from "../components/basic/LoadingPage";
+import EmptyList from "../components/basic/EmptyList";
 
 
 interface MapViewProps {
@@ -19,7 +20,8 @@ interface MapViewState {
     filter: string[] | undefined,
     maps: Map[],
     popUpOpen: boolean,
-    loading: boolean
+    loading: boolean,
+    noMaps: boolean
 }
 
 export default class MapView extends React.Component<MapViewProps, MapViewState> {
@@ -32,18 +34,39 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
             filter: undefined,
             maps: [],
             popUpOpen: false,
-            loading: true
+            loading: true,
+            noMaps: false
         };
         this.createMapForGroup = this.createMapForGroup.bind(this);
+
     }
 
-    public async componentDidMount(): Promise<void> {
+    public componentDidMount() {
+        this.loadMaps().catch(() => {
+            this.setState({
+                noMaps: true,
+                loading: false
+            });
+        })
+    }
+
+
+    private async loadMaps() {
         let maps = await this.podManager.getAllMaps();
-        this.setState({
+        console.log(maps);
+        if (maps.length > 0) {
+            await this.podManager.loadPlacemarks(maps[0]);
+            this.setState({
                 maps: maps,
                 data: maps[0],
                 loading: false
             });
+        } else {
+            this.setState({
+                noMaps: true,
+                loading: false
+            });
+        }
     }
 
     private async changeMap(event: ChangeEvent): Promise<void> {
@@ -71,6 +94,36 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
 
         if (this.state.loading) {
             return <LoadingPage/>;
+        }
+
+        if (this.state.noMaps) {
+            return (<section className='Home'>
+                    <div className="map-header">
+                        <Button onClick={this.createMapForGroup} variant={"contained"}
+                                color={"success"}
+                                sx={{margin: "0 0 0.3em 1em", height: "fit-content"}}>Create a
+                            map</Button>
+                    </div>
+                    <EmptyList firstHeader={"You don't have any map!"} secondHeader={"Try creating one to add places"}
+                               image={"/map-magnifier.png"}/>
+                    <Modal open={this.state.popUpOpen} onClose={(() => {
+                        this.setState(({popUpOpen: false}));
+                        this.loadMaps().then(() => {
+                            this.setState(({noMaps: false}))
+                        });
+                    })}>
+                        <ModalDialog>
+                            <ModalClose accessKey={"x"} onClick={(() => {
+                                this.setState(({popUpOpen: false}));
+                                this.loadMaps().then(() => {
+                                    this.setState(({noMaps: false}))
+                                });
+                            })}/>
+                            <AddMap/>
+                        </ModalDialog>
+                    </Modal>
+                </section>
+            );
         }
 
         return (
