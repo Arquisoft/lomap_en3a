@@ -15,6 +15,7 @@ import {TableBody, TableCell, TableRow} from "@mui/material";
 import EmptyList from "../components/basic/EmptyList";
 import Social from "./Social";
 import Group from "../domain/Group";
+import BackButton from "../components/basic/BackButton";
 
 interface MapInfoProps {
     map: Map;
@@ -139,9 +140,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
             return <UserStuff/>;
         }
         return (<>
-            <div className="back-page-link-container" id="back" onClick={this.goBack}>
-                <a className="back-page-link">Back</a>
-            </div>
+            <BackButton onClick={this.goBack}/>
             <section className="my-stuff">
                 <div className="mapInformation">
                     <h1>{this.state.theMap.getName()}</h1>
@@ -159,7 +158,7 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                         <ReactTable tableName={"map-places"} headCells={["Place Title", ""]}
                                     tableBody={this.state.tablePlacesBody}/>
                     }
-                    {!this.state.loadedPlaces &&
+                    {!this.state.loadedPlaces && this.state.theMap.getPlacemarks().length > 0 &&
                         <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
                     }
                     {this.state.loadedPlaces &&
