@@ -75,9 +75,6 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     private isFiltered(p: Placemark): boolean {
         if (this.props.categories !== undefined) {
-            console.log(p.getCategory())
-            console.log(this.props.categories)
-            console.log(p.getCategory() in this.props.categories)
             return this.props.categories.indexOf(p.getCategory()) != -1;
         }
         return true;
@@ -157,7 +154,6 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     }
 
     protected addMarker(p: Placemark): void {
-        console.log(p.getCategory())
         this.map.add(p);
         this.pod.saveMap(this.map);
         this.setState({
