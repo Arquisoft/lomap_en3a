@@ -1,6 +1,6 @@
 import SolidSessionManager from "./SolidSessionManager";
 import {
-    getLiteral, getNamedNode,
+    getNamedNode,
     getSolidDataset, getStringNoLocale, getThing,
     getUrlAll, Thing
 } from "@inrupt/solid-client";
@@ -26,7 +26,7 @@ export default class FriendManager {
         const webIdDoc = await getSolidDataset(webId, {fetch: this.sessionManager.getSessionFetch()});
         const friends = getThing(webIdDoc, webId);
         //It returns all the values in the knows property of the object Thing
-        const friendWebIds = getUrlAll(<Thing>friends, FOAF.knows);
+        const friendWebIds = getUrlAll(friends as Thing, FOAF.knows);
         let friendsList = new Array<User>()
         for (let a of friendWebIds) {
             friendsList.push(await this.getUserData(a));
@@ -45,11 +45,11 @@ export default class FriendManager {
         let webIdDoc = await getSolidDataset(basePath + "profile/card", {fetch: this.sessionManager.getSessionFetch()});
         let friends = getThing(webIdDoc, basePath + "profile/card#me");
         //It returns all the values in the knows property of the object Thing
-        let name = getStringNoLocale(<Thing>friends, VCARD.fn);
-        let photo = (getNamedNode(<Thing>friends, VCARD.hasPhoto))?.value
-        let note = getStringNoLocale(<Thing>friends, VCARD.note);
-        let role = getStringNoLocale(<Thing>friends, VCARD.role);
-        let organization = getStringNoLocale(<Thing>friends, VCARD.organization_name);
+        let name = getStringNoLocale(friends as Thing, VCARD.fn);
+        let photo = (getNamedNode(friends as Thing, VCARD.hasPhoto))?.value
+        let note = getStringNoLocale(friends as Thing, VCARD.note);
+        let role = getStringNoLocale(friends as Thing, VCARD.role);
+        let organization = getStringNoLocale(friends as Thing, VCARD.organization_name);
 
         let user = new User(name, basePath + "profile/card#me");
         user.photo = photo;

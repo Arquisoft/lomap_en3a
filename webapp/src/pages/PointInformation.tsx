@@ -12,7 +12,6 @@ import LoadingPage from "../components/basic/LoadingPage";
 import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import PrivacyComponent from "../components/place/PrivacyComponent";
-import FriendManager from "../adapters/solid/FriendManager";
 import User from "../domain/User";
 import Group from "../domain/Group";
 
@@ -113,7 +112,6 @@ export default class PointInformation extends React.Component<PointInformationPr
      */
     public render(): JSX.Element {
         if (this.state.goBack) {
-            //return <LeafletMapAdapter map={this.props.map}/>;
             return this.props.prevComponent ?? <LeafletMapAdapter map={this.props.map}/>;
         }
         return (
@@ -135,7 +133,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
-                            <p>Location: {this.point.latitude != 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
+                            <p>Location: {this.point.latitude !== 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
 
                             {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
                                 <div id="visibility">

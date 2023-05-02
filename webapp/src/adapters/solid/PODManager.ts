@@ -1,13 +1,13 @@
 import Map from '../../domain/Map';
 import Place from '../../domain/Place';
-import PlaceComment from '../../domain/Place/PlaceComment';
-import PlaceRating from '../../domain/Place/PlaceRating';
+import PlaceComment from '../../domain/place/PlaceComment';
+import PlaceRating from '../../domain/place/PlaceRating';
 import Group from '../../domain/Group';
 import PlacesRepository from './repositories/PlacesRepository';
 import InteractionsRepository from './repositories/InteractionsRepository';
 import MapsRepository from './repositories/MapsRepository';
 import GroupsRepository from './repositories/GroupsRepository';
-import { createContainerAt, getSolidDataset, saveSolidDatasetAt } from '@inrupt/solid-client';
+import { createContainerAt, getSolidDataset } from '@inrupt/solid-client';
 import SolidSessionManager from './SolidSessionManager';
 
 export default class PODManager {

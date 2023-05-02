@@ -1,8 +1,8 @@
 import React from "react";
 
-export default class Footer extends React.Component<{ style?: React.CSSProperties | undefined }, any> {
+export default class Footer extends React.Component<{ style: React.CSSProperties | undefined }, any> {
 
-    constructor(props: { style?: React.CSSProperties | undefined }) {
+    constructor(props: { style: React.CSSProperties | undefined }) {
         super(props);
     }
 
