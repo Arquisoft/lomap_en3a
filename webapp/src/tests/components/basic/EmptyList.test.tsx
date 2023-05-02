@@ -1,8 +1,9 @@
 import React from 'react';
-import {fireEvent, getByText, render, screen} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
+import EmptyList from "../../../components/basic/EmptyList";
 
-test('logout button is rendered', () => {
-    // render(<EmptyList/>);
+test('an empty list is rendered', () => {
+    render(<EmptyList firstHeader={"Header"} image={"image"} secondHeader={"Second header"}/>);
     const homeOptionText = screen.getByAltText("A comically placed image with a comically placed alt text");
     expect(homeOptionText).toBeInTheDocument();
 });
