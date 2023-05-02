@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Footer from "../Footer";
 import PointInformation from "../../pages/PointInformation";
 import Placemark from "../../domain/Placemark";
+import EmptyList from "../basic/EmptyList";
 
 interface UserPageProps {
     user: User
@@ -31,7 +32,9 @@ interface UserPageState {
     mapForPopUp: Map | null,
     places: JSX.Element,
     shownPlaceMark: Placemark,
-    openPointPopup: boolean
+    openPointPopup: boolean,
+    emptyMaps: boolean,
+    emptyPlaces: boolean
 }
 
 /**
@@ -62,7 +65,9 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
             mapForPopUp: null,
             places: <></>,
             shownPlaceMark: new Placemark(0, 0, "Error"),
-            openPointPopup: false
+            openPointPopup: false,
+            emptyMaps: false,
+            emptyPlaces: false
 
         }
 
@@ -82,23 +87,35 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     ))}
                 </TableBody>)
             }));
+        }).catch(() => {
+            this.setState(({
+                hasLoadedMaps: true,
+                emptyMaps: true
+            }))
         });
 
         this.getPlaces().then((places) => {
-            let aux = (<TableBody>
-                {places.map((place) => (
-                    <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                        <TableCell component="th" scope="row">{place.title}</TableCell>
-                        <TableCell align="right">{place.description}</TableCell>
-                        <TableCell align="right"><a onClick={() => {
-                            this.showPlace(place);
-                        }}>See place information</a></TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>);
+            if (places) {
+                let aux = (<TableBody>
+                    {places.map((place) => (
+                        <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            <TableCell component="th" scope="row">{place.title}</TableCell>
+                            <TableCell align="right">{place.description}</TableCell>
+                            <TableCell align="right"><a onClick={() => {
+                                this.showPlace(place);
+                            }}>See place information</a></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>);
+                this.setState(({
+                    places: aux,
+                    hasLoadedPlaces: true
+                }))
+            }
+        }).catch(() => {
             this.setState(({
-                places: aux,
-                hasLoadedPlaces: true
+                hasLoadedPlaces: true,
+                emptyPlaces: true
             }))
         });
 
@@ -169,16 +186,29 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     <h4 style={{color: "#505050", marginTop: 0, marginBottom: 0}}>{this.props.user.role}</h4>
                     <a href={this.props.user.getWebId()}>SOLID Profile</a>
                     <p style={{marginTop: 0}}>{this.props.user.note}</p>
-                    <div className="friends-tables">
-                        <label htmlFor="places-table">{this.props.user.getName() || "Friend"}'s Places</label>
-                        <ReactTable tableName="places" tableBody={this.state.places}
-                                    headCells={["Title", "Description", "Link"]}
-                                    headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
-                        <label htmlFor="maps-table">{this.props.user.getName() || "Friend"}'s Maps</label>
-                        <ReactTable tableName="maps" tableBody={this.state.maps}
-                                    headCells={["Name", "Description", "Link"]}
-                                    headerCellStyle={{color: "white"}} id={"maps-table"}></ReactTable>
-                    </div>
+                    {
+                        this.state.emptyPlaces &&
+                        <EmptyList firstHeader={"This user does not have any shared place..."} secondHeader={""}
+                                   image={"marker_nlack.png"}/>
+                    }
+                    {!this.state.emptyMaps && !this.state.emptyPlaces &&
+                        <div className="friends-tables">
+                            <label htmlFor="places-table">{this.props.user.getName() || "Friend"}'s
+                                Places</label>
+                            <ReactTable tableName="places" tableBody={this.state.places}
+                                        headCells={["Title", "Description", "Link"]}
+                                        headerCellStyle={{color: "white"}} id={"places-table"}></ReactTable>
+                            <label htmlFor="maps-table">{this.props.user.getName() || "Friend"}'s Maps</label>
+                            <ReactTable tableName="maps" tableBody={this.state.maps}
+                                        headCells={["Name", "Description", "Link"]}
+                                        headerCellStyle={{color: "white"}} id={"maps-table"}></ReactTable>
+                        </div>
+                    }
+                    {
+                        this.state.emptyMaps &&
+                        <EmptyList firstHeader={"This user does not have any shared map..."} secondHeader={""}
+                                   image={"/map-magnifier.png"}/>
+                    }
                 </main>
                 <Dialog
                     fullScreen
@@ -224,6 +254,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     height: "6em",
                     paddingTop: "0.3em"
                 }}/>
-            </>)
+            </>
+        )
     }
 }

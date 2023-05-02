@@ -167,6 +167,7 @@ export default class AddGroup extends React.Component<{}, {
             return <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
                 <h2>Done!</h2>
                 <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
+                <p>Your groups table will be updated in a few seconds...</p>
             </div>
         }
 

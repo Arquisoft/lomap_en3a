@@ -9,33 +9,22 @@ import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Footer from "../components/Footer";
 
 
-interface HomeProps {
-    placeList?: PlaceType[]
+interface MapViewProps {
 }
 
-interface HomeState {
+interface MapViewState {
     data: Map | undefined,
     filter: string[] | undefined,
     maps: Map[]
 }
 
-export default class Home extends React.Component<HomeProps, HomeState> {
+export default class MapView extends React.Component<MapViewProps, MapViewState> {
     private podManager = new PODManager();
-    static defaultProps = {
-        placeList: []
-    }
 
     public constructor(props: any) {
         super(props);
-
-        let map = new Map("Public map");
-        let places: Array<PlaceType> = props.placeList;
-        places.forEach((place) => map.add(
-            new Placemark(place.latitude, place.longitude, place.title)
-        ));
-
         this.state = {
-            data: map,
+            data: undefined,
             filter: undefined,
             maps: []
         };
@@ -43,11 +32,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     public async componentDidMount(): Promise<void> {
         let maps = await this.podManager.getAllMaps();
-
-        if (this.state.data !== undefined) {
-            maps = [this.state.data, ...maps]
-        }
-        this.setState({maps: maps})
+        this.setState({maps: maps,
+            data: maps[0]});
     }
 
     private async changeMap(event: ChangeEvent): Promise<void> {

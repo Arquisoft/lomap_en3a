@@ -63,7 +63,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
         this.photosURLs = await this.pod.getImageUrls(this.props.placemark.getPlaceUrl());
         this.setState({
-            component: <OverviewPage place={this.point} placeUrl={"this.props.placemark.getPlaceUrl()"}/>
+            component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>
         });
     }
 
@@ -96,6 +96,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     };
 
     private handleClickOverview() {
+        console.log(this.props.placemark.getPlaceUrl())
         this.setState({component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
     }
 
@@ -120,7 +121,6 @@ export default class PointInformation extends React.Component<PointInformationPr
                 this.savePlaceVisibility();
                 this.setState(({open: false}));
                 if (this.props.onBack !== undefined) {
-                    console.log("It goes back")
                     this.props.onBack(this.props.prevComponent ?? <LeafletMapAdapter map={this.props.map}/>);
                 }
             }}>

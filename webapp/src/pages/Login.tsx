@@ -49,7 +49,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
     public render(): JSX.Element {
         if (this.state.loggedIn) {
             new PODManager().init();
-            return (<Navigate to="/home" replace={true}/>);
+            return (<Navigate to="/map/public" replace={true}/>);
         }
         return (
             <>
@@ -60,7 +60,7 @@ export default class Login extends React.Component<{}, { loggedIn: boolean }> {
                         <legend>Sign in</legend>
                         <section>
                             <p>Select your POD provider</p>
-                            <input id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
+                            <input style={{marginBottom: "0.3em"}} id="login" type="button" value="Inrupt.net" onClick={this.getLoginFor("inrupt")}/>
                             <input id="loginSC" type="button" value="SolidCommunity" onClick={this.getLoginFor("solidcommunity")}/>
                         </section>
                     </fieldset>

@@ -56,8 +56,8 @@ const Handler = (props: any) => {
 export default class LeafletMapAdapter extends React.Component<LeafletMapAdapterProps, LeafletMapAdapterState> {
     private defaultIcon: Icon = new Icon({iconUrl: markerIconPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private currentIcon: Icon = new Icon({iconUrl: currentMarkerPng, iconSize: [30, 50], iconAnchor: [15, 50]});
-    private map: Map;
-    private pod: PODManager = new PODManager();
+    protected map: Map;
+    protected pod: PODManager = new PODManager();
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
@@ -156,7 +156,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         }
     }
 
-    private addMarker(p: Placemark): void {
+    protected addMarker(p: Placemark): void {
         console.log(p.getCategory())
         this.map.add(p);
         this.pod.saveMap(this.map);
