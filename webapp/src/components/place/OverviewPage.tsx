@@ -4,10 +4,9 @@ import IPlacePageProps from "./IPlacePage";
 import IPlacePageState from "./IPlacePage";
 import "../../styles/OverviewPage.css"; // Import the CSS file
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
-import PlaceComment from "../../domain/Place/PlaceComment";
-import PlaceRating from "../../domain/Place/PlaceRating";
+import PlaceComment from "../../domain/place/PlaceComment";
+import PlaceRating from "../../domain/place/PlaceRating";
 import {PhotoPreview} from "./AddPlace";
-import PlacePhotos from "../../domain/Place/PlacePhotos";
 import PODManager from "../../adapters/solid/PODManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
@@ -116,7 +115,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         //Here the persistence of the object
 
         var isValid = true;
-        if (!this.state.comment || this.state.comment.trim().length == 0) {
+        if (!this.state.comment || this.state.comment.trim().length === 0) {
             this.setState({commentError: "You must enter a comment."});
             isValid = false;
         }
@@ -235,6 +234,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                         <ModalClose/>
                         <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
                             <h2>Done!</h2>
+                            <p>Your submission might take a while to be processed...</p>
                             <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
                         </div>
                     </ModalDialog>

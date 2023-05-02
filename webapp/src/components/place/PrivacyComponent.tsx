@@ -74,7 +74,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
     handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //When the privacy changes, we fill the list friends with the friends from the user in the friendsList that are in the selectedFriends
         const friendsSelected = this.state.friendsList.filter((friend) => this.state.selectedFriends[friend.simplfiedWebID()]);
-        this.setState({ friendsSelected , selectedPrivacy: e.target.value}, () => {
+        this.setState({friendsSelected, selectedPrivacy: e.target.value}, () => {
             //When privacy is changed, the callback function is called to update the privacy of the place
             if (this.state.friendsButton) {
                 this.props.updatePrivacy(this.state.selectedPrivacy, this.state.friendsSelected);

@@ -2,27 +2,13 @@
     margin: 0 2em 5em 2em;
 }
 
-.back-page-link-container {
-    width: 7em;
-    border-bottom-left-radius: 0.1em;
-    border-bottom-right-radius: 0.1em;
-    background-color: #002E66;
-    padding: 0.5em;
-    text-align: center;
-}
-
-.back-page-link-container:hover {
-    cursor: pointer;
-    background-color: #005fa3;
-}
-
-.back-page-link-container:hover a {
-    color: white;
+.back-page-link, .back-page-link:visited {
+    color: black;
+    maRgin: 0.3em 0 0 0.3em;
 }
 
 .back-page-link, .back-page-link:visited {
-    color: white;
-    font-size: large;
+    color: #002E66;
 }
 
 .friends-tables {

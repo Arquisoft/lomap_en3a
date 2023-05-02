@@ -14,7 +14,7 @@ function EmptyList(props: {
                 </div>
                 <img style={props.imageStyle || {width: "269px", height: "207px", alignSelf: "end"}}
                      src={props.image}
-                     alt="A comically placed image with a comically placed alt text"/>
+                     alt=""/>
             </main>
         </>
     );

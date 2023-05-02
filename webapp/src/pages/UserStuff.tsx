@@ -15,43 +15,52 @@ interface UserStuffState {
     maps: Map[]
     user: string
     componentToDisplay: JSX.Element | null,
-    loaded: boolean
+    loaded: boolean,
+    emptyTable: boolean
 }
 
 export default class UserStuff extends React.Component<any, UserStuffState> {
 
     private user: User | null;
-    private tableMaps: JSX.Element | null;
+    private tableMaps: JSX.Element;
 
     constructor(props: any) {
         super(props);
         this.user = null;
-        this.tableMaps = null;
+        this.tableMaps = <></>;
         this.state = {
             maps: [],
             user: SolidSessionManager.getManager().getWebID(),
             componentToDisplay: null,
-            loaded: false
+            loaded: false,
+            emptyTable: false
         }
         // Update the state with the loadUserData method:
         // gets the maps from the user, then we must use another async
         // method to load the user from the session, as only yhe webID is stored
         this.loadUserData().then(() => {
-            this.tableMaps = (<TableBody>
-                {this.state.maps.map((map: Map) => (
-                    <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                        < TableCell component="th" scope="row">{map.getName()}</TableCell>
-                        <TableCell align="right">{map.getDescription() || "No description given"}</TableCell>
-                        <TableCell align="right"><a onClick={() => {
-                            this.displayMap(map)
-                        }}>See map</a></TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>);
+            if (this.state.maps.length > 0) {
+                this.tableMaps = (<TableBody>
+                    {this.state.maps.map((map: Map) => (
+                        <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                            < TableCell component="th" scope="row">{map.getName()}</TableCell>
+                            <TableCell align="right">{map.getDescription() || "No description given"}</TableCell>
+                            <TableCell align="right"><a onClick={() => {
+                                this.displayMap(map)
+                            }}>See map</a></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>);
+
+            } else {
+                this.setState(({
+                    emptyTable: true
+                }))
+            }
             this.setState(() => ({
                 loaded: true
             }));
-        }).catch(error => {
+        }).catch(() => {
             this.setState(() => ({
                 loaded: true
             }));
@@ -67,7 +76,6 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
 
     private async loadUserData() {
         const mapsAux = await new PODManager().getAllMaps();
-        console.log(mapsAux)
         if (mapsAux.length === 0) {
             this.setState(({
                 loaded: true
@@ -94,10 +102,6 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
             return this.state.componentToDisplay;
         }
 
-        if (this.tableMaps === null) {
-            return <EmptyList firstHeader={"You dont seem to have any map!"} secondHeader={"Try creating a new one"}
-                              image={"/map-magnifier.png"}/>
-        }
 
         return (<main style={{margin: "0"}}>
             <div className={"user-info"} style={{marginLeft: "1em"}}>
@@ -107,8 +111,12 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
                 <p style={{marginTop: 0}}>{this.user?.note}</p>
             </div>
             <label htmlFor="maps-table" style={{margin: "1em"}}>Users Maps</label>
-            <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
-                        headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
+            {this.state.emptyTable ?
+                <EmptyList firstHeader={"You dont seem to have any map!"} secondHeader={"Try creating a new one"}
+                           image={"/map-magnifier.png"}/> :
+                <ReactTable tableName={"user-maps"} headCells={["Map name", "Description", "Map link"]}
+                            headerCellStyle={{color: "white"}} tableBody={this.tableMaps} id={"maps-table"}/>
+            }
             <Footer style={{
                 backgroundColor: "#002E66",
                 color: "white",
