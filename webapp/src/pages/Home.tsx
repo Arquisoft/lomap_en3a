@@ -27,7 +27,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     public constructor(props: any) {
         super(props);
-
         let map = new Map("Public map");
         let places: Array<PlaceType> = props.placeList;
         places.forEach((place) => map.add(
