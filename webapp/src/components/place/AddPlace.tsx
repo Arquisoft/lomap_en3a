@@ -200,38 +200,37 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}
 
 		// Handle form submission logic here.
-
-		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
-                      this.state.photosSelected, undefined ,this.state.category);
-		await this.pod.savePlace(place); //run asynchronously
-
-		
+		var place = new Place(this.state.name, this.state.latitude, this.state.longitude,
+			this.state.description, this.state.photosSelected,undefined ,this.state.category);
+	
 		let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
+		this.createPlace(place, placeUrl); // Run asynchronously
 		
-		//Change this functions
-		//public async changePlacePublicAccess(place:Place, isPublic:boolean)
-		
-		switch (this.state.visibility) {
-            case "public":
-                this.pod.setPublicAccess(placeUrl, true);
-                break;
-            case "private":
-                this.pod.setPublicAccess(placeUrl, false);
-                break;
-        }
-
-		if (this.state.friends.length > 0) {
-			let group = new Group("", this.state.friends);
-			this.pod.setGroupAccess(placeUrl, group, {'Permission read': true});
-		}
-
 		if (this.props.callback !== undefined) {
 			this.props.callback(new Placemark(
-				this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
+			this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
 		}
 	}
+
+	private async createPlace(place:Place, placeUrl:string) {
+		await this.pod.savePlace(place);
+		
+		switch (this.state.visibility) {
+		case "public":
+		await this.pod.changePlacePublicAccess(place, true);
+		break;
+		case "private":
+		await this.pod.changePlacePublicAccess(place, false);
+		break;
+		}
+		
+		if (this.state.friends.length > 0) {
+		let group = new Group("", this.state.friends);
+		await this.pod.setGroupAccess(placeUrl, group, {'Permission read': true});
+		}
+		}
 
 
 	public render(): JSX.Element {

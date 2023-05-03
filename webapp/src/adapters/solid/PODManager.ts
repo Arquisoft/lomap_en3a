@@ -106,7 +106,7 @@ export default class PODManager {
      */
     public async savePlace(place:Place): Promise<void> {
         let placeUrl = this.getBaseUrl() + "/data/places/" + place.uuid;
-        this.places.savePlace(place);
+        await this.places.savePlace(place);
         place.photos.forEach(async img => await this.interactions.addImage(img, placeUrl));
     }
 
