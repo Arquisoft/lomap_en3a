@@ -178,6 +178,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ latitudeError: "Latitude and longitude must be numbers" });
 			isFormValid = false;
 		}
+		/*
 		if (this.state.latitude < -90 || this.state.latitude > 90) {
 			this.setState({ latitudeError: "Latitude must be between -90 and 90 degrees" });
 			isFormValid = false;
@@ -186,6 +187,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ longitudeError: "Longitude must be between -180 and 180 degrees" });
 			isFormValid = false;
 		}
+		*/
 		if (!this.state.description) {
 			this.setState({ descriptionError: "Description is required" });
 			isFormValid = false;

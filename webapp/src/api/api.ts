@@ -15,6 +15,13 @@ export async function getPlaces() : Promise<Placemark[]> {
 
 export async function addPlace(place: Placemark) : Promise<boolean> {
     const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    console.log(JSON.stringify({
+        "longitude": place.getLng(),
+        "latitude": place.getLat(),
+        "title": place.getTitle(),
+        "placeUrl": place.getPlaceUrl(),
+        "category": place.getCategory()
+    }));
     let response = await fetch(apiEndPoint + "/places/add", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
