@@ -4,4 +4,5 @@ COPY . /app
 WORKDIR /app
 #Install the dependencies
 RUN npm install
-CMD node server.ts
+CMD [ "npm", "run", "prod" ]
+#CMD [ "npm", "start" ]

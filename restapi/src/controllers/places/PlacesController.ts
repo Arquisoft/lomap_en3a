@@ -5,6 +5,7 @@ import {validationResult} from "express-validator";
 
 const getPlaces = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const places: Array<PlaceType> = await Promise.resolve(Place.find());
         return res.status(200).send(places);
     }
@@ -15,6 +16,7 @@ const getPlaces = async (req: Request, res: Response): Promise<Response> => {
 
 const addPlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
@@ -34,6 +36,7 @@ const addPlace = async (req: Request, res: Response): Promise<Response> => {
 
 const deletePlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
@@ -50,6 +53,7 @@ const deletePlace = async (req: Request, res: Response): Promise<Response> => {
 
 const updatePlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
@@ -71,6 +75,7 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
 
 const findPlaceByTitle = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
