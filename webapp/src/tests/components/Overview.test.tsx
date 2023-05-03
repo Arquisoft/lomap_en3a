@@ -105,3 +105,22 @@ test('Update the stored comment on text area change', async () => {
     fireEvent.change(comment, { target: { value: 'new comment' } });
     expect(ref.current?.state.comment).not.toBeUndefined();
 });
+
+test('Upload photos correctly', async () => {
+    // Create page
+    let place = new Place("place", 0, 0, "", [], "", "");
+    let ref = React.createRef<OverviewPage>();
+    render(<OverviewPage place={place} placeUrl={"url"} ref={ref} />);
+
+    // Get elements
+    let files = getByPlaceholderText(document.body, "Choose a photo");
+    expect(files).not.toBeNull();
+    const buttonPhotos = screen.getByRole("button", {name: "Upload photos"}) as HTMLButtonElement;
+    expect(buttonPhotos).toBeInTheDocument();
+
+    // Upload photos
+    fireEvent.change(files as Element, { target: { files: [] } });
+    fireEvent.click(buttonPhotos);
+    let error = document.querySelector(".error") as HTMLSpanElement;
+    expect(error.innerText).toBeUndefined()
+});
