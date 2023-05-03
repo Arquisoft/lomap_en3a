@@ -28,7 +28,6 @@ defineFeature(feature, test => {
     let username:string;
     let password:string;
     let placeName:string = "Test" + Math.floor(Math.random() * 100000);
-    let locationsNumber = 0;
 
     given('A user that has a park in the map', async () => {
       username = "testlomapen3a"
