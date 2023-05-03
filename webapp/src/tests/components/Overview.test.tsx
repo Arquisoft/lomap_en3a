@@ -75,3 +75,11 @@ test('Reviews are added correctly', async () => {
 });
 
 test('Review scores are updated correctly', async () => {
+    let place = new Place("place", 0, 0, "", [], "", "");
+    let ref = React.createRef<OverviewPage>();
+    render(<OverviewPage place={place} placeUrl={"url"} ref={ref} />);
+    await act (() => {
+        ref.current?.handleInputRatingChange(5);
+    })
+    expect(ref.current?.state.rating).toBe(5);
+});
