@@ -1,6 +1,6 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import {setDefaultOptions} from "expect-puppeteer";
-import puppeteer, {ElementHandle} from "puppeteer";
+import puppeteer from "puppeteer";
 
 const feature = loadFeature('./features/filter.feature');
 
@@ -13,7 +13,7 @@ defineFeature(feature, test => {
   beforeEach(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 20});
+      : await puppeteer.launch({ headless: true});
     page = await browser.newPage();
 
     await page
@@ -56,7 +56,7 @@ defineFeature(feature, test => {
       await page.waitForTimeout(2000)
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :last-child')
-      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toClick('.leaflet-popup-content > form:nth-child(1) > input:nth-child(1)');
       await expect(page).toFillForm('.Place-form > :nth-child(2)', {
         name: placeName,
         description: "This is a test place"
@@ -86,7 +86,6 @@ defineFeature(feature, test => {
     let username:string;
     let password:string;
     let placeName:string = "Test" + Math.floor(Math.random() * 100000);
-    let locationsNumber = 0
 
     given('A user that has a park in the map', async () => {
       username = "testlomapen3a"
@@ -109,10 +108,9 @@ defineFeature(feature, test => {
 
       await page.mouse.move(bounding_box!.x + bounding_box!.width / 2, bounding_box!.y + bounding_box!.height / 2);
       await page.mouse.down();
-      await page.mouse.move(Math.floor(Math.random() * 25), Math.floor(Math.random() * 25));
+      await page.mouse.move(Math.floor(Math.random() * 50) + 50, Math.floor(Math.random() * 50) + 50);
       await page.mouse.up()
       await page.waitForTimeout(2000)
-      console.log('hola')
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :last-child')
       await expect(page).toClick('.leaflet-popup-content > form:nth-child(1) > input:nth-child(1)');
@@ -128,7 +126,6 @@ defineFeature(feature, test => {
     when('The users selects the museum category in the filter and clicks Search', async () => {
       const [showFiltersButton] = await page.$x('//*[@id="basic-button"]')
       await showFiltersButton.click();
-      console.log('hola2')
       await expect(page).toClick('input[value="museum"]')
       await page.waitForTimeout(5000)
       await expect(page).toClick('.search-filter')

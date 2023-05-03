@@ -1,7 +1,6 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import {setDefaultOptions} from "expect-puppeteer";
 import puppeteer from "puppeteer";
-import {fireEvent} from "@testing-library/react";
 
 const feature = loadFeature('./features/add-place.feature');
 
@@ -48,7 +47,7 @@ defineFeature(feature, test => {
     
 
     when('The users adds a place', async () => {
-      console.log(await page.content())
+      await page.waitForFunction(() => !document.querySelector('.MuiCircularProgress-svg'));
       const example = await page.waitForSelector('.leaflet-container');
       const bounding_box = await example!.boundingBox();
 
