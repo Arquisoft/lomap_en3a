@@ -22,6 +22,23 @@ Contained Building Blocks::
 Important Interfaces::
 The most important interfaces, (described in the next levels) are the ones in charge of the communication with the PODs manager and the database.
 
+=== LoMap Architecture
+
+image:05_Building_Block_Level_1.PNG['System Level 1']
+
+Purpose::
+Describes the architecture of the inner LoMap system, it's how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram _System Level 1_ is a Clean Architecture.
+
+Interfaces::
+[options="header",cols="1,2"]
+|===
+|Interface|Description
+|Entities|Represent the domain of the system, those classes that describe the enterprise business rules.
+|Presentation|The related documents that are in charge of the presentation of the application.
+|Infrastructure|Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.
+|===
+
 === Infrastructure
 image:05_Building_Block_Level_1_1.jpg['White Box 1.1']
 
@@ -41,6 +58,30 @@ Interfaces::
 |PlacesController|This controller is the one in charge of adding and deleting places in the Mongo database
 |api|This class is the one that communicates with the RestApi, it interacts with it in order to store the places in the database
 |===
+
+=== Presentation
+image:05_Building_Block_Level_1_2.jpg['White Box 1.1']
+
+Purpose::
+For the presentation level of the architecture, the system is divided on several folders placed under _webapp/src_.
+These folders contain mainly components and pages, which form the base of the user interface.
+
+Distribution::
+[options="header",cols="1,2"]
+|===
+|Folder|Description
+|adapters|Contains the classes that render an adapted version of the map
+|components|This class contains all the components that are used inside the pages, to represent different zones of the application.
+|components/basic|Some base components that serve as plain templates to represent tables, lists, etc.
+|components/map|The components related to either information about the map or the map itself.
+|components/place|The components related to information about the places
+|components/social|The components related to the users social state, lists of friends, groups ,etc.
+|pages|Located in this folder are the main pages of the application, the ones that are either on the nav menu or important to display.
+|styles|The css styles for all the components
+|styles/fonts|The text fonts for all the components
+|assets|Elements such as markers that are meant to be used in components.
+|===
+
 
 ==== Business model
 Level 1::
@@ -65,21 +106,3 @@ image:businessmodel/Business model Level 2.svg['Third level (domain model) of th
 nothing related with the appearance, it could be in the future. However, it will always store the
 minimal information of a place to be display in a map as a mark. This was done because in terms of
 performance when showing all the public places published in the web app it is better.
-
-=== LoMap Architecture
-
-image:05_Building_Block_Level_1.PNG['System Level 1']
-
-Purpose::
-Describes the architecture of the inner LoMap system, it's how the system is structured and how each layer interacts within the system.
-The architecture described in the diagram _System Level 1_ is a Clean Architecture.
-
-Interfaces::
-[options="header",cols="1,2"]
-|===
-|Interface|Description
-|Entities|Represent the domain of the system, those classes that describe the enterprise business rules.
-|App Business Logic|The use cases, the actual application business rules that describe how the application works.
-|Presentation|The related documents that are in charge of the presentation of the application.
-|Infrastructure|Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.
-|===
