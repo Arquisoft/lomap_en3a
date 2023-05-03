@@ -57,7 +57,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
-      		category: "restaurant",
+      		category: "Restaurant",
 			photosSelected: [],
 			description: "",
 			nameError: "",
