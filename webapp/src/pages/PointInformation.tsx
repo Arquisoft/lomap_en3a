@@ -77,10 +77,10 @@ export default class PointInformation extends React.Component<PointInformationPr
 
         switch (this.state.visibility) {
             case "public":
-                this.pod.setPublicAccess(placeUrl, true);
+                this.pod.changePlacePublicAccess(this.point, true);
                 break;
             case "private":
-                this.pod.setPublicAccess(placeUrl, false);
+                this.pod.changePlacePublicAccess(this.point, false);
                 break;
         }
 
