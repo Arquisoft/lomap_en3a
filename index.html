@@ -1,1 +1,2489 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/lomap_en3a-deploy-test/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/lomap_en3a-deploy-test/logo192.png"/><link rel="manifest" href="/lomap_en3a-deploy-test/manifest.json"/><title>React App</title><script defer="defer" src="/lomap_en3a-deploy-test/static/js/main.d935c48e.js"></script><link href="/lomap_en3a-deploy-test/static/css/main.963517f9.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.18">
+<title>LOMAP_EN3A</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1><span class="image"><img src="./images/LogoASW.png" alt="arc42"></span> LOMAP_EN3A</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#section-introduction-and-goals">1. Introduction and Goals</a>
+<ul class="sectlevel2">
+<li><a href="#_requirements_overview">1.1. Requirements Overview</a></li>
+<li><a href="#_quality_goals">1.2. Quality Goals</a></li>
+<li><a href="#_stakeholders">1.3. Stakeholders</a></li>
+</ul>
+</li>
+<li><a href="#section-architecture-constraints">2. Architecture Constraints</a>
+<ul class="sectlevel2">
+<li><a href="#_technical_constraints">2.1. Technical Constraints</a></li>
+<li><a href="#_organizational_constraints">2.2. Organizational Constraints</a></li>
+<li><a href="#_conventions">2.3. Conventions</a></li>
+</ul>
+</li>
+<li><a href="#section-system-scope-and-context">3. System Scope and Context</a>
+<ul class="sectlevel2">
+<li><a href="#_business_context">3.1. Business Context</a></li>
+<li><a href="#_technical_context">3.2. Technical Context</a></li>
+</ul>
+</li>
+<li><a href="#section-solution-strategy">4. Solution Strategy</a>
+<ul class="sectlevel2">
+<li><a href="#_technology_decisions">4.1. Technology decisions</a></li>
+<li><a href="#_top_level_decomposition_of_the_system">4.2. Top-level decomposition of the system</a></li>
+<li><a href="#_decisions_for_achieving_quality_goals">4.3. Decisions for achieving quality goals</a></li>
+<li><a href="#_organizational_decisions">4.4. Organizational decisions</a></li>
+<li><a href="#_workflow_example">4.5. Workflow example</a></li>
+</ul>
+</li>
+<li><a href="#section-building-block-view">5. Building Block View</a>
+<ul class="sectlevel2">
+<li><a href="#_white_box_overall_system">5.1. White Box Overall System</a></li>
+<li><a href="#_infrastructure">5.2. Infrastructure</a></li>
+<li><a href="#_lomap_architecture">5.3. LoMap Architecture</a></li>
+</ul>
+</li>
+<li><a href="#section-runtime-view">6. Runtime View</a>
+<ul class="sectlevel2">
+<li><a href="#_public_map_generation">6.1. Public map generation</a></li>
+<li><a href="#_add_friends">6.2. Add friends</a></li>
+<li><a href="#_access_to_shared_map">6.3. Access to shared map</a></li>
+<li><a href="#_post_comments_of_a_place">6.4. Post comments of a place</a></li>
+<li><a href="#_see_comments_of_a_place">6.5. See comments of a place</a></li>
+</ul>
+</li>
+<li><a href="#section-deployment-view">7. Deployment View</a></li>
+<li><a href="#section-concepts">8. Cross-cutting Concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_pods_structure_information">8.1. POD&#8217;s structure information</a></li>
+<li><a href="#_uiux">8.2. UI/UX:</a></li>
+<li><a href="#_persistence">8.3. Persistence:</a></li>
+<li><a href="#_access_permissions">8.4. Access permissions</a></li>
+<li><a href="#_communication_and_integration">8.5. Communication and integration:</a></li>
+<li><a href="#_architecture_and_or_design_patterns">8.6. Architecture and or design patterns:</a></li>
+<li><a href="#_rules_for_using_specific_technology">8.7. Rules for using specific technology:</a></li>
+<li><a href="#_deployment">8.8. Deployment:</a></li>
+</ul>
+</li>
+<li><a href="#section-design-decisions">9. Design Decisions</a>
+<ul class="sectlevel2">
+<li><a href="#_adr_1_private_information_policy">9.1. ADR 1: Private information policy.</a></li>
+<li><a href="#_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server side computing</a></li>
+<li><a href="#_adr_3_centralized_database">9.3. ADR 3: Centralized database</a></li>
+<li><a href="#_adr_4_friends_places_information">9.4. ADR 4: Friends places information.</a></li>
+<li><a href="#_adr_5_uniform_treatment_for_maps_and_places">9.5. ADR 5: Uniform treatment for maps and places.</a></li>
+</ul>
+</li>
+<li><a href="#section-quality-scenarios">10. Quality Requirements</a>
+<ul class="sectlevel2">
+<li><a href="#_quality_tree">10.1. Quality Tree</a></li>
+<li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
+</ul>
+</li>
+<li><a href="#section-technical-risks">11. Risks and Technical Debts</a>
+<ul class="sectlevel2">
+<li><a href="#_risks">11.1. Risks</a></li>
+<li><a href="#_technical_debts">11.2. Technical debts</a></li>
+</ul>
+</li>
+<li><a href="#section-glossary">12. Glossary</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<style>
+.arc42help {font-size:small; width: 14px; height: 16px; overflow: hidden; position: absolute; right: 0px; padding: 2px 0px 3px 2px;}
+.arc42help::before {content: "?";}
+.arc42help:hover {width:auto; height: auto; z-index: 100; padding: 10px;}
+.arc42help:hover::before {content: "";}
+@media print {
+	.arc42help {display:hidden;}
+}
+</style>
+<hr>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This version of the template contains some help and explanations.
+It is used for familiarization with arc42 and the understanding of the concepts.
+For documentation of your own system you use better the <em>plain</em> version.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<p>Describes the relevant requirements and the driving forces that software architects and development team must consider. These include</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>underlying business goals, essential features and functional requirements for the system</p>
+</li>
+<li>
+<p>quality goals for the architecture</p>
+</li>
+<li>
+<p>relevant stakeholders and their expectations</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>LoMap is a system that brings users the possibility of creating a personalized map of their city while being in full control of their data. All the shared information will be securely stored in a personal pod.</p>
+</div>
+<div class="paragraph">
+<p>Business will also be able to create their own space and make themselves known, as well as post images and receive reviews from their customers.</p>
+</div>
+<div class="sect2">
+<h3 id="_requirements_overview">1.1. Requirements Overview</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Short description of the functional requirements, driving forces, extract (or abstract)
+of requirements. Link to (hopefully existing) requirements documents
+(with version number and information where to find it).</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>From the point of view of the end users a system is created or modified to
+improve support of a business activity and/or improve the quality.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Short textual description, probably in tabular use-case format.
+If requirements documents exist this overview should refer to these documents.</p>
+</div>
+<div class="paragraph">
+<p>Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The application must meet the following requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Users will be able to add new places to their maps.</p>
+</li>
+<li>
+<p>Each place may be classified in different categories.</p>
+</li>
+<li>
+<p>Maps will have filters to show only certain places (e.g., those belonging to a category).</p>
+</li>
+<li>
+<p>Users can interact with the places by adding reviews or comments, posting images, etc.</p>
+</li>
+<li>
+<p>It will be possible to manage what information can be accessed by the rest of the users.</p>
+</li>
+<li>
+<p>The information about the places will be stored in each user&#8217;s pod.</p>
+</li>
+<li>
+<p>The system could store information in a centralized way as long as it respects the privacy of the users and is justified to improve performance.</p>
+</li>
+<li>
+<p>Users will be able to see information about the places added by their friends.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, refer to the <a href="https://arquisoft.github.io/course2223/labAssignmentDescription.html">assignment description document</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_goals">1.2. Quality Goals</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. We really mean quality goals for the architecture. Don&#8217;t confuse them with project goals. They are not necessarily identical.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. Make sure to be very concrete about these qualities, avoid buzzwords.
+If you as an architect do not know how the quality of your work will be judged …</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>A table with quality goals and concrete scenarios, ordered by priorities</p>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality goal</th>
+<th class="tableblock halign-left valign-top">Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User&#8217;s information must be stored in a decentralized way, ensuring they are in full control of their own data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Robustness</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prevent user errors as much as possible and continue functioning in their presence, reacting to invalid input by giving suggestions on what to do.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to use, with a clear and intuitive interface.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_stakeholders">1.3. Stakeholders</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>should know the architecture</p>
+</li>
+<li>
+<p>have to be convinced of the architecture</p>
+</li>
+<li>
+<p>have to work with the architecture or with code</p>
+</li>
+<li>
+<p>need the documentation of the architecture for their work</p>
+</li>
+<li>
+<p>have to come up with decisions about the system or its development</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>You should know all parties involved in development of the system or affected by the system.
+Otherwise, you may get nasty surprises later in the development process.
+These stakeholders determine the extent and the level of detail of your work and its results.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Table with role names, person names, and their expectations with respect to the architecture and its documentation.</p>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Role/Name</th>
+<th class="tableblock halign-left valign-top">Contact</th>
+<th class="tableblock halign-left valign-top">Expectations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HappySw headquarters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Inside the Company</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A final product that meets their expectations.
+Communication with the team and feedback about the development.
+Quality of the code and testing.
+Continuous Integration and continuous delivery strategy.
+Comply with established deadlines and deliveries.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Council of Brussels</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Product owner</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A product that satisfies them, flawless and polished.
+All demands pleased.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Empathy.co and Inrupt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>SOLID challenge organizer</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>As a team, we will be able to participate in the SOLID challenge. In the same way, both companies could be interested in how we use the technologies.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Teachers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Supervisors</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Teachers can guide us through the process of developing the application and will mark our progress.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Citizens</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Application users</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A well-formed application that is useful and pleasent to use.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Development Team</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Us</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A well-formed application that is useful and pleasent to use.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Businesses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Application users</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Specific features targeted and appealing for their business.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-architecture-constraints">2. Architecture Constraints</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_technical_constraints">2.1. Technical Constraints</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>SOLID for Personal data storage</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data of each user will be stored in a personal pod, following SOLID principles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Github</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Github is required for developing the project. Team members must upload their current work to coordinate with the
+teammates and to record what they have done.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Continuous integration</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We must be able to build and deploy the application in an automated way (including the running of every test,
+forcing that all of them pass to do the deployment), at least in every release. We shall make use of Docker and Github
+Actions for that purpose.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_organizational_constraints">2.2. Organizational Constraints</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Team size</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It has been decided that the team is formed by 5 members.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Schedule</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project must be developed during the semester, with several deadlines in between.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Budget</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The development team will not have any financial support, so any outlay will be on their side.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>External workload</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team members have more subjects with their own workload. This is, the team must organize itself so that the semester work can be combined with the project development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Research</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We know about programming, mainly in Java, but we have not dealt with some aspects that must be developed in this project, such as application deployment or SOLID, so we must spend time to learn about them. Others are more familiar but there is still work to do to be able to handle them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Testing</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unitary and integration tests have to be developed for the project, and we must reach a high level of code coverage.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_conventions">2.3. Conventions</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Constraint</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>ARC42</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The documentation must be done using an ARC42 template.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>User-friendliness</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This is a general-use application, so it has to be appealing and easy to use, as well as accessible to the widest range
+of people possible.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>English</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is mandatory to develop this project in English, as we are on the bilingual program.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
+Constraints must always be dealt with; they may be negotiable, though.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Simple tables of constraints with explanations.
+If needed you can subdivide them into
+technical constraints, organizational and political constraints and
+conventions (e.g. programming or versioning guidelines, documentation or naming conventions)</p>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-system-scope-and-context">3. System Scope and Context</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>System scope and context - as the name suggests - delimits your system (i.e. your scope) from all its communication partners
+(neighboring systems and users, i.e. the context of your system). It thereby specifies the external interfaces.</p>
+</div>
+<div class="paragraph">
+<p>If necessary, differentiate the business context (domain specific inputs and outputs) from the technical context (channels, protocols, hardware).</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>The domain interfaces and technical interfaces to communication partners are among your system&#8217;s most critical aspects. Make sure that you completely understand them.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Various options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Context diagrams</p>
+</li>
+<li>
+<p>Lists of communication partners and their interfaces.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_business_context">3.1. Business Context</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Specification of <strong>all</strong> communication partners (users, IT-systems, &#8230;&#8203;) with explanations of domain specific inputs and outputs or interfaces.
+Optionally you can add domain specific formats or communication protocols.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>All stakeholders should understand which data are exchanged with the environment of the system.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>All kinds of diagrams that show the system as a black box and specify the domain interfaces to communication partners.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively (or additionally) you can use a table.
+The title of the table is the name of your system, the three columns contain the name of the communication partner, the inputs, and the outputs.</p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/BusinessContext.jpg" alt="Business context diagram">
+</div>
+</div>
+<div class="paragraph">
+<div class="title">User<br></div>
+<p>Uploads pictures or writes reviews of places through the LoMap application.</p>
+</div>
+<div class="paragraph">
+<div class="title">PODs Provider<br></div>
+<p>Facilitates the use of PODs for the system, so that users information can be stored.</p>
+</div>
+<div class="paragraph">
+<div class="title">Cloud Hosting System<br></div>
+<p>Hosts the application so it can be accessed online.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_technical_context">3.2. Technical Context</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>E.g. UML deployment diagram describing channels to neighboring systems,
+together with a mapping table showing the relationships between channels and input/output.</p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Technical%20context.jpg" alt="Technical context diagram">
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-solution-strategy">4. Solution Strategy</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_technology_decisions">4.1. Technology decisions</h3>
+<div class="sect3">
+<h4 id="_framework_react">4.1.1. Framework: React</h4>
+<div class="paragraph">
+<p>Although it is not as powerful as other options (like Angular), it is enough for developing this application and it is
+less difficult to learn the basics, that is, the learning curve is faster. This idea is supported by its big community,
+the introduction we have been given in class and the amount of projects of the course that have been developed with it
+and that we can take as reference.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_language_typescriptjavascript">4.1.2. Language: TypeScript/JavaScript</h4>
+<div class="paragraph">
+<p>It is the most spread option for developing web applications in React, so we expect to find enough resources to develop
+our projects, in terms of information sources and libraries. Also, most of the members have worked with JavaScript in
+SEW, so the transition to TypeScript should be smoother.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_database_mongodb">4.1.3. Database: MongoDB</h4>
+<div class="paragraph">
+<p>As our centralized database only stores public places, there is no relation between entities that should be taken into
+account, so document databases arise as a good option, as they have good performance and flexible schema. Also, given
+that we are working with Typescript, we can rely on MongoDB NodeJS drivers that make the task easier (such as Mongoose).
+In addition, we have free access to a cloud storage of 512MB, an option that many providers do not offer. Finally, it
+is important to mention we have used it in other subject (SDI), so the adaptation and learning process should not be a
+concern.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_top_level_decomposition_of_the_system">4.2. Top-level decomposition of the system</h3>
+<div class="paragraph">
+<p>Some patterns have been discussed to tackle the design of the solution. This section is expected to be updated during
+the development of the application, as we will face different situations and problems where some patterns can fit in
+and we will reason about the best choice.</p>
+</div>
+<div class="sect3">
+<h4 id="_architectural_patterns">4.2.1. Architectural patterns</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>MVC (model-view-controller)</strong>: It is very used in the development of web applications. We expect to have the view
+(user interface) on the client, separated from the domain logic and the persistence, which are located on the server.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_design_patterns">4.2.2. Design patterns</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Façade</strong>: Given the complexity of some subsystems and modules of the application, it could be reasonable to
+use a reduced interface to just focus on what we need about them, simplifying their usage.</p>
+</li>
+<li>
+<p><strong>Adapter</strong>: We assume that we will use third-party elements (libraries, etc). For this reason, we have thought about
+this pattern already to connect our code with them, as it is very handy in this kind of situations.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_decisions_for_achieving_quality_goals">4.3. Decisions for achieving quality goals</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality goal</th>
+<th class="tableblock halign-left valign-top">Solution approach</th>
+<th class="tableblock halign-left valign-top">Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Privacy</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>All user data will be stored in a personal pod, so that the user has exclusive access to them, being also able to
+grant the access to more people.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Section 8 (Persistence), Section 9 (ADR 1)</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Robustness</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Validations of user input on client-side will be performed so that there is no risk of inconsistencies, security
+issues, etc. Server-side validations are done by means of "express-validator" on each request made to the server (check
+the fields have correct values) to make sure that no corrupt data is stored on the database.</em></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Usability</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Familiarity will be prioritized over innovation, so that users can rely on intuition to navigate and explore the
+application. In this way, several interfaces from applications that have well-proven usability (i.e. Google Maps) will
+be reviewed to design the user interface of the application. Aesthetics will be taken into account so it is appealing
+to use.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Section 8 (UI/UX)</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_organizational_decisions">4.4. Organizational decisions</h3>
+<div class="paragraph">
+<p>For the development of this project, the following platforms and mechanisms have been adopted to enhance
+the workflow among the members of the team.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>WhatsApp</strong>: A group has been created as the quickest communication mechanism to inform the other members about any
+update or news and organize meetings.</p>
+</li>
+<li>
+<p><strong>Teams</strong>: Platform where extra meetings (outside of the university) take place.</p>
+</li>
+<li>
+<p><strong>Github</strong>: Platform where the project is managed. We have a repository in which we develop the project. We have decided
+to follow what is called "Trunk-based development". This consists on having a develop branch, from which we create the
+branches to code. We merge them in this develop branch and, once we have everything ready, we merge develop to master.
+In this way, every merge to master consists on a new release (deliverable). The Github tools that we use will be
+presented, along with their role in the development process.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Wiki</strong>: Here, we create a new entry to record the minute of each reunion that takes place. Each minute has a
+specific format, and it contains the following sections:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Date</strong></p>
+</li>
+<li>
+<p><strong>Participants</strong></p>
+</li>
+<li>
+<p><strong>State of previous tasks</strong>: It may include links to issues and/or pull requests.</p>
+</li>
+<li>
+<p><strong>Description of decisions taken</strong>: Sometimes they are included in the agreements section.</p>
+</li>
+<li>
+<p><strong>New tasks</strong>: List of the tasks that were identified and created in the meeting. It may also include links to issues
+created for them.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Issues</strong>: The way to register every important event (tasks to do, problems to solve, doubts…).</p>
+</li>
+<li>
+<p><strong>Kanban</strong>: The place where we add and update the state of issues that are related to the development.</p>
+</li>
+<li>
+<p><strong>Pull request</strong>: We create them for every merge to develop or master, so that everyone can review what has been done
+and approve the changes, or reject them (being able to comment what should be fixed).</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_workflow_example">4.5. Workflow example</h3>
+<div class="paragraph">
+<p>To complete the previous explanation, let us put an example of the steps we do to fulfill a task.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The task is defined on a meeting, so it is recorded in the corresponding minute.</p>
+</li>
+<li>
+<p>An issue is created for the task. It is placed on the Kanban ("Open" state).</p>
+</li>
+<li>
+<p>A branch will be created for developing it. We move the issue to "In progress" state in the Kanban.</p>
+</li>
+<li>
+<p>Once it is finished, a pull request is sent for merging with the develop branch.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If it is accepted, the process is finished, so the issue may be closed. We move the issue to the "Finished" state in
+the Kanban and the branch can be deleted.</p>
+</li>
+<li>
+<p>If it is rejected, the needed fixes are performed, and the pull request is updated with them. A new revision takes
+place.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If a bug is discovered after merging or we need to extend the functionality of that feature, a new branch may be
+created and the issue is reopened. Also, it is placed again on the "In progress" state of the Kanban.</p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>A short summary and explanation of the fundamental decisions and solution strategies, that shape the system&#8217;s architecture. These include</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>technology decisions</p>
+</li>
+<li>
+<p>decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern</p>
+</li>
+<li>
+<p>decisions on how to achieve key quality goals</p>
+</li>
+<li>
+<p>relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>These decisions form the cornerstones for your architecture. They are the basis for many other detailed decisions or implementation rules.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Keep the explanation of these key decisions short.</p>
+</div>
+<div class="paragraph">
+<p>Motivate what you have decided and why you decided that way,
+based upon your problem statement, the quality goals and key constraints.
+Refer to details in the following sections.</p>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-building-block-view">5. Building Block View</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_white_box_overall_system">5.1. White Box Overall System</h3>
+<div class="paragraph">
+<div class="title">Overview Diagram</div>
+<p><span class="image"><img src="./images/05_Building_Block_Overall_View.PNG" alt="Overall View of the System"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p>This is an overall view of the system that describes only the most important present interfaces.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Block</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PODs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The main storage system, each user has his information stored in his own private POD.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API that allows to obtain the map to be displayed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Base</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores the minimum information required for the public map to load.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents how each individual user is set to interact with the system, through LoMap and storing his information on his POD.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Important Interfaces</dt>
+<dd>
+<p>The most important interfaces, (described in the next levels) are the ones in charge of the communication with the PODs manager and the database.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_infrastructure">5.2. Infrastructure</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_Building_Block_Level_1_1.jpg" alt="White Box 1.1"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>It is the Infrastructure of the application, the RestApi and the WebApp both interact with external interfaces and APIs,
+these interfaces are represented in this level.</p>
+</dd>
+<dt class="hdlist1">Interfaces</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PODManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages the storing of information inside the PODs provider</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PlaceManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages the storing of places and maps inside the PODs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SessionManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manages the users session, is the one in charge of the login, logout,etc&#8230;&#8203;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FriendsManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is the one that obtains the list of friends from the user, as well as their information</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LeafletMapAdapter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is the class that interacts with the Map API and presents it to the UI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PlacesController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This controller is the one in charge of adding and deleting places in the Mongo database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">api</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This class is the one that communicates with the RestApi, it interacts with it in order to store the places in the database</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_business_model">5.2.1. Business model</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Level 1</dt>
+<dd>
+<p><span class="image"><img src="./images/businessmodel/Business%20model%20Level%201.svg" alt="First level of the business model"></span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>api</strong>: Is the one in charge of communicating the webapp with the rest api in the server side.
+It is implemented with the CRUD functions although, although only the one retrieving all the public
+places is being used for the moment.</p>
+</li>
+<li>
+<p><strong>App</strong>: It is the main module from which the application starts. It uses directly the function
+for getting all the public places in the database and also the rest of modules conforming the
+UI.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Level 2</dt>
+<dd>
+<p><span class="image"><img src="./images/businessmodel/Business%20model%20Level%202.svg" alt="Second level of the business model"></span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>PODManager</strong>: Is the class in charge of doing all the interactions between the application and
+the PODs like getting public, private or friends places, maps, etc.</p>
+</li>
+<li>
+<p><strong>Assembler</strong>: It is in charge of transforming the objects in domain model of the web application
+into Things or Datasets for later storing them in PODs or viceversa.</p>
+</li>
+<li>
+<p><strong>LeafletMapAdapter</strong>: It is in charge of adapt the Leaflet api to our application in order to
+display the desired map with the information of places stored in PODs.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Level 3</dt>
+<dd>
+<p><span class="image"><img src="./images/businessmodel/Business%20model%20Level%202.svg" alt="Third level (domain model) of the business model"></span></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Placemark</strong>: Is the graphical representation of a Place. Although now it stores
+nothing related with the appearance, it could be in the future. However, it will always store the
+minimal information of a place to be display in a map as a mark. This was done because in terms of
+performance when showing all the public places published in the web app it is better.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lomap_architecture">5.3. LoMap Architecture</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_Building_Block_Level_1.PNG" alt="System Level 1"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>Describes the architecture of the inner LoMap system, it&#8217;s how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram <em>System Level 1</em> is a Clean Architecture.</p>
+</dd>
+<dt class="hdlist1">Interfaces</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the domain of the system, those classes that describe the enterprise business rules.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">App Business Logic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The use cases, the actual application business rules that describe how the application works.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Presentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The related documents that are in charge of the presentation of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Infrastructure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-runtime-view">6. Runtime View</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>important use cases or features: how do building blocks execute them?</p>
+</li>
+<li>
+<p>interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?</p>
+</li>
+<li>
+<p>operation and administration: launch, start-up, stop</p>
+</li>
+<li>
+<p>error and exception scenarios</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their <strong>architectural relevance</strong>. It is <strong>not</strong> important to describe a large number of scenarios. You should rather document a representative selection.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
+You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>There are many notations for describing scenarios, e.g.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>numbered list of steps (in natural language)</p>
+</li>
+<li>
+<p>activity diagrams or flow charts</p>
+</li>
+<li>
+<p>sequence diagrams</p>
+</li>
+<li>
+<p>BPMN or EPCs (event process chains)</p>
+</li>
+<li>
+<p>state machines</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_public_map_generation">6.1. Public map generation</h3>
+<div class="paragraph">
+<p>The placemarks of the public places are stored in a centralized database. The client is able to access this information through the API in order to generate the public map.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/public_map_generation.svg" alt="public map generation" width="571" height="695">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_friends">6.2. Add friends</h3>
+<div class="paragraph">
+<p>The user will be able to add new friends with their POD&#8217;s IDs. The application will try to request the friend&#8217;s data and add a new friend to the user&#8217;s POD.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/add_friend_success.svg" alt="add friend success" width="639" height="644">
+</div>
+</div>
+<div class="paragraph">
+<p>In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/add_friend_error.svg" alt="add friend error" width="427" height="450">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_to_shared_map">6.3. Access to shared map</h3>
+<div class="paragraph">
+<p>Users will be able able to have shared maps. The data of each place will be stored in the POD of its creator, while the placemarks, with references to the data locations, will be stored in the PODs of all users sharing the map.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/shared_map.svg" alt="shared map" width="681" height="997">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_post_comments_of_a_place">6.4. Post comments of a place</h3>
+<div class="paragraph">
+<p>LoMap allows users to post comments about a place from the place&#8217;s information window. This comments will be stored in the user&#8217;s POD, being possible to make them private or delete them. The url of the comment is also stored in the 'comments' dataset of the place.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/post_comment.svg" alt="post comment" width="604" height="833">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_see_comments_of_a_place">6.5. See comments of a place</h3>
+<div class="paragraph">
+<p>The comments of a place can be seen from the 'reviews' tab of the place&#8217;s information page. The application will request all the comments associated with a place and show them to the user.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/see_comments.svg" alt="see comments" width="495" height="883">
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-deployment-view">7. Deployment View</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="./images/Deployment%20View.svg" alt="Deployment view diagram"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Given use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Microsoft Azure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The cloud where the machine is created in which the deployment is done.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The machine with docker containers in order to be able to execute the code of the
+application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap (webapp)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The code which is sent to the client and interacts with the user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap (restapi)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The code from the server side in charge of manage all the public places and
+communicate with the centralised database.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-concepts">8. Cross-cutting Concepts</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Content</div>
+<p>This section describes overall, principal regulations and solution ideas that are
+relevant in multiple parts (= cross-cutting) of your system.
+Such concepts are often related to multiple building blocks.
+They can include many different topics, such as</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>domain models</p>
+</li>
+<li>
+<p>architecture patterns or design patterns</p>
+</li>
+<li>
+<p>rules for using specific technology</p>
+</li>
+<li>
+<p>principal, often technical decisions of overall decisions</p>
+</li>
+<li>
+<p>implementation rules</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Concepts form the basis for <em>conceptual integrity</em> (consistency, homogeneity)
+of the architecture. Thus, they are an important contribution to achieve inner qualities of your system.</p>
+</div>
+<div class="paragraph">
+<p>Some of these concepts cannot be assigned to individual building blocks
+(e.g. security or safety). This is the place in the template that we provided for a
+cohesive specification of such concepts.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>The form can be varied:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>concept papers with any kind of structure</p>
+</li>
+<li>
+<p>cross-cutting model excerpts or scenarios using notations of the architecture views</p>
+</li>
+<li>
+<p>sample implementations, especially for technical concepts</p>
+</li>
+<li>
+<p>reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Structure</div>
+<p>A potential (but not mandatory) structure for this section could be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Domain concepts</p>
+</li>
+<li>
+<p>User Experience concepts (UX)</p>
+</li>
+<li>
+<p>Safety and security concepts</p>
+</li>
+<li>
+<p>Architecture and design patterns</p>
+</li>
+<li>
+<p>"Under-the-hood"</p>
+</li>
+<li>
+<p>development concepts</p>
+</li>
+<li>
+<p>operational concepts</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: it might be difficult to assign individual concepts to one specific topic
+on this list.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/08-Crosscutting-Concepts-Structure-EN.png" alt="Possible topics for crosscutting concepts"></span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pods_structure_information">8.1. POD&#8217;s structure information</h3>
+<div class="listingblock">
+<div class="content">
+<pre>|-lomap
+    |-data
+        |-interactions
+            |-comments
+            |-reviews
+    	|-maps
+	    |-places</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is the general structure of the folders in each user POD and each folder has different
+datasets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Places</strong>: There is one folder inside for each place created, named with a unique ID and inside
+of them there are datasets, one for each comment, review and image about that place.</p>
+</li>
+<li>
+<p><strong>Maps</strong>: The are inside datasets one for each map created by the user. Each one have links to
+different places which are stored at the same time in the places folder as said before.</p>
+</li>
+<li>
+<p><strong>Interactions</strong>: It has two folders (comments and interactions) and each one has each
+correspondant datasets.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The permissions in order to set a place only visible for everyone, a group of people or
+none other than the owner himself, are managed from the application with the necessary library to
+change the permissions of them. That  is the reason why any
+other extra folder to classify the places is not necessary and instead are used datasets.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uiux">8.2. UI/UX:</h3>
+<div class="paragraph">
+<p>The application will consist of a webpage application where the user will be able to choose between a public map or different views that the user creates. This map will only show the minimal information in the form of “pins”. The user can click on the pin that a place represents, and the full information will be loaded and prompted. In this page there will be the possibility of adding photos, comments and reviews or view the ones added by other members. A friendly and familiar approach will be held when designing the different views of the application; Google Maps will be the main reference.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_persistence">8.3. Persistence:</h3>
+<div class="paragraph">
+<p>The persistence module of this development consists of the Pod&#8217;s service and our database that will store some basic information from public places. The user&#8217;s system will make a call to our server to get the information that will populate the public map, then it will only call the personal pods when the information is needed (load on demand). With the same structure as for the public map, it is possible to create maps that will be stored only in the user&#8217;s pod that will be downloaded to populate that map. The user&#8217;s device will make calls to all the personal pods of its friends in the same way as for the public places. This way, we ensure that the server-side application is not going to process data that the user has only shared with his friends and, at the same time, will make that sharing possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_permissions">8.4. Access permissions</h3>
+<div class="paragraph">
+<p>A system for controlling the access to the resources of a pod&#8217;s information depending on it the user that tries to access a pod is a friend or belongs to a group of users will be required information safe. The owner of a place is the only one that can edit it, in this way, public or shared places can only be edited by its owner. The control of a place must be limited to the owner. The owner of a place can share it with other users or group of users, but the owner will be the only one that can edit it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_communication_and_integration">8.5. Communication and integration:</h3>
+<div class="paragraph">
+<p>The client side of the application will not be able to operate independently from the server side for accessing public places, but it will be able to access the private maps and places of users. The connection between the client and server will make it possible to display the map service, and to show the different public places of the application. Also, the connection to pods, owned or not by the user, will allow to show private places and maps. A standard way of communicating with the pods should be established to be compatible with other “LoMap” applications. The standard has not yet been implemented; it is due to be negotiated. The application will have to implement a module for connecting with the Solid Pods technology and other services that will be needed such as a map API or other web services.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_architecture_and_or_design_patterns">8.6. Architecture and or design patterns:</h3>
+<div class="paragraph">
+<p>In a previous subject, Software design, different patterns have been established. The usage of the corresponding adapter pattern will be used when dealing with any API needed.
+More patterns are described in section 4.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rules_for_using_specific_technology">8.7. Rules for using specific technology:</h3>
+<div class="paragraph">
+<p>Privacy is a main concern when developing this application. There should be a major reason for treating in the server-side private information of a user instead of on their own device.
+When working with specific technologies such as Solid Pods or React those frameworks have their own rules that are mandatory.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deployment">8.8. Deployment:</h3>
+<div class="paragraph">
+<p>We have chosen node.js as the runtime environment for running the server-side application. The deployment of the application will consist of a Docker container for the “webApp” and another for the “restAPI” located on GitHub. A set of actions will be configured such us, unitary testing, integration tests, automatic deployment for “webApp” and for “restApi” …</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-design-decisions">9. Design Decisions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_adr_1_private_information_policy">9.1. ADR 1: Private information policy.</h3>
+<div class="paragraph">
+<p>The application development is oriented towards a more transparent and private usage of information. The application should be able to guarantee the safe treatment of the information provided to us. Solid Pods ensure that the user has control of their information all the time. Solid Servers host the Solid Pods being the information outside of our control.</p>
+</div>
+<div class="paragraph">
+<p>Each user will have their own Solid Pod to make sure their information is secure and inaccessible to others. The information that the user provides us will be stored inside his personal Pod. The public and private places that the user creates will be stored there.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Advantages</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Disadvantages</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user will have full control of its data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The usage of an external service like this one will generate strong dependencies with its services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server won&#8217;t treat private data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The performance of the application may be affected by external factors.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data infrastructure will be already designed.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Status: Accepted</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server side computing</h3>
+<div class="paragraph">
+<p>We will try to delegate as much computation as possible to the client.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Advantages</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Disadvantages</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Less dependence on the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Less secure.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server requires fewer resources.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As this is an open-source project whose code is already available on GitHub and we don&#8217;t expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server.</p>
+</div>
+<div class="paragraph">
+<p>Status: Accepted</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adr_3_centralized_database">9.3. ADR 3: Centralized database</h3>
+<div class="paragraph">
+<p>There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator&#8217;s POD.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Advantages</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Disadvantages</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decentralization of data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Certain data redundancy in the server and the POD.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Less dependence on the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May lead to data inconsistency.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server requires fewer resources.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Better performance when generating the map.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public and private places are treated in the same way.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Simpler architecture of the application.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won&#8217;t be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.</p>
+</div>
+<div class="paragraph">
+<p>Status: Accepted</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adr_4_friends_places_information">9.4. ADR 4: Friends places information.</h3>
+<div class="paragraph">
+<p>The application is required to display places that the friends of the user has shared. This friend&#8217;s information should be private and stored on their own Pod. A list of the friend&#8217;s places will be computed from the information stored on the Pods of their friends.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Advantages</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Disadvantages</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user will have full control of its data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This solution might be harder to implement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server won&#8217;t treat private data.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Status: Accepted</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adr_5_uniform_treatment_for_maps_and_places">9.5. ADR 5: Uniform treatment for maps and places.</h3>
+<div class="paragraph">
+<p>We want to promote the usage of functions that will treat the information of the places in the same way, regardless of whether they are public or private. This will allow us to have a more uniform treatment of the information and a more consistent code.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Advantages</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Disadvantages</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Less code will be necessary to perform the same task.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The code will be more complex.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The behavior will be more consistent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More in depth reasoning will be needed.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Status: Accepted</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-quality-scenarios">10. Quality Requirements</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Content</div>
+<p>This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)</p>
+</div>
+<div class="paragraph">
+<p>Here you can also capture quality requirements with lesser priority,
+which will not create high risks when they are not fully achieved.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Since quality requirements will have a lot of influence on architectural
+decisions you should know for every stakeholder what is really important to them,
+concrete and measurable.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_tree">10.1. Quality Tree</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Content</div>
+<p>The quality tree (as defined in ATAM – Architecture Tradeoff Analysis Method) with quality/evaluation scenarios as leafs.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>The tree structure with priorities provides an overview for a sometimes large number of quality requirements.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>The quality tree is a high-level overview of the quality goals and requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>tree-like refinement of the term "quality". Use "quality" or "usefulness" as a root</p>
+</li>
+<li>
+<p>a mind map with quality categories as main branches</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In any case the tree should include links to the scenarios of the following section.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./images/10_Quality_Tree.PNG" alt="Quality tree"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Concretization of (sometimes vague or implicit) quality requirements using (quality) scenarios.</p>
+</div>
+<div class="paragraph">
+<p>These scenarios describe what should happen when a stimulus arrives at the system.</p>
+</div>
+<div class="paragraph">
+<p>For architects, two kinds of scenarios are important:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Usage scenarios (also called application scenarios or use case scenarios) describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. Example: The system reacts to a user’s request within one second.</p>
+</li>
+<li>
+<p>Change scenarios describe a modification of the system or of its immediate environment. Example: Additional functionality is implemented or requirements for a quality attribute change.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Scenarios make quality requirements concrete and allow to
+more easily measure or decide whether they are fulfilled.</p>
+</div>
+<div class="paragraph">
+<p>Especially when you want to assess your architecture using methods like
+ATAM you need to describe your quality goals (from section 1.2)
+more precisely down to a level of scenarios that can be discussed and evaluated.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Tabular or free form text.</p>
+</div>
+</div>
+</div>
+<div class="ulist">
+<div class="title">Usage Scenarios</div>
+<ul>
+<li>
+<p>Usability</p>
+<div class="ulist">
+<ul>
+<li>
+<p>System reacts to a user request to display info of a point in the map</p>
+</li>
+<li>
+<p>Standard functions, like traversing the map, should be as easy and intuitive to use as possible.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Privacy</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The private section of a user is only viewable by himself.</p>
+</li>
+<li>
+<p>Only those who are friends or belong to the same group will be able to see the information of a user that is only visible for his friends or the specified group.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Robustness</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The system will work accordingly under all specified conditions.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Change Scenarios</div>
+<ul>
+<li>
+<p>The API used for the map can be changed with no major modifications on the system&#8217;s modules other than the view.</p>
+</li>
+<li>
+<p>Adaptation to modifications of functional requirements.</p>
+</li>
+<li>
+<p>Adaptation to modifications of quality requirements.</p>
+</li>
+</ul>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-technical-risks">11. Risks and Technical Debts</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_risks">11.1. Risks</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Risk</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Steep technology learning curve</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>We have not used Typescript, React nor SOLID before, so we could get stuck or slowed down while we learn how to use
+them. We might encounter additional topics to explore later in the development (for example, using Resource Development
+Format for representing information in the pods).</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Follow the introduction and bibliography provided by the teachers, look for solutions in community forums.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Time scarcity</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>We can run out of time to develop all that is required in each deliverable, and provide what is asked at each
+deadline.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Impose intermediate checkpoints, establish a constant and maintainable development speed. Develop functional things
+first and build (improve) from that point on.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Coordination problems</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Some people can destroy the work of others due to version control management errors, and there can be
+misunderstandings about the work to do and how.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Follow the indications of the teachers regarding the use of GitHub (issues, pull requests) and work in a disciplined
+way. Use WhatsApp and Teams to stay in contact.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>First experience in a project with full responsibility on every step.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>This is the first time we are involved in developing a project from scratch, from deciding architecture and design
+to develop a full-fledged application, and we have to reach agreements on many decisions, which can be wrong and cost
+us a lot of time and effort.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Apply what we know, combine with the suggestions of every member of the team and complement those ideas with what we
+learn in this semester (not only in this subject, but other ones). Follow the guidelines for each part of the project.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Security weak spots</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The accessibility of data, and who can get it, can vary depending on the situation, and therefore there are many
+fronts on which information can be reached when it should not, and vice versa.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Explore the different mechanisms that SOLID provides to control and change the access to data, and study carefully
+every case.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Scalability issues</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Due to the nature of the application, we need to have an acceptable performance with not only many users, but users
+with lots of data and/or that perform many accesses.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>This will be studied at due time, once we start to implement the application, to approach certain aspects or refactor
+them in a way that the application can handle a greater workload.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Deployment issues</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The deployment will require every developed test to pass, and it involves a complex configuration that may be
+difficult to understand.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>We will try to perform a test development with enough time to fix the possible errors that may arise, taking into
+account that it is our first time working with Github Actions and Docker, and it is probable that the process may not go
+smoothly.</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_technical_debts">11.2. Technical debts</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Risk</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Code quality</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>In order to deliver software that can fulfill the requirements punctually, and given our lack of experience, some
+aspects (like readability, homogeneity, extensibility) were sacrificed so that the delivered prototype has the required
+functionality. This could hinder the evolution of the application, as we head towards a complete product and many features
+will be added, continuing from the code that we have done so far.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Identify the code that is subject to change or will be used by other developers, and refactor it so that it is
+readable, maintainable and scalable. Prioritize what must be refactored regarding the available time to fulfill the next
+objectives.</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Server code development</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given our architectural and design decisions, where the server handles the database with the public places, we have
+not focused in this part as the functionality that has been required thus far did not involve that. So, we have to face
+the implementation of the server from a very early phase, compared to a team that has taken a different approach. In
+conclusion, we may face more trouble than expected when working on the restapi, the database and the deployment.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Divide the tasks in such a way that the database and the restapi could be developed in parallel, so that the
+functionality of the centralized database can be inserted as smoothly as possible. Ideally, having the means to connect
+the webapp with the server with generous time margin, so that we can react to problems that could arise in the first
+attempts.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>A list of identified technical risks or technical debts, ordered by priority</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.)</p>
+</div>
+<div class="paragraph">
+<p>This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.</p>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">12. Glossary</h2>
+<div class="sectionbody">
+<div class="sidebarblock arc42help">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>The most important domain and technical terms that your stakeholders use when discussing the system.</p>
+</div>
+<div class="paragraph">
+<p>You can also see the glossary as source for translations if you work in multi-language teams.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>You should clearly define your terms, so that all stakeholders</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>have an identical understanding of these terms</p>
+</li>
+<li>
+<p>do not use synonyms and homonyms</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>A table with columns &lt;Term&gt; and &lt;Definition&gt;.</p>
+</div>
+<div class="paragraph">
+<p>Potentially more columns in case you need translations.</p>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Term</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UX User Experience</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">How a user interacts with and experiences a product, system or service. It includes a person&#8217;s perceptions of utility, ease of use, and efficiency. Source: Wikipedia (User experience).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI User Interface</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The space where interactions between humans and machines occur. The goal of this interaction is to allow effective operation and control of the machine from the human end, while the machine simultaneously feeds back information that aids the operators' decision-making process. Source: Wikipedia (User Interface).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TypeScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developed by Microsoft, it is a superset of JavaScript that adds static type checking and classes.
+These features make it widely used nowadays for web applications development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An open-source JavaScript library for developing user interfaces. It can be used to develop web
+applications, and it has to be complemented with other libraries to develop full-fledged products.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Open-source, event-oriented runtime environment for JavaScript in servers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Open-source NoSQL database system that stores data in documents.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mongoose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js library that allows to work with MongoDB databases while providing useful features like validation, type
+casting and query building.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A programming language that allows the integration of sophisticated functionality on web pages. Together with HTML and CSS, it is one of the core technologies of the World Wide Web. It can update, manipulate, and validate data as well as update and edit both HTML and CSS.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitHub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is an Internet hosting service for Git-based version control and software development. Git collaboration is made simpler for both individuals and teams to use. Additionally, it offers wikis, task management, bug tracking, and access control for each project.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Created by Tim Berners-Lee, it is a specification that aims at decentralizing the users data, by
+employing containers called Pods. The main idea is that the user is the owner of the data, having the power of managing
+the access to the personal data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Project (SOLID)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aims to create interoperable ecosystems of services and data where users are free to openly use their data across various services and applications. Solid IDs, Solid Pods, and Solid Applications are its three foundational pillars.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID (SOLID)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A unique identifier that you use to access your data and log into Solid applications.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod (SOLID)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A personal internet datastore where you can save your information. Who has access to your Pod and what they can do with your data are both things you can manage.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application (SOLID)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any online application that reads or writes data from your Pod using Solid technology.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A mark that designates a specific location on the map. It can be used to communicate information, represent locations and obtain directions. For instance, Google Maps utilizes a shadowed red teardrop-shaped pin.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ADR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Architectural Decision Record. A documentation of a software design decision that satisfies an architecturally significant functional or non-functional requirement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Docker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A platform that uses OS-level virtualization to deliver software in packages called containers. It is used to deploy applications inside software containers, where they can run in isolation from the operating system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WebApp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A web application that is stored on a remote server and delivered through the Internet browser. In our case, we refer to the part of the application that will run on the client side.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RestAPI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A software architecture style that we used for providing a set of functions to access the data of the application. In our case, we refer to the part of the application that will run on the server side.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<div class="paragraph">
+<p><strong>About arc42</strong></p>
+</div>
+<div class="paragraph lead">
+<p>arc42, the Template for documentation of
+software and system architecture.</p>
+</div>
+<div class="paragraph">
+<p>By Dr. Gernot Starke, Dr. Peter Hruschka and contributors.</p>
+</div>
+<div class="paragraph">
+<p>Template Revision: 7.0 EN (based on asciidoc), January 2017</p>
+</div>
+<div class="paragraph">
+<p>&#169;
+We acknowledge that this document uses material from the
+arc 42 architecture template, <a href="http://www.arc42.de" class="bare">http://www.arc42.de</a>.
+Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-02-10 21:39:50 +0100
+</div>
+</div>
+</body>
+</html>
