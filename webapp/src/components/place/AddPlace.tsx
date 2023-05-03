@@ -9,18 +9,7 @@ import Map from "../../domain/Map";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import User from "../../domain/User";
 import Group from "../../domain/Group";
-
-enum Category {
-  restaurant = "restaurant",
-  bar = "bar",
-  museum = "museum",
-  park = "park",
-  hotel = "hotel",
-  busines = "busines",
-  transit = "transit",
-  pharmacy = "pharmacy",
-  ATM = "ATM"
-}
+import {PlaceCategory} from "../../domain/place/PlaceCategory";
 
 // Define the state type.
 interface IState {
@@ -93,7 +82,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 
 	// Function that returns the category list.
 	getCategoryList() : string[] {
-		return Object.keys(Category);
+		return Object.keys(PlaceCategory);
 	}
 
 
@@ -211,7 +200,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		}
 
 		// Handle form submission logic here.
-		console.log("Form submitted:", this.state);
 
 		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
                       this.state.photosSelected, undefined ,this.state.category);

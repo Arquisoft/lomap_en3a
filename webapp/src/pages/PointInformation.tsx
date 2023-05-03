@@ -60,6 +60,7 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
+        this.point.category = this.props.placemark.getCategory();
         this.photosURLs = await this.pod.getImageUrls(this.props.placemark.getPlaceUrl());
         this.setState({
             component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>
@@ -123,7 +124,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                 }
             }}>
                 <ModalDialog className="custom-modal-dialog">
-                    <ModalClose />
+                    <ModalClose/>
                     <section className="pointInfo" /*style={{overflow: "scroll"}}*/>
                         <div className="pointInformation">
                             {this.point.title === "Loading..." &&
@@ -134,24 +135,23 @@ export default class PointInformation extends React.Component<PointInformationPr
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
                             <p>Location: {this.point.latitude !== 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
+                            <div>
+                                <button
+                                    className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
+                                    }`} onClick={this.handleClickOverview}>Overview
+                                </button>
 
+                                <button
+                                    className={`pi-radio-option ${this.state.component.type === ReviewsPage ? "selected" : ""
+                                    }`} onClick={this.handleClickReview}>Reviews
+                                </button>
+                                {this.state.component}
+                            </div>
                             {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
                                 <div id="visibility">
                                     <h3>Change visibility of the place:</h3>
                                     <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
                                 </div>}
-                        </div>
-                        <div>
-                            <button
-                                className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
-                                }`} onClick={this.handleClickOverview}>Overview
-                            </button>
-
-                            <button
-                                className={`pi-radio-option ${this.state.component.type === ReviewsPage ? "selected" : ""
-                                }`} onClick={this.handleClickReview}>Reviews
-                            </button>
-                            {this.state.component}
                         </div>
                     </section>
                 </ModalDialog>

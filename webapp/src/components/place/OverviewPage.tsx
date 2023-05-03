@@ -10,6 +10,8 @@ import {PhotoPreview} from "./AddPlace";
 import PODManager from "../../adapters/solid/PODManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
+import {Chip} from "@mui/material";
+import {PlaceCategory} from "../../domain/place/PlaceCategory";
 
 interface OverviewPageState extends IPlacePageState {
     comment: string;
@@ -24,6 +26,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
 
     private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
     private pod = new PODManager();
+    private categoryColors = ["#8C0000", "#002D65", "#006800", "#000000", "#8728B4", "#963F00"]
 
     public constructor(props: IPlacePageProps) {
         super(props);
@@ -179,10 +182,23 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         }
     };
 
+    private getColorFor(category: string) {
+        console.log(category)
+        let pos = Object.keys(PlaceCategory).indexOf(category) + 1;
+        if (pos % 2 === 0) {
+            pos = pos / 2 - 1;
+        } else {
+            pos = (pos - 1) - 1;
+        }
+        return this.categoryColors[pos];
+    }
+
     render() {
         return (
             <div className="OverviewPage">
                 <div>
+                    <Chip label={this.state.place.category.toUpperCase()}
+                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color:"white"}}/>
                     <p>{this.state.place.description}</p>
                 </div>
 
@@ -229,13 +245,15 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                 </form>
                 <Modal open={this.state.submitedInput} onClose={() => {
                     this.setState(({submitedInput: false}))
-                }} style={{height: "10em", width: "10em", position: "absolute", left: "45%", top: "35%"}}>
+                }} style={{height: "15em", width: "10em", position: "absolute", left: "45%", top: "35%"}}>
                     <ModalDialog className="custom-modal-dialog">
                         <ModalClose/>
-                        <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
-                            <h2>Done!</h2>
+                        <div>
+                            <div style={{display: "flex", flexDirection: "row"}}>
+                                <h2>Done!</h2>
+                                <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
+                            </div>
                             <p>Your submission might take a while to be processed...</p>
-                            <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
                         </div>
                     </ModalDialog>
                 </Modal>
