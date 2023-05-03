@@ -210,10 +210,10 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		
 		switch (this.state.visibility) {
             case "public":
-                this.pod.setPublicAccess(placeUrl, true);
+                this.pod.changePlacePublicAccess(place, true);
                 break;
             case "private":
-                this.pod.setPublicAccess(placeUrl, false);
+				this.pod.changePlacePublicAccess(place, false);
                 break;
         }
 

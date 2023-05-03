@@ -62,6 +62,7 @@ export default class MapsRepository extends AbstractSolidRepository {
      * @returns an array of Map objects with the details of each map
      */
     public async getMapPreviews(urls: Array<string>): Promise<Array<Map>> {
+        let maps:Map[] = [];
         let engine = new QueryEngine();
         let query = `
             PREFIX schema: <http://schema.org/>
@@ -72,8 +73,19 @@ export default class MapsRepository extends AbstractSolidRepository {
                          schema:description ?desc .  
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext(urls));
-        return await result.toArray().then(r => {return Assembler.toMapPreviews(r);});
+
+        for (let url of urls) {
+            try {
+                let result = await engine.queryBindings(query, this.getQueryContext([url]))
+                await result.toArray().then(r => {
+                    r.forEach(binding => maps.push( Assembler.toMapPreviews([binding])[0]));
+                });
+            } catch (err) {
+                console.log("Can not query " + url);
+            }
+
+        }
+        return maps;
     }
 
     private async getPlacemarks(mapURL:string): Promise<Array<Placemark>> {

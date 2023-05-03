@@ -69,57 +69,63 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
             openPointPopup: false,
             emptyMaps: false,
             emptyPlaces: false
-
         }
+    }
 
+    public async componentDidMount() {
+        await this.loadMaps();
+        await this.loadPlaces();
+    }
+
+    public async loadMaps() {
         // Get the maps from the user, update the pages of the tables
-        this.getMaps().then((maps) => {
-            this.setState(({
-                hasLoadedMaps: true,
-                maps: (<TableBody>
-                    {maps.map((map) => (
-                        <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                            <TableCell component="th" scope="row">{map.getName()}</TableCell>
-                            <TableCell align="right">{map.getDescription()}</TableCell>
-                            <TableCell align="right"><a onClick={() => {
-                                this.showMap(map);
-                            }}>See map</a></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>)
-            }));
-        }).catch(() => {
+        let maps = await this.getMaps();
+        if (maps.length === 0) {
             this.setState(({
                 hasLoadedMaps: true,
                 emptyMaps: true
-            }))
-        });
+            }));
+            return;
+        }
+        this.setState(({
+            hasLoadedMaps: true,
+            maps: (<TableBody>
+                {maps.map((map) => (
+                    <TableRow key={map.getName()} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                        <TableCell component="th" scope="row">{map.getName()}</TableCell>
+                        <TableCell align="right">{map.getDescription()}</TableCell>
+                        <TableCell align="right"><a onClick={() => {
+                            this.showMap(map);
+                        }}>See map</a></TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>)
+        }));
+    }
 
-        this.getPlaces().then((places) => {
-            if (places) {
-                let aux = (<TableBody>
-                    {places.map((place) => (
-                        <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
-                            <TableCell component="th" scope="row">{place.title}</TableCell>
-                            <TableCell align="right">{place.description}</TableCell>
-                            <TableCell align="right"><a onClick={() => {
-                                this.showPlace(place);
-                            }}>See place information</a></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>);
-                this.setState(({
-                    places: aux,
-                    hasLoadedPlaces: true
-                }))
-            }
-        }).catch(() => {
+    public async loadPlaces() {
+        let places = await this.getPlaces();
+        if (places.length === 0) {
             this.setState(({
                 hasLoadedPlaces: true,
                 emptyPlaces: true
-            }))
-        });
-
+            }));
+        }
+        let aux = (<TableBody>
+            {places.map((place) => (
+                <TableRow key={place.title} sx={{"&:last-child td, &:last-child th": {border: 0}}}>
+                    <TableCell component="th" scope="row">{place.title}</TableCell>
+                    <TableCell align="right">{place.description}</TableCell>
+                    <TableCell align="right"><a onClick={() => {
+                        this.showPlace(place);
+                    }}>See place information</a></TableCell>
+                </TableRow>
+            ))}
+        </TableBody>);
+        this.setState(({
+            places: aux,
+            hasLoadedPlaces: true
+        }))
     }
 
     private async getMaps() {
@@ -188,7 +194,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     {
                         this.state.emptyPlaces &&
                         <EmptyList firstHeader={"This user does not have any shared place..."} secondHeader={""}
-                                   image={"marker_nlack.png"}/>
+                                   image={"marker_black.png"}/>
                     }
                     {!this.state.emptyMaps && !this.state.emptyPlaces &&
                         <div className="friends-tables">

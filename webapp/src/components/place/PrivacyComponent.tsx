@@ -158,6 +158,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
                     </label>
                 </div>
                 {/*Display the friends privacy options if friends option is checked*/}
+                <h3>Share with friends</h3>
                 <div className="privacy-friends">
                     <div className="friends-options">
                         {/*Radio button for friends privacy*/}
@@ -169,7 +170,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
                                 checked={this.state.friendsButton}
                                 onChange={this.handleFriendsChange}
                             />
-                            Share with friends
+                            See friends
                         </label>
                     </div>
                     {/*Display the friend checkboxes if friends privacy is selected*/}

@@ -14,7 +14,6 @@ interface MapFilterState {
 export default class MapFilter extends React.Component<MapfilterProps, MapFilterState> {
 
     private categories: string[] = Object.keys(PlaceCategory);
-    private friendsManager: FriendManager = new FriendManager();
 
     public constructor(props: MapfilterProps) {
         super(props);

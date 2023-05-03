@@ -1,5 +1,14 @@
 import React from 'react';
-import {findAllByRole, fireEvent, getByRole, getByText, render, waitFor} from '@testing-library/react';
+import {
+    findAllByRole,
+    findAllByText,
+    findByText,
+    fireEvent,
+    getByRole,
+    getByText,
+    render,
+    waitFor
+} from '@testing-library/react';
 import LeafletMapAdapter from "../../../adapters/map/LeafletMapAdapter";
 import PODManager from "../../../adapters/solid/PODManager";
 import Placemark from "../../../domain/Placemark";
@@ -22,6 +31,7 @@ test('The map renders correctly with no props given', async () => {
 test('A placemark is added when the user clicks on the map', async () => {
     let marker = getNewPlacemark();
     expect(marker.getAttribute("src")?.startsWith("/static/media"));
+
 });
 
 test('The cancel button of the popup removes the marker', async () => {
