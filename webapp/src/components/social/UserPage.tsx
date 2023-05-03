@@ -193,7 +193,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     {
                         this.state.emptyPlaces &&
                         <EmptyList firstHeader={"This user does not have any shared place..."} secondHeader={""}
-                                   image={"marker_nlack.png"}/>
+                                   image={"marker_black.png"}/>
                     }
                     {!this.state.emptyMaps && !this.state.emptyPlaces &&
                         <div className="friends-tables">
