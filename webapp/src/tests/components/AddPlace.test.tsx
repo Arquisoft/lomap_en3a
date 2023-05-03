@@ -32,7 +32,7 @@ beforeEach(() => {
 });
 
 test('The AddPlace component is rendering correctly', async () => {
-    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)}/>)
     await waitFor(() => {
         expect(getByText("Fill the information of the new place.")).toBeInTheDocument();
         expect(getByText("Name:")).toBeInTheDocument();
@@ -53,14 +53,14 @@ test('The AddPlace component is rendering correctly', async () => {
     the category select and the photo input.
 */
 test('The AddPlace component is working as expected', async () => {
-    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)}/>)
     await waitFor(() => {
         const nameInput = screen.getByPlaceholderText('Name') as HTMLInputElement;
-        fireEvent.change(nameInput, { target: { value: 'Test' } });
+        fireEvent.change(nameInput, {target: {value: 'Test'}});
         expect(nameInput.value).toBe('Test');
 
         const descriptionTextarea = screen.getByPlaceholderText('Introduce a description') as HTMLTextAreaElement;
-        fireEvent.change(descriptionTextarea, { target: { value: 'Test' } });
+        fireEvent.change(descriptionTextarea, {target: {value: 'Test'}});
         expect(descriptionTextarea.value).toBe('Test');
     })
 });
@@ -69,15 +69,15 @@ test('User can add images to the place', async () => {
 
     Object.defineProperty(URL, 'createObjectURL', {
         value: jest.fn(() => 'mock-url'),
-      });
-      Object.defineProperty(URL, 'revokeObjectURL', {
+    });
+    Object.defineProperty(URL, 'revokeObjectURL', {
         value: jest.fn(() => 'mock-url'),
-      });
+    });
 
-    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    const {getByPlaceholderText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)}/>)
     await waitFor(() => {
         const photoInput = getByPlaceholderText('Choose a photo') as HTMLInputElement;
-        fireEvent.change(photoInput, { target: { files: [new File(['test'], 'test.jpg', { type: 'image/jpeg' })] } });
+        fireEvent.change(photoInput, {target: {files: [new File(['test'], 'test.jpg', {type: 'image/jpeg'})]}});
         expect(photoInput.files?.length).toBe(1);
     })
 });
@@ -88,32 +88,32 @@ test('User can add images to the place', async () => {
  * First, the select tag of name "category".
  */
 test('User can change the category of the place', async () => {
-    const { getByPlaceholderText } = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    const {getByPlaceholderText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)}/>)
     await waitFor(() => {
         const categorySelect = screen.getByTitle('category') as HTMLSelectElement;
-        userEvent.selectOptions(categorySelect, ['museum']); // Replace 'some-value' with an actual value from your categories
-        fireEvent.change(categorySelect, { target: { value: 'museum' } });
-        expect(categorySelect.value).toBe('museum');
+        userEvent.selectOptions(categorySelect, ['Museum']); // Replace 'some-value' with an actual value from your categories
+        fireEvent.change(categorySelect, {target: {value: 'Museum'}});
+        expect(categorySelect.value).toBe('Museum');
     });
 });
 
 test('input fields are rendered and can be updated', () => {
-    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)} />)
+    const {getByText} = render(<AddPlace open={true} placemark={new Placemark(latitude, longitude)}/>)
 
     const nameInput = screen.getByPlaceholderText('Name') as HTMLInputElement;
 
     const descriptionTextarea = screen.getByPlaceholderText('Introduce a description') as HTMLTextAreaElement;
-  
-    fireEvent.change(nameInput, { target: { value: 'Test Place' } });
-    fireEvent.change(descriptionTextarea, { target: { value: 'Test Desc' } });
-  
+
+    fireEvent.change(nameInput, {target: {value: 'Test Place'}});
+    fireEvent.change(descriptionTextarea, {target: {value: 'Test Desc'}});
+
     expect(nameInput).toHaveValue('Test Place');
     expect(descriptionTextarea).toHaveValue('Test Desc');
 });
 
 test('form can be submitted and proper action is executed', async () => {
     const mockOnSubmit = jest.fn();
-    const { getByPlaceholderText, getByRole } = render(
+    const {getByPlaceholderText, getByRole} = render(
         <AddPlace
             open={true}
             placemark={new Placemark(latitude, longitude)}
@@ -125,10 +125,10 @@ test('form can be submitted and proper action is executed', async () => {
     const descriptionTextarea = getByPlaceholderText(
         'Introduce a description'
     ) as HTMLTextAreaElement;
-    const submitButton = getByRole('button', { name: 'Submit' });
+    const submitButton = getByRole('button', {name: 'Submit'});
 
-    fireEvent.change(nameInput, { target: { value: 'Test Place' } });
-    fireEvent.change(descriptionTextarea, { target: { value: 'Test Desc' } });
+    fireEvent.change(nameInput, {target: {value: 'Test Place'}});
+    fireEvent.change(descriptionTextarea, {target: {value: 'Test Desc'}});
     fireEvent.click(submitButton);
 
     // Wait for the callback to be called once
@@ -139,5 +139,5 @@ test('form can be submitted and proper action is executed', async () => {
 
     // Perform custom assertions on specific fields
     expect(submittedPlacemark.title).toBe('Test Place');
-    expect(submittedPlacemark.category).toBe('restaurant');
+    expect(submittedPlacemark.category).toBe('Restaurant');
 });

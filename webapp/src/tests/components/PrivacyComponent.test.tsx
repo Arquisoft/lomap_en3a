@@ -1,14 +1,9 @@
 import React from 'react';
-import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
+import {fireEvent, render, waitFor, screen} from '@testing-library/react';
 import FriendManager from '../../adapters/solid/FriendManager';
 import User from '../../domain/User';
 import SolidSessionManager from '../../adapters/solid/SolidSessionManager';
 import PrivacyComponent from '../../components/place/PrivacyComponent';
-
-const latitude = 0.2;
-const longitude = 0.9;
-const title = "Test";
-const category = "Test";
 
 beforeEach(() => {
     jest.spyOn(SolidSessionManager.prototype, "isLoggedIn").mockImplementation(() => {
@@ -41,7 +36,7 @@ test('The PrivacyComponent is rendered correctly', async () => {
         expect(buttonPublic).toBeInTheDocument();
         const buttonPrivate = screen.getByRole("radio", {name: "Private"});
         expect(buttonPrivate).toBeInTheDocument();
-        const buttonShare = screen.getByRole("checkbox", {name: "Share with friends"});
+        const buttonShare = screen.getByRole("checkbox", {name: "See friends"});
         expect(buttonShare).toBeInTheDocument();
         fireEvent.click(buttonShare);
         const friend1 = screen.getByRole("checkbox", {name: "testFriend1"});
