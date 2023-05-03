@@ -3,12 +3,11 @@
 }
 
 .back-page-link, .back-page-link:visited {
-    color: black;
     maRgin: 0.3em 0 0 0.3em;
 }
 
-.back-page-link, .back-page-link:visited {
-    color: #002E66;
+.back-page-link svg:hover{
+    background-color: #005fa3;
 }
 
 .friends-tables {

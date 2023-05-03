@@ -97,32 +97,41 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
         }
 
         if (this.state.noMaps) {
-            return (<section className='Home'>
-                    <div className="map-header">
-                        <Button onClick={this.createMapForGroup} variant={"contained"}
-                                color={"success"}
-                                sx={{margin: "0 0 0.3em 1em", height: "fit-content"}}>Create a
-                            map</Button>
-                    </div>
-                    <EmptyList firstHeader={"You don't have any map!"} secondHeader={"Try creating one to add places"}
-                               image={"/map-magnifier.png"}/>
-                    <Modal open={this.state.popUpOpen} onClose={(() => {
-                        this.setState(({popUpOpen: false}));
-                        this.loadMaps().then(() => {
-                            this.setState(({noMaps: false}))
-                        });
-                    })}>
-                        <ModalDialog>
-                            <ModalClose accessKey={"x"} onClick={(() => {
-                                this.setState(({popUpOpen: false}));
-                                this.loadMaps().then(() => {
-                                    this.setState(({noMaps: false}))
-                                });
-                            })}/>
-                            <AddMap/>
-                        </ModalDialog>
-                    </Modal>
-                </section>
+            return (<>
+                    <section className='Home'>
+                        <div className="map-header">
+                            <Button onClick={this.createMapForGroup} variant={"contained"}
+                                    color={"success"}
+                                    sx={{margin: "0 0 0.3em 1em", height: "fit-content"}}>Create a
+                                map</Button>
+                        </div>
+                        <EmptyList firstHeader={"You don't have any map!"}
+                                   secondHeader={"Try creating one to add places"}
+                                   image={"/map-magnifier.png"}/>
+                        <Modal open={this.state.popUpOpen} onClose={(() => {
+                            this.setState(({popUpOpen: false}));
+                            this.loadMaps().then(() => {
+                                this.setState(({noMaps: false}))
+                            });
+                        })}>
+                            <ModalDialog>
+                                <ModalClose accessKey={"x"} onClick={(() => {
+                                    this.setState(({popUpOpen: false}));
+                                    this.loadMaps().then(() => {
+                                        this.setState(({noMaps: false}))
+                                    });
+                                })}/>
+                                <AddMap/>
+                            </ModalDialog>
+                        </Modal>
+                    </section>
+                    <Footer style={{
+                        backgroundColor: "#002E66",
+                        color: "white",
+                        textAlign: "center",
+                        fontSize: "x-small",
+                        marginTop: "20%", height: "10%"
+                    }}/></>
             );
         }
 

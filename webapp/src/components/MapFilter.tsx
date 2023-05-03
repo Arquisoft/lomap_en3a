@@ -1,7 +1,6 @@
 import React from "react";
 import FriendManager from "../adapters/solid/FriendManager";
 import {PlaceCategory} from "../domain/place/PlaceCategory";
-import User from "../domain/User";
 import '../styles/mapFilter.css';
 
 interface MapfilterProps {
@@ -65,7 +64,7 @@ export default class MapFilter extends React.Component<MapfilterProps, MapFilter
             <h3>Filters</h3>
             <form onSubmit={this.applyFilter}>
                 <h4>Category</h4>
-                <div className="categoriesFilterContainer">
+                <div className="categoriesFilterContainer" style={{overflow: "scroll"}}>
                     {this.categories.map((item, index) =>
                         <p><input type="checkbox" value={item} name={item} onChange={this.handleCategoryChange}/>{item}
                         </p>

@@ -4,8 +4,12 @@ export enum PlaceCategory {
     museum = "museum",
     park = "park",
     hotel = "hotel",
-    busines = "busines",
+    business = "business",
     transit = "transit",
     pharmacy = "pharmacy",
-    ATM = "ATM"
+    ATM = "ATM",
+    education = "education",
+    hospital = "hospital",
+    art = "art",
+
 }

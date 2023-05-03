@@ -3,7 +3,8 @@ import React from "react";
 
 function BackButton(props: { onClick: () => void }) {
     return (
-            <a className="back-page-link" onClick={props.onClick}><KeyboardBackspaceIcon sx={{fontSize: "2.5em"}}/></a>
+        <a className="back-page-link" onClick={props.onClick}><KeyboardBackspaceIcon
+            sx={{marginTop: "0.1em", fontSize: "2.5em", color: "white", backgroundColor: "#002E66", borderRadius: "100em"}}/></a>
     );
 }
 

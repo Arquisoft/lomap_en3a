@@ -5,6 +5,7 @@ import Group from "../../domain/Group";
 import LoadingPage from "../basic/LoadingPage";
 import PODManager from "../../adapters/solid/PODManager";
 import "../../styles/AddMap.css"
+import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
 
 export default class AddMap extends React.Component<{ group?: Group }, {
     mapTitle: string,
@@ -90,8 +91,9 @@ export default class AddMap extends React.Component<{ group?: Group }, {
 
     render() {
         if (this.state.isCreationDone) {
-            return <div>
+            return <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
                 <h2>Done!</h2>
+                <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
             </div>
         }
 

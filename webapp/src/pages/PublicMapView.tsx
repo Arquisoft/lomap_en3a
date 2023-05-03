@@ -78,14 +78,20 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
 
 
         if (!this.state.mapLoaded) {
-            return <EmptyList firstHeader={"We seem to be having trouble with our services"}
-                              secondHeader={"Please try again later!"} image={"/sad_face.webp"}
-                              imageStyle={{width: 231, height: 231}}/>
+            return <><EmptyList firstHeader={"We seem to be having trouble with our services"}
+                                secondHeader={"Please try again later!"} image={"/sad_face.webp"}
+                                imageStyle={{width: 231, height: 231}}/><Footer style={{
+                backgroundColor: "#002E66",
+                color: "white",
+                textAlign: "center",
+                fontSize: "x-small",
+                marginTop: "20%", height: "10%"
+            }}/></>
         }
 
         return (
             <section className='Home' style={{height: "100%"}}>
-                <div className={"map-header"} style={{height: "0.3em", margin: 0}} />
+                <div className={"map-header"} style={{height: "0.3em", margin: 0}}/>
                 <div className="map-options" style={{position: "absolute", zIndex: "1", left: "2em", top: "6.7em"}}>
                     <PassmeDropdown presentMe={<MapFilter callback={this.setFilter.bind(this)}/>}
                                     buttonText={"Show Filters"}/>

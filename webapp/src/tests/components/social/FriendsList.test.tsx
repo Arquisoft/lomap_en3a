@@ -15,9 +15,9 @@ test('The friends list renders properly with a set of friends', () => {
     const {getByText} = render(<FriendsList users={users}/>)
 
     expect(getByText("TestUser")).toBeInTheDocument();
-    expect(getByText("Hello World")).toBeInTheDocument();
+    expect(getByText("- Hello World")).toBeInTheDocument();
     expect(getByText("Organization Test")).toBeInTheDocument();
     expect(getByText("TestUser2")).toBeInTheDocument();
-    expect(getByText("Hello Second World")).toBeInTheDocument();
+    expect(getByText("- Hello Second World")).toBeInTheDocument();
     expect(getByText("EVIL Corp")).toBeInTheDocument();
 });
