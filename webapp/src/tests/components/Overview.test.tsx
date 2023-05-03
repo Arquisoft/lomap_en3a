@@ -83,3 +83,15 @@ test('Review scores are updated correctly', async () => {
     })
     expect(ref.current?.state.rating).toBe(5);
 });
+
+test('Show error message when submitting an empty comment', async () => {
+    let place = new Place("place", 0, 0, "", [], "", "");
+    let ref = React.createRef<OverviewPage>();
+    render(<OverviewPage place={place} placeUrl={"url"} ref={ref} />);
+    let comment = document.querySelector("#comment");
+    expect(comment).not.toBeNull();
+    let button = screen.getByRole("button", {name: "Publish a comment"});
+    expect(button).not.toBeNull();
+    fireEvent.click(button);
+    expect(getByText(document.body, "You must enter a comment.")).toBeInTheDocument();
+});
