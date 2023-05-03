@@ -4,4 +4,7 @@ COPY . /app
 WORKDIR /app
 #Install the dependencies
 RUN npm install
-CMD [ "npm", "start" ]
+#Create an optimized version of the webapp
+RUN npm run build
+#CMD [ "npm", "start" ]
+CMD [ "node", "server.js" ]
