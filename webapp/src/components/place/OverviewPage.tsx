@@ -183,13 +183,13 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     };
 
     private getColorFor(category: string) {
-        console.log(category)
         let pos = Object.keys(PlaceCategory).indexOf(category) + 1;
         if (pos % 2 === 0) {
             pos = pos / 2 - 1;
         } else {
-            pos = (pos - 1) - 1;
+            pos = (pos - 1) / 2;
         }
+        console.log(pos);
         return this.categoryColors[pos];
     }
 
