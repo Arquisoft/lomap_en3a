@@ -85,9 +85,7 @@ export default class UserStuff extends React.Component<any, UserStuffState> {
                 maps: mapsAux
             }));
         }
-        let webId = SolidSessionManager.getManager().getWebID();
-        webId = webId.split("/")[2];
-        this.user = await new FriendManager().getUserData("https://" + webId + "/");
+        this.user = await new FriendManager().getUserData(SolidSessionManager.getManager().getWebID());
     }
 
 
