@@ -69,11 +69,15 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
             openPointPopup: false,
             emptyMaps: false,
             emptyPlaces: false
-
         }
 
+        this.loadMaps();
+        this.loadPlaces();
+    }
+
+    public async loadMaps() {
         // Get the maps from the user, update the pages of the tables
-        this.getMaps().then((maps) => {
+        await this.getMaps().then((maps) => {
             this.setState(({
                 hasLoadedMaps: true,
                 maps: (<TableBody>
@@ -94,7 +98,9 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                 emptyMaps: true
             }))
         });
+    }
 
+    public async loadPlaces() {
         this.getPlaces().then((places) => {
             if (places) {
                 let aux = (<TableBody>
@@ -119,7 +125,6 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                 emptyPlaces: true
             }))
         });
-
     }
 
     private async getMaps() {
@@ -188,7 +193,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     {
                         this.state.emptyPlaces &&
                         <EmptyList firstHeader={"This user does not have any shared place..."} secondHeader={""}
-                                   image={"marker_nlack.png"}/>
+                                   image={"marker_black.png"}/>
                     }
                     {!this.state.emptyMaps && !this.state.emptyPlaces &&
                         <div className="friends-tables">

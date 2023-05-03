@@ -183,13 +183,13 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     };
 
     private getColorFor(category: string) {
-        console.log(category)
         let pos = Object.keys(PlaceCategory).indexOf(category) + 1;
         if (pos % 2 === 0) {
             pos = pos / 2 - 1;
         } else {
-            pos = (pos - 1) - 1;
+            pos = (pos - 1) / 2;
         }
+        console.log(pos);
         return this.categoryColors[pos];
     }
 
@@ -198,12 +198,12 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
             <div className="OverviewPage">
                 <div>
                     <Chip label={this.state.place.category.toUpperCase()}
-                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color:"white"}}/>
+                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>
                     <p>{this.state.place.description}</p>
                 </div>
 
                 <form onSubmit={this.handleSubmitComment}>
-                    <label htmlFor="comment">Comment:</label>
+                    <label style={{fontSize: "x-large"}} htmlFor="comment">Comment:</label>
                     <textarea
                         id="comment"
                         name="comment"
@@ -217,7 +217,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                 {this.state.commentError && <span className="error">{this.state.commentError}</span>}
 
                 <form onSubmit={this.handleSubmitRating}>
-                    <label>Rating:</label>
+                    <h3 style={{fontSize: "x-large", marginTop: 0}}>Rating:</h3>
                     <Rating initialValue={4}
                             onClick={this.handleInputRatingChange}
                             allowHover={true}
@@ -229,7 +229,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
                 </form>
 
                 <form onSubmit={this.handleSubmitPhoto}>
-                    <label htmlFor="photo">Photo:</label>
+                    <label htmlFor="photo" style={{fontSize: "x-large"}}>Photo:</label>
                     <input title="photo" placeholder="Choose a photo" type="file" onChange={this.handlePhotoChange}/>
                     {/* Display all uploaded photos using map function */}
                     {this.state.photosSelected.map((file) => (

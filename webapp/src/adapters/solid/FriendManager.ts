@@ -41,9 +41,9 @@ export default class FriendManager {
      *
      * @return The object User corresponding to the POD of the webID
      * */
-    public async getUserData(basePath: string): Promise<User> {
-        let webIdDoc = await getSolidDataset(basePath + "profile/card", {fetch: this.sessionManager.getSessionFetch()});
-        let friends = getThing(webIdDoc, basePath + "profile/card#me");
+    public async getUserData(webID: string): Promise<User> {
+        let webIdDoc = await getSolidDataset(webID, {fetch: this.sessionManager.getSessionFetch()});
+        let friends = getThing(webIdDoc, webID);
         //It returns all the values in the knows property of the object Thing
         let name = getStringNoLocale(friends as Thing, VCARD.fn);
         let photo = (getNamedNode(friends as Thing, VCARD.hasPhoto))?.value
@@ -51,7 +51,7 @@ export default class FriendManager {
         let role = getStringNoLocale(friends as Thing, VCARD.role);
         let organization = getStringNoLocale(friends as Thing, VCARD.organization_name);
 
-        let user = new User(name, basePath + "profile/card#me");
+        let user = new User(name, webID);
         user.photo = photo;
         user.note = note;
         user.role = role;

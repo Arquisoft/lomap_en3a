@@ -227,7 +227,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			case "public":
 				await this.pod.changePlacePublicAccess(place, true);
 				break;
-
+        
 			case "private":
 				await this.pod.changePlacePublicAccess(place, false);
 				break;

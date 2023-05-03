@@ -153,11 +153,11 @@ export default class MapInfo extends React.Component<MapInfoProps, MapInfoState>
                     </div>
                     <h2>Places:</h2>
                     {/*For each place from the map an item will be a row with the name in a table, and a button to open a component PointInformation*/}
-                    {this.state.loadedPlaces &&
+                    {this.state.loadedPlaces && this.state.theMap.getPlacemarks().length > 0 &&
                         <ReactTable tableName={"map-places"} headCells={["Place Title", ""]}
                                     tableBody={this.state.tablePlacesBody}/>
                     }
-                    {!this.state.loadedPlaces && this.state.theMap.getPlacemarks().length > 0 &&
+                    {!this.state.loadedPlaces &&
                         <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>
                     }
                     {this.state.loadedPlaces &&

@@ -60,8 +60,8 @@ export default class PointInformation extends React.Component<PointInformationPr
 
     public async componentDidMount(): Promise<void> {
         this.point = await this.pod.getPlace(this.props.placemark.getPlaceUrl());
-        this.point.category = this.props.placemark.getCategory();
         this.photosURLs = await this.pod.getImageUrls(this.props.placemark.getPlaceUrl());
+        this.point.category = this.props.placemark.getCategory();
         this.setState({
             component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>
         });
@@ -95,7 +95,6 @@ export default class PointInformation extends React.Component<PointInformationPr
     };
 
     private handleClickOverview() {
-        console.log(this.props.placemark.getPlaceUrl())
         this.setState({component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
     }
 
@@ -125,9 +124,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                     <ModalClose/>
                     <section className="pointInfo" /*style={{overflow: "scroll"}}*/>
                         <div className="pointInformation">
-                            {this.point.title === "Loading..." &&
-                                <h1>Title: {this.point.title}</h1>}
-                            {this.point.title !== "Loading..." &&
+                            {this.point.title === "Loading..." ? <h1>Loading...</h1> :
                                 <h1>{this.point.title}</h1>}
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>

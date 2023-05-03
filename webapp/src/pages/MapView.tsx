@@ -129,8 +129,7 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
                         backgroundColor: "#002E66",
                         color: "white",
                         textAlign: "center",
-                        fontSize: "x-small",
-                        marginTop: "20%", height: "10%"
+                        fontSize: "x-small", marginTop: "20%", height: "10%"
                     }}/></>
             );
         }
