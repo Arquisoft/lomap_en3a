@@ -1,6 +1,6 @@
 import Placemark from "../../domain/Placemark";
 import LeafletMapAdapter from "./LeafletMapAdapter";
-import { addPlace } from "../../api/api";
+//import { addPlace } from "../../api/api";
 
 export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
     
@@ -9,11 +9,11 @@ export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
      * @param p 
      */
     public override addMarker(p: Placemark): void {
+//        addPlace(p);
         this.map.add(p);
         this.setState({
             pageToShow: undefined,
             currentPlacemark: null,
         });
-        addPlace({title: p.getTitle(), uuid: p.getPlaceUrl(), longitude: p.getLng(), latitude: p.getLat()});
     }
 }

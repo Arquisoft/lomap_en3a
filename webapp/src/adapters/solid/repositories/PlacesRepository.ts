@@ -54,13 +54,13 @@ export default class PlacesRepository extends AbstractSolidRepository {
      */
     public async changePlacePublicAccess(place:Place, isPublic:boolean) {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
-
+        
         await this.setPublicAccess(path+"/", isPublic);
         await this.setPublicAccess(path+"/details", isPublic);
         for (let dataset of ['/images', '/comments', '/reviews']) {
-            await this.setPublicAccess(path + dataset, true, true);
+        await this.setPublicAccess(path + dataset, true, true);
         }
-    }
+        }
 
 
 
