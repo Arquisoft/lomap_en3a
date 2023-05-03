@@ -95,3 +95,13 @@ test('Show error message when submitting an empty comment', async () => {
     fireEvent.click(button);
     expect(getByText(document.body, "You must enter a comment.")).toBeInTheDocument();
 });
+
+test('Update the stored comment on text area change', async () => {
+    let place = new Place("place", 0, 0, "", [], "", "");
+    let ref = React.createRef<OverviewPage>();
+    render(<OverviewPage place={place} placeUrl={"url"} ref={ref} />);
+    let comment = document.querySelector("#comment") as HTMLTextAreaElement;
+    expect(comment).not.toBeNull();
+    fireEvent.change(comment, { target: { value: 'new comment' } });
+    expect(ref.current?.state.comment).not.toBeUndefined();
+});
