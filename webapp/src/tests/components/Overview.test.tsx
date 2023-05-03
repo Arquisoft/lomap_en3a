@@ -1,7 +1,19 @@
 import React from 'react';
-import {fireEvent, getByPlaceholderText, render, waitFor, screen} from '@testing-library/react';
+import {
+    fireEvent,
+    getByPlaceholderText,
+    render,
+    waitFor,
+    screen,
+    getByText,
+    act,
+    findByText
+} from '@testing-library/react';
 import Place from '../../domain/Place';
 import OverviewPage from '../../components/place/OverviewPage';
+import PODManager from "../../adapters/solid/PODManager";
+import PlaceComment from "../../domain/place/PlaceComment";
+import PlaceRating from "../../domain/place/PlaceRating";
 
 
 const latitude = 0.2;
@@ -11,6 +23,15 @@ const category = "Test";
 const description = "TestDescription";
 
 beforeAll(() => {
+    jest.spyOn(PODManager.prototype, "comment").mockImplementation(async (comment: PlaceComment, placeUrl: string) => {
+        // Do nothing
+    });
+    jest.spyOn(PODManager.prototype, "review").mockImplementation(async (review: PlaceRating, placeUrl: string) => {
+        // Do nothing
+    });
+    jest.spyOn(PODManager.prototype, "addImage").mockImplementation(async (image: File, placeUrl: string) => {
+        // Do nothing
+    });
 })
 
 /*
@@ -38,3 +59,19 @@ test('The PrivacyComponent is rendered correctly', async () => {
         expect(buttonPhotos).toBeInTheDocument();
     })
 });
+
+test('Reviews are added correctly', async () => {
+    let place = new Place("place", 0, 0, "", [], "", "");
+    let ref = React.createRef<OverviewPage>();
+    render(<OverviewPage place={place} placeUrl={"url"} ref={ref} />);
+    let star = document.querySelector(".star-svg");
+    expect(star).not.toBeNull();
+    fireEvent.click(star as Element);
+    let button = screen.getByRole("button", {name: "Submit a review"});
+    fireEvent.click(button);
+    await waitFor(() => {
+        expect(getByText(document.body, "Done!")).not.toBeNull();
+    })
+});
+
+test('Review scores are updated correctly', async () => {
