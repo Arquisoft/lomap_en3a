@@ -51,13 +51,12 @@ export default class AddGroup extends React.Component<{}, {
 
     private async getUserFriends() {
         let friends = await new FriendManager().getFriendsList();
-        if (friends){
+        if (friends) {
             friends.forEach(friend => {
                 this.state.selectedFriends.set(friend.getWebId(), false);
             })
             this.setState(({friends: friends, componentHasLoaded: true}))
-        }
-        else {
+        } else {
             this.setState(({componentHasLoaded: true}))
         }
     }
@@ -164,11 +163,11 @@ export default class AddGroup extends React.Component<{}, {
     render() {
 
         if (this.state.isCreationDone) {
-            return <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
-                <h2>Done!</h2>
-                <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
-                <p>Your groups table will be updated in a few seconds...</p>
-            </div>
+            return <>
+                <div style={{width: "10em", display: "flex", flexDirection: "row"}}>
+                    <h2>Done!</h2>
+                    <CheckCircleSharpIcon color={"success"} sx={{fontSize: "4em", marginLeft: "40%"}}/>
+                </div></>
         }
 
         if (!this.state.componentHasLoaded) {
