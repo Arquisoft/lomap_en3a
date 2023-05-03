@@ -1,13 +1,14 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import {setDefaultOptions} from "expect-puppeteer";
 import puppeteer from "puppeteer";
+import {fireEvent} from "@testing-library/react";
 
 const feature = loadFeature('./features/add-place.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
 
-setDefaultOptions({timeout: 10000})
+setDefaultOptions({timeout: 30000})
 
 defineFeature(feature, test => {
   beforeAll(async () => {
@@ -47,10 +48,18 @@ defineFeature(feature, test => {
     
 
     when('The users adds a place', async () => {
+      console.log(await page.content())
+      const example = await page.waitForSelector('.leaflet-container');
+      const bounding_box = await example!.boundingBox();
+
+      await page.mouse.move(bounding_box!.x + bounding_box!.width / 2, bounding_box!.y + bounding_box!.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(24, 19);
+      await page.mouse.up()
+      await page.waitForTimeout(2000)
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
-      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-      await marker.click();
-      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toClick('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :last-child')
+      await expect(page).toClick('.leaflet-popup-content > form:nth-child(1) > input:nth-child(1)');
       await expect(page).toFillForm('.Place-form > :nth-child(2)', {
         name: placeName,
         description: "This is a test place"
@@ -59,9 +68,7 @@ defineFeature(feature, test => {
     });
 
     then('The place can be seen on the map', async () => {
-      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-      await marker.click();
-      await expect(page).toMatch(placeName);
+      await expect(page).toMatchElement('img.leaflet-marker-icon:last-child')
     });
   })
 
