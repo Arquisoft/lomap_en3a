@@ -25,7 +25,6 @@ export class UserMenu extends React.Component<any, { photo: string | undefined }
             this.setState(({
                 photo: user.photo
             }));
-            console.log(this.state.photo)
         });
     }
 
@@ -39,7 +38,7 @@ export class UserMenu extends React.Component<any, { photo: string | undefined }
     };
 
     private async getUser() {
-        return await new FriendManager().getUserData(SolidSessionManager.getManager().getWebID().replace("profile/card#me",""));
+        return await new FriendManager().getUserData(SolidSessionManager.getManager().getWebID());
     }
 
     render() {
