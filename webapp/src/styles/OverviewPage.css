@@ -33,25 +33,24 @@
   button[type="submit"], button[name="clear"]{
     display: inline-block;
     position: relative;
-    padding-left: 15px;
     margin: 10px 10px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: small;
+    text-wrap: none;
     user-select: none;
     line-height: 20px;
-    border: 1px solid transparent;
     border-radius: 4px;
     padding: 0.5rem 1rem;
-    background-color: #2ea1cb;
-    border-color: #017098;
+    background-color: #20708d;
     color: #fff;
+    border: 1px solid #004474;
     transition: all 0.3s ease; /* Add transition for smooth style changes */
   }
   
   button[type="submit"]:hover,
   button[name="clear"]:hover {
-    background-color: #005fa3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+    background-color: #004474;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add larger box-shadow on hover for selected options */
   }
   
   button[type="submit"].selected,
@@ -76,7 +75,7 @@
   }
 
   .photo-preview {
-    align-items: left;
+    align-items: start;
     margin-top: 1em;
     margin-bottom: 1em;
   }
