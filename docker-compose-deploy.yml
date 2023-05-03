@@ -7,6 +7,7 @@ services:
       - /etc/letsencrypt/live/lomapen3a.cloudns.ph/fullchain.pem:/app/claves/fullchain.pem
     ports:
       - "5000:5000"
+      - "5443:5443"
   webapp:
     image: ghcr.io/arquisoft/lomap_en3a/webapp:latest
     volumes:

@@ -4,7 +4,4 @@ COPY . /app
 WORKDIR /app
 #Install the dependencies
 RUN npm install
-#Create an optimized version of the restapi
-#RUN npm run prod
-#CMD [ "npm", "start" ]
-CMD npm run prod
+CMD node server.ts
