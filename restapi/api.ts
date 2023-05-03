@@ -9,8 +9,8 @@ let hostIp: string = "20.168.251.141";
 api.use(
     cors({
         credentials: true,
-        origin: "*",
-        allowedHeaders: ["Content-Type", "Authorization"],
+        origin: ["https://20.168.251.141", "https://lomapen3a.cloudns.ph", "https://localhost"],
+        allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
         preflightContinue: true,
     })
 );
