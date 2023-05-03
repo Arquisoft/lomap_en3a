@@ -208,6 +208,9 @@ export default class AddPlace extends React.Component<IProps, IState> {
 		
 		let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
 		
+		//Change this functions
+		//public async changePlacePublicAccess(place:Place, isPublic:boolean)
+		
 		switch (this.state.visibility) {
             case "public":
                 this.pod.setPublicAccess(placeUrl, true);
