@@ -1,4 +1,4 @@
-import { Application, RequestHandler } from "express";
+import express, { Application, RequestHandler } from "express";
 import cors from 'cors';
 import bp from 'body-parser';
 import promBundle from 'express-prom-bundle';
@@ -7,8 +7,6 @@ import db_uri from "./settings";
 import { readFileSync } from "fs";
 import { createServer } from "https"
 
-
-const express = require("express")
 const app: Application = express();
 const portHttp: number = 5000;
 const portHttps: number = 5000;
