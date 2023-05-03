@@ -37,6 +37,7 @@ interface IProps{
 	callback?: Function;
 	map?: Map;
 	open: boolean;
+	public: boolean;
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
@@ -46,7 +47,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	// Define default values for the page. This would not be necessary when the page is indexed.
 	public static defaultProps: IProps = {
 		placemark: new Placemark(0.5, 0.2, "asdf"),
-		open: false
+		open: false,
+		public: false,
 	};
 
 	public constructor(props: IProps) {
@@ -208,9 +210,11 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.state.description, this.state.photosSelected,undefined ,this.state.category);
 	
 		let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
-		addPlace(new Placemark(
+		if (this.props.public){
+			addPlace(new Placemark(
 			this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
+		}
 		this.createPlace(place, placeUrl)
 		if (this.props.callback !== undefined) {
 			this.props.callback(new Placemark(
