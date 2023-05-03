@@ -14,6 +14,6 @@ export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
             pageToShow: undefined,
             currentPlacemark: null,
         });
-        addPlace({title: p.getTitle(), uuid: p.getPlaceUrl(), longitude: p.getLng(), latitude: p.getLat()});
+        addPlace(p);
     }
 }

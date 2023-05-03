@@ -1,29 +1,38 @@
 import {Request, Response} from "express";
-import {PlaceType} from "../../types/PlaceType";
+import Placemark from "../../models/Placemark";
 import Place from "../../models/Place";
 import {validationResult} from "express-validator";
+import { Document } from "mongoose";
 
 const getPlaces = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        const places: Array<PlaceType> = await Promise.resolve(Place.find());
-        return res.status(200).send(places);
-    }
-    catch (error) {
-        return res.status(500).send("An error has occurred while retrieving the list of places: \n\n" + error)
-    }
-}
+  try {
+    const documents: Array<Document<unknown, {}, Placemark>> = await Promise.resolve(
+      Place.find()
+    );
+    const places: Array<Placemark> = documents.map((doc) =>
+      doc.toObject() as Placemark
+    );
+    return res.status(200).send(places);
+  } catch (error) {
+    return res
+      .status(500)
+      .send("An error has occurred while retrieving the list of places: \n\n" + error);
+  }
+};
 
 const addPlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        console.log(req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
         await Place.create({
-            title: req.body.title.toString(),
-            uuid: req.body.uuid.toString(),
             longitude: req.body.longitude.toString(),
-            latitude: req.body.latitude.toString()
+            latitude: req.body.latitude.toString(),
+            title: req.body.title.toString(),
+            placeUrl: req.body.placeUrl.toString(),
+            category: req.body.category.toString()
         });
         return res.sendStatus(200)
     }
@@ -55,10 +64,11 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
             return res.status(400).json({errors: errors.array()})
         }
         await Promise.resolve(Place.findOneAndUpdate({title: req.params.title}, {
-            title: req.body.title,
-            uuid: req.body.uuid,
             longitude: req.body.longitude,
-            latitude: req.body.latitude
+            latitude: req.body.latitude,
+            title: req.body.title,
+            placeUrl: req.body.placeUrl,
+            category: req.body.category,
         }));
         return res.sendStatus(200)
     }
