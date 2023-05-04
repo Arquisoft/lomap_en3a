@@ -53,7 +53,6 @@ export default class MapView extends React.Component<MapViewProps, MapViewState>
 
     private async loadMaps() {
         let maps = await this.podManager.getAllMaps();
-        console.log(maps);
         if (maps.length > 0) {
             await this.podManager.loadPlacemarks(maps[0]);
             this.setState({

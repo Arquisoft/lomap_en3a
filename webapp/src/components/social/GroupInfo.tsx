@@ -3,7 +3,6 @@ import ReactTable from "../basic/ReactTable";
 import {AppBar, Button, Dialog, IconButton, TableBody, TableCell, TableRow, Toolbar, Typography} from "@mui/material";
 import Group from "../../domain/Group";
 import PODManager from "../../adapters/solid/PODManager";
-import {Simulate} from "react-dom/test-utils";
 import LoadingPage from "../basic/LoadingPage";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import AddMap from "../map/AddMap";
@@ -63,7 +62,6 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
     componentDidMount() {
         this.generateTable();
         this.loadMembers().then(() => {
-            console.log("RELOAD")
             this.setState(({
                 loadedFriends: true
             }));
@@ -82,7 +80,6 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
 
     private generateTable() {
         this.getGroupMaps().then((maps) => {
-            console.log(maps);
             if (maps.length > 0) {
                 this.tableBody = (<TableBody>
                     {maps.map((map) => (
