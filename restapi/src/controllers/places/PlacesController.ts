@@ -23,18 +23,22 @@ const getPlaces = async (req: Request, res: Response): Promise<Response> => {
 
 const addPlace = async (req: Request, res: Response): Promise<Response> => {
     try {
-        res.header('Access-Control-Allow-Origin', '*');
-        const documents: Array<Document<unknown, {}, Placemark>> = await Promise.resolve(
-        Place.find()
-      );
-      const places: Array<Placemark> = documents.map((doc) =>
-        doc.toObject() as Placemark
-      );
-      return res.status(200).send(places);
-    } catch (error) {
-        return res
-        .status(500)
-        .send("An error has occurred while retrieving the list of places: \n\n" + error);
+        console.log(req.body);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()})
+        }
+        await Place.create({
+            longitude: req.body.longitude.toString(),
+            latitude: req.body.latitude.toString(),
+            title: req.body.title.toString(),
+            placeUrl: req.body.placeUrl.toString(),
+            category: req.body.category.toString()
+        });
+        return res.sendStatus(200)
+    }
+    catch (error) {
+        return res.status(500).send("An error has occurred while adding a place: " + error)
     }
 };
 
