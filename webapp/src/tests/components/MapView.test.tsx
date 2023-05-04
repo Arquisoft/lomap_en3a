@@ -43,3 +43,16 @@ test('Open create map modal', async () => {
     expect(button).not.toBeNull();
     fireEvent.click(button);
 });
+
+test('Open map filters', async () => {
+    jest.spyOn(PODManager.prototype, "getAllMaps").mockImplementation(async (user: string | undefined) => {
+        return [new Map("myMap")];
+    })
+    render(<MapView/>)
+    await waitFor(() => {
+        let button = document.querySelector("#basic-button")
+        expect(button).not.toBeNull();
+        fireEvent.click(button as Element);
+        expect(getByText(document.body, "Filters")).not.toBeUndefined();
+    });
+});
