@@ -26,8 +26,6 @@ interface PrivacyComponentState {
  */
 class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponentState> {
 
-    private loadedFriends: boolean = false;
-
     constructor(props: PrivacyComponentProps) {
         super(props);
         this.state = {
@@ -35,7 +33,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             selectedFriends: {},
             friendsList: new Array<User>(),
             friendsSelected: [],
-            loadedFriends: false,
+            loadedFriends: true,
             friendsButton: false,
             prevFriendsButton: false,
         };
@@ -44,21 +42,10 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
 
     async componentDidMount() {
         // We assign to users the actual list of users
-        this.getUsers().then(() => {
-            if (this.state.friendsList.length === 0) {
-                this.setState(() => ({
-                    loadedFriends: false,
-                }));
-            } else {
-                this.setState(() => ({
-                    loadedFriends: true,
-                }));
-            }
-        }).catch((error) => {
-            this.setState(() => ({
-                loadedFriends: true,
+        await this.getUsers().catch((error) => {
+            this.setState({
                 friendsList: []
-            }));
+            });
         });
     }
 
@@ -66,8 +53,8 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
      * It recovers the friends from the current user logged in
      * */
     private async getUsers() {
-        let fm = new FriendManager();
-        this.setState({friendsList: await fm.getFriendsList()});
+        let friends = await new FriendManager().getFriendsList();
+        this.setState({friendsList: friends, loadedFriends: true});
     }
 
     /**
