@@ -5,23 +5,25 @@ import {validationResult} from "express-validator";
 import { Document } from "mongoose";
 
 const getPlaces = async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const documents: Array<Document<unknown, {}, Placemark>> = await Promise.resolve(
-      Place.find()
-    );
-    const places: Array<Placemark> = documents.map((doc) =>
-      doc.toObject() as Placemark
-    );
-    return res.status(200).send(places);
-  } catch (error) {
-    return res
-      .status(500)
-      .send("An error has occurred while retrieving the list of places: \n\n" + error);
-  }
-};
+    try {
+        res.header('Access-Control-Allow-Origin', '*');
+        const documents: Array<Document<unknown, {}, Placemark>> = await Promise.resolve(
+            Place.find()
+        );
+        const places: Array<Placemark> = documents.map((doc) =>
+            doc.toObject() as Placemark
+        );
+        return res.status(200).send(places);
+    } catch (error) {
+        return res
+            .status(500)
+            .send("An error has occurred while retrieving the list of places: \n\n" + error);
+    }
+}
 
 const addPlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         console.log(req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -39,10 +41,11 @@ const addPlace = async (req: Request, res: Response): Promise<Response> => {
     catch (error) {
         return res.status(500).send("An error has occurred while adding a place: " + error)
     }
-}
+};
 
 const deletePlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
@@ -59,6 +62,7 @@ const deletePlace = async (req: Request, res: Response): Promise<Response> => {
 
 const updatePlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
@@ -81,6 +85,7 @@ const updatePlace = async (req: Request, res: Response): Promise<Response> => {
 
 const findPlaceByTitle = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})

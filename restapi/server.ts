@@ -4,9 +4,12 @@ import bp from 'body-parser';
 import promBundle from 'express-prom-bundle';
 import api from "./api";
 import db_uri from "./settings";
+import { readFileSync } from "fs";
+import { createServer } from "https"
 
 const app: Application = express();
-const port: number = 5000;
+const portHttp: number = 5000;
+const portHttps: number = 5000;
 
 const mongoose = require("mongoose")
 const uri: string = db_uri;
@@ -18,14 +21,37 @@ mongoose.connect(uri, options).then(
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
-app.use(cors());
 app.use(bp.json());
 
 app.use("/api", api)
 
-app.listen(port, ():void => {
-    console.log('Restapi listening on '+ port);
-}).on("error",(error:Error)=>{
-    console.error('Error occured: ' + error.message);
-});
+try {
+    let privateKey = readFileSync("claves/privkey.pem");
+    let certificate = readFileSync("claves/fullchain.pem");
+    let credentials = { key: privateKey, cert: certificate };
+
+    app.all('*', function(req, res, next){
+        if (req.secure) {
+            return next();
+        }
+        res.redirect('https://'+ "lomapen3a.cloudns.ph" + ":" + portHttps + req.url);
+    });
+
+    createServer(credentials, app)
+        .listen(portHttps, (): void => {
+            console.log("Restapi listening on " + portHttps);
+        })
+        .on("error", (error: Error) => {
+            console.error("Error occured: " + error.message);
+        });
+} catch (e) {
+
+    app
+        .listen(portHttp, (): void => {
+            console.log("Restapi listening on " + portHttp);
+        })
+        .on("error", (error: Error) => {
+            console.error("Error occured: " + error.message);
+        });
+}
 

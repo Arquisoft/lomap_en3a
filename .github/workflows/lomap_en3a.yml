@@ -48,7 +48,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@v5
       #Rest Api redirect
       env:
-        API_URI: http://${{ secrets.DEPLOY_HOST }}:5000/api
+        API_URI: https://${{ secrets.DEPLOY_HOST }}:5000/api
       with:
           name: arquisoft/lomap_en3a/webapp
           username: ${{ github.actor }}
