@@ -20,6 +20,7 @@ export default function FriendsList(props: { users: User[] }) {
         }}>
             {props.users.map((user) => (
                 <>
+                <div className='members-list'>
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
                             <Avatar alt={user.getName() || user.getWebId()} src={user.photo}/>
@@ -36,12 +37,13 @@ export default function FriendsList(props: { users: User[] }) {
                                     >
                                         {user.organization}
                                     </Typography>
-                                    {" - " + user.note}
+                                    {" - " + user.note == null ? "No note" : user.note}
                                 </React.Fragment>
                             }
                         />
                     </ListItem>
                     <Divider variant="inset" component="li"/>
+                </div>
                 </>
             ))}
         </List>
