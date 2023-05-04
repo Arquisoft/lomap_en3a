@@ -23,6 +23,7 @@ const getPlaces = async (req: Request, res: Response): Promise<Response> => {
 
 const addPlace = async (req: Request, res: Response): Promise<Response> => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
         console.log(req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
