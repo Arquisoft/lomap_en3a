@@ -1,9 +1,9 @@
 export default class Placemark {
-    private lng: number;
-    private lat: number;
-    private title: string;
-    private placeUrl: string;
-    private category: string;
+    public lng: number;
+    public lat: number;
+    public title: string;
+    public placeUrl: string;
+    public category: string;
 
     public constructor(lat:number, lng:number, title:string="", placeUrl:string="", category:string="") {
         this.lat = lat;
