@@ -37,7 +37,7 @@ export default function FriendsList(props: { users: User[] }) {
                                     >
                                         {user.organization}
                                     </Typography>
-                                    {" - " + user.note == null ? "No note" : user.note}
+                                    {user.note == null ? " - No note" : " - " + user.note}
                                 </React.Fragment>
                             }
                         />
