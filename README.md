@@ -54,6 +54,6 @@ This project is being maintained by:
  - [Carlos Triana Fernández](https://github.com/UO283428)
  - [David Martínez Castañón](https://github.com/Davidmc07)
 
-## :bowtie: Application links
+## Application links
  - https://davidmc07.github.io/lomap_en3a
  - https://lomapen3a.cloudns.ph
