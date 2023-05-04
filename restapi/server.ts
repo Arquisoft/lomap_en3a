@@ -22,15 +22,14 @@ mongoose.connect(uri, options).then(
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
+app.use(cors());
 app.use(bp.json());
 
 app.use("/api", api)
 
 try {
-    // let privateKey = readFileSync("claves/privkey.pem");
-    // let certificate = readFileSync("claves/fullchain.pem");
-    let privateKey = readFileSync("claves/alice.key");
-    let certificate = readFileSync("claves/alice.crt");
+    let privateKey = readFileSync("claves/privkey.pem");
+    let certificate = readFileSync("claves/fullchain.pem");
     let credentials = { key: privateKey, cert: certificate };
 
     app.all('*', function(req, res, next){
