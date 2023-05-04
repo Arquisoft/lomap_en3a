@@ -13,8 +13,13 @@ export default class MapsRepository extends AbstractSolidRepository {
      * @returns wether the map could be saved
      */
     public async saveMap(map:Map): Promise<void> {
-        let path = this.getBaseUrl() + '/data/maps/' + map.getId();
-        await this.saveDataset(path, Assembler.mapToDataset(map), true);
+        if (map.getUrl().length === 0) {
+            let path = this.getBaseUrl() + '/data/maps/' + map.getId();
+            await this.saveDataset(path, Assembler.mapToDataset(map), true);
+        } else {
+            await this.saveDataset(map.getUrl(), Assembler.mapToDataset(map), false);
+        }
+
         /*
         let userMaps = this.getBaseUrl() + '/user/maps';
         let urlThing = Assembler.urlToReference(path);
@@ -36,6 +41,9 @@ export default class MapsRepository extends AbstractSolidRepository {
      */
     public async loadPlacemarks(map: Map, author:string=""): Promise<void> {
         let path:string = this.getBaseUrl(author) + '/data/maps/' + map.getId();
+        if (map.getUrl().length > 0) {
+            path = map.getUrl();
+        }
         let placemarks = await this.getPlacemarks(path);
         map.setPlacemarks(placemarks);
     }
@@ -77,9 +85,11 @@ export default class MapsRepository extends AbstractSolidRepository {
         for (let url of urls) {
             try {
                 let result = await engine.queryBindings(query, this.getQueryContext([url]))
-                await result.toArray().then(r => {
-                    r.forEach(binding => maps.push( Assembler.toMapPreviews([binding])[0]));
-                });
+                await result.toArray().then(r => { r.forEach(binding => {
+                    let map = Assembler.toMapPreviews([binding])[0];
+                    map.setUrl(url);
+                    maps.push(map);
+                })});
             } catch (err) {
                 console.log("Can not query " + url);
             }
