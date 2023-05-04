@@ -33,3 +33,13 @@ test('A message is displayed if the user doesnt have maps', async () => {
     });
 });
 
+test('Open create map modal', async () => {
+    let ref = React.createRef<MapView>();
+    render(<MapView ref={ref}/>)
+    await waitFor(() => {
+        expect(getByText(document.body, "You don't have any map!")).not.toBeUndefined();
+    });
+    let button = screen.getByRole("button", {name: "Create a map"});
+    expect(button).not.toBeNull();
+    fireEvent.click(button);
+});
