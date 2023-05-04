@@ -1,108 +1,50 @@
-import { QueryEngine } from '@comunica/query-sparql-solid';
-import { createAclFromFallbackAcl, createSolidDataset, getFallbackAcl, getLinkedResourceUrlAll, getSolidDataset, getSolidDatasetWithAcl, saveAclFor, saveSolidDatasetAt, setThing, SolidDataset, Thing, WithAccessibleAcl, WithAcl, WithFallbackAcl, WithResourceInfo, WithServerResourceInfo } from '@inrupt/solid-client';
 import Map from '../../domain/Map';
-import Assembler from './Assembler';
-import SolidSessionManager from './SolidSessionManager';
-import Placemark from '../../domain/Placemark';
 import Place from '../../domain/Place';
-import { universalAccess as access } from "@inrupt/solid-client";
-import PlaceComment from '../../domain/Place/PlaceComment';
-import PlaceRating from '../../domain/Place/PlaceRating';
+import PlaceComment from '../../domain/place/PlaceComment';
+import PlaceRating from '../../domain/place/PlaceRating';
+import Group from '../../domain/Group';
+import PlacesRepository from './repositories/PlacesRepository';
+import InteractionsRepository from './repositories/InteractionsRepository';
+import MapsRepository from './repositories/MapsRepository';
+import GroupsRepository from './repositories/GroupsRepository';
+import { createContainerAt, getSolidDataset } from '@inrupt/solid-client';
+import SolidSessionManager from './SolidSessionManager';
 
 export default class PODManager {
-    private sessionManager: SolidSessionManager  = SolidSessionManager.getManager();
+
+    private maps: MapsRepository = new MapsRepository();
+    private places: PlacesRepository = new PlacesRepository();
+    private interactions: InteractionsRepository = new InteractionsRepository();
+    private groups: GroupsRepository = new GroupsRepository();
 
 
-    public async savePlace(place:Place): Promise<boolean> {
-        let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
+    public async init(): Promise<void> {
+        let fetch = {fetch: SolidSessionManager.getManager().getSessionFetch()};
+        let groupsPath = this.getBaseUrl() + "/groups/";
+        let mapsPath = this.getBaseUrl() + "/data/maps/";
+        let placesPath = this.getBaseUrl() + "/data/places/";
 
-        await this.saveDataset(path+"/comments", createSolidDataset());
-        await this.saveDataset(path+"/images", createSolidDataset());
-        await this.saveDataset(path+"/reviews", createSolidDataset());
-        return this.saveDataset(path+"/details", Assembler.placeToDataset(place), true)
-            .then(() => {return true})
-            .catch(() => {return false});
+        await this.initFolder(mapsPath, fetch);
+        await this.initFolder(placesPath, fetch);
+        await this.createFriendsGroup();
+        await this.setDefaultFolderPermissions(groupsPath, {read:true, write:true});
+        await this.setPublicAccess(groupsPath, false, true);
     }
 
-    public async comment(comment: PlaceComment, place: Place) {
-        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/"+comment.id;
-        await this.addCommentToUser(comment);
-        await this.addCommentToPlace(place.uuid, commentPath);
+    private async initFolder(path:string, fetch:any) {
+        await getSolidDataset(path, fetch)
+            .then(async () => {
+                await this.setPublicAccess(path, true);
+            })
+            .catch(async () => {
+                await createContainerAt(path, fetch);
+                await this.maps.createAcl(path);
+                await this.setPublicAccess(path, true);
+            });
     }
 
-    private async addCommentToUser(comment: PlaceComment) {
-        let commentPath: string = this.getBaseUrl() + "/data/interactions/comments/" + comment.id;
-        await this.saveDataset(commentPath, Assembler.commentToDataset(comment), true);
-    }
 
-    private async addCommentToPlace(placeId: string, commentUrl: string) {
-        let commentsPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/comments";
-        let placeComments = await getSolidDataset(commentsPath, {fetch: this.sessionManager.getSessionFetch()});
-
-        placeComments = setThing(placeComments, Assembler.urlToReference(commentUrl))
-        await this.saveDataset(commentsPath, placeComments);
-    }
-
-    public async getComments(placeUrl: string) {
-        let engine = new QueryEngine();
-        engine.invalidateHttpCache();
-        let query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?url
-            WHERE {
-                ?s schema:URL ?url .
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/comments"]));
-        let urls: string[] = [];
-        await result.toArray().then(r => {
-            urls = r.map(binding => binding.get("url")?.value as string);
-        });
-
-        query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?user ?comment ?id
-            WHERE {
-                ?s schema:accountId ?user .
-                ?s schema:description ?comment .
-                ?s schema:identifier ?id .
-            }
-        `;
-        result = await engine.queryBindings(query, this.getQueryContext(urls));
-        return await result.toArray().then(r => {
-            return Assembler.toPlaceComments(r);
-        });
-        
-    }
-
-    public async createAcl(path:string) {
-        let fetch = {fetch:this.sessionManager.getSessionFetch()};
-        let dataset = await getSolidDatasetWithAcl(path, fetch);
-        let linkedResources = getLinkedResourceUrlAll(dataset);
-        let fallbackAcl = getFallbackAcl(dataset);
-
-        let resourceInfo = {
-            sourceIri: path, 
-            isRawData: false, 
-            linkedResources: linkedResources,
-            aclUrl: path + '.acl' 
-        };
-
-        let acl = createAclFromFallbackAcl(
-            this.getResourceWithFallbackAcl(resourceInfo, fallbackAcl)
-        );
-        await saveAclFor({internal_resourceInfo: resourceInfo}, acl, fetch);
-    }
-
-    private getResourceWithFallbackAcl(resourceInfo:any, fallbackAcl:any):any {
-        return {
-            internal_resourceInfo: resourceInfo,
-            internal_acl: { 
-                resourceAcl: null, 
-                fallbackAcl: fallbackAcl 
-            }
-        }
-    }
+    // MAPS
 
     /**
      * Saves a map to the user's POD
@@ -110,143 +52,224 @@ export default class PODManager {
      * @param map the map to be saved
      * @returns wether the map could be saved
      */
-    public async saveMap(map:Map): Promise<boolean> {
-        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
-
-        return this.saveDataset(path, Assembler.mapToDataset(map), true)
-            .then(() => {return true})
-            .catch(() => {return false});
-    }
-
-    public async setPublicAccess(resourceUrl:string, isPublic:boolean) {
-        await access.setPublicAccess(
-            resourceUrl,
-            { read: isPublic },
-            { fetch: this.sessionManager.getSessionFetch() },
-        );
-    }
-
-    public async loadPlacemarks(map: Map): Promise<void> {
-        let path:string = this.getBaseUrl() + '/data/maps/' + map.getId();
-        let placemarks = await this.getPlacemarks(path);
-        map.setPlacemarks(placemarks);
+    public async saveMap(map:Map): Promise<void> {
+        await this.maps.saveMap(map);
     }
 
     /**
      * Returns the details of all the maps of the user.
      * The placemarks will not be loaded.
      * 
+     * @param user the webID of the owner of the maps
      * @returns an array of maps containing the details to be displayed as a preview
      */
-    public async getAllMaps(): Promise<Array<Map>> {
-        let path:string = this.getBaseUrl() + '/data/maps/';
+    public async getAllMaps(user:string=""): Promise<Array<Map>> {
+        return await this.maps.getAllMaps(user);
+    } 
 
-        let urls = await this.getContainedUrls(path);
-        let maps = await this.getMapPreviews(urls);
-        console.log(maps)
-        return maps;
+    /**
+     * Adds the placemarks stored in the POD to their map
+     * 
+     * @param map the map whose placemarks will be loaded 
+     * @param author the webID of the creator of the map
+     */
+    public async loadPlacemarks(map: Map, author:string=""): Promise<void> {
+        await this.maps.loadPlacemarks(map, author);
     }
 
+
+    // PLACES
+
+    /**
+     * Retrieves a place from the given url
+     * 
+     * @param url the url of the place
+     * @returns the Place object
+     */
     public async getPlace(url:string): Promise<Place> {
-        let engine = new QueryEngine();
-        let query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?title ?desc ?lat ?lng ?id
-            WHERE {
-                ?place ?p ?o .
-                ?place schema:name ?title .
-                ?place schema:description ?desc .
-                ?place schema:latitude ?lat .
-                ?place schema:longitude ?lng .  
-                ?place schema:identifier ?id .  
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext([url+"/details"]));
-        return await result.toArray().then(r => {return Assembler.toPlace(r[0]);});
+        return await this.places.getPlace(url);
     }
 
     /**
-     * Returns the urls of all the resources in the given path
+     * Retrieves all the available places of a user
      * 
-     * @param path the path in which the urls will be searched
-     * @returns the urls of all the resources in the given path
+     * @param webID the webID of the user
+     * @returns all the available places
      */
-    private async getContainedUrls(path: string): Promise<any[]> {
-        let engine = new QueryEngine();
-        let query = `
-            PREFIX ldp: <http://www.w3.org/ns/ldp#>
-            SELECT ?content
-            WHERE {
-                <${path}> ldp:contains ?content .
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext([path]));
-
-        return await result.toArray().then(r => {
-            return r.map(binding => binding.get("content"));
-        });
+    public async getAllUserPlaces(webID:string=""): Promise<Place[]> {
+        return await this.places.getAllUserPlaces(webID);
     }
 
     /**
-     * Maps the given urls to Map objects
+     * Saves a place on the user data folder
+     * @param place the place to be saved
+     */
+    public async savePlace(place:Place): Promise<void> {
+        let placeUrl = this.getBaseUrl() + "/data/places/" + place.uuid;
+        await this.places.savePlace(place);
+        place.photos.forEach(async img => await this.interactions.addImage(img, placeUrl));
+    }
+
+    /**
+     * Changes the public access permissions for a place
+     * @param place 
+     * @param isPublic 
+     */
+    public async changePlacePublicAccess(place:Place, isPublic:boolean) {
+        await this.places.changePlacePublicAccess(place, isPublic);
+    }
+
+
+    // INTERACTIONS
+
+    /**
+     * Adds a comment to a place
      * 
-     * @param urls the urls of the map datasets
-     * @returns an array of Map objects with the details of each map
+     * @param comment the comment to be added
+     * @param placeUrl the url of the place
      */
-    private async getMapPreviews(urls: Array<string>): Promise<Array<Map>> {
-        let engine = new QueryEngine();
-        let query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?id ?name ?desc
-            WHERE {
-                ?details ?p ?o .    
-                ?details schema:identifier ?id .
-                ?details schema:name ?name .
-                ?details schema:description ?desc .  
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext(urls));
-        return await result.toArray().then(r => {return Assembler.toMapPreviews(r);});
-    }
-
-    private async getPlacemarks(mapURL:string): Promise<Array<Placemark>> {
-        let engine = new QueryEngine();
-        let query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?title ?lat ?lng ?placeUrl ?cat
-            WHERE {
-                ?placemark ?p ?o .    
-                ?placemark schema:name ?title .
-                ?placemark schema:latitude ?lat .
-                ?placemark schema:longitude ?lng .  
-                ?placemark schema:url ?placeUrl . 
-                ?placemark schema:description ?cat . 
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext([mapURL]));
-        return await result.toArray().then(r => {return Assembler.toPlacemarkArray(r);});
+    public async comment(comment: PlaceComment, placeUrl: string) {
+        await this.interactions.comment(comment, placeUrl);
     }
 
     /**
-     * @param sources the sources for the SPARQL query
-     * @returns the context for the query
-     */
-    private getQueryContext(sources: Array<string>): any {
-        return {sources: sources, fetch: this.sessionManager.getSessionFetch() }
-    }
-
-    /**
-     * Saves a dataset in the user's POD
+     * Retrieves all the comments of a place
      * 
-     * @param path the URI of the dataset
-     * @param dataset the dataset to be saved
+     * @param placeUrl the url of the place 
+     * @returns the comments of the place
      */
-    private async saveDataset(path:string, dataset:SolidDataset, createAcl:boolean=false): Promise<void> {
-        let fetch = this.sessionManager.getSessionFetch();
-        await saveSolidDatasetAt(path, dataset, {fetch: fetch});
-        if (createAcl) {
-            await this.createAcl(path);
-        }
+    public async getComments(placeUrl: string): Promise<PlaceComment[]> {
+        return await this.interactions.getComments(placeUrl);
+    }
+
+    /**
+     * Adds a review to a place
+     * 
+     * @param review the review to be added 
+     * @param placeUrl the url of the place
+     */
+    public async review(review: PlaceRating, placeUrl: string) {
+        await this.interactions.review(review, placeUrl);
+    }
+
+    /**
+     * Retrieves the average score of a place
+     * 
+     * @param placeUrl the url of the place
+     * @returns the average score and number of reviews
+     */
+    public async getScore(placeUrl: string) {
+        return await this.interactions.getScore(placeUrl);
+    }
+
+    /**
+     * Adds an image to a place
+     * 
+     * @param image the image to be added
+     * @param placeUrl the url of the place
+     */
+    public async addImage(image: File, placeUrl: string) {
+        await this.interactions.addImage(image, placeUrl);
+    }
+
+    /**
+     * Retrieves the urls of all the images of the place
+     * 
+     * @param placeUrl the url of the place
+     * @returns the urls of the place images
+     */
+    public async getImageUrls(placeUrl: string) { 
+        return await this.interactions.getImageUrls(placeUrl);
+    }
+
+
+    // GROUPS
+
+    /**
+     * Returns the group stored in the given url
+     * @param groupUrl the url of the group
+     * @returns the group object
+     */
+    public async getGroup(groupUrl: string): Promise<Group> {
+        return await this.groups.getGroup(groupUrl);
+    }
+
+    /**
+     * Retrieves all the groups of the user
+     * @returns the groups of the user
+     */
+    public async getAllUserGroups(): Promise<Group[]> {
+        return this.groups.getAllUserGroups();
+    }
+
+    /**
+     * Creates the friends group with the inrupt friends
+     */
+    public async createFriendsGroup(): Promise<void> {
+        await this.groups.createFriendsGroup();
+    }
+
+    /**
+     * Creates a new group in the PODs of all its members
+     * @param group the group to be stored in the PODs
+     */
+    public async createGroup(group: Group) {
+        await this.groups.createGroup(group);
+    }
+
+    /**
+     * Adds a new map to a group of users
+     * @param map the map to be stored
+     * @param group the group of the map
+     */
+    public async addMapToGroup(map:Map, group:Group) {
+        await this.maps.saveMap(map);
+        await this.groups.storeMapInGroup(map, group);
+    }
+
+    /**
+     * Returns the maps of the group
+     * @param group the group whose maps will be retrieved
+     * @returns the mapsof the group
+     */
+    public async getGroupMaps(group: Group): Promise<Map[]> {
+        let urls = await this.groups.getGroupMapUrls(group);
+        return await this.maps.getMapPreviews(urls);
+    }
+
+
+    // PERMISSIONS
+
+    /**
+     * Sets the public read and write permissions of a resource
+     * 
+     * @param resourceUrl the url of the resource
+     * @param canRead whether the resource has public read permissions
+     * @param canWrite whether the resource has public write permissions
+     */
+    public async setPublicAccess(resourceUrl:string, canRead:boolean, canWrite:boolean=false) {
+        await this.maps.setPublicAccess(resourceUrl, canRead, canWrite);
+    }
+
+    /**
+     * Sets the resource permissions for all the users in the given group
+     * 
+     * @param resourceUrl the url of the resource
+     * @param group the group of users whose permissions will be modified
+     * @param permissions the new access permissions
+     */
+    public async setGroupAccess(resourceUrl:string, group:Group, permissions:any) {
+        await this.maps.setGroupAccess(resourceUrl, group, permissions);
+    }
+
+    /**
+     * Sets the default access permissions for the contents inside a folder
+     * 
+     * @param path the url of the folder
+     * @param permissions the new default permissions
+     */
+    public async setDefaultFolderPermissions(path:string, permissions:any) {
+        await this.maps.setDefaultFolderPermissions(path, permissions);
     }
 
     /**
@@ -255,66 +278,8 @@ export default class PODManager {
      * @param webID the webID of the POD's user
      * @returns the root URL of the POD
      */
-    public getBaseUrl(webID:string=''): string {
-        if (webID === '') {
-            webID = this.sessionManager.getWebID();
-        }
-        return webID.slice(0, webID.indexOf('/profile/card#me')) + '/lomap';
-    }
-
-
-    public async review(review: PlaceRating, place: Place) {
-        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/"+review.id;
-        await this.addReviewToUser(review);
-        await this.addReviewToPlace(place.uuid, reviewPath);
-    }
-
-    private async addReviewToUser(review: PlaceRating) {
-        let reviewPath: string = this.getBaseUrl() + "/data/interactions/reviews/" + review.id;
-        await this.saveDataset(reviewPath, Assembler.reviewToDataset(review), true);
-    }
-
-    private async addReviewToPlace(placeId: string, reviewUrl: string) {
-        let reviewsPath: string = this.getBaseUrl() + "/data/places/" + placeId + "/reviews";
-        let placeReviews = await getSolidDataset(reviewsPath, {fetch: this.sessionManager.getSessionFetch()});
-
-        placeReviews = setThing(placeReviews, Assembler.urlToReference(reviewUrl))
-        await this.saveDataset(reviewsPath, placeReviews);
-    }
-
-    public async getScore(placeUrl: string) {
-        let engine = new QueryEngine();
-        engine.invalidateHttpCache();
-        let query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT DISTINCT ?url
-            WHERE {
-                ?s schema:URL ?url .
-            }
-        `;
-        let result = await engine.queryBindings(query, this.getQueryContext([placeUrl+"/reviews"]));
-        let urls: string[] = [];
-        await result.toArray().then(r => {
-            urls = r.map(binding => binding.get("url")?.value as string);
-        });
-
-        query = `
-            PREFIX schema: <http://schema.org/>
-            SELECT (COUNT(?user) as ?number) (AVG(?review) as ?score)
-            WHERE {
-                ?s schema:accountId ?user .
-                ?s schema:value ?review .
-                ?s schema:identifier ?id .
-            }
-        `;
-        result = await engine.queryBindings(query, this.getQueryContext(urls));
-        return await result.toArray().then(r => {
-            return {
-                reviews: Number(r[0].get("number")?.value),
-                score:   Number(r[0].get("score")?.value)
-            }
-        });
-        
+    public getBaseUrl(webID:string="") {
+        return this.maps.getBaseUrl(webID);
     }
 
 }

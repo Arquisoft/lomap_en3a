@@ -1,0 +1,24 @@
+.Content {
+    height: 100%;
+}
+
+.friendsGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    min-height: 15em;
+}
+
+.card {
+    margin: 2.5em;
+    width: 13em;
+    height: 15em;
+}
+
+/*Class name members-list is used in the friendsGrid component
+* to limit the height of the friends list to 100px
+*/
+.members-list {
+    max-height: 70px !important;
+}

@@ -1,12 +1,13 @@
-import { addStringNoLocale, addTerm, buildThing, createSolidDataset, createThing, getThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
+import { buildThing, createSolidDataset, createThing, setThing, SolidDataset, Thing } from '@inrupt/solid-client';
+import { SCHEMA_INRUPT, RDF, VCARD } from '@inrupt/vocab-common-rdf';
 import Map from '../../domain/Map';
 import Placemark from '../../domain/Placemark';
 import { Bindings } from 'rdf-js';
 import Place from '../../domain/Place';
-import DataFactory from '@rdfjs/data-model';
-import PlaceComment from '../../domain/Place/PlaceComment';
-import PlaceRating from '../../domain/Place/PlaceRating';
+import PlaceComment from '../../domain/place/PlaceComment';
+import PlaceRating from '../../domain/place/PlaceRating';
+import User from '../../domain/User';
+import Group from '../../domain/Group';
 
 export default class Assembler {
 
@@ -55,14 +56,6 @@ export default class Assembler {
         return thing;
     }
 
-    private static thingAsBlankNode(name: string, thing: Thing): Thing {
-        return {
-            type: "Subject",
-            url: "_:" + name,
-            predicates: thing.predicates
-        };
-    }
-
     public static mapToDataset(map: Map): SolidDataset {
         let dataset = createSolidDataset();
         let details =  buildThing(createThing({name: "details"}))
@@ -92,7 +85,7 @@ export default class Assembler {
     }
 
     public static toMapPreviews(bindings: Bindings[]): Array<Map> {
-        let result: Array<Map> = new Array();
+        let result: Array<Map> = [];
 
         for (let binding of bindings) {
             this.addMapPreview(binding, result);
@@ -111,7 +104,7 @@ export default class Assembler {
     }
 
     public static toPlacemarkArray(bindings: Bindings[]): Array<Placemark> {
-        let result: Array<Placemark> = new Array();
+        let result: Array<Placemark> = [];
 
         for (let binding of bindings) {
             this.addPlacemark(binding, result);
@@ -142,7 +135,7 @@ export default class Assembler {
         if ([title, desc, lat, lng, id].every(p => p!==undefined)) {
             return new Place(title as string, Number(lat), Number(lng), desc as string, undefined, id as string, "no-category");
         } else {
-            throw "Undefined property for place";
+            throw new Error("Undefined property for place");
         }
     }
 
@@ -156,6 +149,38 @@ export default class Assembler {
             .build();
 
         return setThing(dataset, thing);
+    }
+
+    public static groupToDataset(group: Group): SolidDataset {
+        let dataset = createSolidDataset(); 
+        let mapsThing = buildThing(createThing({name:"maps"}))
+            .addStringNoLocale(RDF.type, RDF.Bag)
+            .build();
+
+        let thing = buildThing(createThing({name: "details"}))
+            .addStringNoLocale(VCARD.Name, group.getName())
+            .addStringNoLocale(VCARD.hasUID, group.getId());
+
+        for (let user of group.getMembers()) {
+            thing = thing.addStringNoLocale(VCARD.hasMember, user.getWebId());
+        }
+
+        dataset = setThing(dataset, thing.build());
+        return setThing(dataset, mapsThing);
+    }
+
+    public static toGroup(binding: Bindings): Group {
+        let name = binding.get("name")?.value as string;
+        let id = binding.get("id")?.value as string;
+        let members = [];
+
+        let concatenatedIDs = binding.get("members")?.value as string;
+        let webIDs = concatenatedIDs.split(',');
+        for (let friend of webIDs) {
+            members.push(new User(friend.slice(8, friend.indexOf(".inrupt")), friend))
+        }
+
+        return new Group(name, members, id)
     }
 
 }

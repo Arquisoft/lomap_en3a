@@ -5,60 +5,61 @@
 
 The application development is oriented towards a more transparent and private usage of information. The application should be able to guarantee the safe treatment of the information provided to us. Solid Pods ensure that the user has control of their information all the time. Solid Servers host the Solid Pods being the information outside of our control.
 
-Each user will have their own Solid Pod to make sure their information is secure and inaccessible to others. The information that the user provides us will be stored inside his personal Pod. The public and private places that the user creates will be stored there.
+Each user will have their own Solid Pod to make sure their information is secure and inaccessible to others. The information that the user provides us with will be stored inside his personal Pod. The public and private places that the user creates will be stored there.
 
 |===
 | **Advantages** | **Disadvantages**
-|The user will have full control of its data.|The usage of an external service like this one will generate strong dependencies with its services.
-|The server won't treat private data.|The performance of the application may be affected by external factors.
-|The data infrastructure will be already designed.|
+|The user will have full control of its data. | The usage of an external service like this one will generate strong dependencies with its services.
+|The server won't treat private data. | The performance of the application may be affected by external factors.
+|The data infrastructure will be already designed. |
 |===
 
 Status: Accepted
 
 
-=== ADR 2: Client-side computing over server side computing
+=== ADR 2: Client-side computing over server-side computing.
 
 We will try to delegate as much computation as possible to the client.
 
 |===
 | **Advantages** | **Disadvantages**
 | Less dependence on the server. | Less secure.
-| The server requires fewer resources. |
+| The server needs fewer resources. | Users with less powerful devices may have a worse experience.
 |===
 
-As this is an open-source project whose code is already available on GitHub and we don't expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server.
+As this is an open-source project whose code is already available on GitHub and we don't expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server. This will allow us to have a more scalable application and a more efficient use of the server resources. In the same way, our application can run without the need of a server, but without a public map, which will allow us to have a more decentralized application.
 
 Status: Accepted
 
 
 === ADR 3: Centralized database
 
-There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator's POD.
+There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible to be able to generate the map (i.e., the placemarks). Any other data related to this place will be accessed through a reference to the place creator's POD.
 
 |===
 | **Advantages** | **Disadvantages**
 | Decentralization of data. | Certain data redundancy in the server and the POD.
 | Less dependence on the server. | May lead to data inconsistency.
-| The server requires fewer resources. |
+| The server needs fewer resources. | More complex code.
 | Better performance when generating the map. |
 | Public and private places are treated in the same way. |
 | Simpler architecture of the application. |
 |===
 
-We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.
+.We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won't be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.
+As we may have thought that in the beginning, we decided that the information is linked to the place creator's POD, so the information is not lost or changed. The title of a place and its URL are never changed, so the information is always consistent.
 
 Status: Accepted
 
 
-=== ADR 4: Friends places information.
+=== ADR 4: Social places information.
 
-The application is required to display places that the friends of the user has shared. This friend's information should be private and stored on their own Pod. A list of the friend's places will be computed from the information stored on the Pods of their friends.
+The application is needed to display places that the friends of the user have shared. This friend's information should be private and stored on their own Pod. A list of the friend's places will be computed from the information stored on the Pods of their friends.
 
 |===
 | **Advantages** | **Disadvantages**
-|The user will have full control of its data.|This solution might be harder to implement.
-|The server won't treat private data.|
+|The user will have full control of its data. | This solution might be harder to implement.
+|The server won't treat private data. |
 |===
 
 Status: Accepted
@@ -69,8 +70,10 @@ We want to promote the usage of functions that will treat the information of the
 
 |===
 | **Advantages** | **Disadvantages**
-|Less code will be necessary to perform the same task.|The code will be more complex.
-|The behavior will be more consistent.|More in depth reasoning will be needed.
+|Less code will be necessary to perform the same task. | The code will be more complex.
+|The behavior will be more consistent. | More in-depth reasoning will be needed.
 |===
+
+Thanks to that approach, creating a map that only holds public places is as easy as creating a map that overrides the functions that will treat private places. This will allow us to have a more consistent code and a more uniform treatment of the information. When using the rest API, as we treat places and maps in the same way, the behavior is not different than when a map from a POD is fetched.
 
 Status: Accepted

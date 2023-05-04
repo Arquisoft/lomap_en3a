@@ -7,11 +7,10 @@ import {Icon, LatLngExpression, LeafletMouseEvent} from 'leaflet';
 import React from 'react';
 import Placemark from '../../domain/Placemark';
 import NewPlacePopup from '../../components/NewPlacePopup';
-import AddPlace from '../../pages/AddPlace';
+import AddPlace from '../../components/place/AddPlace';
 import PointInformation from '../../pages/PointInformation';
-import Place from '../../domain/Place';
 import PODManager from '../solid/PODManager';
-import MapFilter from '../../components/MapFilter';
+import Button from "@mui/material/Button";
 
 
 /**
@@ -28,6 +27,8 @@ interface LeafletMapAdapterProps {
 interface LeafletMapAdapterState {
     pageToShow: JSX.Element | undefined;
     currentPlacemark: Placemark | null;
+    open: boolean;
+    currentComponent: JSX.Element;
 }
 
 /**
@@ -48,28 +49,33 @@ const Handler = (props: any) => {
 
 /**
  * Shows and manages the events of a Leaflet map
+ *
+ * @param {Map} [map]
+ * @param {Category} [categories]
  */
 export default class LeafletMapAdapter extends React.Component<LeafletMapAdapterProps, LeafletMapAdapterState> {
     private defaultIcon: Icon = new Icon({iconUrl: markerIconPng, iconSize: [30, 50], iconAnchor: [15, 50]});
     private currentIcon: Icon = new Icon({iconUrl: currentMarkerPng, iconSize: [30, 50], iconAnchor: [15, 50]});
-    private map: Map;
-    private pod: PODManager = new PODManager();
+    protected map: Map;
+    protected pod: PODManager = new PODManager();
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
+        // TODO testMap?
         this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             pageToShow: undefined,
             currentPlacemark: null,
+            open: false,
+            currentComponent: <div/>,
         };
+
+        this.handleBack = this.handleBack.bind(this);
     }
 
     private isFiltered(p: Placemark): boolean {
         if (this.props.categories !== undefined) {
-            console.log(p.getCategory())
-            console.log(this.props.categories)
-            console.log(p.getCategory() in this.props.categories)
-            return this.props.categories.indexOf( p.getCategory() ) != -1;
+            return this.props.categories.indexOf(p.getCategory()) != -1;
         }
         return true;
     }
@@ -93,13 +99,23 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         return (
             <Marker position={[placemark.getLat(), placemark.getLng()]} icon={this.defaultIcon}>
                 <Popup offset={[0, -50]}>
-                    <h1>{placemark.getTitle()}</h1>
-                    <button onClick={async () => {
-                        this.setState({pageToShow:
-                             <PointInformation map={this.map} placemark={placemark}/>
-                        });
-                    }}>Get Info
-                    </button>
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <h1>{placemark.getTitle()}</h1>
+                        <Button size={"small"} variant={"text"} sx={{color: "black", alignSelf: "center"}}
+                                onClick={async () => {
+                                    this.setState({
+                                        open: true,
+                                        pageToShow:
+                                            <PointInformation prevComponent={<LeafletMapAdapter map={this.props.map}
+                                                                                                categories={this.props.categories}/>}
+                                                              map={this.map}
+                                                              placemark={placemark}
+                                                              open={true}
+                                                              onBack={this.handleBack}/>
+                                    });
+                                }}>Get Info
+                        </Button>
+                    </div>
                 </Popup>
             </Marker>
         )
@@ -126,17 +142,18 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     /**
      * Navigates to the place creation form
      */
-    private newPlace(e: React.MouseEvent): void {
+    protected newPlace(e: React.MouseEvent): void {
         /* Navigate to form */
         if (this.state.currentPlacemark !== null) {
-            this.setState({pageToShow: 
-                <AddPlace placemark={this.state.currentPlacemark} callback={this.addMarker.bind(this)}/>
+            this.setState({
+                pageToShow:
+                    <AddPlace public={false} open={true} map={this.map} placemark={this.state.currentPlacemark}
+                              callback={this.addMarker.bind(this)}/>
             });
         }
     }
 
-    private addMarker(p: Placemark): void {
-        console.log(p.getCategory())
+    public addMarker(p: Placemark): void {
         this.map.add(p);
         this.pod.saveMap(this.map);
         this.setState({
@@ -148,7 +165,7 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     private getCenter(): LatLngExpression {
         let length: number = this.map.getPlacemarks().length;
 
-        if (length == 0) {
+        if (length === 0) {
             return [43.5547300, -5.9248300] // Avilés
         }
         let last = this.map.getPlacemarks()[length - 1];
@@ -169,13 +186,20 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
         e.preventDefault();
     }
 
+    handleBack(prevComponent: JSX.Element) {
+        this.setState({
+            pageToShow: prevComponent,
+            open: true
+        });
+    }
+
     public render(): JSX.Element {
-        if (this.state.pageToShow != undefined) {
+        if (this.state.pageToShow !== undefined) {
             return this.state.pageToShow;
         }
         return (
             <div>
-                <MapContainer style={{height: '75vh', width: '100%'}} center={this.getCenter()} zoom={13}>
+                <MapContainer style={{height: '75vh', width: '100%', zIndex: "0"}} center={this.getCenter()} zoom={13}>
                     <Handler click={this.updateCurrentPlacemark.bind(this)}/>
                     <TileLayer
                         attribution={'<a href="https://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors'}

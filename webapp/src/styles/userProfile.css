@@ -1,0 +1,27 @@
+.user-profile {
+    margin: 0 2em 5em 2em;
+}
+
+.back-page-link, .back-page-link:visited {
+    maRgin: 0.3em 0 0 0.3em;
+}
+
+.back-page-link svg:hover{
+    background-color: #005fa3;
+}
+
+.friends-tables {
+    margin-top: 3em;
+}
+
+.table-header {
+    background-color: #002E66;
+}
+
+.paginated-table {
+    min-width: 650px;
+}
+
+.LeafletMapAdapter {
+    height: 100%;
+}
