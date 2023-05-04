@@ -474,14 +474,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
 <li><a href="#_white_box_overall_system">5.1. White Box Overall System</a></li>
-<li><a href="#_infrastructure">5.2. Infrastructure</a></li>
-<li><a href="#_lomap_architecture">5.3. LoMap Architecture</a></li>
+<li><a href="#_lomap_architecture">5.2. LoMap Architecture</a></li>
+<li><a href="#_infrastructure">5.3. Infrastructure</a></li>
+<li><a href="#_presentation">5.4. Presentation</a></li>
 </ul>
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
 <li><a href="#_public_map_generation">6.1. Public map generation</a></li>
-<li><a href="#_add_friends">6.2. Add friends</a></li>
+<li><a href="#_change_map_privacy_level">6.2. Change map privacy level</a></li>
 <li><a href="#_access_to_shared_map">6.3. Access to shared map</a></li>
 <li><a href="#_post_comments_of_a_place">6.4. Post comments of a place</a></li>
 <li><a href="#_see_comments_of_a_place">6.5. See comments of a place</a></li>
@@ -503,9 +504,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-design-decisions">9. Design Decisions</a>
 <ul class="sectlevel2">
 <li><a href="#_adr_1_private_information_policy">9.1. ADR 1: Private information policy.</a></li>
-<li><a href="#_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server side computing</a></li>
+<li><a href="#_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server-side computing.</a></li>
 <li><a href="#_adr_3_centralized_database">9.3. ADR 3: Centralized database</a></li>
-<li><a href="#_adr_4_friends_places_information">9.4. ADR 4: Friends places information.</a></li>
+<li><a href="#_adr_4_social_places_information">9.4. ADR 4: Social places information.</a></li>
 <li><a href="#_adr_5_uniform_treatment_for_maps_and_places">9.5. ADR 5: Uniform treatment for maps and places.</a></li>
 </ul>
 </li>
@@ -1019,7 +1020,7 @@ together with a mapping table showing the relationships between channels and inp
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Technical%20context.jpg" alt="Technical context diagram">
+<img src="./images/Technical%20context.svg" alt="Technical context diagram">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1333,7 +1334,49 @@ Refer to details in the following sections.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_infrastructure">5.2. Infrastructure</h3>
+<h3 id="_lomap_architecture">5.2. LoMap Architecture</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_Building_Block_Level_1.PNG" alt="System Level 1"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>Describes the architecture of the inner LoMap system, it&#8217;s how the system is structured and how each layer interacts within the system.
+The architecture described in the diagram <em>System Level 1</em> is a Clean Architecture.</p>
+</dd>
+<dt class="hdlist1">Interfaces</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the domain of the system, those classes that describe the enterprise business rules.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Presentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The related documents that are in charge of the presentation of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Infrastructure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_infrastructure">5.3. Infrastructure</h3>
 <div class="paragraph">
 <p><span class="image"><img src="./images/05_Building_Block_Level_1_1.jpg" alt="White Box 1.1"></span></p>
 </div>
@@ -1364,10 +1407,6 @@ these interfaces are represented in this level.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Manages the storing of information inside the PODs provider</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PlaceManager</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Manages the storing of places and maps inside the PODs</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SessionManager</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Manages the users session, is the one in charge of the login, logout,etc&#8230;&#8203;</p></td>
 </tr>
@@ -1389,8 +1428,96 @@ these interfaces are represented in this level.</p>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Level 1: Solid adapters and repositories</dt>
+<dd>
+<p><span class="image"><img src="./images/05_Building_Block_Level_1_1_1.jpg" alt="White Box 1.1"></span></p>
+</dd>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>These adapters and repositories,  placed under <em>webapp/src/adapters</em>, are meant to interact with the SOLID POD provider of the user in order to execute,
+the possible actions over his POD, that is to store places, reviews, comments, etc. They have been organized in this
+way to provide an easier access and maintainability.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_presentation">5.4. Presentation</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/05_Building_Block_Level_1_2.jpg" alt="White Box 1.1"></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Purpose</dt>
+<dd>
+<p>For the presentation level of the architecture, the system is divided on several folders placed under <em>webapp/src</em>.
+These folders contain mainly components and pages, which form the base of the user interface.</p>
+</dd>
+<dt class="hdlist1">Distribution</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Folder</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adapters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the classes that render an adapted version of the map</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">components</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This class contains all the components that are used inside the pages, to represent different zones of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">components/basic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Some base components that serve as plain templates to represent tables, lists, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">components/map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The components related to either information about the map or the map itself.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">components/place</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The components related to information about the places</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">components/social</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The components related to the users social state, lists of friends, groups ,etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Located in this folder are the main pages of the application, the ones that are either on the nav menu or important to display.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">styles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The css styles for all the components</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">styles/fonts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The text fonts for all the components</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Elements such as markers that are meant to be used in components.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect3">
-<h4 id="_business_model">5.2.1. Business model</h4>
+<h4 id="_rest_api">5.4.1. Rest API</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_business_model">5.4.2. Business model</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Level 1</dt>
@@ -1447,54 +1574,8 @@ performance when showing all the public places published in the web app it is be
 </dd>
 </dl>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_lomap_architecture">5.3. LoMap Architecture</h3>
-<div class="paragraph">
-<p><span class="image"><img src="./images/05_Building_Block_Level_1.PNG" alt="System Level 1"></span></p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Purpose</dt>
-<dd>
-<p>Describes the architecture of the inner LoMap system, it&#8217;s how the system is structured and how each layer interacts within the system.
-The architecture described in the diagram <em>System Level 1</em> is a Clean Architecture.</p>
-</dd>
-<dt class="hdlist1">Interfaces</dt>
-</dl>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Interface</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Entities</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the domain of the system, those classes that describe the enterprise business rules.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">App Business Logic</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The use cases, the actual application business rules that describe how the application works.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Presentation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The related documents that are in charge of the presentation of the application.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Infrastructure</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Those external interfaces that interact with the application, including the Database Management System, the APIs that are used (Map API), the PODs provider and any other external service.</p></td>
-</tr>
-</tbody>
-</table>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -1571,21 +1652,13 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_add_friends">6.2. Add friends</h3>
+<h3 id="_change_map_privacy_level">6.2. Change map privacy level</h3>
 <div class="paragraph">
-<p>The user will be able to add new friends with their POD&#8217;s IDs. The application will try to request the friend&#8217;s data and add a new friend to the user&#8217;s POD.</p>
+<p>The privacy level of a map can be changed from the My Stuff &gt; See details menu. The user will be able to choose between public and private read permissions, as well as to share the map with specific users.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/add_friend_success.svg" alt="add friend success" width="639" height="644">
-</div>
-</div>
-<div class="paragraph">
-<p>In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/add_friend_error.svg" alt="add friend error" width="427" height="450">
+<img src="./images/set_public.svg" alt="set public" width="610" height="732">
 </div>
 </div>
 </div>
@@ -1819,39 +1892,39 @@ other extra folder to classify the places is not necessary and instead are used 
 <div class="sect2">
 <h3 id="_persistence">8.3. Persistence:</h3>
 <div class="paragraph">
-<p>The persistence module of this development consists of the Pod&#8217;s service and our database that will store some basic information from public places. The user&#8217;s system will make a call to our server to get the information that will populate the public map, then it will only call the personal pods when the information is needed (load on demand). With the same structure as for the public map, it is possible to create maps that will be stored only in the user&#8217;s pod that will be downloaded to populate that map. The user&#8217;s device will make calls to all the personal pods of its friends in the same way as for the public places. This way, we ensure that the server-side application is not going to process data that the user has only shared with his friends and, at the same time, will make that sharing possible.</p>
+<p>The persistence module of this development consists of the Pod&#8217;s service and our database that will store basic information from public places. The user&#8217;s system will make a call to our server to get the information that will populate the public map, then it will only call the personal pods when the information is needed (load on demand). With the same structure as for the public map, it is possible to create maps that will be stored only in the user&#8217;s pod that will be downloaded to populate that map. The user&#8217;s device will make calls to all the personal pods of its friends in the same way as for the public places. This way, we ensure that the server-side application is not going to process data that the user has only shared with his friends and, at the same time, will make that sharing possible.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_access_permissions">8.4. Access permissions</h3>
 <div class="paragraph">
-<p>A system for controlling the access to the resources of a pod&#8217;s information depending on it the user that tries to access a pod is a friend or belongs to a group of users will be required information safe. The owner of a place is the only one that can edit it, in this way, public or shared places can only be edited by its owner. The control of a place must be limited to the owner. The owner of a place can share it with other users or group of users, but the owner will be the only one that can edit it.</p>
+<p>To keep information secure, a system is needed to control access to a pod&#8217;s resources based on the user&#8217;s identity, including whether they are a friend or belong to a group of approved users. The owner of a pod has exclusive editing rights, which means that public or shared pods can only be edited by the owner. The only person who can access a pod is the owner, who can then decide whether to share it with other people or groups. The pod can be changed only by its owner or under predetermined circumstances, such as sending a review, uploading a photo, or giving a rating.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_communication_and_integration">8.5. Communication and integration:</h3>
 <div class="paragraph">
-<p>The client side of the application will not be able to operate independently from the server side for accessing public places, but it will be able to access the private maps and places of users. The connection between the client and server will make it possible to display the map service, and to show the different public places of the application. Also, the connection to pods, owned or not by the user, will allow to show private places and maps. A standard way of communicating with the pods should be established to be compatible with other “LoMap” applications. The standard has not yet been implemented; it is due to be negotiated. The application will have to implement a module for connecting with the Solid Pods technology and other services that will be needed such as a map API or other web services.</p>
+<p>The client side of the application will be able to work independently from the server side for accessing private places, but it will not be able to access the public maps. The connection between the client and server will make it possible to display the map service, and to show the different public places of the application. That way we ensure that the service we supply does not completely rely on the rest-API. Also, the connection to pods, owned or not by the user, will allow to show private places and maps. A standard way of communicating with the pods should be established to be compatible with other “LoMap” applications. The standard has not yet been implemented; it is due to be negotiated (In our case it has not been implemented due to lack of time). The application will have to implement a module for connecting with the Solid Pods technology and other services that will be needed such as a map API or other web services.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_architecture_and_or_design_patterns">8.6. Architecture and or design patterns:</h3>
 <div class="paragraph">
-<p>In a previous subject, Software design, different patterns have been established. The usage of the corresponding adapter pattern will be used when dealing with any API needed.
+<p>In an earlier subject, Software design, different patterns have been set up. The usage of the corresponding adapter pattern will be used when dealing with any API needed.
 More patterns are described in section 4.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_rules_for_using_specific_technology">8.7. Rules for using specific technology:</h3>
 <div class="paragraph">
-<p>Privacy is a main concern when developing this application. There should be a major reason for treating in the server-side private information of a user instead of on their own device.
-When working with specific technologies such as Solid Pods or React those frameworks have their own rules that are mandatory.</p>
+<p>Privacy is a main concern when developing this application. There should be a major reason for treating in the server-side private information of a user instead of on their own device. Therefore, we don&#8217;t manage private information unless is strictly necessary, such as URLs.
+When working with specific technologies such as Solid Pods, MongoDB or React those frameworks and technologies have their own rules that are mandatory.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_deployment">8.8. Deployment:</h3>
 <div class="paragraph">
-<p>We have chosen node.js as the runtime environment for running the server-side application. The deployment of the application will consist of a Docker container for the “webApp” and another for the “restAPI” located on GitHub. A set of actions will be configured such us, unitary testing, integration tests, automatic deployment for “webApp” and for “restApi” …</p>
+<p>We have chosen node.js as the runtime environment for running the server-side application. The deployment of the application will consist of a Docker container for the “web App” and another for the “rest API”. A set of actions will be configured such as unitary testing, integration tests, automatic deployment for “web App” and for “rest API”. During the process of deployment, we have faced several problems, such as the requirement of a “SSL” certificate for the Inrupt login to work or another for the API for the requests to be sent. We have used “Lets crypt” to generate the certificates, “Certbot” to enable the certificates and the free “dns” service “ClouDNS” for the domain name. The deployment is done on a virtual machine on the cloud service Azure.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1866,7 +1939,7 @@ When working with specific technologies such as Solid Pods or React those framew
 <p>The application development is oriented towards a more transparent and private usage of information. The application should be able to guarantee the safe treatment of the information provided to us. Solid Pods ensure that the user has control of their information all the time. Solid Servers host the Solid Pods being the information outside of our control.</p>
 </div>
 <div class="paragraph">
-<p>Each user will have their own Solid Pod to make sure their information is secure and inaccessible to others. The information that the user provides us will be stored inside his personal Pod. The public and private places that the user creates will be stored there.</p>
+<p>Each user will have their own Solid Pod to make sure their information is secure and inaccessible to others. The information that the user provides us with will be stored inside his personal Pod. The public and private places that the user creates will be stored there.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1897,7 +1970,7 @@ When working with specific technologies such as Solid Pods or React those framew
 </div>
 </div>
 <div class="sect2">
-<h3 id="_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server side computing</h3>
+<h3 id="_adr_2_client_side_computing_over_server_side_computing">9.2. ADR 2: Client-side computing over server-side computing.</h3>
 <div class="paragraph">
 <p>We will try to delegate as much computation as possible to the client.</p>
 </div>
@@ -1916,13 +1989,13 @@ When working with specific technologies such as Solid Pods or React those framew
 <td class="tableblock halign-left valign-top"><p class="tableblock">Less secure.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The server requires fewer resources.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server needs fewer resources.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users with less powerful devices may have a worse experience.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>As this is an open-source project whose code is already available on GitHub and we don&#8217;t expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server.</p>
+<p>As this is an open-source project whose code is already available on GitHub and we don&#8217;t expect to have any heavy computations, we decided that the best option was to try decoupling the application as much as possible from the server. This will allow us to have a more scalable application and a more efficient use of the server resources. In the same way, our application can run without the need of a server, but without a public map, which will allow us to have a more decentralized application.</p>
 </div>
 <div class="paragraph">
 <p>Status: Accepted</p>
@@ -1931,7 +2004,7 @@ When working with specific technologies such as Solid Pods or React those framew
 <div class="sect2">
 <h3 id="_adr_3_centralized_database">9.3. ADR 3: Centralized database</h3>
 <div class="paragraph">
-<p>There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible in order to be able to generate the map (i.e., the placemarks). Any other data related to this places will be accessed through a reference to the place creator&#8217;s POD.</p>
+<p>There will be a centralized database in charge of storing the information of public places. This information will be the minimum possible to be able to generate the map (i.e., the placemarks). Any other data related to this place will be accessed through a reference to the place creator&#8217;s POD.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1952,8 +2025,8 @@ When working with specific technologies such as Solid Pods or React those framew
 <td class="tableblock halign-left valign-top"><p class="tableblock">May lead to data inconsistency.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The server requires fewer resources.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The server needs fewer resources.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More complex code.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Better performance when generating the map.</p></td>
@@ -1970,16 +2043,17 @@ When working with specific technologies such as Solid Pods or React those framew
 </tbody>
 </table>
 <div class="paragraph">
-<p>We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won&#8217;t be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.</p>
+<div class="title">We consider that the improvement in performance along with the data decentralization are worth the possible data redundancy and inconsistency, provided there won&#8217;t be concurrent modifications of the same public place (its creator is the only one who can modify the data) and the consequences of data inconsistency between the placemark and the place do not have a significant impact on the application.</div>
+<p>As we may have thought that in the beginning, we decided that the information is linked to the place creator&#8217;s POD, so the information is not lost or changed. The title of a place and its URL are never changed, so the information is always consistent.</p>
 </div>
 <div class="paragraph">
 <p>Status: Accepted</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_adr_4_friends_places_information">9.4. ADR 4: Friends places information.</h3>
+<h3 id="_adr_4_social_places_information">9.4. ADR 4: Social places information.</h3>
 <div class="paragraph">
-<p>The application is required to display places that the friends of the user has shared. This friend&#8217;s information should be private and stored on their own Pod. A list of the friend&#8217;s places will be computed from the information stored on the Pods of their friends.</p>
+<p>The application is needed to display places that the friends of the user have shared. This friend&#8217;s information should be private and stored on their own Pod. A list of the friend&#8217;s places will be computed from the information stored on the Pods of their friends.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2026,10 +2100,13 @@ When working with specific technologies such as Solid Pods or React those framew
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The behavior will be more consistent.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">More in depth reasoning will be needed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More in-depth reasoning will be needed.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Thanks to that approach, creating a map that only holds public places is as easy as creating a map that overrides the functions that will treat private places. This will allow us to have a more consistent code and a more uniform treatment of the information. When using the rest API, as we treat places and maps in the same way, the behavior is not different than when a map from a POD is fetched.</p>
+</div>
 <div class="paragraph">
 <p>Status: Accepted</p>
 </div>
