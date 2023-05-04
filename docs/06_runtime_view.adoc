@@ -76,11 +76,11 @@ u <-- c: Show map
 ----
 
 
-=== Add friends
+=== Change map privacy level
  
-The user will be able to add new friends with their POD's IDs. The application will try to request the friend's data and add a new friend to the user's POD. 
+The privacy level of a map can be changed from the My Stuff > See details menu. The user will be able to choose between public and private read permissions, as well as to share the map with specific users.
 
-[plantuml,"add_friend_success",svg]
+[plantuml,"set_public",svg]
 ----
 @startuml
 <style>
@@ -101,52 +101,22 @@ skinparam ParticipantBorderThickness 1.5
 
 skinparam DatabaseBackgroundColor #66bdf7
 
-Actor User as u
-Participant Client as c
+
+actor User as u
+participant Client as c
+
 box Pod provider #dedede
-  Database "Friend's POD" as fp
   Database "User's POD" as up
 endbox
 
-u->c: Provide friend's POD ID
-c->fp: Request friend's data
-c<--fp: Send data
-c->up: Add friend
-c->c: Update GUI
-u<--c: Show confirmation message
-
-@enduml
-----
-
-In case something goes wrong (invalid ID, connection error, etc.) the operation will be aborted and an error message will be displayed.
-
-[plantuml,"add_friend_error",svg]
-----
-@startuml
-<style>
-root {
-  Margin 40 5
-}
-</style>
-skinparam Padding 10
-skinparam ParticipantPadding 20
-
-skinparam ActorBackgroundColor #66bdf7
-skinparam ActorBorderColor #66bdf7
-skinparam ActorBorderThickness 2
-
-skinparam ParticipantBackgroundColor #66bdf7
-skinparam ParticipantBorderThickness 1.5
-
-skinparam DatabaseBackgroundColor #66bdf7
-
-Actor User as u
-Participant Client as c
-Database "Friend's POD" as fp
-
-u->c: Provide friend's POD ID
-c->fp !!: Request friend's data
-u<--c: Show error message
+u -> c: Click on My Stuff tab
+c -> up: Request user maps
+c <-- up: Send data
+u <-- c: Show list of maps
+u -> c: Click on See details
+u <-- c: Show information of the map
+u -> c: Click on public/private and confirm changes
+c -> up: Change access permissions
 
 @enduml
 ----
