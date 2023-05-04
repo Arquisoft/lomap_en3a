@@ -135,7 +135,6 @@ export default class AddGroup extends React.Component<{}, {
 
             // Create the group
             let group = new Group(this.state.groupTitle, users);
-            console.log(group);
             new PODManager().createGroup(group).then(() => {
                 this.setState(({
                     isCreationDone: true

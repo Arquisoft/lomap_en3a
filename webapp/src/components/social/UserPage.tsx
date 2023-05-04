@@ -212,7 +212,7 @@ export default class UserPage extends React.Component<UserPageProps, UserPageSta
                     {
                         this.state.emptyMaps &&
                         <EmptyList firstHeader={"This user does not have any shared map..."} secondHeader={""}
-                                   image={"/map-magnifier.png"}/>
+                                   image={"/map-magnifier.png"} imageStyle={{height: 100, width: 70}}/>
                     }
                 </main>
                 <Dialog

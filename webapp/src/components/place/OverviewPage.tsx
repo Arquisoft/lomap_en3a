@@ -172,7 +172,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
             this.state.photosSelected.forEach(photo => {
-                console.log(placeUrl);
                 this.pod.addImage(photo, placeUrl);
             });
             this.setState(({
@@ -189,7 +188,7 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         } else {
             pos = (pos - 1) / 2;
         }
-        console.log(pos);
+
         return this.categoryColors[pos];
     }
 
