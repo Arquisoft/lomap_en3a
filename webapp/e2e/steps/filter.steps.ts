@@ -44,10 +44,18 @@ defineFeature(feature, test => {
       await page.waitForNavigation()
       await expect(page).toMatch("Home");
       //Adding a park
+      await page.waitForFunction(() => !document.querySelector('.MuiCircularProgress-svg'));
+      const example = await page.waitForSelector('.leaflet-container');
+      const bounding_box = await example!.boundingBox();
+
+      await page.mouse.move(bounding_box!.x + bounding_box!.width / 2, bounding_box!.y + bounding_box!.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(Math.floor(Math.random() * 25), Math.floor(Math.random() * 25));
+      await page.mouse.up()
+      await page.waitForTimeout(2000)
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
-      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-      await marker.click();
-      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toClick('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :last-child')
+      await expect(page).toClick('.leaflet-popup-content > form:nth-child(1) > input:nth-child(1)');
       await expect(page).toFillForm('.Place-form > :nth-child(2)', {
         name: placeName,
         description: "This is a test place"
@@ -60,15 +68,15 @@ defineFeature(feature, test => {
     when('The users selects the park category in the filter and clicks Search', async () => {
       const [showFiltersButton] = await page.$x('//*[@id="basic-button"]')
       await showFiltersButton.click();
-      await expect(page).toClick('input[value="park"]')
+      await expect(page).toClick('.categoriesFilterContainer > p:nth-child(4) > input:nth-child(1)')
       await page.waitForTimeout(5000)
-      const [searchButton] = await page.$x('/html/body/div[2]/div[3]/ul/aside/form/button')
-      await searchButton.click();
+      await expect(page).toClick('.search-filter')
     });
 
     then('The park can be seen in the map', async () => {
       await expect(page).toClick('.MuiBackdrop-root')
-      await expect(page).toMatchElement('img');
+      //The place can be found on the map
+      await expect(page).toMatchElement('img.leaflet-marker-icon:last-child')
     });
   })
 
@@ -93,10 +101,18 @@ defineFeature(feature, test => {
       await page.waitForNavigation()
       await expect(page).toMatch("Home");
       //Adding a park
+      await page.waitForFunction(() => !document.querySelector('.MuiCircularProgress-svg'));
+      const example = await page.$('.leaflet-container');
+      const bounding_box = await example!.boundingBox();
+
+      await page.mouse.move(bounding_box!.x + bounding_box!.width / 2, bounding_box!.y + bounding_box!.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(Math.floor(Math.random() * 50) + 50, Math.floor(Math.random() * 50) + 50);
+      await page.mouse.up()
+      await page.waitForTimeout(2000)
       await expect(page).toClick('.content > :nth-child(1) > :nth-child(1)');
-      const [marker] = await page.$x('/html/body/div/div/div/div/section/div[2]/div/div/div[1]/div[4]/img')
-      await marker.click();
-      await expect(page).toClick('input[value="New..."]');
+      await expect(page).toClick('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :last-child')
+      await expect(page).toClick('.leaflet-popup-content > form:nth-child(1) > input:nth-child(1)');
       await expect(page).toFillForm('.Place-form > :nth-child(2)', {
         name: placeName,
         description: "This is a test place"
@@ -111,13 +127,13 @@ defineFeature(feature, test => {
       await showFiltersButton.click();
       await expect(page).toClick('input[value="museum"]')
       await page.waitForTimeout(5000)
-      const [searchButton] = await page.$x('/html/body/div[2]/div[3]/ul/aside/form/button')
-      await searchButton.click();
+      await expect(page).toClick('.search-filter')
     });
 
-    then('The museum can not be seen in the map (there are no places in it)', async () => {
+    then('The museum can not be seen in the map', async () => {
+      await expect(page).toClick('.MuiBackdrop-root')
       //There are no places in the map
-      await expect(page).not.toMatchElement('.content > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(4) > :nth-child(1)');
+      await expect(page).not.toMatchElement('img.leaflet-marker-icon:last-child')
     });
   })
 

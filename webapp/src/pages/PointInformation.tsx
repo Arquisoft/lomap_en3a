@@ -67,7 +67,6 @@ export default class PointInformation extends React.Component<PointInformationPr
         });
     }
 
-
     private goBack() {
         this.setState({goBack: true});
     }
@@ -75,7 +74,7 @@ export default class PointInformation extends React.Component<PointInformationPr
     private savePlaceVisibility() {
         let placeUrl = this.props.placemark.getPlaceUrl();
 
-        switch (this.state.visibility) {
+		switch (this.state.visibility) {
             case "public":
                 this.pod.changePlacePublicAccess(this.point, true);
                 break;
@@ -116,7 +115,6 @@ export default class PointInformation extends React.Component<PointInformationPr
         }
         return (
             <Modal open={this.state.open} onClose={() => {
-                this.savePlaceVisibility();
                 this.setState(({open: false}));
                 if (this.props.onBack !== undefined) {
                     this.props.onBack(this.props.prevComponent ?? <LeafletMapAdapter map={this.props.map}/>);
@@ -131,7 +129,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
-                            <p>Location: {this.point.latitude !== 0 ? this.point.latitude + ", " + this.point.longitude : "Loading..."}</p>
+                            <p>Location: {this.point.longitude !== 0 ? this.point.longitude + ", " + this.point.latitude : "Loading..."}</p>
                             <div>
                                 <button
                                     className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
@@ -148,6 +146,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                                 <div id="visibility">
                                     <h3>Change visibility of the place:</h3>
                                     <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
+                                    <input type="button" id="confirm" value="Confirm change" onClick={this.savePlaceVisibility}/>
                                 </div>}
                         </div>
                     </section>

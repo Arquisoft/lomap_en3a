@@ -56,11 +56,10 @@ export default class PublicMapView extends React.Component<PublicMapViewProps, P
     }
 
     public async getPublicPlaces(): Promise<void> {
-        console.log(this.state.publicMap?.getDescription())
         let places = await getPlaces();
         let Placemarks = new Array<Placemark>();
         places.forEach((place) => {
-            Placemarks.push(new Placemark(place.latitude, place.longitude, place.title))
+            Placemarks.push(place)
         });
         this.state.publicMap.setPlacemarks(Placemarks);
         this.setState({loadedMap: true, loading: false});

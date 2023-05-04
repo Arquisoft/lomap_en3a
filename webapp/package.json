@@ -40,7 +40,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!ol)/\" --coverage",
-    "test:e2e": "start-server-and-test prod 3000 \"cd e2e && jest\"",
+    "test:e2e": "start-server-and-test 'npm --prefix ../restapi run prod' http://localhost:5000/api/places/list prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
     "prod": "ts-node-dev ./server.ts"
   },

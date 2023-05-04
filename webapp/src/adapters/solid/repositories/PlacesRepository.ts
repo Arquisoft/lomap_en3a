@@ -1,4 +1,10 @@
-import { createSolidDataset } from "@inrupt/solid-client";
+import {
+    createSolidDataset,
+    getFallbackAcl,
+    getSolidDatasetWithAcl,
+    saveAclFor,
+    setPublicDefaultAccess
+} from "@inrupt/solid-client";
 import Place from "../../../domain/Place";
 import Assembler from "../Assembler";
 import AbstractSolidRepository from "./AbstractSolidRepository";
@@ -34,12 +40,11 @@ export default class PlacesRepository extends AbstractSolidRepository {
     public async savePlace(place:Place): Promise<void> {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
 
-        await this.saveDataset(path+"/details", Assembler.placeToDataset(place));
+        await this.saveDataset(path+"/details", Assembler.placeToDataset(place), true);
         await this.saveDataset(path+"/comments", createSolidDataset(), true);
         await this.saveDataset(path+"/images", createSolidDataset(), true);
         await this.saveDataset(path+"/reviews", createSolidDataset(), true);
         await this.createAcl(path+'/');
-        this.setPublicAccess(this.getBaseUrl()+'/data/places/', true);
     }
 
     /**
@@ -49,15 +54,20 @@ export default class PlacesRepository extends AbstractSolidRepository {
      */
     public async changePlacePublicAccess(place:Place, isPublic:boolean) {
         let path:string = this.getBaseUrl() + '/data/places/' + place.uuid;
-
+        
         await this.setPublicAccess(path+"/", isPublic);
+        await this.setPublicAccess(path+"/details", isPublic);
         for (let dataset of ['/images', '/comments', '/reviews']) {
-            await this.setPublicAccess(path + dataset, true, true);
+        await this.setPublicAccess(path + dataset, true, true);
         }
-    }
+        }
+
+
 
 
     private async getPlacesFromUrls(urls:string[]): Promise<Place[]> {
+        urls = urls.map(url => url+"/details");
+        let places:Place[] = [];
         let engine = new QueryEngine();
         engine.invalidateHttpCache();
         let query = `
@@ -71,12 +81,17 @@ export default class PlacesRepository extends AbstractSolidRepository {
                        schema:identifier ?id .  
             }
         `;
-        let result = await engine.queryBindings(query, this.getQueryContext(urls.map(url => url+"/details")));
 
-        let places:Place[] = []
-        await result.toArray().then(r => {
-            r.forEach(binding =>places.push( Assembler.toPlace(binding) ));
-        });
+        for (let url of urls) {
+            try {
+                let result = await engine.queryBindings(query, this.getQueryContext([url]));
+                await result.toArray().then(r => {
+                    r.forEach(binding =>places.push( Assembler.toPlace(binding) ));
+                });
+            } catch (err) {
+                console.log("Can not query " + url)
+            }
+        }
         return places;
     }
     

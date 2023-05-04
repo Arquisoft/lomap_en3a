@@ -55,7 +55,10 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
                 }));
             }
         }).catch((error) => {
-            console.log("There was an error downloading the friends: " + error.message);
+            this.setState(() => ({
+                loadedFriends: true,
+                friendsList: []
+            }));
         });
     }
 
@@ -204,4 +207,6 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
             </div>
         );
     }
-}export default PrivacyComponent;
+}
+
+export default PrivacyComponent;

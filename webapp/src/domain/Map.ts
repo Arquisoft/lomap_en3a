@@ -5,6 +5,7 @@ export default class Map {
     private id: string;
     private name: string;
     private description: string;
+    private url: string="";
 
     public constructor(name: string, description: string = "", id: string | null = null) {
         this.name = name;
@@ -42,5 +43,13 @@ export default class Map {
 
     public getName(): string {
         return this.name;
+    }
+
+    public getUrl(): string {
+        return this.url;
+    }
+
+    public setUrl(url:string): void {
+        this.url = url;
     }
 }

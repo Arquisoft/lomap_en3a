@@ -1,17 +1,8 @@
-import { PlaceType } from "../types/PlaceType";
+import Placemark from "./Placemark";
 import {model, Schema } from "mongoose";
 
 const placeSchema: Schema = new Schema(
     {
-        title: {
-            type: String,
-            unique: true,
-            required: true
-        },
-        uuid: {
-            type: String,
-            required: true
-        },
         longitude: {
             type: Number,
             required: true
@@ -19,7 +10,20 @@ const placeSchema: Schema = new Schema(
         latitude: {
             type: Number,
             required: true
+        },
+        title: {
+            type: String,
+            unique: true,
+            required: true
+        },
+        placeUrl: {
+            type: String,
+            required: true
+        },
+        category: {
+            type: String,
+            required: false
         }
     }
 )
-export default model<PlaceType>("places", placeSchema)
+export default model<Placemark>("places", placeSchema)

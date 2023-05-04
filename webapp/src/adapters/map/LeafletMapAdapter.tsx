@@ -142,12 +142,12 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
     /**
      * Navigates to the place creation form
      */
-    private newPlace(e: React.MouseEvent): void {
+    protected newPlace(e: React.MouseEvent): void {
         /* Navigate to form */
         if (this.state.currentPlacemark !== null) {
             this.setState({
                 pageToShow:
-                    <AddPlace open={true} map={this.map} placemark={this.state.currentPlacemark}
+                    <AddPlace public={false} open={true} map={this.map} placemark={this.state.currentPlacemark}
                               callback={this.addMarker.bind(this)}/>
             });
         }

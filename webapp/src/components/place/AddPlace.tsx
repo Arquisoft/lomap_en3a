@@ -10,6 +10,7 @@ import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import User from "../../domain/User";
 import Group from "../../domain/Group";
 import {PlaceCategory} from "../../domain/place/PlaceCategory";
+import { addPlace } from "../../api/api";
 
 // Define the state type.
 interface IState {
@@ -36,6 +37,7 @@ interface IProps{
 	callback?: Function;
 	map?: Map;
 	open: boolean;
+	public: boolean;
 }
 
 export default class AddPlace extends React.Component<IProps, IState> {
@@ -45,7 +47,8 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	// Define default values for the page. This would not be necessary when the page is indexed.
 	public static defaultProps: IProps = {
 		placemark: new Placemark(0.5, 0.2, "asdf"),
-		open: false
+		open: false,
+		public: false,
 	};
 
 	public constructor(props: IProps) {
@@ -57,7 +60,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			name: "",
 			latitude: this.props.placemark.getLat(),
 			longitude: this.props.placemark.getLng(),
-      		category: "restaurant",
+      		category: "Restaurant",
 			photosSelected: [],
 			description: "",
 			nameError: "",
@@ -147,11 +150,6 @@ export default class AddPlace extends React.Component<IProps, IState> {
 	handleVisibilityChange = (privacy: string, friends: User[]) => {
 		this.setState({ visibility: privacy });
 		this.setState({ friends: friends });
-		console.log("Privacy: " + privacy + " Friends: " + friends);
-		//Print the friends in the friends array
-		for (let i = 0; i < friends.length; i++) {
-			console.log(friends[i].getName());
-		}
 	}
 
 	goBack() {
@@ -178,6 +176,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ latitudeError: "Latitude and longitude must be numbers" });
 			isFormValid = false;
 		}
+		/*
 		if (this.state.latitude < -90 || this.state.latitude > 90) {
 			this.setState({ latitudeError: "Latitude must be between -90 and 90 degrees" });
 			isFormValid = false;
@@ -186,6 +185,7 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			this.setState({ longitudeError: "Longitude must be between -180 and 180 degrees" });
 			isFormValid = false;
 		}
+		*/
 		if (!this.state.description) {
 			this.setState({ descriptionError: "Description is required" });
 			isFormValid = false;
@@ -199,34 +199,42 @@ export default class AddPlace extends React.Component<IProps, IState> {
 			return;
 		}
 
+
 		// Handle form submission logic here.
-
-		var place = new Place(this.state.name, this.state.latitude, this.state.longitude, this.state.description,
-                      this.state.photosSelected, undefined ,this.state.category);
-		await this.pod.savePlace(place); //run asynchronously
-
-		
+		var place = new Place(this.state.name, this.state.latitude, this.state.longitude,
+			this.state.description, this.state.photosSelected,undefined ,this.state.category);
+	
 		let placeUrl = this.pod.getBaseUrl() + "/data/places/" + place.uuid;
-		
-		switch (this.state.visibility) {
-            case "public":
-                this.pod.changePlacePublicAccess(place, true);
-                break;
-            case "private":
-				this.pod.changePlacePublicAccess(place, false);
-                break;
-        }
-
-		if (this.state.friends.length > 0) {
-			let group = new Group("", this.state.friends);
-			this.pod.setGroupAccess(placeUrl, group, {'Permission read': true});
+		if (this.props.public){
+			addPlace(new Placemark(
+			this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
+			));
 		}
-
+		this.createPlace(place, placeUrl)
 		if (this.props.callback !== undefined) {
 			this.props.callback(new Placemark(
-				this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
+			this.state.latitude, this.state.longitude, this.state.name, placeUrl, this.state.category
 			));
 			return <LeafletMapAdapter></LeafletMapAdapter>
+		}
+	}
+
+	private async createPlace(place:Place, placeUrl:string) {
+		await this.pod.savePlace(place);
+		
+		switch (this.state.visibility) {
+			case "public":
+				await this.pod.changePlacePublicAccess(place, true);
+				break;
+        
+			case "private":
+				await this.pod.changePlacePublicAccess(place, false);
+				break;
+		}
+		
+		if (this.state.friends.length > 0) {
+			let group = new Group("", this.state.friends);
+			await this.pod.setGroupAccess(placeUrl, group, {'Permission read': true});
 		}
 	}
 

@@ -24,7 +24,7 @@ export default class GroupsRepository extends AbstractSolidRepository {
      */
     public async getAllUserGroups(): Promise<Group[]> {
         let urls = await this.getContainedUrls(this.getBaseUrl()+'/groups/');
-        return await this.getGroupsFromUrls(urls);
+        return await this.getGroupsFromUrls(urls.filter(url => !url.endsWith("friends")));
     }
 
     /**
@@ -32,7 +32,7 @@ export default class GroupsRepository extends AbstractSolidRepository {
      */
     public async createFriendsGroup(): Promise<void> {
         let users: User[] = await this.friends.getFriendsList();
-        let group = new Group("Friends", users); 
+        let group = new Group("Friends", users, "friends");
         let groupsPath = this.getBaseUrl() + "/groups";
 
         await this.saveDataset(groupsPath+"/friends", Assembler.groupToDataset(group));

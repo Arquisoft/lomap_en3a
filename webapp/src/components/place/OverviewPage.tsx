@@ -172,7 +172,6 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         if (this.props.placeUrl !== undefined) {
             let placeUrl = this.props.placeUrl;
             this.state.photosSelected.forEach(photo => {
-                console.log(placeUrl);
                 this.pod.addImage(photo, placeUrl);
             });
             this.setState(({
@@ -189,16 +188,18 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
         } else {
             pos = (pos - 1) / 2;
         }
-        console.log(pos);
+
         return this.categoryColors[pos];
     }
 
     render() {
         return (
             <div className="OverviewPage">
+                
                 <div>
+                    {this.state.place.category != "" &&
                     <Chip label={this.state.place.category.toUpperCase()}
-                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>
+                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>}
                     <p>{this.state.place.description}</p>
                 </div>
 

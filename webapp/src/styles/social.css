@@ -15,3 +15,10 @@
     width: 13em;
     height: 15em;
 }
+
+/*Class name members-list is used in the friendsGrid component
+* to limit the height of the friends list to 100px
+*/
+.members-list {
+    max-height: 70px !important;
+}

@@ -129,7 +129,7 @@ export default abstract class AbstractSolidRepository {
         if (webID === '') {
             webID = this.sessionManager.getWebID();
         }
-        return webID.slice(0, webID.indexOf('/profile/card#me')) + '/lomap';
+        return webID.slice(0, webID.indexOf('/profile/card#me')) + '/lomapen3a';
     }
 
     /**
