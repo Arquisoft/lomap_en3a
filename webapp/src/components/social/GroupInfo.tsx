@@ -56,13 +56,12 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
             loadedFriends: false
         }
 
-        this.generateTable();
-
         this.createMapForGroup = this.createMapForGroup.bind(this);
         this.goBack = this.goBack.bind(this);
     }
 
     componentDidMount() {
+        this.generateTable();
         this.loadMembers().then(() => {
             console.log("RELOAD")
             this.setState(({
@@ -83,6 +82,7 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
 
     private generateTable() {
         this.getGroupMaps().then((maps) => {
+            console.log(maps);
             if (maps.length > 0) {
                 this.tableBody = (<TableBody>
                     {maps.map((map) => (
@@ -105,7 +105,12 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
             this.setState(({
                 loading: false
             }));
-        })
+        }).catch(() => {
+            this.setState(({
+                isTableEmpty: true,
+                loading: false
+            }));
+        });
     }
 
     private showMap(map: Map) {
