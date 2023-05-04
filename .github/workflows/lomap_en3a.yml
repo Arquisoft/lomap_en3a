@@ -82,7 +82,7 @@ jobs:
          user: ${{ secrets.DEPLOY_USER }}
          key: ${{ secrets.DEPLOY_KEY }}
          command: |
-           wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/develop/docker-compose-deploy.yml -O docker-compose.yml
+           wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/deployment-ivan/docker-compose-deploy.yml -O docker-compose.yml
            docker-compose stop
            docker-compose rm -f
            docker-compose pull

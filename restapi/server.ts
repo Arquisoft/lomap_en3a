@@ -22,7 +22,6 @@ mongoose.connect(uri, options).then(
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
-app.use(cors());
 app.use(bp.json());
 
 app.use("/api", api)
@@ -38,7 +37,7 @@ try {
         if (req.secure) {
             return next();
         }
-        res.redirect('https://'+req.hostname + req.url);
+        res.redirect('https://'+ "lomapen3a.cloudns.ph" + ":" + portHttps + req.url);
     });
 
     createServer(credentials, app)
