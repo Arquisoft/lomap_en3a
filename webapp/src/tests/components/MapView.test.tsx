@@ -22,3 +22,14 @@ test('The page renders correctly', async () => {
         expect(document.querySelector(".map-header")).not.toBeNull();
     });
 });
+
+test('A message is displayed if the user doesnt have maps', async () => {
+    jest.spyOn(PODManager.prototype, "getAllMaps").mockImplementationOnce(async (user: string | undefined) => {
+        return [];
+    })
+    render(<MapView/>)
+    await waitFor(() => {
+        expect(getByText(document.body, "You don't have any map!")).not.toBeUndefined();
+    });
+});
+
