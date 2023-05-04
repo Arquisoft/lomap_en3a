@@ -196,9 +196,11 @@ export default class OverviewPage extends React.Component<IPlacePageProps, Overv
     render() {
         return (
             <div className="OverviewPage">
+                
                 <div>
+                    {this.state.place.category != "" &&
                     <Chip label={this.state.place.category.toUpperCase()}
-                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>
+                          sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>}
                     <p>{this.state.place.description}</p>
                 </div>
 
