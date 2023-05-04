@@ -51,13 +51,19 @@ Interfaces::
 |===
 |Interface|Description
 |PODManager|Manages the storing of information inside the PODs provider
-|PlaceManager|Manages the storing of places and maps inside the PODs
 |SessionManager|Manages the users session, is the one in charge of the login, logout,etc...
 |FriendsManager|Is the one that obtains the list of friends from the user, as well as their information
 |LeafletMapAdapter|Is the class that interacts with the Map API and presents it to the UI
 |PlacesController|This controller is the one in charge of adding and deleting places in the Mongo database
 |api|This class is the one that communicates with the RestApi, it interacts with it in order to store the places in the database
 |===
+
+Level 1: Solid adapters and repositories::
+image:05_Building_Block_Level_1_1_1.jpg['White Box 1.1']
+Purpose::
+These adapters and repositories,  placed under _webapp/src/adapters_, are meant to interact with the SOLID POD provider of the user in order to execute,
+the possible actions over his POD, that is to store places, reviews, comments, etc. They have been organized in this
+way to provide an easier access and maintainability.
 
 === Presentation
 image:05_Building_Block_Level_1_2.jpg['White Box 1.1']
@@ -81,6 +87,8 @@ Distribution::
 |styles/fonts|The text fonts for all the components
 |assets|Elements such as markers that are meant to be used in components.
 |===
+
+==== Rest API
 
 
 ==== Business model
