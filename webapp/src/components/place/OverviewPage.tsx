@@ -12,6 +12,7 @@ import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
 import {Chip} from "@mui/material";
 import {PlaceCategory} from "../../domain/place/PlaceCategory";
+import WeatherPage from "./WeatherPage";
 
 export default class OverviewPage extends React.Component<IPlacePageProps, IPlacePageState> {
 
@@ -39,14 +40,13 @@ export default class OverviewPage extends React.Component<IPlacePageProps, IPlac
     render() {
         return (
             <div className="OverviewPage">
-
                 <div>
                     {this.state.place.category != "" &&
                         <Chip label={this.state.place.category.toUpperCase()}
                               sx={{backgroundColor: this.getColorFor(this.state.place.category), color: "white"}}/>}
                     <p>{this.state.place.description}</p>
                 </div>
-
+                <WeatherPage place={this.state.place}/>
             </div>
         );
     }

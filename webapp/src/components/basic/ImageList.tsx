@@ -23,20 +23,22 @@ const divStyle = {
  * @param {any[]} props
  */
 function ImageList(props: { images: any[]; }) {
-    if (props.images.length > 0) {
+    if (props.images.length == 1) {
+        return (<img style={{...divStyle}} src={props.images[0]} alt={"Default image alt text"}></img>);
+    } else if (props.images.length > 0) {
         return (
             <div className="slide-container">
                 <Slide>
                     {props.images.map((slideImage, index) => (
                         <div key={index}>
-                            <img style={{...divStyle}} src={slideImage} alt={""}></img>
+                            <img style={{...divStyle}} src={slideImage} alt={"Default image alt text"}></img>
                         </div>
                     ))}
                 </Slide>
             </div>
         );
     }
-    return <></>; // TODO could add some alt text
+    return <></>;
 }
 
 export default ImageList;
