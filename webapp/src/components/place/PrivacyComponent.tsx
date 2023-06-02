@@ -78,6 +78,7 @@ class PrivacyComponent extends Component<PrivacyComponentProps, PrivacyComponent
     /**
      * Handle the change of the friends radio button. When it is checked the value of the friendsButton is updated.
      * if it was already checked, it is unchecked.
+     * TODO - Guille : no hace falta bindear esto?
      * @param e The event of the change.
      * */
     handleFriendsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
