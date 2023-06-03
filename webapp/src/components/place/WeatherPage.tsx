@@ -13,7 +13,7 @@ interface WeatherState {
 export default class WeatherPage extends React.Component<{ place: Place }, WeatherState> {
 
     private url: string;
-    private apikey: string = "ea397ee6fc3d1bbaf9a87405aa15ca9d";
+    private apikey: string = "";
 
     constructor(props: { place: Place }) {
         super(props);
