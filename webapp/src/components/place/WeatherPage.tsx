@@ -1,5 +1,8 @@
 import React from "react";
 import Place from "../../domain/Place";
+import openweather_api from "../../settings";
+import {BiWind} from "react-icons/bi";
+import {TbTemperatureCelsius} from "react-icons/tb";
 
 interface WeatherState {
     description: string;
@@ -8,12 +11,15 @@ interface WeatherState {
     windSpeed: number;
     windDeg: number;
     name: string;
+    temp?: string;
 }
 
 export default class WeatherPage extends React.Component<{ place: Place }, WeatherState> {
 
     private url: string;
-    private apikey: string = "";
+    // TODO something with the api key
+    private apikey: string | undefined = openweather_api || "api_test_key";
+    private readonly kelvinToCelsius: number = 273.15;
 
     constructor(props: { place: Place }) {
         super(props);
@@ -33,6 +39,9 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
     }
 
     public test() {
+        if (this.apikey === undefined) {
+            return;
+        }
         fetch(this.url).then(response => response.json()).then(data => {
             this.setState(({
                 description: data.weather[0].description,
@@ -40,22 +49,24 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
                 main: data.weather[0].main,
                 windSpeed: data.wind.speed,
                 windDeg: data.wind.deg,
-                name: data.name
-
+                name: data.name,
+                temp: (data.main.temp - this.kelvinToCelsius).toFixed(2)
             }));
         });
     }
 
     render() {
+        if (this.state.description == undefined) {
+            return <></>;
+        }
+
         return (<aside>
-                <h3>Weather report</h3>
                 <img src={'https://openweathermap.org/img/w/' + this.state.icon + '.png'}
-                     alt={"The weather in " + this.state.name + " is " + this.state.main}
+                     alt={"The weather in " + this.state.name + " is " + this.state.main + ": " + this.state.description}
                      style={{height: 70, width: 70}}/>
-                <p>Weather: {this.state.description}</p>
-                <p>Location: {this.state.name}</p>
-                <p>Wind speed: {this.state.windSpeed}</p>
-                <p>Wind degree: {this.state.windDeg}</p>
+                <p style={{fontSize: "small", marginTop: 0}}>{this.state.temp}<TbTemperatureCelsius/></p>
+                <p style={{fontSize: "small", marginTop: 0}}><BiWind/> {this.state.windSpeed} m/s, {this.state.windDeg}º
+                </p>
             </aside>
         )
             ;

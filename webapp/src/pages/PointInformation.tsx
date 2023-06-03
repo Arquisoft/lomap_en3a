@@ -107,6 +107,10 @@ export default class PointInformation extends React.Component<PointInformationPr
                         <div className="pointInformation">
                             {this.point.title === "Loading..." ? <h1>Loading...</h1> :
                                 <h1>{this.point.title}</h1>}
+                            {this.point.title != "Loading..." &&
+                                <p style={{fontSize: "small"}}>Place submitted by <a
+                                    href={"https://" + this.props.placemark.getOwner()}>{this.props.placemark.getOwner().split(".")[0]}</a>
+                                </p>}
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
