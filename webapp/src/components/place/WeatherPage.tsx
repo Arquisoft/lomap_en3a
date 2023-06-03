@@ -1,8 +1,8 @@
 import React from "react";
 import Place from "../../domain/Place";
-import openweather_api from "../../settings";
 import {BiWind} from "react-icons/bi";
 import {TbTemperatureCelsius} from "react-icons/tb";
+import OpenWeatherMapAdapter from "../../adapters/OpenWeatherMapAdapter";
 
 interface WeatherState {
     description: string;
@@ -12,13 +12,13 @@ interface WeatherState {
     windDeg: number;
     name: string;
     temp?: string;
+    loaded: boolean;
 }
 
 export default class WeatherPage extends React.Component<{ place: Place }, WeatherState> {
 
     private url: string;
-    // TODO something with the api key
-    private apikey: string | undefined = openweather_api || "api_test_key";
+    private apikey: string | undefined = OpenWeatherMapAdapter.getInstance().getAPIKey();
     private readonly kelvinToCelsius: number = 273.15;
 
     constructor(props: { place: Place }) {
@@ -29,10 +29,12 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
             main: "",
             windSpeed: 0,
             windDeg: 0,
-            name: ""
+            name: "",
+            loaded: false
         }
         this.url = "https://api.openweathermap.org/data/2.5/weather?lat=" + props.place.latitude + "&lon=" + props.place.longitude + "&APPID=" + this.apikey;
     }
+
 
     componentDidMount() {
         this.test();
@@ -50,13 +52,14 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
                 windSpeed: data.wind.speed,
                 windDeg: data.wind.deg,
                 name: data.name,
-                temp: (data.main.temp - this.kelvinToCelsius).toFixed(2)
+                temp: (data.main.temp - this.kelvinToCelsius).toFixed(2),
+                loaded: true
             }));
         });
     }
 
     render() {
-        if (this.state.description == undefined) {
+        if (!this.state.loaded) {
             return <></>;
         }
 
