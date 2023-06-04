@@ -43,13 +43,11 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
      * BUT IT DOES NOT WORK
      */
     public updateReviewsList() {
-        setTimeout(() => {
             console.log("Updated reviews list");
             if (this.listReviewsRef.current) {
                 this.listReviewsRef.current.updateReviews();
             }
             console.log("Updated reviews list");
-        }, 50000); // Delay of 1 second
 
     }
 
