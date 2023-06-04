@@ -61,7 +61,6 @@ export default class LeafletMapAdapter extends React.Component<LeafletMapAdapter
 
     public constructor(props: LeafletMapAdapterProps) {
         super(props);
-        // TODO testMap?
         this.map = (props.map !== undefined) ? props.map : new Map('TestMap');
         this.state = {
             pageToShow: undefined,
