@@ -10,6 +10,7 @@ import IPlacePageState from "./IPlacePage";
 import SolidSessionManager from "../../adapters/solid/SolidSessionManager";
 import PODManager from "../../adapters/solid/PODManager";
 import LoadingPage from "../basic/LoadingPage";
+import {IoSend} from "react-icons/io5";
 
 interface AddReviewState extends IPlacePageState {
     comment: string;
@@ -232,7 +233,7 @@ export default class AddReview extends React.Component<AddReviewProps, AddReview
                         style={{resize: "none"}}
                     />
                     {this.state.commentError && <span className="error">{this.state.commentError}</span>}
-                    <button name="review" type="submit">Submit review</button>
+                    <button name="review" type="submit"><IoSend/></button>
                 </form>
 
                 {/** Images **/}
@@ -261,7 +262,7 @@ export default class AddReview extends React.Component<AddReviewProps, AddReview
                     <ModalDialog className="custom-modal-dialog">
                         {this.state.submitedInput && <ModalClose/>}
                         <div>
-                            {!this.state.submitedInput && <LoadingPage/>}
+                            {!this.state.submitedInput && <LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>}
                             {this.state.submitedInput &&
                                 <div style={{display: "flex", flexDirection: "row"}}>
                                     <h2>Done!</h2>

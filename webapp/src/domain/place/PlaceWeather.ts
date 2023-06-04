@@ -6,6 +6,8 @@ export default class PlaceWeather {
     private readonly _name: string = "";
     private readonly _temp: string | undefined;
 
+    private readonly kelvinToCelsius: number = 273.15;
+
     constructor(icon: string, main: string, speed: number, name: string, temp: string) {
         this._icon = icon;
         this._main = main;
@@ -30,8 +32,10 @@ export default class PlaceWeather {
         return this._name;
     }
 
+    // I really don't know, but it works
     get temp() {
-        return this._temp;
+        let temp = this._temp != undefined ? parseInt(this._temp) : undefined;
+        return temp != undefined ? (temp - this.kelvinToCelsius).toFixed(2) : undefined;
     }
 
 }

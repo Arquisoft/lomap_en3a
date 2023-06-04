@@ -1,6 +1,6 @@
 import {PlaceCategory} from "../../domain/place/PlaceCategory";
 import {act, fireEvent, getByText, render, screen, waitFor} from "@testing-library/react";
-import MapFilter from "../../components/MapFilter";
+import MapFilter from "../../components/map/MapFilter";
 import React from "react";
 import PODManager from "../../adapters/solid/PODManager";
 import Map from "../../domain/Map";

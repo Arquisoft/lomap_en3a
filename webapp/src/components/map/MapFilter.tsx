@@ -1,7 +1,7 @@
 import React from "react";
-import FriendManager from "../adapters/solid/FriendManager";
-import {PlaceCategory} from "../domain/place/PlaceCategory";
-import '../styles/mapFilter.css';
+import FriendManager from "../../adapters/solid/FriendManager";
+import {PlaceCategory} from "../../domain/place/PlaceCategory";
+import '../../styles/mapFilter.css';
 
 interface MapfilterProps {
     callback: (categories: string[] | undefined) => void

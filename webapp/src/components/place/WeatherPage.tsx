@@ -16,8 +16,6 @@ interface WeatherState {
  */
 export default class WeatherPage extends React.Component<{ place: Place }, WeatherState> {
 
-    private readonly kelvinToCelsius: number = 273.15;
-
     constructor(props: { place: Place }) {
         super(props);
         this.state = {
@@ -27,16 +25,20 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
     }
 
 
-    componentDidMount() {
-        let weather;
+    async componentDidMount() {
+        let url;
         try {
-            weather = OpenWeatherMapAdapter.getInstance().getData(this.props.place.latitude, this.props.place.longitude);
+            url = OpenWeatherMapAdapter.getInstance().getDataUrl(this.props.place.latitude, this.props.place.longitude);
         } catch (ex) {
             return;
         }
+        let weather = await fetch(url).then(response => response.json()).then(data => {
+            return new PlaceWeather(data.weather[0].icon, data.weather[0].main, data.wind.speed, data.name, data.main.temp);
+        });
         if (weather != null) {
             this.setState(({
-                weather: weather
+                weather: weather,
+                loaded: true
             }))
         }
     }
