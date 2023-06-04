@@ -262,7 +262,7 @@ export default class AddReview extends React.Component<AddReviewProps, AddReview
                     <ModalDialog className="custom-modal-dialog">
                         {this.state.submitedInput && <ModalClose/>}
                         <div>
-                            {!this.state.submitedInput && <LoadingPage size={100} style={{margin: "50% 0 50% 31%"}}/>}
+                            {!this.state.submitedInput && <LoadingPage size={100} style={{margin: "10% 0 50% 31%"}}/>}
                             {this.state.submitedInput &&
                                 <div style={{display: "flex", flexDirection: "row"}}>
                                     <h2>Done!</h2>
