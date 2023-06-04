@@ -2,61 +2,45 @@ import React from "react";
 import Place from "../../domain/Place";
 import {BiWind} from "react-icons/bi";
 import {TbTemperatureCelsius} from "react-icons/tb";
+import PlaceWeather from "../../domain/place/PlaceWeather";
 import OpenWeatherMapAdapter from "../../adapters/OpenWeatherMapAdapter";
 
 interface WeatherState {
-    description: string;
-    icon: string;
-    main: string;
-    windSpeed: number;
-    windDeg: number;
-    name: string;
-    temp?: string;
+    weather: PlaceWeather | undefined
     loaded: boolean;
 }
 
+/**
+ * Shows the climatological information of the given location IF the user
+ * has given the program an API key to use, if it has not then it does not show anythin
+ */
 export default class WeatherPage extends React.Component<{ place: Place }, WeatherState> {
 
-    private url: string;
-    private apikey: string | undefined = OpenWeatherMapAdapter.getInstance().getAPIKey();
     private readonly kelvinToCelsius: number = 273.15;
 
     constructor(props: { place: Place }) {
         super(props);
         this.state = {
-            description: "",
-            icon: "",
-            main: "",
-            windSpeed: 0,
-            windDeg: 0,
-            name: "",
-            loaded: false
+            loaded: false,
+            weather: undefined
         }
-        this.url = "https://api.openweathermap.org/data/2.5/weather?lat=" + props.place.latitude + "&lon=" + props.place.longitude + "&APPID=" + this.apikey;
     }
 
 
     componentDidMount() {
-        this.test();
-    }
-
-    public test() {
-        if (this.apikey === undefined) {
+        let weather;
+        try {
+            weather = OpenWeatherMapAdapter.getInstance().getData(this.props.place.latitude, this.props.place.longitude);
+        } catch (ex) {
             return;
         }
-        fetch(this.url).then(response => response.json()).then(data => {
+        if (weather != null) {
             this.setState(({
-                description: data.weather[0].description,
-                icon: data.weather[0].icon,
-                main: data.weather[0].main,
-                windSpeed: data.wind.speed,
-                windDeg: data.wind.deg,
-                name: data.name,
-                temp: (data.main.temp - this.kelvinToCelsius).toFixed(2),
-                loaded: true
-            }));
-        });
+                weather: weather
+            }))
+        }
     }
+
 
     render() {
         if (!this.state.loaded) {
@@ -64,11 +48,11 @@ export default class WeatherPage extends React.Component<{ place: Place }, Weath
         }
 
         return (<aside>
-                <img src={'https://openweathermap.org/img/w/' + this.state.icon + '.png'}
-                     alt={"The weather in " + this.state.name + " is " + this.state.main + ": " + this.state.description}
+                <img src={OpenWeatherMapAdapter.getInstance().getIcon(this.state.weather?.icon)}
+                     alt={"The weather in " + this.state.weather?.name + " is " + this.state.weather?.main}
                      style={{height: 70, width: 70}}/>
-                <p style={{fontSize: "small", marginTop: 0}}>{this.state.temp}<TbTemperatureCelsius/></p>
-                <p style={{fontSize: "small", marginTop: 0}}><BiWind/> {this.state.windSpeed} m/s, {this.state.windDeg}º
+                <p style={{fontSize: "small", marginTop: 0}}>{this.state.weather?.temp}<TbTemperatureCelsius/></p>
+                <p style={{fontSize: "small", marginTop: 0}}><BiWind/> {this.state.weather?.speed} m/s
                 </p>
             </aside>
         )
