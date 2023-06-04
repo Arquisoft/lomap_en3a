@@ -49,4 +49,8 @@ select[name="map"] {
 
 .map-options {
     display: flex;
-  }
+}
+
+li.rc-menu-item:nth-child(5):hover{
+    cursor: pointer;
+}

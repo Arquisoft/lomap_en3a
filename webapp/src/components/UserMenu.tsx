@@ -7,17 +7,23 @@ import Menu, {Divider, Item as MenuItem} from 'rc-menu';
 import {Link} from "react-router-dom";
 import {Avatar} from "@mui/material";
 import FriendManager from "../adapters/solid/FriendManager";
+import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import Configuration from "./Configuration";
 
 /**
  * The menu with all the options related to the user (personal information, log out)
  */
-export class UserMenu extends React.Component<any, { photo: string | undefined }> {
+export class UserMenu extends React.Component<any, {
+    photo: string | undefined,
+    open: boolean
+}> {
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            photo: undefined
+            photo: undefined,
+            open: false
         }
 
         this.getUser().then((user) => {
@@ -54,6 +60,23 @@ export class UserMenu extends React.Component<any, { photo: string | undefined }
                 <MenuItem>
                     <LogoutButton style={this.menuItemStyle}/>
                 </MenuItem>
+                <Divider/>
+                <MenuItem>
+                    <p onClick={() => {
+                        this.setState(({
+                            open: true
+                        }));
+                    }} style={{
+                        textDecoration: "none",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        fontSize: "2em",
+                        color: "black",
+                        padding: "1em"
+                    }}>
+                        Configuration
+                    </p>
+                </MenuItem>
             </Menu>
         )
         // return
@@ -73,6 +96,16 @@ export class UserMenu extends React.Component<any, { photo: string | undefined }
                               }}>{SolidSessionManager.getManager().getWebID()?.charAt(8).toUpperCase()}</Avatar>
                   </span>
                 </Dropdown>
+
+                {/** Modal for configuration **/}
+
+                <Modal open={this.state.open} onClose={() => this.setState(({open: false}))}>
+                    <ModalDialog sx={{width: "30%"}}>
+                        <ModalClose/>
+                        <Configuration/>
+                    </ModalDialog>
+                </Modal>
+
             </div>
         );
     }

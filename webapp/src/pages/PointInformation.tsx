@@ -14,6 +14,7 @@ import {Modal, ModalClose, ModalDialog} from "@mui/joy";
 import PrivacyComponent from "../components/place/PrivacyComponent";
 import User from "../domain/User";
 import Group from "../domain/Group";
+import PlaceConfiguration from "../components/place/PlaceConfiguration";
 
 interface PointInformationProps {
     placemark: Placemark;
@@ -26,7 +27,6 @@ interface PointInformationProps {
 interface PointInformationState {
     goBack: boolean;
     component: JSX.Element;
-    visibility: string;
     open: boolean;
     friends: User[];
     friendsList: User[];
@@ -46,7 +46,6 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.state = {
             goBack: false,
             component: <LoadingPage style={{left: "20%", padding: "1em"}} size={50}/>,
-            visibility: "",
             open: this.props.open,
             friends: [],
             friendsList: [],
@@ -54,8 +53,7 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.goBack = this.goBack.bind(this);
         this.handleClickReview = this.handleClickReview.bind(this);
         this.handleClickOverview = this.handleClickOverview.bind(this);
-        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-        this.savePlaceVisibility = this.savePlaceVisibility.bind(this);
+        this.handleClickConfiguration = this.handleClickConfiguration.bind(this);
     }
 
     public async componentDidMount(): Promise<void> {
@@ -71,24 +69,6 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.setState({goBack: true});
     }
 
-    private savePlaceVisibility() {
-        let placeUrl = this.props.placemark.getPlaceUrl();
-
-		switch (this.state.visibility) {
-            case "public":
-                this.pod.changePlacePublicAccess(this.point, true);
-                break;
-            case "private":
-                this.pod.changePlacePublicAccess(this.point, false);
-                break;
-        }
-
-        if (this.state.friends.length > 0) {
-            let group = new Group("", this.state.friends);
-            this.pod.setGroupAccess(placeUrl, group, {read: true});
-        }
-    }
-
     private handleClickReview() {
         this.setState({component: <ReviewsPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
 
@@ -98,10 +78,11 @@ export default class PointInformation extends React.Component<PointInformationPr
         this.setState({component: <OverviewPage place={this.point} placeUrl={this.props.placemark.getPlaceUrl()}/>});
     }
 
-    //Callback function to pass it to the PrivacyComponent
-    //It updates the privacy of the place
-    handleVisibilityChange = (privacy: string, friends: User[]) => {
-        this.setState({visibility: privacy, friends: friends});
+    private handleClickConfiguration() {
+        this.setState({
+            component: <PlaceConfiguration placemark={this.props.placemark} pod={this.pod}
+                                           point={this.point}/>
+        });
     }
 
     /**
@@ -126,10 +107,14 @@ export default class PointInformation extends React.Component<PointInformationPr
                         <div className="pointInformation">
                             {this.point.title === "Loading..." ? <h1>Loading...</h1> :
                                 <h1>{this.point.title}</h1>}
+                            {this.point.title != "Loading..." &&
+                                <p style={{fontSize: "small"}}>Place submitted by <a
+                                    href={"https://" + this.props.placemark.getOwner()}>{this.props.placemark.getOwner().split(".")[0]}</a>
+                                </p>}
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
-                            <p>Location: {this.point.longitude !== 0 ? this.point.longitude + ", " + this.point.latitude : "Loading..."}</p>
+                            <p style={{fontSize: "small"}}>Location: {this.point.longitude !== 0 ? this.point.longitude + ", " + this.point.latitude : "Loading..."}</p>
                             <div>
                                 <button
                                     className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"
@@ -140,14 +125,14 @@ export default class PointInformation extends React.Component<PointInformationPr
                                     className={`pi-radio-option ${this.state.component.type === ReviewsPage ? "selected" : ""
                                     }`} onClick={this.handleClickReview}>Reviews
                                 </button>
+                                {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
+                                    <button
+                                        className={`pi-radio-option ${this.state.component.type === PlaceConfiguration ? "selected" : ""
+                                        }`} onClick={this.handleClickConfiguration}>Configuration
+                                    </button>
+                                }
                                 {this.state.component}
                             </div>
-                            {this.props.placemark.isOwner(this.sessionManager.getWebID()) &&
-                                <div id="visibility">
-                                    <h3>Change visibility of the place:</h3>
-                                    <PrivacyComponent updatePrivacy={this.handleVisibilityChange}/>
-                                    <input type="button" id="confirm" value="Confirm change" onClick={this.savePlaceVisibility}/>
-                                </div>}
                         </div>
                     </section>
                 </ModalDialog>
