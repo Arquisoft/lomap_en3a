@@ -3,7 +3,7 @@ import PODManager from "../adapters/solid/PODManager";
 import {getPlaces} from "../api/api";
 import Map from "../domain/Map";
 import Footer from "../components/Footer";
-import MapFilter from "../components/MapFilter";
+import MapFilter from "../components/map/MapFilter";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
 import Placemark from "../domain/Placemark";
 import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";

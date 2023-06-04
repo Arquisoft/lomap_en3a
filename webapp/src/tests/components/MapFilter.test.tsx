@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react';
-import MapFilter from '../../components/MapFilter';
+import MapFilter from '../../components/map/MapFilter';
 import {PlaceCategory} from '../../domain/place/PlaceCategory';
 import FriendManager from "../../adapters/solid/FriendManager";
 import User from "../../domain/User";

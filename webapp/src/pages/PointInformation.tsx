@@ -114,7 +114,7 @@ export default class PointInformation extends React.Component<PointInformationPr
                             <div id="images">
                                 <ImageList images={this.photosURLs}></ImageList>
                             </div>
-                            <p>Location: {this.point.longitude !== 0 ? this.point.longitude + ", " + this.point.latitude : "Loading..."}</p>
+                            <p style={{fontSize: "small"}}>Location: {this.point.longitude !== 0 ? this.point.longitude + ", " + this.point.latitude : "Loading..."}</p>
                             <div>
                                 <button
                                     className={`pi-radio-option ${this.state.component.type === OverviewPage ? "selected" : "unselected"

@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import MapFilter from "../components/MapFilter";
+import MapFilter from "../components/map/MapFilter";
 import Map from "../domain/Map";
 import PODManager from "../adapters/solid/PODManager";
 import PassmeDropdown from "../components/basic/PassmeDropdown";
