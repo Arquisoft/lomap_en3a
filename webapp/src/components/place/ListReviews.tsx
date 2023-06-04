@@ -16,6 +16,10 @@ interface ListReviewsProps extends IPlacePageProps {
 }
 
 export default class ListReviews extends React.Component<ListReviewsProps, ListReviewsState> {
+    updateReviews() {
+        this.getComments((comments) => this.setState({comments: comments, loading: false}));
+        
+    }
 
     constructor(props: ListReviewsProps) {
         super(props);

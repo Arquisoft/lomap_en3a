@@ -14,16 +14,18 @@ interface ReviewsPageState {
 }
 
 export default class ReviewsPage extends React.Component<IPlacePageProps, ReviewsPageState> {
-
+    private listReviewsRef: React.RefObject<ListReviews>;
     private pod = new PODManager();
 
     constructor(props: IPlacePageProps) {
         super(props);
+        this.listReviewsRef = React.createRef();
         this.state = {
             score: 0,
             loadingRating: true,
-            updatedReviewsList: (<ListReviews pod={this.pod} place={this.props.place} placeUrl={this.props.placeUrl}/>)
+            updatedReviewsList: (<ListReviews ref={this.listReviewsRef} pod={this.pod} place={this.props.place} placeUrl={this.props.placeUrl}/>)
         }
+        this.updateReviewsList = this.updateReviewsList.bind(this);
     }
 
     public async componentDidMount(): Promise<void> {
@@ -41,9 +43,14 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
      * BUT IT DOES NOT WORK
      */
     public updateReviewsList() {
-        this.setState(({
-            updatedReviewsList: <ListReviews pod={this.pod} place={this.props.place} placeUrl={this.props.placeUrl}/>
-        }));
+        setTimeout(() => {
+            console.log("Updated reviews list");
+            if (this.listReviewsRef.current) {
+                this.listReviewsRef.current.updateReviews();
+            }
+            console.log("Updated reviews list");
+        }, 50000); // Delay of 1 second
+
     }
 
     render() {
@@ -56,7 +63,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
             <h3>Comments</h3>
             {this.state.updatedReviewsList}
             <AddReview pod={this.pod} place={this.props.place} placeUrl={this.props.placeUrl}
-                       callback={this.updateReviewsList}/>
+                       callback={() => this.updateReviewsList()}/>
         </div>;
     }
 }
