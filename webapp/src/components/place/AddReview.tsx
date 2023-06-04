@@ -36,7 +36,7 @@ export default class AddReview extends React.Component<AddReviewProps, AddReview
         this.state = {
             place: props.place,
             comment: "",
-            rating: 0,
+            rating: 3,
             photosSelected: [],
             photosError: "",
             commentError: "",

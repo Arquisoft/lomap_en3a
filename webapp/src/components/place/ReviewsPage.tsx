@@ -21,7 +21,7 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
         super(props);
         this.listReviewsRef = React.createRef();
         this.state = {
-            score: 0,
+            score: 3,
             loadingRating: true,
             updatedReviewsList: (<ListReviews ref={this.listReviewsRef} pod={this.pod} place={this.props.place} placeUrl={this.props.placeUrl}/>)
         }
@@ -43,11 +43,9 @@ export default class ReviewsPage extends React.Component<IPlacePageProps, Review
      * BUT IT DOES NOT WORK
      */
     public updateReviewsList() {
-            console.log("Updated reviews list");
-            if (this.listReviewsRef.current) {
-                this.listReviewsRef.current.updateReviews();
-            }
-            console.log("Updated reviews list");
+        if (this.listReviewsRef.current) {
+            this.listReviewsRef.current.updateReviews();
+        }
 
     }
 
