@@ -56,7 +56,7 @@ jobs:
           registry: ghcr.io
           workdir: webapp
           buildargs: |
-              REACT_APP_API_URI=$API_HOST
+            ENV_VAR=$API_HOST
   docker-push-restapi:
     name: Push restapi Docker Image to GitHub Packages
     runs-on: ubuntu-latest
