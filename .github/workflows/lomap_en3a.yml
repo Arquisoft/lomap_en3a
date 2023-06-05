@@ -82,6 +82,7 @@ jobs:
          user: ${{ secrets.DEPLOY_USER }}
          key: ${{ secrets.DEPLOY_KEY }}
          command: |
+           export API_HOST=${{ env.API_HOST }}
            wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/https-and-nearby-places-improvement/docker-compose-deploy.yml -O docker-compose.yml
            docker-compose stop
            docker-compose rm -f
