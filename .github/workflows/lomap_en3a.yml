@@ -45,7 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set REACT_APP_API_URI
-      run: echo "API_URI=${{ secrets.DEPLOY_HOST }}" >> $GITHUB_ENV
+      run: echo "REACT_APP_API_URI=${{ secrets.DEPLOY_HOST }}" >> $GITHUB_ENV
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       #Rest Api redirect
@@ -56,7 +56,7 @@ jobs:
           registry: ghcr.io
           workdir: webapp
           buildargs: |
-            ENV_VAR=$API_URI
+            REACT_APP_API_URI=$REACT_APP_API_URI
   docker-push-restapi:
     name: Push restapi Docker Image to GitHub Packages
     runs-on: ubuntu-latest
