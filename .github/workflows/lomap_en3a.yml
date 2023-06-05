@@ -47,8 +47,8 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       #Rest Api redirect
-      env:
-        API_HOST: ${{ secrets.DEPLOY_HOST }}
+#      env:
+#        API_HOST:
       with:
           name: arquisoft/lomap_en3a/webapp
           username: ${{ github.actor }}
@@ -56,7 +56,7 @@ jobs:
           registry: ghcr.io
           workdir: webapp
           buildargs: |
-            ENV_VAR=$API_HOST
+            ENV_VAR=${{ secrets.DEPLOY_HOST }}
   docker-push-restapi:
     name: Push restapi Docker Image to GitHub Packages
     runs-on: ubuntu-latest
