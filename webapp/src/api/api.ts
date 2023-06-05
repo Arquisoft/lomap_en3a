@@ -2,6 +2,7 @@ import Placemark from "../domain/Placemark";
 
 export async function getPlaces() : Promise<Placemark[]> {
     const apiEndPoint = process.env.REACT_APP_API_URI
+    console.log(apiEndPoint)
     let response = await fetch(apiEndPoint + "/places/list");
     let places = new Array<Placemark>();
     if (response.status === 200) {
