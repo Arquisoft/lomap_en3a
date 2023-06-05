@@ -1,5 +1,4 @@
 import express, { Application, RequestHandler } from "express";
-import cors from 'cors';
 import bp from 'body-parser';
 import promBundle from 'express-prom-bundle';
 import api from "./api";
@@ -8,7 +7,6 @@ import { readFileSync } from "fs";
 import { createServer } from "https"
 
 const app: Application = express();
-const portHttp: number = 5000;
 const portHttps: number = 5000;
 
 const mongoose = require("mongoose")
@@ -45,13 +43,4 @@ try {
             console.error("Error occured: " + error.message);
         });
 } catch (e) {
-
-    app
-        .listen(portHttp, (): void => {
-            console.log("Restapi listening on " + portHttp);
-        })
-        .on("error", (error: Error) => {
-            console.error("Error occured: " + error.message);
-        });
 }
-

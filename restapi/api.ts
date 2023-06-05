@@ -4,7 +4,6 @@ import {addPlaceChecks, deletePlaceChecks, updatePlaceChecks, findPlaceByTitleCh
 import cors from "cors";
 
 const api:Router = express.Router()
-let hostIp: string = "20.168.251.141";
 
 api.use(
     cors({

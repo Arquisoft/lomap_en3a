@@ -1,7 +1,7 @@
 import Placemark from "../domain/Placemark";
 
 export async function getPlaces() : Promise<Placemark[]> {
-    const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    const apiEndPoint = process.env.REACT_APP_API_URI
     let response = await fetch(apiEndPoint + "/places/list");
     let places = new Array<Placemark>();
     if (response.status === 200) {
@@ -14,7 +14,7 @@ export async function getPlaces() : Promise<Placemark[]> {
 }
 
 export async function addPlace(place: Placemark) : Promise<boolean> {
-    const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    const apiEndPoint = process.env.REACT_APP_API_URI
     console.log(JSON.stringify({
         "longitude": place.getLng(),
         "latitude": place.getLat(),
@@ -37,13 +37,13 @@ export async function addPlace(place: Placemark) : Promise<boolean> {
 }
 
 export async function deletePlace(title: string) : Promise<boolean> {
-    const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    const apiEndPoint = process.env.REACT_APP_API_URI
     let response = await fetch(apiEndPoint + "/places/delete/" + title);
     return response.status === 200;
 }
 
 export async function updatePlace(title: string, place: Placemark) : Promise<boolean> {
-    const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    const apiEndPoint = process.env.REACT_APP_API_URI
     let response = await fetch(apiEndPoint + "/places/update/" + title, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -59,7 +59,7 @@ export async function updatePlace(title: string, place: Placemark) : Promise<boo
 }
 
 export async function findPlaceByTitle(title: string) : Promise<Placemark> {
-    const apiEndPoint = process.env.REACT_APP_API_URI ||"http://localhost:5000/api"
+    const apiEndPoint = process.env.REACT_APP_API_URI
     let response = await fetch(apiEndPoint + "/places/get/" + title);
     return response.json();
 }
