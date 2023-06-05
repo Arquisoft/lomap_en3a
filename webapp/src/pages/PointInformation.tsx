@@ -1,20 +1,18 @@
-import React, {ReactElement} from "react";
-import Place from "../domain/Place";
-import ImageList from "../components/basic/ImageList";
-import "../styles/pointInfo.css";
-import Map from "../domain/Map";
-import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
-import ReviewsPage from "../components/place/ReviewsPage";
-import OverviewPage from "../components/place/OverviewPage";
-import Placemark from "../domain/Placemark";
-import PODManager from "../adapters/solid/PODManager";
-import LoadingPage from "../components/basic/LoadingPage";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import PrivacyComponent from "../components/place/PrivacyComponent";
-import User from "../domain/User";
-import Group from "../domain/Group";
+import React, {ReactElement} from "react";
+import LeafletMapAdapter from "../adapters/map/LeafletMapAdapter";
+import PODManager from "../adapters/solid/PODManager";
+import SolidSessionManager from "../adapters/solid/SolidSessionManager";
+import ImageList from "../components/basic/ImageList";
+import LoadingPage from "../components/basic/LoadingPage";
+import OverviewPage from "../components/place/OverviewPage";
 import PlaceConfiguration from "../components/place/PlaceConfiguration";
+import ReviewsPage from "../components/place/ReviewsPage";
+import Map from "../domain/Map";
+import Place from "../domain/Place";
+import Placemark from "../domain/Placemark";
+import User from "../domain/User";
+import "../styles/pointInfo.css";
 
 interface PointInformationProps {
     placemark: Placemark;
