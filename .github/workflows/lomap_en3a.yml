@@ -80,7 +80,7 @@ jobs:
          user: ${{ secrets.DEPLOY_USER }}
          key: ${{ secrets.DEPLOY_KEY }}
          env:
-           HOST: ${{ secrets.DEPLOY_HOST }}
+           API_HOST: ${{ secrets.DEPLOY_HOST }}
          command: |
            wget https://raw.githubusercontent
            .com/arquisoft/lomap_en3a/https-and-nearby-places-improvement/docker-compose-deploy.yml -O docker-compose.yml
