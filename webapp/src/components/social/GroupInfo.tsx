@@ -1,23 +1,33 @@
-import React from "react";
-import ReactTable from "../basic/ReactTable";
-import {AppBar, Button, Dialog, IconButton, TableBody, TableCell, TableRow, Toolbar, Typography} from "@mui/material";
-import Group from "../../domain/Group";
-import PODManager from "../../adapters/solid/PODManager";
-import LoadingPage from "../basic/LoadingPage";
-import {Modal, ModalClose, ModalDialog} from "@mui/joy";
-import AddMap from "../map/AddMap";
-import Social from "../../pages/Social";
-import EmptyList from "../basic/EmptyList";
-import BackButton from "../basic/BackButton";
-import FriendsList from "./FriendsList";
-import FriendManager from "../../adapters/solid/FriendManager";
-import User from "../../domain/User";
 import CloseIcon from "@mui/icons-material/Close";
+import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import {
+    AppBar,
+    Button,
+    Dialog,
+    IconButton,
+    TableBody,
+    TableCell,
+    TableRow,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
+import React from "react";
 import LeafletMapAdapter from "../../adapters/map/LeafletMapAdapter";
-import Footer from "../Footer";
+import FriendManager from "../../adapters/solid/FriendManager";
+import PODManager from "../../adapters/solid/PODManager";
+import Group from "../../domain/Group";
 import Map from "../../domain/Map";
+import User from "../../domain/User";
+import Social from "../../pages/Social";
+import BackButton from "../basic/BackButton";
+import EmptyList from "../basic/EmptyList";
+import LoadingPage from "../basic/LoadingPage";
+import ReactTable from "../basic/ReactTable";
+import Footer from "../Footer";
+import AddMap from "../map/AddMap";
+import FriendsList from "./FriendsList";
 
 export default class GroupInfo extends React.Component<{ group: Group }, {
     loading: boolean,
@@ -70,7 +80,7 @@ export default class GroupInfo extends React.Component<{ group: Group }, {
 
     private async loadMembers() {
         await Promise.all(this.props.group.getMembers().map((member) => {
-            this.getUsers("https://" + member.simplfiedWebID() + "/").then((user) => {
+            this.getUsers(member.getWebId()).then((user) => {
                 this.setState((prevState) => {
                     prevState.members.push(user);
                 });
