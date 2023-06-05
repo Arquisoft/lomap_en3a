@@ -78,6 +78,8 @@ jobs:
      steps:
      - name: Deploy over SSH
        uses: fifsky/ssh-action@master
+       env:
+         ENV_VAR: ${{ secrets.DEPLOY_HOST }}
        with:
          host: ${{ secrets.DEPLOY_HOST }}
          user: ${{ secrets.DEPLOY_USER }}
