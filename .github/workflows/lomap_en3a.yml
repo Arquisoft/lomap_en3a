@@ -47,13 +47,16 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       #Rest Api redirect
+      env:
+        API_HOST: ${{ secrets.DEPLOY_HOST }}
       with:
           name: arquisoft/lomap_en3a/webapp
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_PUSH_TOKEN }}
           registry: ghcr.io
           workdir: webapp
-          buildargs: API_URI
+          buildargs: |
+              REACT_APP_API_URI=$API_HOST
   docker-push-restapi:
     name: Push restapi Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -75,14 +78,12 @@ jobs:
      steps:
      - name: Deploy over SSH
        uses: fifsky/ssh-action@master
-       env:
-         API_HOST: ${{ secrets.DEPLOY_HOST }}
        with:
          host: ${{ secrets.DEPLOY_HOST }}
          user: ${{ secrets.DEPLOY_USER }}
          key: ${{ secrets.DEPLOY_KEY }}
          command: |
-           export API_HOST=${{ env.API_HOST }}
+#           export API_HOST=${{ env.API_HOST }}
            wget https://raw.githubusercontent.com/arquisoft/lomap_en3a/https-and-nearby-places-improvement/docker-compose-deploy.yml -O docker-compose.yml
            docker-compose stop
            docker-compose rm -f
