@@ -3,9 +3,6 @@ import Placemark from "../../domain/Placemark";
 import LeafletMapAdapter from "./LeafletMapAdapter";
 
 export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
-    
-
-
 
     /**
      * Navigates to the place creation form
