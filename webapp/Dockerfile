@@ -5,7 +5,7 @@ WORKDIR /app
 #Install the dependencies
 RUN npm install
 
-ENV REACT_APP_API_URI=defaultURI
+ENV REACT_APP_API_URI="defaultURI"
 
 #Create an optimized version of the webapp
 RUN npm run build
