@@ -9,6 +9,8 @@ services:
       - "5000:5000"
   webapp:
     image: ghcr.io/arquisoft/lomap_en3a/webapp:latest
+    environment:
+      - REACT_APP_API_URI=https://$${API_URI}:5000/api
     volumes:
       - /etc/letsencrypt/live/lomapen3a.cloudns.ph/privkey.pem:/app/claves/privkey.pem
       - /etc/letsencrypt/live/lomapen3a.cloudns.ph/fullchain.pem:/app/claves/fullchain.pem
