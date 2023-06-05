@@ -6,7 +6,7 @@ WORKDIR /app
 RUN npm install
 
 ARG ENV_VAR
-ENV REACT_APP_API_URI=$ENV_VAR
+ENV REACT_APP_API_URI=${ENV_VAR}
 
 #Create an optimized version of the webapp
 RUN npm run build
