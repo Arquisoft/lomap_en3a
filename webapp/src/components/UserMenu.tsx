@@ -1,14 +1,14 @@
-import React from "react";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
-import LogoutButton from "./LogoutButton";
-import 'rc-dropdown/assets/index.css';
-import Dropdown from 'rc-dropdown';
-import Menu, {Divider, Item as MenuItem} from 'rc-menu';
-import {Link} from "react-router-dom";
-import {Avatar} from "@mui/material";
-import FriendManager from "../adapters/solid/FriendManager";
 import {Modal, ModalClose, ModalDialog} from "@mui/joy";
+import {Avatar} from "@mui/material";
+import Dropdown from 'rc-dropdown';
+import 'rc-dropdown/assets/index.css';
+import Menu, {Divider, Item as MenuItem} from 'rc-menu';
+import React from "react";
+import {Link} from "react-router-dom";
+import FriendManager from "../adapters/solid/FriendManager";
+import SolidSessionManager from "../adapters/solid/SolidSessionManager";
 import Configuration from "./Configuration";
+import LogoutButton from "./LogoutButton";
 
 /**
  * The menu with all the options related to the user (personal information, log out)
@@ -58,10 +58,6 @@ export class UserMenu extends React.Component<any, {
                 </MenuItem>
                 <Divider/>
                 <MenuItem>
-                    <LogoutButton style={this.menuItemStyle}/>
-                </MenuItem>
-                <Divider/>
-                <MenuItem>
                     <p onClick={() => {
                         this.setState(({
                             open: true
@@ -76,6 +72,10 @@ export class UserMenu extends React.Component<any, {
                     }}>
                         Configuration
                     </p>
+                </MenuItem>
+                <Divider/>
+                <MenuItem>
+                    <LogoutButton style={this.menuItemStyle}/>
                 </MenuItem>
             </Menu>
         )

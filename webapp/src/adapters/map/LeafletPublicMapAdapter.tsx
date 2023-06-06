@@ -1,13 +1,8 @@
+import AddPlace from "../../components/place/AddPlace";
 import Placemark from "../../domain/Placemark";
 import LeafletMapAdapter from "./LeafletMapAdapter";
-import AddPlace from "../../components/place/AddPlace";
-//import { addPlace } from "../../api/api";
-
 
 export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
-    
-
-
 
     /**
      * Navigates to the place creation form
@@ -29,7 +24,6 @@ export default class LeafletPublicMapAdapter extends LeafletMapAdapter {
      * @param p 
      */
     public override addMarker(p: Placemark): void {
-//        addPlace(p);
         this.map.add(p);
         this.setState({
             pageToShow: undefined,

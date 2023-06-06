@@ -1,20 +1,19 @@
-import React from "react";
-import "../styles/mapInfo.css";
-import Map from "../domain/Map";
-import PODManager from "../adapters/solid/PODManager";
-import SolidSessionManager from "../adapters/solid/SolidSessionManager";
-import UserStuff from "./UserStuff";
-import PrivacyComponent from "../components/place/PrivacyComponent";
-import User from "../domain/User";
-import Placemark from "../domain/Placemark";
-import PointInformation from "./PointInformation";
-import LoadingPage from "../components/basic/LoadingPage";
-import Footer from "../components/Footer";
-import ReactTable from "../components/basic/ReactTable";
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import EmptyList from "../components/basic/EmptyList";
-import Group from "../domain/Group";
+import React from "react";
+import PODManager from "../adapters/solid/PODManager";
 import BackButton from "../components/basic/BackButton";
+import EmptyList from "../components/basic/EmptyList";
+import LoadingPage from "../components/basic/LoadingPage";
+import ReactTable from "../components/basic/ReactTable";
+import Footer from "../components/Footer";
+import PrivacyComponent from "../components/place/PrivacyComponent";
+import Group from "../domain/Group";
+import Map from "../domain/Map";
+import Placemark from "../domain/Placemark";
+import User from "../domain/User";
+import "../styles/mapInfo.css";
+import PointInformation from "./PointInformation";
+import UserStuff from "./UserStuff";
 
 interface MapInfoProps {
     map: Map;
@@ -35,8 +34,6 @@ interface MapInfoState {
 }
 
 export default class MapInfo extends React.Component<MapInfoProps, MapInfoState> {
-
-    private sessionManager: SolidSessionManager = SolidSessionManager.getManager();
 
     public constructor(props: any) {
         super(props);

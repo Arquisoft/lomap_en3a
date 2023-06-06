@@ -1,15 +1,15 @@
-var fs = require('fs');
-var https = require('https');
+const fs = require('fs');
+const https = require('https');
 const express = require('express');
-var expressStaticGzip = require('express-static-gzip');
+const expressStaticGzip = require('express-static-gzip');
 const path = require('path');
 
 //Load certificates
-var privateKey  = fs.readFileSync('claves/privkey.pem');
-var certificate = fs.readFileSync('claves/fullchain.pem');
-var credentials = {key: privateKey, cert: certificate};
+const privateKey = fs.readFileSync('claves/privkey.pem');
+const certificate = fs.readFileSync('claves/fullchain.pem');
+const credentials = {key: privateKey, cert: certificate};
 
-var app = express();
+const app = express();
 
 //This will make sure that we will serve everything through https
 app.all('*', function(req, res, next){
@@ -30,5 +30,5 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
-var httpsServer = https.createServer(credentials, app);
+const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(443);

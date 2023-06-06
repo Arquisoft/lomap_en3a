@@ -1,17 +1,14 @@
 import React from "react";
+import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";
 import PODManager from "../adapters/solid/PODManager";
 import {getPlaces} from "../api/api";
-import Map from "../domain/Map";
-import Footer from "../components/Footer";
-import MapFilter from "../components/map/MapFilter";
-import PassmeDropdown from "../components/basic/PassmeDropdown";
-import Placemark from "../domain/Placemark";
-import LeafletPublicMapAdapter from "../adapters/map/LeafletPublicMapAdapter";
-import {Button, Modal} from "@mui/material";
-import {ModalDialog, ModalClose} from "@mui/joy";
-import AddMap from "../components/map/AddMap";
 import EmptyList from "../components/basic/EmptyList";
 import LoadingPage from "../components/basic/LoadingPage";
+import PassmeDropdown from "../components/basic/PassmeDropdown";
+import Footer from "../components/Footer";
+import MapFilter from "../components/map/MapFilter";
+import Map from "../domain/Map";
+import Placemark from "../domain/Placemark";
 
 interface PublicMapViewProps {
 }
