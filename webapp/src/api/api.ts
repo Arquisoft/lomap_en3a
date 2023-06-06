@@ -2,7 +2,7 @@ import Placemark from "../domain/Placemark";
 
 export async function getPlaces() : Promise<Placemark[]> {
     const apiEndPoint = process.env.REACT_APP_API_URI
-    console.log(apiEndPoint + "/places/list")
+    console.log(apiEndPoint + "/places/list2")
     let response = await fetch(apiEndPoint + "/places/list");
     // let response = await fetch("https://lomapen3adeploy.qatarcentral.cloudapp.azure.com:5000/api/places/list");
     let places = new Array<Placemark>();
