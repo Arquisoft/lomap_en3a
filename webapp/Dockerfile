@@ -13,6 +13,6 @@ RUN npm run build
 
 #Execute npm run prod to run the server
 #CMD [ "npm", "run", "prod" ]
-CMD node server.js
+#CMD node server.js
 #CMD ["sh", "-c", "echo 'REACT_APP_API_URI=$DEPLOY_HOST' > .env && node server.js"]
 CMD ["sh", "-c", "echo 'REACT_APP_API_URI=${REACT_APP_API_URI}' > .env && node server.js"]
