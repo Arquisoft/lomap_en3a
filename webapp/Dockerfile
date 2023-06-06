@@ -7,7 +7,6 @@ RUN npm install
 
 ARG API_URI
 ENV REACT_APP_API_URI=${API_URI}
-#ENV REACT_APP_API_URI="https://lomapen3adeploy.qatarcentral.cloudapp.azure.com:5000/api"
 
 #Create an optimized version of the webapp
 RUN npm run build
@@ -15,6 +14,3 @@ RUN npm run build
 #Execute npm run prod to run the server
 #CMD [ "npm", "run", "prod" ]
 CMD node server.js
-#CMD ["sh", "-c", "echo 'REACT_APP_API_URI=$DEPLOY_HOST' > .env && node server.js"]
-#CMD ["sh", "-c", "echo 'REACT_APP_API_URI=${REACT_APP_API_URI}' > .env && node server.js"]
-#CMD ["sh", "-c", "echo 'REACT_APP_API_URI=https://lomapen3adeploy.qatarcentral.cloudapp.azure.com:5000/api' > .env && node server.js"]
